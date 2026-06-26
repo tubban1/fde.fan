@@ -358,8 +358,8 @@ function App() {
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-void/75 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="FDE FAN home">
-            <span className="flex h-9 w-9 items-center justify-center border border-neon/50 bg-neon/10 text-neon shadow-glow">
-              <CircuitBoard size={18} />
+            <span className="flex h-9 w-9 items-center justify-center border border-neon/50 bg-neon/10 text-neon shadow-glow overflow-hidden">
+              <img src="/assets/fde-logo-mark.png" alt="FDE Logo" className="h-full w-full object-contain" />
             </span>
             <span className="font-display text-sm font-black tracking-[0.26em] text-white">FDE FAN</span>
           </a>
@@ -472,10 +472,24 @@ function App() {
       </section>
 
       <section id="role" className="section-wrap">
-        <div className="section-heading">
-          <p className="eyebrow">WHAT IS FDE</p>
-          <h2>{copy.notCourse}</h2>
-          <p>{copy.fdeDefinition}</p>
+        <div className="mb-12 grid gap-10 md:grid-cols-[1.15fr_0.85fr] items-center">
+          <div>
+            <div className="section-heading !max-w-full !mb-0 text-left">
+              <p className="eyebrow">WHAT IS FDE</p>
+              <h2>{copy.notCourse}</h2>
+              <p>{copy.fdeDefinition}</p>
+            </div>
+          </div>
+          <div className="relative mt-6 md:mt-0">
+            <div className="absolute -inset-1 rounded bg-gradient-to-r from-neon to-plasma opacity-15 blur-xl" />
+            <div className="relative overflow-hidden border border-white/12 bg-ink/60 p-2 shadow-glow">
+              <img
+                src="/assets/fde-workflow-illustration.png"
+                alt="AI Agent FDE Workflow Illustration"
+                className="w-full object-cover aspect-square md:aspect-video lg:aspect-square"
+              />
+            </div>
+          </div>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {copy.roleCards.map(([title, body], index) => {
