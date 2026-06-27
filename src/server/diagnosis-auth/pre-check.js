@@ -1,5 +1,6 @@
 import { getDatabaseConfigStatus, isPostgresMode, query } from "../diagnosis/db.js";
 import { initDiagnosisTables } from "../diagnosis/diagnosis_init.js";
+import { formatErrorForLog } from "../diagnosis/safe_error.js";
 
 async function ignoreDuplicateColumn(task) {
   try {
@@ -93,7 +94,11 @@ export default async function handler(req, res) {
     }
 
     await ensureAuthTables();
-    await initDiagnosisTables();
+    try {
+      await initDiagnosisTables();
+    } catch (error) {
+      console.warn("[Diagnosis Auth] Diagnosis table init skipped during login:", formatErrorForLog(error));
+    }
 
     const rows = await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
     if (rows && rows.length > 0) {
@@ -119,7 +124,13 @@ export default async function handler(req, res) {
       isNewUser: true,
     });
   } catch (error) {
-    console.error("[Diagnosis Auth] Pre-check error:", error);
-    return res.status(500).json({ success: false, error: "登录失败，请检查服务配置或稍后重试" });
+    const formatted = formatErrorForLog(error);
+    console.error("[Diagnosis Auth] Pre-check error:", formatted);
+    return res.status(500).json({
+      success: false,
+      error: "登录失败，请检查服务配置或稍后重试",
+      errorCode: formatted.code || formatted.name || "UNKNOWN_DB_ERROR",
+      detail: String(formatted.message || "").slice(0, 180),
+    });
   }
 }
