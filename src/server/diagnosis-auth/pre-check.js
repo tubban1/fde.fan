@@ -45,6 +45,16 @@ async function runMigration(label, task) {
   }
 }
 
+async function runOptionalMigration(label, task) {
+  try {
+    return await task();
+  } catch (error) {
+    error.migrationLabel = label;
+    console.warn("[Diagnosis Auth] Optional migration skipped:", formatErrorForLog(error));
+    return null;
+  }
+}
+
 async function ensureAuthTables() {
   if (isPostgresMode) {
     await runMigration('create user_credits', () => ignoreExistingTable(() => query(`
@@ -56,7 +66,7 @@ async function ensureAuthTables() {
         updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       )
     `)));
-    await runMigration('create credit_transactions', () => ignoreExistingTable(() => query(`
+    await runOptionalMigration('create credit_transactions', () => ignoreExistingTable(() => query(`
       CREATE TABLE credit_transactions (
         id SERIAL PRIMARY KEY,
         email TEXT,
@@ -141,10 +151,10 @@ export default async function handler(req, res) {
     }
 
     await query("INSERT INTO user_credits (email, password, credits) VALUES (?, ?, ?)", [email, password, 30]);
-    await query(
+    await runOptionalMigration('insert welcome credit transaction', () => query(
       "INSERT INTO credit_transactions (email, type, amount, balance_after, description) VALUES (?, ?, ?, ?, ?)",
       [email, "gift", 30, 30, "FDE FAN Diagnosis welcome quota"]
-    );
+    ));
 
     return res.status(200).json({
       success: true,
