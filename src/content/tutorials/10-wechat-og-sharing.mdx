@@ -1,0 +1,12 @@
+---
+title: "微信分享与 OG 图"
+titleEn: "WeChat Sharing and OG Image"
+track: "deployment"
+order: 10
+summary: "配置 1200x630 分享图、OG meta、无跳转 HTTPS 图片和缓存更新。"
+summaryEn: "Configure 1200x630 image, OG meta, direct HTTPS image URL, and cache refresh."
+---
+
+微信分享图不能只依赖 public/assets 里的图片。页面必须提供可访问、无跳转、非透明的 og:image。
+
+Rule: final HTTPS URL, 200 response, 1200x630, new filename when refreshing cache.

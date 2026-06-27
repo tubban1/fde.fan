@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import PromptCopy from "../../components/PromptCopy";
+
+const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "prompt-to-ui").sort((a, b) => a.data.order - b.data.order);
+const prompt = `你是一名 FDE 前端部署工程师。请根据以下企业需求生成一个可运行前端 Demo 方案：\n1. 目标用户\n2. 输入字段\n3. 输出结果\n4. 页面结构\n5. 交互状态\n6. 验收标准\n7. 风险边界`;
+---
+
+<SiteLayout title="Prompt to Product | FDE FAN" description="需求拆解、Prompt 结构、AI 生成前端和验收标准课程。">
+  <DocShell eyebrow="PROMPT TO PRODUCT" title="从需求到前端 Demo" titleEn="From Requirement to Front-End Demo" description="把业务语言翻译成 AI 能执行、工程师能验收的规格。" descriptionEn="Translate business language into executable and testable specs.">
+    <h2>核心方法</h2>
+    <p>先写清业务目标和验收标准，再让 AI 生成页面。FDE 的价值在于审查、迭代和交付。</p>
+    <div class="prompt-box"><pre>{prompt}</pre><PromptCopy client:load text={prompt} /></div>
+    <div class="resource-list">
+      {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
+    </div>
+  </DocShell>
+</SiteLayout>

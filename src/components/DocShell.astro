@@ -1,0 +1,34 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  titleEn: string;
+  description: string;
+  descriptionEn: string;
+  links?: { href: string; label: string }[];
+}
+
+const { eyebrow, title, titleEn, description, descriptionEn, links = [] } = Astro.props;
+---
+
+<section class="doc-hero">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1><span class="zh">{title}</span><span class="en">{titleEn}</span></h1>
+  <p><span class="zh">{description}</span><span class="en">{descriptionEn}</span></p>
+</section>
+<div class="doc-layout">
+  <aside class="doc-sidebar">
+    <a href="/learn">学习路径</a>
+    <a href="/learn/foundations">基础</a>
+    <a href="/learn/prompt-to-ui">Prompt 到页面</a>
+    <a href="/learn/agent-workflows">Agent 工作流</a>
+    <a href="/learn/ecommerce-ai">跨境 AI</a>
+    <a href="/learn/deployment">部署</a>
+    <a href="/cases">案例库</a>
+    <a href="/tools/diagnosis">诊断工具</a>
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  </aside>
+  <article class="doc-content">
+    <slot />
+  </article>
+</div>

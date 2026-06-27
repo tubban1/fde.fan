@@ -1,0 +1,118 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { assessmentLevels, boundaryItems, learningTracks, outcomes, stats, weekPath } from "../data/site";
+---
+
+<SiteLayout title="FDE FAN Academy | AI Agent FDE 前端部署工程师学习站" description="FDE FAN Academy 将课程、案例、项目和企业 AI 转型诊断 Agent 融合，训练学员完成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。">
+  <section class="home-hero">
+    <div class="grid-mask"></div>
+    <div class="hero-copy">
+      <p class="eyebrow">AI Agent x Cross-Border Commerce x Deployment</p>
+      <h1 class="hero-title">FDE FAN</h1>
+      <p class="hero-subtitle">
+        <span class="zh">AI Agent FDE 前端部署工程师学习站</span>
+        <span class="en">Front-End Deployment Engineer Academy for AI Agent Delivery</span>
+      </p>
+      <p class="hero-text">
+        <span class="zh">从课程、案例、项目到真实企业诊断 Agent，训练学员把企业需求转成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。</span>
+        <span class="en">Train with courses, cases, projects, and a real diagnosis agent to turn business needs into prompts, demos, workflows, deployment links, and delivery docs.</span>
+      </p>
+      <div class="hero-actions">
+        <a class="cta-primary" href="/learn"><span class="zh">开始学习 FDE 路径</span><span class="en">Start the FDE Path</span></a>
+        <a class="cta-secondary" href="/tools/diagnosis"><span class="zh">体验企业 AI 转型诊断</span><span class="en">Try AI Transformation Diagnosis</span></a>
+      </div>
+      <div class="stat-row">
+        {stats.map(([value, zh, en]) => (
+          <div>
+            <strong>{value}</strong>
+            <span class="zh">{zh}</span>
+            <span class="en">{en}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="hero-console" aria-label="FDE delivery flow">
+      <div class="console-top"><span></span><span></span><span></span><b>LIVE TRAINING OPS</b></div>
+      <div class="terminal-line">business.need -&gt; prompt.spec -&gt; ui.demo</div>
+      <div class="terminal-line active">agent.workflow -&gt; deploy.url -&gt; delivery.docs</div>
+      <div class="ops-rail">
+        {weekPath.slice(0, 6).map(([week, zh, en]) => (
+          <div><b>{week}</b><span class="zh">{zh}</span><span class="en">{en}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">ACADEMY SYSTEM</p>
+      <h2><span class="zh">像 W3Schools 一样清晰，但面向真实交付。</span><span class="en">Structured like a learning site. Built for real delivery.</span></h2>
+      <p><span class="zh">FDE FAN 不只展示课程大纲，而是把教程、案例、练习、项目任务书和交付模板放进同一个学习系统。</span><span class="en">FDE FAN combines tutorials, cases, exercises, project briefs, and delivery templates into one practical learning system.</span></p>
+    </div>
+    <div class="track-grid">
+      {learningTracks.map((track) => (
+        <a class="track-card" href={track.href}>
+          <span class="card-mark">{track.mark}</span>
+          <h3><span class="zh">{track.zh}</span><span class="en">{track.en}</span></h3>
+          <p><span class="zh">{track.summary}</span><span class="en">{track.summaryEn}</span></p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">WHAT FDE SHIPS</p>
+      <h2><span class="zh">最后不是证书，是可展示的交付链路。</span><span class="en">The output is not a slogan. It is a delivery chain.</span></h2>
+    </div>
+    <div class="outcome-grid">
+      {outcomes.map((item) => (
+        <div class="metric-card">
+          <b>{item.mark}</b>
+          <span class="zh">{item.text}</span>
+          <span class="en">{item.en}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">REAL TOOL</p>
+      <h2><span class="zh">企业 AI 转型诊断 Agent 已纳入课程主线。</span><span class="en">The AI transformation diagnosis agent becomes a core case.</span></h2>
+      <p><span class="zh">它不是摆设，而是学员会拆解、复刻和升级的真实企业 Agent：多轮访谈、画像抽取、机会地图、成熟度评分和 30/60/90 天路线图。</span><span class="en">Learners study, rebuild, and improve a real enterprise agent: interview, profile extraction, opportunity map, maturity scoring, and 30/60/90-day roadmap.</span></p>
+    </div>
+    <a class="diagnosis-banner" href="/tools/diagnosis">
+      <span>diagnosis.fde.fan</span>
+      <strong><span class="zh">打开诊断工具说明</span><span class="en">Open diagnosis tool brief</span></strong>
+    </a>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">ASSESSMENT</p>
+      <h2><span class="zh">评分、分层与后续路径</span><span class="en">Assessment, levels, and next paths</span></h2>
+    </div>
+    <div class="level-grid">
+      {assessmentLevels.map(([level, score, zh, en]) => (
+        <div class="level-card">
+          <strong>{level}</strong>
+          <span>{score}</span>
+          <p class="zh">{zh}</p>
+          <p class="en">{en}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="boundary-panel">
+      <h2><span class="zh">清晰边界，可信招生。</span><span class="en">Clear boundaries, credible enrollment.</span></h2>
+      <div>
+        {boundaryItems.map((item) => (
+          <p><span>OK</span>{item}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>

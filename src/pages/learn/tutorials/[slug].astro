@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("tutorials");
+  return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<SiteLayout title={`${entry.data.title} | FDE FAN`} description={entry.data.summary}>
+  <DocShell eyebrow={entry.data.track.toUpperCase()} title={entry.data.title} titleEn={entry.data.titleEn} description={entry.data.summary} descriptionEn={entry.data.summaryEn}>
+    <Content />
+  </DocShell>
+</SiteLayout>

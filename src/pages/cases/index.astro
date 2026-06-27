@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import CaseFilter from "../../components/CaseFilter";
+
+const entries = await getCollection("cases");
+const items = entries.map((entry) => ({
+  href: `/cases/${entry.slug}`,
+  title: entry.data.title,
+  titleEn: entry.data.titleEn,
+  category: entry.data.category,
+  difficulty: entry.data.difficulty,
+  deliverables: entry.data.deliverables,
+}));
+---
+
+<SiteLayout title="FDE FAN Cases | 案例库" description="FDE FAN 案例库，覆盖跨境电商 AI 诊断、企业 AI 转型诊断 Agent、TikTok 内容矩阵、FAQ Agent、广告文案和任务分发。">
+  <DocShell eyebrow="CASE LIBRARY" title="案例库" titleEn="Case Library" description="每个案例都包含业务场景、输入资料、Prompt、Agent 流程、交付物和验收标准。" descriptionEn="Each case includes scenario, inputs, prompts, agent flow, deliverables, and acceptance checks.">
+    <CaseFilter client:load items={items} />
+  </DocShell>
+</SiteLayout>

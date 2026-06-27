@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { learningTracks, weekPath } from "../../data/site";
+
+const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<SiteLayout title="FDE FAN Learn | 课程总目录" description="FDE FAN Academy 课程总目录，按 FDE Role、Frontend Basics、Prompt to Product、Agent Workflow、Cross-border AI Cases 和 Delivery System 展示学习路径。">
+  <DocShell eyebrow="LEARN" title="FDE 学习路径" titleEn="FDE Learning Path" description="按阶段学习岗位、前端、Prompt、Agent、跨境案例和交付系统。" descriptionEn="Learn role, front-end, prompt, agent, commerce cases, and delivery system by stage.">
+    <section class="content-grid">
+      {learningTracks.map((track) => (
+        <a class="doc-card" href={track.href}>
+          <h2><span class="zh">{track.zh}</span><span class="en">{track.en}</span></h2>
+          <p><span class="zh">{track.summary}</span><span class="en">{track.summaryEn}</span></p>
+        </a>
+      ))}
+    </section>
+    <h2>8 周训练路径</h2>
+    <div class="timeline">
+      {weekPath.map(([week, zh, en]) => (
+        <a href="/projects">
+          <strong>{week}</strong>
+          <span class="zh">{zh}</span>
+          <span class="en">{en}</span>
+        </a>
+      ))}
+    </div>
+    <h2>12 篇基础教程</h2>
+    <div class="resource-list">
+      {tutorials.map((entry) => (
+        <a href={`/learn/tutorials/${entry.slug}`}>
+          <b><span class="zh">{entry.data.title}</span><span class="en">{entry.data.titleEn}</span></b>
+          <span class="zh">{entry.data.summary}</span>
+          <span class="en">{entry.data.summaryEn}</span>
+        </a>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

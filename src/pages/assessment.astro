@@ -1,0 +1,27 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DocShell from "../components/DocShell.astro";
+import { assessmentLevels } from "../data/site";
+---
+
+<SiteLayout title="FDE FAN Assessment | 评分与分层" description="FDE FAN 评分体系：A/B/C/D/不达标，以及人才库、项目强化班、结业和重修路径。">
+  <DocShell eyebrow="ASSESSMENT" title="评分与分层" titleEn="Assessment and Levels" description="结业不是口号，而是作品、能力评分、项目表现和边界意识的综合判断。" descriptionEn="Graduation is based on work, scoring, project behavior, and boundary awareness.">
+    <div class="level-grid">
+      {assessmentLevels.map(([level, score, zh, en]) => (
+        <article class="level-card">
+          <strong>{level}</strong>
+          <span>{score}</span>
+          <p class="zh">{zh}</p>
+          <p class="en">{en}</p>
+        </article>
+      ))}
+    </div>
+    <h2>评分维度</h2>
+    <ul>
+      <li>业务理解：能否说清楚为什么做、先做哪里、怎样验收。</li>
+      <li>Prompt 与前端：能否生成并修正可运行 Demo。</li>
+      <li>Agent 工作流：能否解释输入、状态、工具、输出和人审边界。</li>
+      <li>部署交付：能否提交稳定链接、README、测试清单和演示脚本。</li>
+    </ul>
+  </DocShell>
+</SiteLayout>

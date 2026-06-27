@@ -1,0 +1,31 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { diagnosisFlow } from "../../data/site";
+---
+
+<SiteLayout title="FDE FAN Diagnosis | 企业 AI 转型诊断 Agent" description="FDE FAN Diagnosis 是从 wish2/diagnosis 部署而来的企业 AI 转型诊断 Agent，也是课程中的真实 Agent 案例。">
+  <DocShell eyebrow="REAL TOOL" title="企业 AI 转型诊断 Agent" titleEn="Enterprise AI Transformation Diagnosis Agent" description="这是 FDE FAN 的真实企业级案例：轻量访谈、画像抽取、成熟度评分、机会地图和 30/60/90 天路线图。" descriptionEn="A real enterprise case: interview, profile extraction, maturity scoring, opportunity map, and 30/60/90-day roadmap.">
+    <div class="tool-panel">
+      <div>
+        <h2>上线方式</h2>
+        <p>diagnosis 工具保留 Next.js API Routes、数据库和模型流式接口，独立部署到 <code>diagnosis.fde.fan</code>。主站通过课程、案例和项目任务与它融合。</p>
+      </div>
+      <a class="cta-primary" href="https://diagnosis.fde.fan" target="_blank" rel="noreferrer">
+        <span class="zh">体验企业 AI 转型诊断</span>
+        <span class="en">Try the AI Transformation Diagnosis</span>
+      </a>
+    </div>
+    <h2>Agent 流程</h2>
+    <div class="timeline compact">
+      {diagnosisFlow.map((item, index) => <a><strong>{String(index + 1).padStart(2, "0")}</strong><span>{item}</span></a>)}
+    </div>
+    <h2>课程融合点</h2>
+    <ul>
+      <li>在 Agent Workflow 中拆解会话、消息、画像和报告生成。</li>
+      <li>在 Prompt to Product 中拆解企业访谈如何生成结构化报告。</li>
+      <li>在 Projects 中要求学员复刻一个轻量诊断 Agent。</li>
+      <li>在 Resources 中提供访谈表、诊断 Prompt、报告结构和测试清单。</li>
+    </ul>
+  </DocShell>
+</SiteLayout>

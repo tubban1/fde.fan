@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+const resources = await getCollection("resources");
+---
+
+<SiteLayout title="FDE FAN Resources | 课件与交付模板" description="FDE FAN 资源库：需求澄清表、Prompt 模板、README、测试清单、演示脚本、复盘报告。">
+  <DocShell eyebrow="RESOURCES" title="课件与交付模板" titleEn="Resources and Delivery Templates" description="所有模板都服务于真实交付：打开、理解、测试、演示、复盘。" descriptionEn="Every template supports real delivery: open, understand, test, demo, and review.">
+    <div class="content-grid">
+      {resources.map((entry) => (
+        <article class="doc-card">
+          <span class="tag">{entry.data.type}</span>
+          <h2><span class="zh">{entry.data.title}</span><span class="en">{entry.data.titleEn}</span></h2>
+          <p>{entry.data.usage}</p>
+        </article>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

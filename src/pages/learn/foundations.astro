@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+const tutorials = (await getCollection("tutorials")).filter((item) => ["foundations", "deployment"].includes(item.data.track)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<SiteLayout title="Frontend Basics | FDE FAN" description="Web、HTML、CSS、JS、React、Vite、Git 和部署基础课程。">
+  <DocShell eyebrow="FOUNDATIONS" title="前端与部署基础" titleEn="Front-End and Deployment Basics" description="FDE 必须能读懂、修改、部署 AI 生成的前端项目。" descriptionEn="FDEs must read, adjust, and deploy AI-generated front-end projects.">
+    <h2>学习目标</h2>
+    <p>掌握工具页、表单页、报告页、状态管理、Git 提交、Vite 构建和 Vercel 部署。</p>
+    <div class="resource-list">
+      {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
+    </div>
+  </DocShell>
+</SiteLayout>

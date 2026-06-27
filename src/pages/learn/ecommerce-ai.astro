@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+const cases = await getCollection("cases");
+---
+
+<SiteLayout title="Cross-border AI Cases | FDE FAN" description="跨境电商 AI 场景课程：客服、商品、广告、TikTok 内容矩阵、运营诊断。">
+  <DocShell eyebrow="CROSS-BORDER AI" title="跨境电商 AI 场景" titleEn="Cross-Border AI Scenarios" description="优先从重复、耗时、格式稳定、人工可审核的任务开始。" descriptionEn="Start from repetitive, time-consuming, structured, and human-reviewable work.">
+    <div class="content-grid">
+      {cases.map((entry) => (
+        <a class="doc-card" href={`/cases/${entry.slug}`}>
+          <span class="tag">{entry.data.category}</span>
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.deliverables.join(" / ")}</p>
+        </a>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

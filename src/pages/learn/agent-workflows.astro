@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { diagnosisFlow } from "../../data/site";
+
+const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "agent-workflows").sort((a, b) => a.data.order - b.data.order);
+---
+
+<SiteLayout title="Agent Workflows | FDE FAN" description="Agent 概念、工具调用、工作流、路由、Human-in-the-loop 和企业诊断 Agent 拆解。">
+  <DocShell eyebrow="AGENT WORKFLOW" title="Agent 工作流" titleEn="Agent Workflows" description="从工具调用到企业诊断 Agent，训练可解释、可测试、可交付的工作流。" descriptionEn="From tool calls to diagnosis agents, build explainable and testable workflows.">
+    <h2>diagnosis 真实链路</h2>
+    <div class="timeline compact">
+      {diagnosisFlow.map((item, index) => <a href="/tools/diagnosis"><strong>{String(index + 1).padStart(2, "0")}</strong><span>{item}</span></a>)}
+    </div>
+    <div class="resource-list">
+      {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
+    </div>
+  </DocShell>
+</SiteLayout>

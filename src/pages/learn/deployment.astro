@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "deployment").sort((a, b) => a.data.order - b.data.order);
+---
+
+<SiteLayout title="Deployment System | FDE FAN" description="Vite/React/Astro 静态部署、GitHub、Vercel、域名、OG 图和微信分享配置。">
+  <DocShell eyebrow="DEPLOYMENT" title="部署与微信分享" titleEn="Deployment and WeChat Sharing" description="FDE 交付必须能被打开、分享、演示和验收。" descriptionEn="FDE delivery must be accessible, shareable, demonstrable, and testable.">
+    <h2>微信分享规则</h2>
+    <ul>
+      <li>使用 1200x630 非透明 JPG/PNG。</li>
+      <li>og:image 必须是最终 HTTPS 地址，不依赖重定向。</li>
+      <li>图片 URL 要返回 200，更新缓存时换新文件名。</li>
+    </ul>
+    <div class="resource-list">
+      {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
+    </div>
+  </DocShell>
+</SiteLayout>

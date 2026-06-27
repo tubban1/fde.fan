@@ -1,0 +1,20 @@
+---
+import LanguageToggle from "./LanguageToggle";
+import { navItems } from "../data/site";
+---
+
+<header class="site-header">
+  <a class="brand-lockup" href="/" aria-label="FDE FAN home">
+    <img src="/assets/fde-logo-mark.png" alt="" />
+    <span>FDE FAN</span>
+  </a>
+  <nav>
+    {navItems.map((item) => (
+      <a href={item.href}>
+        <span class="zh">{item.zh}</span>
+        <span class="en">{item.en}</span>
+      </a>
+    ))}
+  </nav>
+  <LanguageToggle client:load />
+</header>

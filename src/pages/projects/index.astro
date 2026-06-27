@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.week.localeCompare(b.data.week));
+---
+
+<SiteLayout title="FDE FAN Projects | 8 周项目题库" description="FDE FAN 8 周项目题库和结业项目要求，每个项目对应 FDE 能力点和评分标准。">
+  <DocShell eyebrow="PROJECTS" title="8 周项目题库" titleEn="8-Week Project Bank" description="项目从业务诊断到结业路演，逐步覆盖 FDE 的完整交付链路。" descriptionEn="Projects move from diagnosis to demo day and cover the full FDE delivery chain.">
+    <div class="project-list">
+      {projects.map((entry) => (
+        <article class="project-row">
+          <span>{entry.data.week}</span>
+          <div>
+            <h2><span class="zh">{entry.data.title}</span><span class="en">{entry.data.titleEn}</span></h2>
+            <p>{entry.data.scoreFocus}</p>
+            <div class="case-meta">{entry.data.skills.map((skill) => <span>{skill}</span>)}</div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

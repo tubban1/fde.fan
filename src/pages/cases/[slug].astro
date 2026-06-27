@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("cases");
+  return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<SiteLayout title={`${entry.data.title} | FDE FAN Case`} description={`${entry.data.title} 案例：${entry.data.deliverables.join("、")}。`}>
+  <DocShell eyebrow={entry.data.category.toUpperCase()} title={entry.data.title} titleEn={entry.data.titleEn} description={`交付物：${entry.data.deliverables.join(" / ")}`} descriptionEn={`Deliverables: ${entry.data.deliverables.join(" / ")}`}>
+    <div class="case-meta">
+      <span>{entry.data.difficulty}</span>
+      {entry.data.deliverables.map((item) => <span>{item}</span>)}
+    </div>
+    <Content />
+    <h2>FDE 训练点</h2>
+    <ul>
+      <li>把业务场景拆成输入、输出和验收标准。</li>
+      <li>设计可演示的前端 Demo 和 Agent 流程。</li>
+      <li>输出 README、测试清单和演示脚本。</li>
+    </ul>
+  </DocShell>
+</SiteLayout>
