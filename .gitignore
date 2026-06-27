@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .astro/
+.next/
+diagnosis/.next/
+diagnosis/node_modules/
 .pnpm-store/
 .DS_Store
 *.local
