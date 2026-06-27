@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
     "postinstall": "pnpm --dir diagnosis install --frozen-lockfile",

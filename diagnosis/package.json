@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "NODE_OPTIONS=--openssl-legacy-provider next dev",
