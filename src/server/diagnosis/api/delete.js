@@ -1,5 +1,5 @@
-import { query } from '../../../lib/db';
-import { ensureDiagnosisRuntimeSchema } from '../../../lib/diagnosis_schema';
+import { query } from '../db.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

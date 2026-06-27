@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .astro/
+.vercel/
 .next/
 diagnosis/.next/
 diagnosis/node_modules/

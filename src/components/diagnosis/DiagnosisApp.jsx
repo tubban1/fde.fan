@@ -1,6 +1,5 @@
-import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
-import Header from '../components/Header';
+import Header from './DiagnosisHeader.jsx';
 import axios from 'axios';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,7 +70,7 @@ export default function DiagnosisPage() {
       if (!sessionId) return;
       pollCount++;
       try {
-      const res = await axios.post('/diagnosis/api/diagnosis/session', { id: sessionId, email, password });
+      const res = await axios.post('/api/diagnosis/session', { id: sessionId, email, password });
         if (res.data?.success) {
           const { session, knownFacts: facts, missingFields: missing } = res.data;
           
@@ -126,7 +125,7 @@ export default function DiagnosisPage() {
     setIsCheckingEmail(true);
     setErrorMsg('');
     try {
-      const response = await axios.post('/diagnosis/api/diagnosis-auth/pre-check', { email: emailToVerify, password: passwordToVerify });
+      const response = await axios.post('/api/diagnosis-auth/pre-check', { email: emailToVerify, password: passwordToVerify });
       if (response.data?.success) {
         setEmailStatus('verified');
         setCredits(response.data.credits);
@@ -304,7 +303,7 @@ export default function DiagnosisPage() {
     if (!emailToLoad || !passwordToUse) return;
     setIsHistoryLoading(true);
     try {
-      const res = await axios.post('/diagnosis/api/diagnosis/history', {
+      const res = await axios.post('/api/diagnosis/history', {
         email: emailToLoad,
         password: passwordToUse
       });
@@ -331,7 +330,7 @@ export default function DiagnosisPage() {
     if (!confirmed) return;
 
     try {
-      const res = await axios.post('/diagnosis/api/diagnosis/delete', { sessionId: sid, email, password });
+      const res = await axios.post('/api/diagnosis/delete', { sessionId: sid, email, password });
       if (!res.data?.success) {
         triggerToast(res.data?.error || '删除失败');
         return;
@@ -367,7 +366,7 @@ export default function DiagnosisPage() {
   // 加载已有的诊断会话
   const loadSession = async (sid, emailToUse = email, passwordToUse = password) => {
     try {
-      const res = await axios.post('/diagnosis/api/diagnosis/session', {
+      const res = await axios.post('/api/diagnosis/session', {
         id: sid,
         email: emailToUse,
         password: passwordToUse
@@ -413,7 +412,7 @@ export default function DiagnosisPage() {
     setIsRestoredSession(false); // 新会话，设为 false
     setProfileStatus('idle');
     try {
-      const res = await axios.post('/diagnosis/api/diagnosis/start', {
+      const res = await axios.post('/api/diagnosis/start', {
         email,
         password,
         goal: selectedGoal
@@ -483,7 +482,7 @@ export default function DiagnosisPage() {
     }
 
     try {
-      const response = await fetch('/diagnosis/api/diagnosis/chat', {
+      const response = await fetch('/api/diagnosis/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -538,14 +537,14 @@ export default function DiagnosisPage() {
     setIsReportLoading(true);
     setErrorMsg('');
     try {
-      const res = await axios.post('/diagnosis/api/diagnosis/report', { sessionId, email, password });
+      const res = await axios.post('/api/diagnosis/report', { sessionId, email, password });
       if (res.data?.success) {
         setReport(res.data.report);
         setStatus('report_ready');
         setActiveTab('report');
         triggerToast('🎉 您的企业 AI 增长转型诊断报告已成功生成！');
         // 重新拉取一次对话历史以更新报告生成的系统提示通知
-        const sessionRes = await axios.post('/diagnosis/api/diagnosis/session', { id: sessionId, email, password });
+        const sessionRes = await axios.post('/api/diagnosis/session', { id: sessionId, email, password });
         if (sessionRes.data?.success) {
           setMessages(sessionRes.data.messages || []);
         }
@@ -645,11 +644,7 @@ export default function DiagnosisPage() {
 
   return (
     <div className={`app-container theme-${themeMode} ${status !== 'welcome' && sessionId ? 'fixed-workbench' : ''}`}>
-      <Head>
-        <title>FDE FAN Diagnosis | 企业 AI 转型诊断 Agent</title>
-        <meta name="description" content="FDE FAN 企业 AI 转型诊断 Agent，用轻量访谈帮助企业识别增长、降本、提效和 30/60/90 天落地路径" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      </Head>
+      
 
       <Header
         title="FDE FAN Diagnosis"

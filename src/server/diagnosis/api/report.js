@@ -1,7 +1,7 @@
-import { query } from '../../../lib/db';
-import { formatErrorForLog } from '../../../lib/safe_error';
-import { ensureDiagnosisRuntimeSchema } from '../../../lib/diagnosis_schema';
-import { generateText } from '../../../lib/text_model_provider';
+import { query } from '../db.js';
+import { formatErrorForLog } from '../safe_error.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { generateText } from '../text_model_provider.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

@@ -1,4 +1,4 @@
-import { isPostgresMode, query } from "../../../lib/db";
+import { isPostgresMode, query } from "../diagnosis/db.js";
 
 async function ensureAuthTables() {
   if (isPostgresMode) {

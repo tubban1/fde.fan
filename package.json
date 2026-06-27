@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "npm@10.8.2",
   "engines": {
     "node": "24.x"
   },
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
-    "postinstall": "pnpm --dir diagnosis install --frozen-lockfile",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0"
   },
@@ -16,10 +16,15 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^4.3.8",
     "@astrojs/react": "^4.4.2",
+    "@astrojs/vercel": "^9.0.5",
     "astro": "^5.16.6",
+    "axios": "^1.16.1",
     "lucide-react": "^0.468.0",
+    "mysql2": "^3.14.1",
+    "pg": "^8.22.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "serverless-mysql": "^2.1.0",
     "typescript": "~5.9.3"
   },
   "devDependencies": {

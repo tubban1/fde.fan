@@ -1,8 +1,8 @@
-import { query } from '../../../lib/db';
-import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../../../lib/diagnosis_extract';
-import { formatErrorForLog } from '../../../lib/safe_error';
-import { ensureDiagnosisRuntimeSchema } from '../../../lib/diagnosis_schema';
-import { extractStreamTextFromJson, streamText } from '../../../lib/text_model_provider';
+import { query } from '../db.js';
+import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diagnosis_extract.js';
+import { formatErrorForLog } from '../safe_error.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
 
 function runAfterResponse(res, task) {
   res.on('finish', () => {
