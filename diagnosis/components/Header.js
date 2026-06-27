@@ -23,7 +23,7 @@ export default function Header({
       <header className="site-header">
         <div className="header-container">
           <div className="logo-section">
-            <img src="/diagnosis/fde-logo-mark.png" alt="FDE FAN Diagnosis Logo" className="logo-img" />
+            <img src="/fde-logo-mark.png" alt="FDE FAN Diagnosis Logo" className="logo-img" />
             <div>
               <h1 className="logo-title">{title}</h1>
               {subtitle && <span className="logo-tagline">{subtitle}</span>}
@@ -189,7 +189,7 @@ export default function Header({
               display: 'inline-block',
               boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
             }}>
-              <img src="/diagnosis/wechat-share.jpg" alt="FDE FAN 咨询入口" style={{
+              <img src="/wechat-share.jpg" alt="FDE FAN 咨询入口" style={{
                 width: '180px',
                 height: '180px',
                 display: 'block',

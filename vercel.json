@@ -15,8 +15,20 @@
   ],
   "routes": [
     {
-      "src": "/diagnosis(?:/(.*))?",
-      "dest": "/diagnosis/$1"
+      "src": "/diagnosis/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/diagnosis/_next/(.*)",
+      "dest": "/_next/$1"
+    },
+    {
+      "src": "/diagnosis/(favicon\\.png|fde-logo-mark\\.png|wechat-share\\.jpg)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/diagnosis/?",
+      "dest": "/"
     },
     {
       "handle": "filesystem"

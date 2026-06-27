@@ -14,7 +14,7 @@ pnpm run dev
 
 ## Deploy
 
-The root `vercel.json` mounts this app at:
+The root `vercel.json` mounts this app at `/diagnosis` through Vercel routes. Do not set `basePath` in `next.config.js`; Vercel does not allow `basePath` together with `builds`.
 
 - `https://fde.fan/diagnosis`
 - `https://www.fde.fan/diagnosis`
