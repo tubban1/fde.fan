@@ -41,10 +41,12 @@ async function ensureAuthTables() {
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       )
     `);
-    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS password TEXT NOT NULL DEFAULT '12345688'`);
-    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS credits INTEGER NOT NULL DEFAULT 0`);
-    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`);
-    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`);
+    await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN password TEXT DEFAULT '12345688'`));
+    await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN credits INTEGER DEFAULT 0`));
+    await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`));
+    await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`));
+    await query(`UPDATE user_credits SET password = '12345688' WHERE password IS NULL`);
+    await query(`UPDATE user_credits SET credits = 0 WHERE credits IS NULL`);
     return;
   }
 
