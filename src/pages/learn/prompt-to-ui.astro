@@ -5,13 +5,13 @@ import DocShell from "../../components/DocShell.astro";
 import PromptCopy from "../../components/PromptCopy";
 
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "prompt-to-ui").sort((a, b) => a.data.order - b.data.order);
-const prompt = `你是一名 FDE 前端部署工程师。请根据以下企业需求生成一个可运行前端 Demo 方案：\n1. 目标用户\n2. 输入字段\n3. 输出结果\n4. 页面结构\n5. 交互状态\n6. 验收标准\n7. 风险边界`;
+const prompt = `你是一名 AI-FDE 前端部署工程师。请根据以下企业需求生成一个可运行前端 Demo 方案：\n1. 业务意图与成功指标\n2. 用户角色与使用场景\n3. 数据来源、敏感字段与权限边界\n4. 输入字段、输出结构与状态机\n5. 页面结构、交互状态与错误回退\n6. Agent 工具调用点与人工确认点\n7. 验收标准、测试样例与上线风险`;
 ---
 
 <SiteLayout title="Prompt to Product | FDE FAN" description="需求拆解、Prompt 结构、AI 生成前端和验收标准课程。">
-  <DocShell eyebrow="PROMPT TO PRODUCT" title="从需求到前端 Demo" titleEn="From Requirement to Front-End Demo" description="把业务语言翻译成 AI 能执行、工程师能验收的规格。" descriptionEn="Translate business language into executable and testable specs.">
+  <DocShell eyebrow="PROMPT TO PRODUCT" title="从需求到可验证 AI 应用" titleEn="From Requirement to Verifiable AI App" description="把业务语言翻译成 AI 能执行、工程师能验收、企业能审计的规格。" descriptionEn="Translate business language into specs that AI can execute, engineers can verify, and companies can audit.">
     <h2>核心方法</h2>
-    <p>先写清业务目标和验收标准，再让 AI 生成页面。FDE 的价值在于审查、迭代和交付。</p>
+    <p>先写清业务意图、数据边界、工具权限和验收标准，再让 AI 生成页面。FDE 的价值在于上下文选择、审查、迭代、评估和交付。</p>
     <div class="prompt-box"><pre>{prompt}</pre><PromptCopy client:load text={prompt} /></div>
     <div class="resource-list">
       {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}

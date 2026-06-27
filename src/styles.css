@@ -371,21 +371,47 @@ select {
 .track-grid,
 .content-grid,
 .outcome-grid,
-.level-grid {
+.level-grid,
+.loop-grid,
+.industry-hero-grid,
+.matrix-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
+.loop-grid.compact,
+.matrix-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .track-card,
 .doc-card,
 .metric-card,
-.level-card {
+.level-card,
+.loop-card,
+.industry-card,
+.matrix-card,
+.note-panel {
   min-height: 180px;
   padding: 1.2rem;
 }
 
+.loop-card,
+.industry-card,
+.matrix-card,
+.note-panel {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.078), rgba(255, 255, 255, 0.028)),
+    rgba(7, 12, 24, 0.72);
+}
+
 .track-card h3,
+.loop-card h3,
+.industry-card h2,
+.industry-card h3,
+.matrix-card h3,
 .doc-card h2,
 .doc-card h3 {
   margin: 1rem 0 0;
@@ -396,10 +422,83 @@ select {
 }
 
 .track-card p,
+.loop-card p,
+.industry-card p,
+.matrix-card p,
+.note-panel p,
 .doc-card p,
 .level-card p {
   color: rgba(255, 255, 255, 0.64);
   line-height: 1.7;
+}
+
+.loop-card span:first-child {
+  display: inline-flex;
+  min-width: 38px;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(200, 255, 77, 0.32);
+  color: var(--lime);
+  font-weight: 950;
+  font-size: 0.76rem;
+}
+
+.industry-card {
+  min-height: 300px;
+}
+
+.industry-card h2,
+.industry-card h3 {
+  font-size: clamp(1.35rem, 2.4vw, 2.15rem);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.chip-row span {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  padding: 0.42rem 0.55rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.matrix-grid {
+  margin-top: 1rem;
+}
+
+.matrix-card {
+  min-height: 230px;
+}
+
+.matrix-card h3 {
+  margin-top: 0;
+}
+
+.matrix-card b {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--lime);
+}
+
+.note-panel {
+  min-height: auto;
+  margin-bottom: 2rem;
+  border-color: rgba(69, 244, 255, 0.22);
+  background:
+    linear-gradient(90deg, rgba(69, 244, 255, 0.09), rgba(255, 79, 216, 0.07)),
+    rgba(255, 255, 255, 0.04);
+}
+
+.note-panel strong {
+  display: block;
+  color: var(--cyan);
+  font-size: 1rem;
 }
 
 .card-mark,
@@ -682,6 +781,11 @@ select {
   .content-grid,
   .outcome-grid,
   .level-grid,
+  .loop-grid,
+  .loop-grid.compact,
+  .industry-hero-grid,
+  .matrix-grid,
+  .matrix-grid.two,
   .timeline,
   .timeline.compact {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -733,6 +837,11 @@ select {
   .content-grid,
   .outcome-grid,
   .level-grid,
+  .loop-grid,
+  .loop-grid.compact,
+  .industry-hero-grid,
+  .matrix-grid,
+  .matrix-grid.two,
   .timeline,
   .timeline.compact {
     grid-template-columns: 1fr;

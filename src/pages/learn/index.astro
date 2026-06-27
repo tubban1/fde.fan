@@ -2,13 +2,23 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
-import { learningTracks, weekPath } from "../../data/site";
+import { aiFdeLoop, learningTracks, weekPath } from "../../data/site";
 
 const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <SiteLayout title="FDE FAN Learn | 课程总目录" description="FDE FAN Academy 课程总目录，按 FDE Role、Frontend Basics、Prompt to Product、Agent Workflow、Cross-border AI Cases 和 Delivery System 展示学习路径。">
-  <DocShell eyebrow="LEARN" title="FDE 学习路径" titleEn="FDE Learning Path" description="按阶段学习岗位、前端、Prompt、Agent、跨境案例和交付系统。" descriptionEn="Learn role, front-end, prompt, agent, commerce cases, and delivery system by stage.">
+  <DocShell eyebrow="LEARN" title="AI-FDE 学习路径" titleEn="AI-FDE Learning Path" description="按阶段学习岗位、前端、Prompt、Agent、行业实验室、评估审计和交付系统。" descriptionEn="Learn role, front-end, prompts, agents, industry labs, evaluation, audit, and delivery systems by stage.">
+    <h2>AI-FDE 工作闭环</h2>
+    <div class="loop-grid compact">
+      {aiFdeLoop.map((item) => (
+        <div class="loop-card">
+          <span>{item.mark}</span>
+          <h3><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h3>
+          <p><span class="zh">{item.text}</span><span class="en">{item.textEn}</span></p>
+        </div>
+      ))}
+    </div>
     <section class="content-grid">
       {learningTracks.map((track) => (
         <a class="doc-card" href={track.href}>

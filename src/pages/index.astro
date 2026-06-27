@@ -1,21 +1,21 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { assessmentLevels, boundaryItems, learningTracks, outcomes, stats, weekPath } from "../data/site";
+import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTracks, outcomes, stats, weekPath } from "../data/site";
 ---
 
 <SiteLayout title="FDE FAN Academy | AI Agent FDE 前端部署工程师学习站" description="FDE FAN Academy 将课程、案例、项目和企业 AI 转型诊断 Agent 融合，训练学员完成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。">
   <section class="home-hero">
     <div class="grid-mask"></div>
     <div class="hero-copy">
-      <p class="eyebrow">AI Agent x Cross-Border Commerce x Deployment</p>
+      <p class="eyebrow">AI-FDE x Industry Agents x Deployment</p>
       <h1 class="hero-title">FDE FAN</h1>
       <p class="hero-subtitle">
-        <span class="zh">AI Agent FDE 前端部署工程师学习站</span>
-        <span class="en">Front-End Deployment Engineer Academy for AI Agent Delivery</span>
+        <span class="zh">AI-FDE 前端部署工程师学习站</span>
+        <span class="en">AI Front-End Deployment Engineer Academy</span>
       </p>
       <p class="hero-text">
-        <span class="zh">从课程、案例、项目到真实企业诊断 Agent，训练学员把企业需求转成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。</span>
-        <span class="en">Train with courses, cases, projects, and a real diagnosis agent to turn business needs into prompts, demos, workflows, deployment links, and delivery docs.</span>
+        <span class="zh">从业务意图、上下文工程、工具权限、Agent 工作流、评估审计到部署交付，训练学员把企业需求转成可验证的 AI 应用。</span>
+        <span class="en">Train intent framing, context engineering, tool access, agent workflow, evaluation, audit, and deployment for verifiable AI applications.</span>
       </p>
       <div class="hero-actions">
         <a class="cta-primary" href="/learn"><span class="zh">开始学习 FDE 路径</span><span class="en">Start the FDE Path</span></a>
@@ -33,13 +33,30 @@ import { assessmentLevels, boundaryItems, learningTracks, outcomes, stats, weekP
     </div>
     <div class="hero-console" aria-label="FDE delivery flow">
       <div class="console-top"><span></span><span></span><span></span><b>LIVE TRAINING OPS</b></div>
-      <div class="terminal-line">business.need -&gt; prompt.spec -&gt; ui.demo</div>
-      <div class="terminal-line active">agent.workflow -&gt; deploy.url -&gt; delivery.docs</div>
+      <div class="terminal-line">intent -&gt; context -&gt; ontology -&gt; tools</div>
+      <div class="terminal-line active">branch -&gt; eval -&gt; review -&gt; deploy -&gt; audit</div>
       <div class="ops-rail">
         {weekPath.slice(0, 6).map(([week, zh, en]) => (
           <div><b>{week}</b><span class="zh">{zh}</span><span class="en">{en}</span></div>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">AI-FDE LOOP</p>
+      <h2><span class="zh">向真实 AI-FDE 靠拢：不是聊天，是受控交付闭环。</span><span class="en">Closer to real AI-FDE work: not chatting, but controlled delivery loops.</span></h2>
+      <p><span class="zh">借鉴企业级 AI-FDE 的工作方式，课程强化意图、上下文、权限、工具、验证、评审和审计，让学员知道什么时候该让 AI 做，什么时候必须人审和回退。</span><span class="en">Inspired by enterprise AI-FDE practice, the curriculum emphasizes intent, context, access, tools, validation, review, and audit.</span></p>
+    </div>
+    <div class="loop-grid">
+      {aiFdeLoop.map((item) => (
+        <div class="loop-card">
+          <span>{item.mark}</span>
+          <h3><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h3>
+          <p><span class="zh">{item.text}</span><span class="en">{item.textEn}</span></p>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -55,6 +72,26 @@ import { assessmentLevels, boundaryItems, learningTracks, outcomes, stats, weekP
           <span class="card-mark">{track.mark}</span>
           <h3><span class="zh">{track.zh}</span><span class="en">{track.en}</span></h3>
           <p><span class="zh">{track.summary}</span><span class="en">{track.summaryEn}</span></p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">VERTICAL LABS</p>
+      <h2><span class="zh">把垂直行业独立出来，做成可复用解决方案。</span><span class="en">Separate vertical industries into reusable solution labs.</span></h2>
+      <p><span class="zh">跨境电商来自 OPC 工具矩阵和链主资源；文旅面向景区、酒店、旅行社、文博场馆和目的地运营。</span><span class="en">Commerce is grounded in the OPC tool matrix; culture-tourism covers attractions, hotels, agencies, museums, and destination operations.</span></p>
+    </div>
+    <div class="industry-hero-grid">
+      {industryLabs.map((lab) => (
+        <a class="industry-card" href={lab.href}>
+          <span class="card-mark">{lab.mark}</span>
+          <h3><span class="zh">{lab.zh}</span><span class="en">{lab.en}</span></h3>
+          <p><span class="zh">{lab.summary}</span><span class="en">{lab.summaryEn}</span></p>
+          <div class="chip-row">
+            {lab.signals.slice(0, 8).map((signal) => <span>{signal}</span>)}
+          </div>
         </a>
       ))}
     </div>

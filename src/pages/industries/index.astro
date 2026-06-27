@@ -1,0 +1,40 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { industryLabs } from "../../data/site";
+---
+
+<SiteLayout title="FDE FAN Industries | 垂直行业实验室" description="FDE FAN 垂直行业实验室，把跨境电商和文旅 AI 转型拆成业务场景、工具矩阵、Agent 工作流、前端 Demo 和交付模板。">
+  <DocShell eyebrow="INDUSTRY LABS" title="垂直行业实验室" titleEn="Vertical Industry Labs" description="FDE 的训练不能停在通用 Prompt。真正的交付发生在行业语境、工具矩阵、数据边界和运营流程里。" descriptionEn="FDE training cannot stop at generic prompts. Real delivery happens inside industry context, tool matrices, data boundaries, and operating workflows.">
+    <div class="industry-hero-grid">
+      {industryLabs.map((lab) => (
+        <a class="industry-card" href={lab.href}>
+          <span class="card-mark">{lab.mark}</span>
+          <h2><span class="zh">{lab.zh}</span><span class="en">{lab.en}</span></h2>
+          <p><span class="zh">{lab.summary}</span><span class="en">{lab.summaryEn}</span></p>
+          <div class="chip-row">
+            {lab.signals.map((signal) => <span>{signal}</span>)}
+          </div>
+        </a>
+      ))}
+    </div>
+    <h2>行业页如何使用</h2>
+    <div class="content-grid">
+      <div class="doc-card">
+        <span class="tag">01</span>
+        <h3>业务地图</h3>
+        <p>先理解行业的角色、数据、流程和痛点，避免拿通用工具硬套。</p>
+      </div>
+      <div class="doc-card">
+        <span class="tag">02</span>
+        <h3>Agent 拆解</h3>
+        <p>把内容、客服、运营、分析和交付拆成可验证的 Agent 节点。</p>
+      </div>
+      <div class="doc-card">
+        <span class="tag">03</span>
+        <h3>交付包</h3>
+        <p>每个行业都必须产出 Demo、Prompt、测试清单、README 和演示脚本。</p>
+      </div>
+    </div>
+  </DocShell>
+</SiteLayout>

@@ -1,0 +1,42 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { commerceModules } from "../../data/site";
+---
+
+<SiteLayout title="跨境电商 AI 工具矩阵 | FDE FAN" description="基于 OPC 一人公司跨境电商 AI 工具矩阵，训练 FDE 完成选品、POD、内容、投放、达人、ERP、本地化、合规、金融和客服等行业交付。">
+  <DocShell eyebrow="CROSS-BORDER COMMERCE" title="跨境电商 AI 工具矩阵" titleEn="Cross-Border Commerce AI Matrix" description="把 OPC 一人公司创业者的 14 个工具模块，升级成 FDE 可诊断、可演示、可部署、可交付的行业解决方案。" descriptionEn="Turn the OPC solo-company tool matrix into FDE-ready diagnosis, demos, deployment, and delivery packages.">
+    <div class="note-panel">
+      <strong>训练目标</strong>
+      <p>学员不是背工具名，而是能判断企业处于哪个阶段、该先接哪类工具、哪些数据需要脱敏、哪些环节适合 Agent、哪些只能作为人工辅助。</p>
+    </div>
+
+    <h2>14 大模块</h2>
+    <div class="matrix-grid">
+      {commerceModules.map(([name, tools, ai]) => (
+        <div class="matrix-card">
+          <h3>{name}</h3>
+          <p><b>工具</b>{tools}</p>
+          <p><b>AI 能力</b>{ai}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>FDE 交付路径</h2>
+    <div class="timeline compact">
+      <a href="/learn/prompt-to-ui"><strong>01</strong><span>需求访谈：平台、品类、预算、人力、目标市场</span></a>
+      <a href="/cases/cross-border-ai-diagnosis"><strong>02</strong><span>工具矩阵诊断：先选 1-2 个高 ROI 小切口</span></a>
+      <a href="/cases/tiktok-content-matrix"><strong>03</strong><span>前端 Demo：内容矩阵、客服、广告或选品看板</span></a>
+      <a href="/learn/agent-workflows"><strong>04</strong><span>Agent 工作流：输入、工具、人工审核、输出文档</span></a>
+      <a href="/learn/deployment"><strong>05</strong><span>部署上线：链接、README、测试清单、微信分享</span></a>
+      <a href="/resources"><strong>06</strong><span>复盘交付：风险、下一步、服务包或分润模型</span></a>
+    </div>
+
+    <h2>可做成项目的题目</h2>
+    <div class="content-grid">
+      <a class="doc-card" href="/cases/tool-matrix-recommender"><span class="tag">Matrix</span><h3>OPC AI 工具矩阵推荐器</h3><p>输入品类、平台、预算和人力，输出最小工具组合与执行顺序。</p></a>
+      <a class="doc-card" href="/cases/tiktok-content-matrix"><span class="tag">Content</span><h3>TikTok 内容矩阵生成器</h3><p>从商品卖点生成脚本、素材需求、达人话术和发布节奏。</p></a>
+      <a class="doc-card" href="/cases/faq-agent"><span class="tag">Support</span><h3>跨境客服 FAQ Agent</h3><p>把物流、退换货、尺码、支付和本地语言沉淀成可审核问答。</p></a>
+    </div>
+  </DocShell>
+</SiteLayout>

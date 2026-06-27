@@ -1,0 +1,42 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import { tourismScenarios } from "../../data/site";
+---
+
+<SiteLayout title="文旅 AI 转型实验室 | FDE FAN" description="面向景区、酒店、旅行社、文博场馆和目的地运营的文旅 AI 转型实验室，覆盖智能导览、内容营销、多语客服、客流预测、收益管理和知识库 Agent。">
+  <DocShell eyebrow="CULTURE TOURISM" title="文旅 AI 转型实验室" titleEn="Culture-Tourism AI Transformation Lab" description="文旅 AI 不是只做海报和客服。FDE 要能把目的地内容、游客服务、运营调度、收益管理和知识库建设串成可落地流程。" descriptionEn="Tourism AI is more than posters and chatbots. FDEs connect destination content, visitor service, operations, revenue, and knowledge systems into deliverable workflows.">
+    <div class="note-panel">
+      <strong>行业判断</strong>
+      <p>文旅场景高度依赖本地知识、季节活动、票务规则、交通限制、舆情和线下服务能力。FDE 交付时必须把“模型回答”放进可审核知识库、人工转接、运营日历和风险边界里。</p>
+    </div>
+
+    <h2>6 个优先场景</h2>
+    <div class="matrix-grid two">
+      {tourismScenarios.map(([name, scenario, output]) => (
+        <div class="matrix-card">
+          <h3>{name}</h3>
+          <p>{scenario}</p>
+          <p><b>交付物</b>{output}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>文旅 FDE 的工作流</h2>
+    <div class="timeline compact">
+      <a href="/learn/prompt-to-ui"><strong>01</strong><span>材料盘点：景点、酒店、活动、票务、交通、FAQ、点评</span></a>
+      <a href="/learn/agent-workflows"><strong>02</strong><span>知识边界：可回答、需确认、必须人工转接和禁止承诺</span></a>
+      <a href="/cases/knowledge-base-qa"><strong>03</strong><span>知识库问答：多语言、多客群、多渠道测试</span></a>
+      <a href="/cases/customer-review-insights"><strong>04</strong><span>点评洞察：高频投诉、服务短板、营销素材和复盘报告</span></a>
+      <a href="/projects"><strong>05</strong><span>前端 Demo：导览页、内容日历、运营看板或行程生成器</span></a>
+      <a href="/assessment"><strong>06</strong><span>验收：准确性、可解释性、安全边界和线下可执行性</span></a>
+    </div>
+
+    <h2>项目题库建议</h2>
+    <div class="content-grid">
+      <a class="doc-card" href="/cases/tourism-smart-guide-agent"><span class="tag">Guide</span><h3>智能导览 Agent</h3><p>按亲子、研学、银发、外宾等客群生成不同讲解和路线。</p></a>
+      <div class="doc-card"><span class="tag">Ops</span><h3>节假日客流预警看板</h3><p>整合预约、天气、活动和舆情，输出值班与分流建议。</p></div>
+      <a class="doc-card" href="/cases/tourism-content-ops"><span class="tag">Growth</span><h3>文旅内容矩阵工作台</h3><p>把地方文化、节庆和产品套餐转成小红书、抖音、公众号内容。</p></a>
+    </div>
+  </DocShell>
+</SiteLayout>

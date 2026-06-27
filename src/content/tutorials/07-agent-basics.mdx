@@ -9,4 +9,14 @@ summaryEn: "Understand context, tool calls, state persistence, and result genera
 
 FDE 不需要一开始手写复杂框架，但必须能画清楚 Agent 的输入、状态、工具、输出和人审节点。
 
-Diagram first, code second.
+## 最小 Agent 图
+
+1. 输入：用户问题、业务表单、文件、历史记录或系统事件。
+2. 上下文：知识库、示例、规则、术语表、可用工具说明。
+3. 工具：搜索、数据库、表格、CRM、订单系统、报表生成、通知。
+4. 状态：用户画像、会话进度、已确认事实、待确认问题。
+5. 人审：报价、退款、合规、敏感数据、对外承诺必须有人确认。
+6. 输出：回答、结构化 JSON、报告、任务单、前端页面状态。
+7. 评估：测试集、人工评分、失败样例、日志和复盘。
+
+Diagram first, code second. Evaluation always.

@@ -2,13 +2,23 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
-import { diagnosisFlow } from "../../data/site";
+import { aiFdeLoop, diagnosisFlow } from "../../data/site";
 
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "agent-workflows").sort((a, b) => a.data.order - b.data.order);
 ---
 
 <SiteLayout title="Agent Workflows | FDE FAN" description="Agent 概念、工具调用、工作流、路由、Human-in-the-loop 和企业诊断 Agent 拆解。">
-  <DocShell eyebrow="AGENT WORKFLOW" title="Agent 工作流" titleEn="Agent Workflows" description="从工具调用到企业诊断 Agent，训练可解释、可测试、可交付的工作流。" descriptionEn="From tool calls to diagnosis agents, build explainable and testable workflows.">
+  <DocShell eyebrow="AGENT WORKFLOW" title="Agent 工作流" titleEn="Agent Workflows" description="从工具调用到企业诊断 Agent，训练带权限、评估、人审和审计的可交付工作流。" descriptionEn="From tool calls to diagnosis agents, build workflows with access control, evaluation, human review, and auditability.">
+    <h2>企业级 Agent 不只会回答</h2>
+    <div class="loop-grid compact">
+      {aiFdeLoop.slice(1).map((item) => (
+        <div class="loop-card">
+          <span>{item.mark}</span>
+          <h3><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h3>
+          <p><span class="zh">{item.text}</span><span class="en">{item.textEn}</span></p>
+        </div>
+      ))}
+    </div>
     <h2>diagnosis 真实链路</h2>
     <div class="timeline compact">
       {diagnosisFlow.map((item, index) => <a href="/tools/diagnosis"><strong>{String(index + 1).padStart(2, "0")}</strong><span>{item}</span></a>)}
