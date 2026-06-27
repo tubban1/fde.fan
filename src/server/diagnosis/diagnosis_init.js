@@ -4,10 +4,6 @@ let initialized = false;
 
 export async function initDiagnosisTables() {
   if (initialized) return;
-  if (isPostgresMode) {
-    initialized = true;
-    return;
-  }
 
   try {
     await query(`
@@ -23,16 +19,21 @@ export async function initDiagnosisTables() {
       )
     `);
 
-    try {
-      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN profile_status VARCHAR(32) DEFAULT 'idle';`);
-    } catch (e) {
-      // 忽略已存在列的报错
-    }
+    if (isPostgresMode) {
+      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS profile_status VARCHAR(32) DEFAULT 'idle';`);
+      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN DEFAULT FALSE;`);
+    } else {
+      try {
+        await query(`ALTER TABLE diagnosis_sessions ADD COLUMN profile_status VARCHAR(32) DEFAULT 'idle';`);
+      } catch (e) {
+        // 忽略已存在列的报错
+      }
 
-    try {
-      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN is_hidden BOOLEAN DEFAULT FALSE;`);
-    } catch (e) {
-      // 忽略已存在列的报错
+      try {
+        await query(`ALTER TABLE diagnosis_sessions ADD COLUMN is_hidden BOOLEAN DEFAULT FALSE;`);
+      } catch (e) {
+        // 忽略已存在列的报错
+      }
     }
 
     await query(`

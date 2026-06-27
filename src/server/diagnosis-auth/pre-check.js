@@ -1,4 +1,22 @@
-import { isPostgresMode, query } from "../diagnosis/db.js";
+import { getDatabaseConfigStatus, isPostgresMode, query } from "../diagnosis/db.js";
+import { initDiagnosisTables } from "../diagnosis/diagnosis_init.js";
+
+async function ignoreDuplicateColumn(task) {
+  try {
+    await task();
+  } catch (error) {
+    const code = error?.code || '';
+    const message = String(error?.message || '').toLowerCase();
+    if (
+      code === 'ER_DUP_FIELDNAME' ||
+      message.includes('duplicate column') ||
+      message.includes('already exists')
+    ) {
+      return;
+    }
+    throw error;
+  }
+}
 
 async function ensureAuthTables() {
   if (isPostgresMode) {
@@ -22,6 +40,10 @@ async function ensureAuthTables() {
         created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
       )
     `);
+    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS password TEXT NOT NULL DEFAULT '12345688'`);
+    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS credits INTEGER NOT NULL DEFAULT 0`);
+    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`);
+    await query(`ALTER TABLE user_credits ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP`);
     return;
   }
 
@@ -45,6 +67,10 @@ async function ensureAuthTables() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN password VARCHAR(255) NOT NULL DEFAULT '12345688'`));
+  await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN credits INT NOT NULL DEFAULT 0`));
+  await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`));
+  await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`));
 }
 
 export default async function handler(req, res) {
@@ -58,7 +84,16 @@ export default async function handler(req, res) {
   }
 
   try {
+    const dbStatus = getDatabaseConfigStatus();
+    if (!dbStatus.configured) {
+      return res.status(503).json({
+        success: false,
+        error: `诊断服务数据库未配置：缺少 ${dbStatus.missing.join(", ")}`,
+      });
+    }
+
     await ensureAuthTables();
+    await initDiagnosisTables();
 
     const rows = await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
     if (rows && rows.length > 0) {

@@ -5,8 +5,23 @@ const require = createRequire(import.meta.url);
 const pg = require('pg');
 const { Pool } = pg;
 
-export const dbProvider = (process.env.DB_PROVIDER || process.env.DATABASE_PROVIDER || 'mysql').toLowerCase();
+function inferDbProvider() {
+  const explicitProvider = process.env.DB_PROVIDER || process.env.DATABASE_PROVIDER;
+  if (explicitProvider) return explicitProvider.toLowerCase();
+  if (
+    process.env.SUPABASE_DB_URL ||
+    process.env.SUPABASE_DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.DATABASE_URL
+  ) {
+    return 'postgres';
+  }
+  return 'mysql';
+}
+
+export const dbProvider = inferDbProvider();
 export const isPostgresMode = dbProvider === 'supabase' || dbProvider === 'postgres' || dbProvider === 'postgresql';
+export const dbModeLabel = isPostgresMode ? 'postgres' : 'mysql';
 
 function getPostgresConnectionString() {
   return (
@@ -26,6 +41,27 @@ const dbConfig = {
   password: process.env.MYSQL_PASSWORD,
   connectTimeout: parseInt(process.env.MYSQL_CONNECT_TIMEOUT || '6000', 10)
 };
+
+export function getDatabaseConfigStatus() {
+  if (isPostgresMode) {
+    return {
+      provider: dbModeLabel,
+      configured: Boolean(getPostgresConnectionString()),
+      missing: getPostgresConnectionString() ? [] : ['SUPABASE_DB_URL or POSTGRES_URL or DATABASE_URL']
+    };
+  }
+
+  const missing = [];
+  if (!process.env.MYSQL_HOST) missing.push('MYSQL_HOST');
+  if (!process.env.MYSQL_DATABASE) missing.push('MYSQL_DATABASE');
+  if (!process.env.MYSQL_USER) missing.push('MYSQL_USER');
+  if (!process.env.MYSQL_PASSWORD) missing.push('MYSQL_PASSWORD');
+  return {
+    provider: dbModeLabel,
+    configured: missing.length === 0,
+    missing
+  };
+}
 
 // 保持原有导出的兼容性，同时提供一个可以热重建的 activeDb
 export const db = mysql({ config: dbConfig });
@@ -237,7 +273,7 @@ async function runQuery(q, values) {
   throw lastError;
 }
 
-export async function query(q, values) {
+export async function query(q, values = []) {
   if (isPostgresMode) {
     return runPostgresQuery(q, values);
   }

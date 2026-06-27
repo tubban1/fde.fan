@@ -1,4 +1,5 @@
 import { query } from '../db.js';
+import { initDiagnosisTables } from '../diagnosis_init.js';
 import crypto from 'crypto';
 
 export default async function handler(req, res) {
@@ -13,6 +14,8 @@ export default async function handler(req, res) {
   }
 
   try {
+    await initDiagnosisTables();
+
     const users = await query(
       `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
       [email, password]
