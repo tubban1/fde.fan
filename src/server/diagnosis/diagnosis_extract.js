@@ -1,4 +1,4 @@
-import { query } from './db';
+import { query } from './db.js';
 import { delay, formatErrorForLog, isTransientNetworkError } from './safe_error';
 import { generateText } from './text_model_provider';
 

@@ -1,4 +1,4 @@
-import { isPostgresMode, query } from './db';
+import { isPostgresMode, query } from './db.js';
 
 let ensuredDiagnosisRuntimeSchema = false;
 
