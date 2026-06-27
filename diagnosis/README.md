@@ -1,6 +1,6 @@
 # FDE FAN Diagnosis
 
-Enterprise AI transformation diagnosis agent copied from `wish2/diagnosis` and rebranded as an independent Next.js tool for `diagnosis.fde.fan`.
+Enterprise AI transformation diagnosis agent copied from `wish2/diagnosis` and rebranded as an embedded Next.js tool for `/diagnosis`.
 
 ## Run Locally
 
@@ -14,11 +14,9 @@ pnpm run dev
 
 ## Deploy
 
-Create a separate Vercel project with:
+The root `vercel.json` mounts this app at:
 
-- Root Directory: `diagnosis`
-- Build Command: `pnpm run build`
-- Output: Next.js default
-- Domain: `diagnosis.fde.fan`
+- `https://fde.fan/diagnosis`
+- `https://www.fde.fan/diagnosis`
 
 Required environment variables are listed in `.env.example`.
