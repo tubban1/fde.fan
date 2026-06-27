@@ -1,8 +1,6 @@
 import mysql from 'serverless-mysql';
-import { createRequire } from 'module';
+import pg from 'pg';
 
-const require = createRequire(import.meta.url);
-const pg = require('pg');
 const { Pool } = pg;
 
 function inferDbProvider() {
