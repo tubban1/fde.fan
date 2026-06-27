@@ -1,12 +1,18 @@
 ---
-title: "微信分享与 OG 图"
-titleEn: "WeChat Sharing and OG Image"
+title: "上线元数据与链接预览"
+titleEn: "Launch Metadata and Link Preview"
 track: "deployment"
 order: 10
-summary: "配置 1200x630 分享图、OG meta、无跳转 HTTPS 图片和缓存更新。"
-summaryEn: "Configure 1200x630 image, OG meta, direct HTTPS image URL, and cache refresh."
+summary: "部署完成后，检查标题、描述、OG 图和社交平台链接预览。"
+summaryEn: "After deployment, check title, description, OG image, and social link previews."
 ---
 
-微信分享图不能只依赖 public/assets 里的图片。页面必须提供可访问、无跳转、非透明的 og:image。
+链接预览不是部署本身，而是部署完成后的传播检查。业务方把链接发给客户、同事或社群时，标题、描述和预览图应该可信、清晰、可识别。
 
-Rule: final HTTPS URL, 200 response, 1200x630, new filename when refreshing cache.
+## 检查项
+
+- 页面有准确的 title 和 description。
+- og:image 使用最终 HTTPS URL，图片能直接返回 200。
+- 预览图建议使用 1200x630 非透明 JPG/PNG。
+- 更新预览缓存时可以换新文件名。
+- 不要把分享图配置当成部署完成的证明，核心证明仍然是线上功能可用。

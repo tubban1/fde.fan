@@ -6,14 +6,59 @@ import DocShell from "../../components/DocShell.astro";
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "deployment").sort((a, b) => a.data.order - b.data.order);
 ---
 
-<SiteLayout title="Deployment System | FDE FAN" description="Vite/React/Astro 静态部署、GitHub、Vercel、域名、OG 图和微信分享配置。">
-  <DocShell eyebrow="DEPLOYMENT" title="部署与微信分享" titleEn="Deployment and WeChat Sharing" description="FDE 交付必须能被打开、分享、演示和验收。" descriptionEn="FDE delivery must be accessible, shareable, demonstrable, and testable.">
-    <h2>微信分享规则</h2>
+<SiteLayout title="Deployment System | FDE FAN" description="FDE 部署课程：把本地前端或 Agent 工具发布成可访问、可测试、可回滚、可交付的线上应用。">
+  <DocShell eyebrow="DEPLOYMENT" title="部署到底是在做什么" titleEn="What Deployment Actually Means" description="部署不是发截图，也不是只配分享图。部署是把本地代码、配置、数据连接和运行环境变成一个稳定 URL，让业务方可以打开、测试、演示、复现和验收。" descriptionEn="Deployment is not screenshots or share images. It turns local code, configuration, data connections, and runtime into a stable URL that stakeholders can open, test, demo, reproduce, and accept.">
+    <div class="note-panel">
+      <strong>一句话定义</strong>
+      <p>FDE 的部署交付，就是把 AI 生成或人工修正后的项目，从“我电脑上能跑”推进到“任何被授权的人都能通过链接使用，并且出问题能定位、修复和回滚”。</p>
+    </div>
+
+    <h2>部署包含哪些工作</h2>
+    <div class="matrix-grid two">
+      <div class="matrix-card">
+        <h3>构建与运行时</h3>
+        <p>确认项目能在生产模式构建，例如 Vite/Astro/Next 的 build，不依赖本机缓存、临时文件或开发服务器。</p>
+      </div>
+      <div class="matrix-card">
+        <h3>托管平台</h3>
+        <p>选择 Vercel、Netlify、Cloudflare Pages、服务器或对象存储，理解静态站、SSR、Serverless API 的差异。</p>
+      </div>
+      <div class="matrix-card">
+        <h3>环境变量与密钥</h3>
+        <p>把 API Key、数据库地址、模型 Provider、回调地址放到平台环境变量里，不写死在前端代码中。</p>
+      </div>
+      <div class="matrix-card">
+        <h3>接口与数据连接</h3>
+        <p>检查前端能否正确调用 API，服务端能否连接数据库、模型服务、文件存储或第三方工具。</p>
+      </div>
+      <div class="matrix-card">
+        <h3>域名与访问控制</h3>
+        <p>配置正式域名、HTTPS、路径规则、登录限制、测试入口和必要的基础鉴权。</p>
+      </div>
+      <div class="matrix-card">
+        <h3>日志、监控与回滚</h3>
+        <p>知道在哪里看构建日志、运行日志、错误堆栈；保留可回滚版本，避免线上改坏后无法恢复。</p>
+      </div>
+    </div>
+
+    <h2>FDE 部署验收清单</h2>
     <ul>
-      <li>使用 1200x630 非透明 JPG/PNG。</li>
-      <li>og:image 必须是最终 HTTPS 地址，不依赖重定向。</li>
-      <li>图片 URL 要返回 200，更新缓存时换新文件名。</li>
+      <li>生产构建通过，线上 URL 能直接打开。</li>
+      <li>核心用户流程可完成：输入、处理、输出、异常状态都可验证。</li>
+      <li>API、数据库、模型调用和第三方工具在生产环境可用。</li>
+      <li>环境变量没有泄露到浏览器源码或公开仓库。</li>
+      <li>移动端、桌面端、慢网络、空数据和错误输入都有基本处理。</li>
+      <li>README 写清本地运行、生产部署、环境变量、已知限制和回滚方式。</li>
+      <li>分享图和 SEO 只是上线检查的一小部分，用于链接传播预览，不等于部署。</li>
     </ul>
+
+    <h2>常见部署类型</h2>
+    <div class="content-grid">
+      <div class="doc-card"><span class="tag">Static</span><h3>静态前端 Demo</h3><p>适合展示页、工具原型、纯前端计算和课程项目。重点是 build 输出、路由、资源路径和域名。</p></div>
+      <div class="doc-card"><span class="tag">API</span><h3>带 Serverless API 的工具</h3><p>适合 Agent、报告生成、数据库读写和模型调用。重点是环境变量、超时、日志和错误回退。</p></div>
+      <div class="doc-card"><span class="tag">Ops</span><h3>企业交付包</h3><p>除了链接，还要给 README、测试清单、演示脚本、权限说明、风险边界和复盘报告。</p></div>
+    </div>
+
     <div class="resource-list">
       {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
     </div>

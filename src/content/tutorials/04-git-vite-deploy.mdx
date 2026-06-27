@@ -1,12 +1,22 @@
 ---
-title: "Git、Vite 与静态部署"
-titleEn: "Git, Vite, and Static Deployment"
+title: "从本地项目到线上 URL"
+titleEn: "From Local Project to Production URL"
 track: "deployment"
 order: 4
-summary: "从本地项目到 GitHub、Vercel、域名和上线检查。"
-summaryEn: "Move from local project to GitHub, Vercel, domain, and launch checks."
+summary: "理解构建、托管平台、环境变量、域名、日志、回滚和交付验收。"
+summaryEn: "Understand build, hosting, env vars, domains, logs, rollback, and delivery acceptance."
 ---
 
 FDE 必须能交付一个可访问链接，而不是只交付截图。
 
-Launch checklist: build 通过、环境变量确认、OG 图可访问、移动端无溢出、关键 CTA 可点击。
+## 部署的最小路径
+
+1. 本地跑通：安装依赖，确认开发服务器能打开核心页面。
+2. 生产构建：执行 build，修复 TypeScript、路由、资源路径和依赖错误。
+3. 推送仓库：用 GitHub 记录版本，提交信息能说明变更。
+4. 连接平台：把仓库接到 Vercel、Netlify 或其他托管平台。
+5. 配置环境：填写 API Key、数据库地址、模型 Provider、回调域名。
+6. 发布 URL：拿到线上链接，确认不是本地地址、临时截图或预览文件。
+7. 验收交付：测试核心流程，记录已知限制，准备 README 和回滚方式。
+
+Launch checklist: build 通过、环境变量确认、API 可用、线上日志可查、移动端无溢出、关键流程可完成、README 能让他人复现。

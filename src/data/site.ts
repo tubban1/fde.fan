@@ -54,8 +54,8 @@ export const learningTracks = [
     mark: "OPS",
     zh: "Deployment System",
     en: "Deployment System",
-    summary: "GitHub、Vercel、域名、OG 图、微信分享和上线检查。",
-    summaryEn: "GitHub, Vercel, domains, OG images, WeChat sharing, and launch checks.",
+    summary: "把本地项目发布成稳定 URL：构建、环境变量、API、域名、日志、回滚和上线验收。",
+    summaryEn: "Turn local projects into stable URLs: build, env vars, APIs, domains, logs, rollback, and launch acceptance.",
   },
   {
     href: "/resources",
