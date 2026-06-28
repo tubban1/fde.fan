@@ -470,7 +470,6 @@ export default function DiagnosisPage() {
       const t = text.trim();
       if (/^(你好|您好|在吗|在么|谢谢|感谢|hello|hi|👋)$/i.test(t)) return false;
       if (t.length < 5) return isContextualShortAnswer(t) && hasRecentAgentContext();
-      if (/(价值|梦想|愿景|认同|品牌|转化|成交|买单|付费|销售|增长|引流|私域|小红书|抖音|视频号|微信|内容|咨询|客服|报价|预算|花钱)/.test(t)) return true;
       if (
         t.includes('？') || 
         t.includes('?') || 
