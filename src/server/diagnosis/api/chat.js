@@ -2,7 +2,7 @@ import { query } from '../db.js';
 import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diagnosis_extract.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
-import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
+import { extractStreamTextFromJson, generateText, streamText } from '../text_model_provider.js';
 
 function runAfterResponse(res, task) {
   res.on('finish', () => {
@@ -236,6 +236,23 @@ ${conversationContext}
         handleStreamLine(buffer, res, replyRef);
         fullReply = replyRef.value;
         buffer = '';
+      }
+      if (!fullReply.trim()) {
+        try {
+          fullReply = await generateText({
+            systemPrompt,
+            userPrompt: promptUserContent,
+            temperature: 0.6,
+            timeout: 70000
+          });
+          if (fullReply.trim()) {
+            res.write(fullReply);
+          }
+        } catch (fallbackErr) {
+          console.error('[Chat Non-stream Fallback Error]:', formatErrorForLog(fallbackErr));
+          await safeEndWithFallback('');
+          return;
+        }
       }
       res.end();
       if (fullReply.trim()) {
