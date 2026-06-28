@@ -6,7 +6,7 @@ import { insightArticles, insightIndexMetrics } from "../../data/insights";
 ---
 
 <SiteLayout title="FDE FAN Insights | 专业洞察" description="FDE FAN 专业洞察栏目，整理 Forward Deployed Engineering、AI-FDE、工具栈、上下文工程和 AI UX 工作坊研究。">
-  <DocShell eyebrow="INSIGHTS" title="专业洞察" titleEn="Professional Insights" description="把外部 FDE 研究文章转成课程可用的中英文摘要、图表、表格、引用和训练启发。" descriptionEn="Translate external FDE research into bilingual briefs, visuals, tables, citations, and curriculum implications.">
+  <DocShell eyebrow="INSIGHTS" title="专业洞察" titleEn="Professional Insights" description="用 FDE FAN 的第一视角讲解 AI-FDE、上下文工程、工具栈、岗位边界和工作坊方法，并附参考来源。" descriptionEn="FDE FAN explains AI-FDE, context engineering, tool stacks, role boundaries, and workshop methods in our own teaching voice, with references attached.">
     <section class="metric-grid">
       {insightIndexMetrics.map(([value, zh, en]) => (
         <div class="metric-card">
@@ -18,10 +18,10 @@ import { insightArticles, insightIndexMetrics } from "../../data/insights";
     </section>
 
     <div class="insight-note">
-      <b><span class="zh">版权与引用说明</span><span class="en">Copyright and Citation Note</span></b>
+      <b><span class="zh">学习与引用说明</span><span class="en">Learning and Citation Note</span></b>
       <p>
-        <span class="zh">本站不搬运全文。每篇文章被整理为课程化摘要、原创图表和引用卡片，原文版权归对应发布方所有。</span>
-        <span class="en">This section does not republish full articles. Each source is transformed into course-ready summaries, original visuals, and citation cards. Copyright remains with the original publishers.</span>
+        <span class="zh">这里不是第三方文章摘抄，而是 FDE FAN 自己的知识讲义。参考来源放在每页末尾，方便继续阅读。</span>
+        <span class="en">These are FDE FAN teaching notes, not copied article excerpts. References are listed at the end of each page for further reading.</span>
       </p>
     </div>
 

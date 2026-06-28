@@ -26,13 +26,13 @@ const deepDive = insightDeepDives[article.slug];
     descriptionEn={article.abstractEn}
     links={[
       { href: "/insights", label: "专业洞察" },
-      { href: article.sourceUrl, label: "Source" },
+      { href: article.sourceUrl, label: "Reference" },
     ]}
   >
     <div class="source-strip">
       <div>
-        <span class="zh">引用来源</span>
-        <span class="en">Citation Source</span>
+        <span class="zh">参考资料</span>
+        <span class="en">Reference</span>
         <strong>{article.sourcePublisher}</strong>
       </div>
       <a href={article.sourceUrl} target="_blank" rel="noreferrer">{article.sourceTitle}</a>
@@ -40,10 +40,10 @@ const deepDive = insightDeepDives[article.slug];
     </div>
 
     <div class="insight-note">
-      <b><span class="zh">阅读说明</span><span class="en">Reading Note</span></b>
+      <b><span class="zh">学习说明</span><span class="en">Learning Note</span></b>
       <p>
-        <span class="zh">以下是 FDE FAN 的深度讲义版整理：保留原文论点、结构、图表化信息和课程转译，但不复制第三方全文。完整原文请通过引用链接阅读。</span>
-        <span class="en">The following is a FDE FAN deep-study brief: it preserves the source argument, structure, visualized information, and curriculum translation without republishing the third-party article in full. Read the full original through the citation link.</span>
+        <span class="zh">本页以 FDE FAN 的第一视角讲解知识：先讲概念，再讲方法、图表、训练任务。底部保留参考来源，方便继续阅读。</span>
+        <span class="en">This page teaches in FDE FAN's own voice: concepts first, then methods, visuals, and practice tasks. References are kept at the bottom for further reading.</span>
       </p>
     </div>
 
@@ -51,14 +51,14 @@ const deepDive = insightDeepDives[article.slug];
 
     {deepDive && (
       <>
-        <h2><span class="zh">原文结构地图</span><span class="en">Source Structure Map</span></h2>
+        <h2><span class="zh">知识结构地图</span><span class="en">Knowledge Structure Map</span></h2>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th><span class="zh">原文层级</span><span class="en">Source Layer</span></th>
-                <th><span class="zh">深度理解</span><span class="en">Interpretation</span></th>
-                <th><span class="zh">课程转译</span><span class="en">Course Translation</span></th>
+                <th><span class="zh">知识层级</span><span class="en">Knowledge Layer</span></th>
+                <th><span class="zh">我们要掌握什么</span><span class="en">What We Need to Master</span></th>
+                <th><span class="zh">训练产物</span><span class="en">Training Artifact</span></th>
               </tr>
             </thead>
             <tbody>
@@ -122,7 +122,7 @@ const deepDive = insightDeepDives[article.slug];
     )}
 
     <section class="insight-lesson">
-      <p class="eyebrow"><span class="zh">给 FDE FAN 的课程启发</span><span class="en">Curriculum Implication for FDE FAN</span></p>
+      <p class="eyebrow"><span class="zh">本课训练目标</span><span class="en">Training Goal</span></p>
       <p><span class="zh">{article.fdeLesson}</span><span class="en">{article.fdeLessonEn}</span></p>
     </section>
 

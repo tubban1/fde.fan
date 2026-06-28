@@ -31,23 +31,23 @@ export const insightArticles: InsightArticle[] = [
     sourceUrl: "https://www.hfsresearch.com/research/fde-optional-ai-flywheel-spin/",
     title: "AI 飞轮里的 FDE：从部署者到生产系统编排者",
     titleEn: "FDE in the AI Flywheel: From Deployer to Production Orchestrator",
-    kicker: "研究解读 / AI-FDE Operating Model",
-    kickerEn: "Research Brief / AI-FDE Operating Model",
+    kicker: "课程讲义 / AI-FDE Operating Model",
+    kickerEn: "Teaching Note / AI-FDE Operating Model",
     dateLabel: "Accessed 2026-06-28",
     figure: "flywheel",
     abstract:
-      "这篇文章把 FDE 放在 AI 生产飞轮里理解：客户现场、业务上下文、模型能力、工具链和交付反馈不断循环。对 FDE FAN 的启发是，FDE 不是单纯写前端，也不是临时帮客户调模型，而是把需求、上下文、Agent、部署、评估和复盘连成可重复运转的系统。",
+      "我们从 AI 生产飞轮理解 FDE：客户现场、业务上下文、模型能力、工具链和交付反馈不断循环。FDE 不是单纯写前端，也不是临时帮客户调模型，而是把需求、上下文、Agent、部署、评估和复盘连成可重复运转的系统。",
     abstractEn:
-      "The article frames FDE inside an AI production flywheel: customer context, model capability, toolchain, deployment, and feedback reinforce one another. For FDE FAN, the lesson is that an FDE is not merely a front-end builder or prompt fixer, but the person who connects requirements, context, agents, deployment, evaluation, and retrospectives into a repeatable operating loop.",
+      "We understand FDE through the AI production flywheel: customer context, model capability, toolchain, deployment, and feedback reinforce one another. An FDE is not merely a front-end builder or prompt fixer, but the person who connects requirements, context, agents, deployment, evaluation, and retrospectives into a repeatable operating loop.",
     takeaways: [
       "FDE 的价值来自反馈速度：越靠近真实业务，越能发现模型和产品之间的缺口。",
       "AI 让部分部署工作自动化，但不会消除现场语境、边界判断和上线责任。",
-      "课程应训练“飞轮意识”：每次交付都要沉淀 Prompt、测试集、日志、模板和复盘。",
+      "我们训练“飞轮意识”：每次交付都要沉淀 Prompt、测试集、日志、模板和复盘。",
     ],
     takeawaysEn: [
       "FDE value comes from feedback velocity: the closer to real work, the faster product-model gaps appear.",
       "AI automates parts of deployment, but it does not remove context judgment, boundary setting, and launch accountability.",
-      "The course should train flywheel thinking: every delivery must leave prompts, evals, logs, templates, and retrospectives behind.",
+      "We train flywheel thinking: every delivery must leave prompts, evals, logs, templates, and retrospectives behind.",
     ],
     tableTitle: "FDE 飞轮拆解",
     tableTitleEn: "FDE Flywheel Breakdown",
@@ -62,9 +62,9 @@ export const insightArticles: InsightArticle[] = [
       ["Feedback", "Logs, user response, failure samples, retrospectives", "Revision tasks, eval set, delivery docs"],
     ],
     fdeLesson:
-      "FDE FAN 应把每个项目都训练成一个小飞轮：需求澄清、Demo、部署、观测、复盘、再交付，而不是一次性页面作业。",
+      "我们要把每个项目都训练成一个小飞轮：需求澄清、Demo、部署、观测、复盘、再交付，而不是一次性页面作业。",
     fdeLessonEn:
-      "FDE FAN should turn every project into a small flywheel: clarify, demo, deploy, observe, review, and ship again rather than submit a one-off page.",
+      "We turn every project into a small flywheel: clarify, demo, deploy, observe, review, and ship again rather than submit a one-off page.",
   },
   {
     slug: "unframe-context-platform",
@@ -73,14 +73,14 @@ export const insightArticles: InsightArticle[] = [
     sourceUrl: "https://www.unframe.ai/blog/why-companies-are-rethinking-the-role-of-forward-deployed-engineers",
     title: "当上下文被平台化：FDE 的角色如何升级",
     titleEn: "When Context Becomes a Platform: How the FDE Role Changes",
-    kicker: "研究解读 / Context Engineering",
-    kickerEn: "Research Brief / Context Engineering",
+    kicker: "课程讲义 / Context Engineering",
+    kickerEn: "Teaching Note / Context Engineering",
     dateLabel: "Accessed 2026-06-28",
     figure: "platform-shift",
     abstract:
-      "Unframe 的文章指出，企业重新思考 FDE，是因为过去大量依赖个人现场知识和手工集成的工作，正在被上下文平台、AI 原生工具和可复用组件重构。对课程来说，重点不是减少 FDE，而是训练 FDE 把一次性交付变成组织能力。",
+      "我们要理解企业为什么重新思考 FDE：过去大量依赖个人现场知识和手工集成的工作，正在被上下文平台、AI 原生工具和可复用组件重构。对课程来说，重点不是减少 FDE，而是训练 FDE 把一次性交付变成组织能力。",
     abstractEn:
-      "Unframe argues that companies are rethinking FDEs because work once dependent on individual field knowledge and manual integration is being reorganized through context platforms, AI-native tools, and reusable components. For the academy, the point is not to reduce FDEs, but to train them to turn one-off delivery into organizational capability.",
+      "We study why companies are rethinking FDEs: work once dependent on individual field knowledge and manual integration is being reorganized through context platforms, AI-native tools, and reusable components. The point is not to reduce FDEs, but to turn one-off delivery into organizational capability.",
     takeaways: [
       "FDE 不能只做项目英雄，要把现场知识结构化成团队可复用资产。",
       "上下文工程会成为核心技能：知道给模型什么、不该给什么、如何保持更新。",
@@ -104,9 +104,9 @@ export const insightArticles: InsightArticle[] = [
       ["Target", "Context platform, access control, evals, observability", "Organization-level FDE capability"],
     ],
     fdeLesson:
-      "课程需要增加“上下文资产化”训练：每个案例必须交付资料结构、Prompt 版本、权限边界和维护说明。",
+      "我们需要增加“上下文资产化”训练：每个案例必须交付资料结构、Prompt 版本、权限边界和维护说明。",
     fdeLessonEn:
-      "The curriculum needs context-asset training: every case must ship source structure, prompt versions, access boundaries, and maintenance notes.",
+      "We need context-asset training: every case must ship source structure, prompt versions, access boundaries, and maintenance notes.",
   },
   {
     slug: "perspective-2026-tool-stack",
@@ -115,14 +115,14 @@ export const insightArticles: InsightArticle[] = [
     sourceUrl: "https://getperspective.ai/blog/best-tools-for-forward-deployed-engineers-2026-stack-comparison",
     title: "2026 FDE 工具栈：从 IDE 到遥测的交付链路",
     titleEn: "The 2026 FDE Tool Stack: Delivery from IDE to Telemetry",
-    kicker: "工具研究 / Stack Design",
-    kickerEn: "Tool Brief / Stack Design",
+    kicker: "工具讲义 / Stack Design",
+    kickerEn: "Tool Lesson / Stack Design",
     dateLabel: "Accessed 2026-06-28",
     figure: "tool-stack",
     abstract:
-      "Perspective AI 把 FDE 工具栈拆成多条能力线：AI 编码、内部工具/低代码、工作流自动化、数据集成和可观测协作。对 FDE FAN 来说，工具不是炫技清单，而是把从需求到上线的每一段风险可视化。",
+      "我们把 FDE 工具栈拆成多条能力线：AI 编码、内部工具/低代码、工作流自动化、数据集成和可观测协作。工具不是炫技清单，而是把从需求到上线的每一段风险可视化。",
     abstractEn:
-      "Perspective AI breaks the FDE stack into capability lanes: AI coding, internal tools and low-code, workflow automation, data integration, and observability/collaboration. For FDE FAN, tools are not a trophy list; they make risk visible across the path from requirement to launch.",
+      "We break the FDE stack into capability lanes: AI coding, internal tools and low-code, workflow automation, data integration, and observability/collaboration. Tools are not a trophy list; they make risk visible across the path from requirement to launch.",
     takeaways: [
       "工具选择要按交付阶段，而不是按流行度。",
       "AI 编码工具解决速度，观测和协作工具解决上线责任。",
@@ -146,9 +146,9 @@ export const insightArticles: InsightArticle[] = [
       ["Operate", "Deployment, logs, monitoring, issues and PRs", "Make delivery maintainable"],
     ],
     fdeLesson:
-      "FDE FAN 的工具课要围绕一次完整交付展开：需求、Demo、Agent、部署、日志、报告，而不是孤立介绍工具。",
+      "我们的工具课要围绕一次完整交付展开：需求、Demo、Agent、部署、日志、报告，而不是孤立介绍工具。",
     fdeLessonEn:
-      "FDE FAN tool lessons should follow a full delivery: requirement, demo, agent, deployment, logs, and report rather than isolated tool introductions.",
+      "Our tool lessons should follow a full delivery: requirement, demo, agent, deployment, logs, and report rather than isolated tool introductions.",
   },
   {
     slug: "invisible-forward-deployed-engineering",
@@ -157,14 +157,14 @@ export const insightArticles: InsightArticle[] = [
     sourceUrl: "https://invisibletech.ai/blog/what-is-forward-deployed-engineering",
     title: "什么是 Forward Deployed Engineering：角色边界与交付责任",
     titleEn: "What Is Forward Deployed Engineering: Role Boundaries and Delivery Accountability",
-    kicker: "角色研究 / FDE Role",
-    kickerEn: "Role Brief / FDE Role",
+    kicker: "角色讲义 / FDE Role",
+    kickerEn: "Role Lesson / FDE Role",
     dateLabel: "Accessed 2026-06-28",
     figure: "role-map",
     abstract:
-      "Invisible Technologies 的文章适合作为 FDE 岗位入门读物：FDE 位于客户、产品和工程之间，既要理解业务，又要把解决方案带到现场。FDE FAN 需要把这个角色翻译成训练标准：沟通、建模、实现、部署、文档和边界。",
+      "我们先用岗位地图理解 FDE：FDE 位于客户、产品和工程之间，既要理解业务，又要把解决方案带到现场。我们把这个角色拆成训练标准：沟通、建模、实现、部署、文档和边界。",
     abstractEn:
-      "Invisible Technologies offers a useful entry point to the FDE role: FDEs sit between customers, product, and engineering, understanding the business while taking solutions into the field. FDE FAN translates this into training standards: communication, modeling, implementation, deployment, documentation, and boundaries.",
+      "We map the FDE role between customers, product, and engineering: understanding the business while taking solutions into the field. We translate this role into training standards: communication, modeling, implementation, deployment, documentation, and boundaries.",
     takeaways: [
       "FDE 是跨界角色，不是传统售前、实施、前端或客服的简单替代。",
       "真正的能力在于把模糊业务问题变成可运行、可验证、可移交的系统。",
@@ -188,9 +188,9 @@ export const insightArticles: InsightArticle[] = [
       ["Implementation consultant", "Configure systems and train customers", "FDEs also fill lightweight engineering and automation gaps"],
     ],
     fdeLesson:
-      "课程首页和评分标准要继续强调边界：FDE 是轻量工程交付岗位，不承诺就业、接单或独立承担核心系统。",
+      "我们在首页和评分标准里继续强调边界：FDE 是轻量工程交付岗位，不承诺就业、接单或独立承担核心系统。",
     fdeLessonEn:
-      "The homepage and assessment standard should keep emphasizing boundaries: FDE is a lightweight engineering delivery role, not a promise of employment, contracting, or independent core-system ownership.",
+      "We keep the boundary clear in the homepage and assessment standard: FDE is a lightweight engineering delivery role, not a promise of employment, contracting, or independent core-system ownership.",
   },
   {
     slug: "kamechi-ai-ux-workshop",
@@ -199,14 +199,14 @@ export const insightArticles: InsightArticle[] = [
     sourceUrl: "https://note.com/kamechi_ai_ux/n/n03e655f6d383?hl=en",
     title: "从 SIer 工作坊到 FDE：价值发现、NSM 与产物驱动提示",
     titleEn: "From SIer Workshops to FDE: Value Discovery, NSM, and Artifact-Driven Prompting",
-    kicker: "实践札记 / AI UX",
-    kickerEn: "Practice Note / AI UX",
+    kicker: "实践讲义 / AI UX",
+    kickerEn: "Practice Lesson / AI UX",
     dateLabel: "Accessed 2026-06-28",
     figure: "workshop-loop",
     abstract:
-      "这篇实践札记把 FDE 式工作放进 SIer/UX 的日常：从客户访谈、工作坊、价值定义、NSM 设定，到用产物截图、流程图和已有资料提示 AI。对 FDE FAN 的启发是，前端 Demo 不是终点，而是让客户、模型和交付团队围绕同一个可见产物对齐。",
+      "我们把 FDE 式工作放进 SIer/UX 的日常训练：从客户访谈、工作坊、价值定义、NSM 设定，到用产物截图、流程图和已有资料提示 AI。前端 Demo 不是终点，而是让客户、模型和交付团队围绕同一个可见产物对齐。",
     abstractEn:
-      "This practice note places FDE-style work inside SIer and UX routines: customer interviews, workshops, value definition, NSM selection, and prompting AI with screenshots, flow maps, and existing artifacts. For FDE FAN, the lesson is that a front-end demo is not the endpoint; it is the shared artifact that aligns customer, model, and delivery team.",
+      "We place FDE-style work inside SIer and UX routines: customer interviews, workshops, value definition, NSM selection, and prompting AI with screenshots, flow maps, and existing artifacts. A front-end demo is not the endpoint; it is the shared artifact that aligns customer, model, and delivery team.",
     takeaways: [
       "工作坊要产出可给 AI 使用的材料：截图、流程、字段、角色、边界和验收口径。",
       "NSM 能帮助 FDE 把“想要 AI”翻译成一个可观察的业务变化。",
@@ -230,9 +230,9 @@ export const insightArticles: InsightArticle[] = [
       ["Deliver", "Demo, agent flow, tests, retrospective", "Deployment link / README / demo script"],
     ],
     fdeLesson:
-      "FDE FAN 需要把“客户材料整理”作为核心训练项：会问、会看、会截图、会把现场信息变成模型可用上下文。",
+      "我们把“客户材料整理”作为核心训练项：会问、会看、会截图、会把现场信息变成模型可用上下文。",
     fdeLessonEn:
-      "FDE FAN should treat customer-material preparation as a core skill: ask, observe, capture, and transform field information into model-usable context.",
+      "We should treat customer-material preparation as a core skill: ask, observe, capture, and transform field information into model-usable context.",
   },
 ];
 
@@ -272,24 +272,24 @@ export const insightDeepDives: Record<string, {
       {
         title: "1. 这不是“FDE 被 AI 替代”，而是 FDE 的工作对象变了",
         titleEn: "1. This is not AI replacing FDEs; it changes what FDEs operate",
-        body: "文章标题里的“FDE-optional”容易被误读成企业不再需要 FDE。更准确的理解是，AI 让许多原来由 FDE 手工完成的部署动作变成可自动化组件：生成代码、整理文档、配置工作流、解释日志、批量改版。但当系统进入真实业务环境，仍然需要有人判断上下文是否完整、边界是否清楚、客户是否真的接受、结果是否能被业务验收。FDE 的工作对象从“亲手做每一个部署动作”，升级为“设计一个能不断吸收反馈的交付系统”。",
+        body: "“FDE-optional”容易被误读成企业不再需要 FDE。我们更准确地理解为，AI 让许多原来由 FDE 手工完成的部署动作变成可自动化组件：生成代码、整理文档、配置工作流、解释日志、批量改版。但当系统进入真实业务环境，仍然需要有人判断上下文是否完整、边界是否清楚、客户是否真的接受、结果是否能被业务验收。FDE 的工作对象从“亲手做每一个部署动作”，升级为“设计一个能不断吸收反馈的交付系统”。",
         bodyEn: "The phrase 'FDE-optional' can sound like companies no longer need FDEs. A better reading is that AI turns many formerly manual deployment activities into automatable components: code generation, documentation, workflow configuration, log explanation, and bulk revision. But once a system reaches a real business environment, someone still has to judge whether the context is complete, the boundaries are clear, the customer accepts the result, and the outcome can pass business validation. The FDE moves from doing every deployment step by hand to designing a delivery system that continuously absorbs feedback.",
       },
       {
         title: "2. 飞轮的关键不是速度，而是反馈能不能回流",
         titleEn: "2. The flywheel is not only about speed; it is about feedback returning to the system",
-        body: "FDE FAN 的课程应把每个项目拆成六个回流点：需求澄清回流到模板，Prompt 失败样本回流到提示词库，用户操作问题回流到前端交互，Agent 失败路径回流到工具编排，部署事故回流到运维清单，客户复盘回流到下一版项目任务。只有这些回流点存在，AI 才不是一次性加速器，而是能持续提高交付质量的飞轮。",
-        bodyEn: "FDE FAN should break every project into six feedback return points: requirement clarification back to templates, prompt failures back to the prompt library, user-operation issues back to UI interaction, agent failure paths back to orchestration, deployment incidents back to the operations checklist, and customer retrospectives back to the next project task. Only with these return points does AI become more than a one-time accelerator; it becomes a flywheel that improves delivery quality.",
+        body: "我们要把每个项目拆成六个回流点：需求澄清回流到模板，Prompt 失败样本回流到提示词库，用户操作问题回流到前端交互，Agent 失败路径回流到工具编排，部署事故回流到运维清单，客户复盘回流到下一版项目任务。只有这些回流点存在，AI 才不是一次性加速器，而是能持续提高交付质量的飞轮。",
+        bodyEn: "We should break every project into six feedback return points: requirement clarification back to templates, prompt failures back to the prompt library, user-operation issues back to UI interaction, agent failure paths back to orchestration, deployment incidents back to the operations checklist, and customer retrospectives back to the next project task. Only with these return points does AI become more than a one-time accelerator; it becomes a flywheel that improves delivery quality.",
       },
       {
-        title: "3. 对招生页面的启发：FDE 是生产型角色，不是工具体验官",
-        titleEn: "3. Implication for the site: FDE is a production role, not a tool tourist",
-        body: "这篇文章应该帮助网站更明确地区分 FDE 与普通 AI 工具课。普通课程教“如何使用工具”；FDE 训练必须教“如何把工具放进真实生产流程”。因此首页和课程页应强调部署链接、测试集、README、演示脚本、验收清单和复盘报告，而不仅是炫酷界面或 Prompt 技巧。",
-        bodyEn: "This article helps the site distinguish FDE training from ordinary AI tool classes. A normal course teaches how to use tools; FDE training teaches how to place tools inside real production workflows. The homepage and curriculum should therefore emphasize deployment URLs, eval sets, README files, demo scripts, acceptance checklists, and retrospectives rather than only polished UI or prompt tricks.",
+        title: "3. 面向学习者：FDE 是生产型角色，不是工具体验官",
+        titleEn: "3. For learners: FDE is a production role, not a tool tourist",
+        body: "我们要明确地区分 FDE 与普通 AI 工具课。普通课程教“如何使用工具”；FDE 训练必须教“如何把工具放进真实生产流程”。因此首页和课程页应强调部署链接、测试集、README、演示脚本、验收清单和复盘报告，而不仅是炫酷界面或 Prompt 技巧。",
+        bodyEn: "We distinguish FDE training from ordinary AI tool classes. A normal course teaches how to use tools; FDE training teaches how to place tools inside real production workflows. The homepage and curriculum should therefore emphasize deployment URLs, eval sets, README files, demo scripts, acceptance checklists, and retrospectives rather than only polished UI or prompt tricks.",
       },
       {
-        title: "4. 对企业诊断 Agent 的启发",
-        titleEn: "4. Implication for the Diagnosis Agent",
+        title: "4. 企业诊断 Agent 的训练要求",
+        titleEn: "4. Training requirement for the Diagnosis Agent",
         body: "诊断 Agent 不能只生成一份报告，还要把访谈、画像、报告、后续任务和复盘连接起来。用户每说一句话，都应该进入画像和机会地图；每次报告生成，都应该留下可追踪字段；每次建议，都应该能转成项目任务和验收条件。这样诊断工具本身就是一个 FDE 飞轮案例。",
         bodyEn: "The Diagnosis Agent should not merely generate a report; it should connect interview, profile, report, follow-up tasks, and retrospective. Every user statement should feed the profile and opportunity map; every generated report should leave traceable fields; every recommendation should be convertible into project tasks and acceptance criteria. In that sense, the diagnosis tool itself becomes an FDE flywheel case.",
       },
@@ -322,14 +322,14 @@ export const insightDeepDives: Record<string, {
       {
         title: "1. 上下文是 FDE 的核心资产",
         titleEn: "1. Context is the core FDE asset",
-        body: "FDE 的现场价值往往来自对客户系统、流程、隐性规则和组织政治的理解。问题是，这些理解如果只存在于个人脑中，就无法规模化。Unframe 文章的启发是：FDE 要把现场知识转换成结构化上下文，包括数据来源、字段定义、业务规则、权限边界、异常样本、验收口径和维护说明。",
-        bodyEn: "FDE value often comes from understanding customer systems, workflows, implicit rules, and organizational dynamics. The problem is that this understanding does not scale if it lives only inside an individual. The Unframe article suggests that FDEs must convert field knowledge into structured context: data sources, field definitions, business rules, access boundaries, failure samples, acceptance definitions, and maintenance notes.",
+        body: "FDE 的现场价值往往来自对客户系统、流程、隐性规则和组织政治的理解。问题是，这些理解如果只存在于个人脑中，就无法规模化。FDE 要把现场知识转换成结构化上下文，包括数据来源、字段定义、业务规则、权限边界、异常样本、验收口径和维护说明。",
+        bodyEn: "FDE value often comes from understanding customer systems, workflows, implicit rules, and organizational dynamics. The problem is that this understanding does not scale if it lives only inside an individual. We convert field knowledge into structured context: data sources, field definitions, business rules, access boundaries, failure samples, acceptance definitions, and maintenance notes.",
       },
       {
         title: "2. 平台不是替代 FDE，而是减少重复劳动",
         titleEn: "2. Platforms do not replace FDEs; they remove repeated work",
         body: "当上下文被平台化，FDE 不需要每次从零开始理解客户资料、拼接 API、写相同的工具说明或重复创建测试清单。平台负责保存和调用上下文，FDE 负责判断上下文是否完整、是否过期、是否越权、是否足以支持上线。课程中应把“资料结构化”设为必修任务。",
-        bodyEn: "When context is platformized, FDEs do not need to repeatedly understand customer materials from scratch, stitch APIs, write the same tool descriptions, or recreate test checklists. The platform stores and retrieves context; the FDE judges whether it is complete, outdated, over-permissioned, or sufficient for launch. The curriculum should make source structuring a required task.",
+        bodyEn: "When context is platformized, FDEs do not need to repeatedly understand customer materials from scratch, stitch APIs, write the same tool descriptions, or recreate test checklists. The platform stores and retrieves context; the FDE judges whether it is complete, outdated, over-permissioned, or sufficient for launch. We make source structuring a required task.",
       },
       {
         title: "3. 从项目英雄到组织能力",
@@ -338,10 +338,10 @@ export const insightDeepDives: Record<string, {
         bodyEn: "Traditional FDEs can become project heroes: someone understands the customer, fixes fires quickly, and gets the system running. But that ability is hard to reproduce. New FDE training should require learners to turn every project into templates, components, prompts, test samples, permission notes, and runbooks so another student or colleague can take over.",
       },
       {
-        title: "4. 对 FDE FAN 的课程升级",
-        titleEn: "4. Curriculum upgrade for FDE FAN",
-        body: "这篇文章要求我们把课程从“会做 Demo”升级到“会沉淀组织资产”。每个案例页应该要求学员提交资料结构图、上下文选择理由、敏感信息处理方式、Prompt 版本记录、测试清单和移交说明。这样学员学到的不是一个页面，而是 FDE 的工作系统。",
-        bodyEn: "This article pushes the course from 'can build a demo' to 'can create organizational assets'. Every case should require learners to submit a source-structure map, context selection rationale, sensitive-data handling plan, prompt version history, test checklist, and handoff note. Learners then study an FDE operating system, not merely a page.",
+        title: "4. 课程升级要求",
+        titleEn: "4. Curriculum upgrade requirement",
+        body: "我们要把课程从“会做 Demo”升级到“会沉淀组织资产”。每个案例页应该要求学员提交资料结构图、上下文选择理由、敏感信息处理方式、Prompt 版本记录、测试清单和移交说明。这样学员学到的不是一个页面，而是 FDE 的工作系统。",
+        bodyEn: "We push the course from 'can build a demo' to 'can create organizational assets'. Every case should require learners to submit a source-structure map, context selection rationale, sensitive-data handling plan, prompt version history, test checklist, and handoff note. Learners then study an FDE operating system, not merely a page.",
       },
     ],
     assignments: [
@@ -372,8 +372,8 @@ export const insightDeepDives: Record<string, {
       {
         title: "1. 工具栈的正确单位是交付阶段",
         titleEn: "1. The right unit for a tool stack is the delivery stage",
-        body: "Perspective 的文章适合转化成工具课骨架。FDE 不应该问“今年最火的工具是什么”，而应该问“我现在卡在哪个交付阶段”：需求变成界面、界面变成代码、代码连接数据、数据进入工作流、工作流上线、上线后可观测。不同阶段需要不同工具，也有不同失败模式。",
-        bodyEn: "The Perspective article is useful as the skeleton for a tools course. An FDE should not ask which tool is trending this year, but which delivery stage is blocked: requirement to UI, UI to code, code to data, data to workflow, workflow to production, and production to observability. Different stages require different tools and have different failure modes.",
+        body: "FDE 不应该问“今年最火的工具是什么”，而应该问“我现在卡在哪个交付阶段”：需求变成界面、界面变成代码、代码连接数据、数据进入工作流、工作流上线、上线后可观测。不同阶段需要不同工具，也有不同失败模式。",
+        bodyEn: "An FDE should not ask which tool is trending this year, but which delivery stage is blocked: requirement to UI, UI to code, code to data, data to workflow, workflow to production, and production to observability. Different stages require different tools and have different failure modes.",
       },
       {
         title: "2. AI 编码工具只解决一部分问题",
@@ -388,10 +388,10 @@ export const insightDeepDives: Record<string, {
         bodyEn: "Tool rankings can trap learners in asking which tool is best. FDE training should turn comparison into a decision table: does the project need login, a database, internal maintenance, a low-code admin panel, logs, or customer demonstration? Different answers lead to different tools.",
       },
       {
-        title: "4. 站内落地方式",
-        titleEn: "4. How to apply this inside FDE FAN",
+        title: "4. 站内训练方式",
+        titleEn: "4. How we train this on the site",
         body: "资源页可以增加“工具选型模板”，要求学员填写阶段、候选工具、选择理由、风险、替代方案和回退方式。项目题库中每个项目也应规定最小工具栈，例如静态站、后端 API、数据库、日志和部署平台。",
-        bodyEn: "The resources page can add a tool-selection template requiring learners to fill in stage, candidate tools, rationale, risk, alternatives, and rollback. Each project brief should specify a minimum stack such as static site, backend API, database, logs, and deployment platform.",
+        bodyEn: "We can add a tool-selection template requiring learners to fill in stage, candidate tools, rationale, risk, alternatives, and rollback. Each project brief specifies a minimum stack such as static site, backend API, database, logs, and deployment platform.",
       },
     ],
     assignments: [
@@ -409,21 +409,21 @@ export const insightDeepDives: Record<string, {
     sourceMap: [
       ["核心论点", "FDE 位于客户、产品和工程之间，把业务问题带到现场解决。", "定义岗位边界。"],
       ["角色能力", "既要沟通业务，又要具备工程实现和部署能力。", "训练跨界交付。"],
-      ["区别岗位", "FDE 不等同于售前、实施、前端或客服，但会借用这些岗位的部分能力。", "课程需要岗位地图。"],
+      ["区别岗位", "FDE 不等同于售前、实施、前端或客服，但会借用这些岗位的部分能力。", "我们需要岗位地图。"],
       ["交付责任", "FDE 要让方案可运行、可验证、可移交，而不是只给建议。", "评分要看产物。"],
     ],
     sourceMapEn: [
       ["Core thesis", "FDEs sit between customer, product, and engineering and solve business problems in the field.", "Define role boundaries."],
       ["Role capabilities", "They need both business communication and engineering/deployment ability.", "Train hybrid delivery."],
-      ["Role distinction", "FDEs are not presales, implementation, front-end, or support, though they borrow capabilities from each.", "The course needs a role map."],
+      ["Role distinction", "FDEs are not presales, implementation, front-end, or support, though they borrow capabilities from each.", "We need a role map."],
       ["Delivery accountability", "FDEs make solutions runnable, testable, and transferable, not merely advisory.", "Assessment should inspect artifacts."],
     ],
     sections: [
       {
         title: "1. FDE 的难点是跨界，而不是“什么都会一点”",
         titleEn: "1. The difficulty of FDE is hybridity, not shallow generalism",
-        body: "Invisible 的定义类文章适合放在课程第一课。FDE 不是简单把售前、产品、前端、实施和客服揉在一起，而是在客户现场承担一个清晰责任：把模糊业务问题转成可运行解决方案，并把解决方案反馈给产品和工程体系。跨界不是泛泛而谈，而是围绕交付责任组织能力。",
-        bodyEn: "Invisible's definitional article belongs in the first lesson. An FDE is not a casual blend of presales, product, front-end, implementation, and support. The field responsibility is clear: convert ambiguous business problems into running solutions and feed those solutions back into product and engineering systems. Hybridity is organized around delivery accountability.",
+        body: "FDE 不是简单把售前、产品、前端、实施和客服揉在一起，而是在客户现场承担一个清晰责任：把模糊业务问题转成可运行解决方案，并把解决方案反馈给产品和工程体系。跨界不是泛泛而谈，而是围绕交付责任组织能力。",
+        bodyEn: "An FDE is not a casual blend of presales, product, front-end, implementation, and support. The field responsibility is clear: convert ambiguous business problems into running solutions and feed those solutions back into product and engineering systems. Hybridity is organized around delivery accountability.",
       },
       {
         title: "2. 与相邻岗位的边界",
@@ -432,16 +432,16 @@ export const insightDeepDives: Record<string, {
         bodyEn: "Presales proves value but usually does not maintain the solution; front-end engineers build interfaces but may not enter customer workflows; implementation consultants configure systems but may not fill engineering gaps; product managers define requirements but may not deploy in the field. The FDE is distinctive because they touch both field context and engineering artifacts while owning the pilot delivery loop.",
       },
       {
-        title: "3. FDE FAN 应训练哪些行为",
-        titleEn: "3. Behaviors FDE FAN should train",
-        body: "课程不应只考察学生会不会写页面，而要观察学生是否会问澄清问题、是否能指出数据缺口、是否能画出业务流程、是否能设计最小可行 Demo、是否能部署到稳定 URL、是否能写清楚边界和测试方法。这些行为才构成 FDE 的岗位能力。",
-        bodyEn: "The course should not only check whether a student can build a page. It should observe whether the student asks clarifying questions, identifies data gaps, maps workflows, designs a minimum viable demo, deploys to a stable URL, and documents boundaries and tests. These behaviors form the FDE role capability.",
+        title: "3. 我们训练哪些行为",
+        titleEn: "3. Behaviors we train",
+        body: "我们不只考察学生会不会写页面，而要观察学生是否会问澄清问题、是否能指出数据缺口、是否能画出业务流程、是否能设计最小可行 Demo、是否能部署到稳定 URL、是否能写清楚边界和测试方法。这些行为才构成 FDE 的岗位能力。",
+        bodyEn: "We do not only check whether a student can build a page. We observe whether the student asks clarifying questions, identifies data gaps, maps workflows, designs a minimum viable demo, deploys to a stable URL, and documents boundaries and tests. These behaviors form the FDE role capability.",
       },
       {
         title: "4. 对招生承诺的约束",
         titleEn: "4. Constraints on enrollment promises",
-        body: "因为 FDE 接近客户现场，课程必须明确边界：学员可以做试点、Demo、交付包和复盘，但不应承诺就业、薪资、接单成功，也不能让初学者独立承担企业核心系统。这不是弱化课程价值，而是建立可信度。",
-        bodyEn: "Because FDE work approaches the customer field, the course must state boundaries: learners can build pilots, demos, delivery packages, and retrospectives, but the course should not promise jobs, salaries, contracting success, or allow beginners to independently own core enterprise systems. This does not weaken the course; it builds trust.",
+        body: "因为 FDE 接近客户现场，我们必须明确边界：学员可以做试点、Demo、交付包和复盘，但不承诺就业、薪资、接单成功，也不能让初学者独立承担企业核心系统。这不是弱化课程价值，而是建立可信度。",
+        bodyEn: "Because FDE work approaches the customer field, we state boundaries: learners can build pilots, demos, delivery packages, and retrospectives, but we do not promise jobs, salaries, contracting success, or allow beginners to independently own core enterprise systems. This does not weaken the course; it builds trust.",
       },
     ],
     assignments: [
@@ -463,7 +463,7 @@ export const insightDeepDives: Record<string, {
       ["产物驱动提示", "截图、流程图、表格、旧系统页面等，比抽象文字更能提供高质量上下文。", "训练多模态上下文整理。"],
     ],
     sourceMapEn: [
-      ["Core thesis", "FDE-style delivery can borrow from SIer and UX workshops: discover value, create artifacts, then prompt AI with artifacts.", "Bring workshops into the curriculum."],
+      ["Core thesis", "FDE-style delivery can borrow from SIer and UX workshops: discover value, create artifacts, then prompt AI with artifacts.", "Bring workshops into our curriculum."],
       ["Value discovery", "Customers may not state requirements clearly; interviews, journeys, screenshots, existing workflows, and metrics help approach the real need.", "Train questioning and observation."],
       ["NSM thinking", "A single core metric aligns business goals, experience design, and AI solutions.", "Give every project an observable success criterion."],
       ["Artifact-driven prompting", "Screenshots, flow maps, tables, and old system pages provide stronger context than abstract text.", "Train multimodal context preparation."],
@@ -472,8 +472,8 @@ export const insightDeepDives: Record<string, {
       {
         title: "1. 工作坊是 FDE 的前置工程",
         titleEn: "1. Workshops are pre-engineering for FDE",
-        body: "这篇 Note 实践文的价值在于，它把 FDE 的工程交付和 UX/SIer 的发现过程连接起来。很多企业 AI 项目失败不是因为模型不够强，而是因为前期没有把用户、流程、指标、限制和真实产物整理清楚。工作坊不是软性环节，而是让后续 Prompt、Demo 和 Agent 能准确落地的前置工程。",
-        bodyEn: "The value of this Note practice article is that it connects FDE engineering delivery with UX/SIer discovery. Many enterprise AI projects fail not because models are weak, but because users, workflows, metrics, constraints, and existing artifacts were not clarified early. Workshops are not soft activities; they are pre-engineering that enables prompts, demos, and agents to land accurately.",
+        body: "我们要把 FDE 的工程交付和 UX/SIer 的发现过程连接起来。很多企业 AI 项目失败不是因为模型不够强，而是因为前期没有把用户、流程、指标、限制和真实产物整理清楚。工作坊不是软性环节，而是让后续 Prompt、Demo 和 Agent 能准确落地的前置工程。",
+        bodyEn: "We connect FDE engineering delivery with UX/SIer discovery. Many enterprise AI projects fail not because models are weak, but because users, workflows, metrics, constraints, and existing artifacts were not clarified early. Workshops are not soft activities; they are pre-engineering that enables prompts, demos, and agents to land accurately.",
       },
       {
         title: "2. NSM 把“想要 AI”变成可验证目标",
@@ -484,14 +484,14 @@ export const insightDeepDives: Record<string, {
       {
         title: "3. 用产物提示 AI，而不是只写抽象 Prompt",
         titleEn: "3. Prompt AI with artifacts, not only abstract instructions",
-        body: "FDE FAN 需要把截图、旧系统页面、表格、流程图、客服记录、邮件模板和报告样例纳入 Prompt 训练。真实企业里，最有价值的上下文往往不是一句需求，而是已有产物。学员要学会把这些产物转成模型可读、可引用、可验证的上下文。",
-        bodyEn: "FDE FAN should include screenshots, old system pages, tables, flow maps, support records, email templates, and report samples in prompt training. In real enterprises, the highest-value context is often not a sentence of requirements but existing artifacts. Learners must turn those artifacts into model-readable, referable, and verifiable context.",
+        body: "我们把截图、旧系统页面、表格、流程图、客服记录、邮件模板和报告样例纳入 Prompt 训练。真实企业里，最有价值的上下文往往不是一句需求，而是已有产物。学员要学会把这些产物转成模型可读、可引用、可验证的上下文。",
+        bodyEn: "We include screenshots, old system pages, tables, flow maps, support records, email templates, and report samples in prompt training. In real enterprises, the highest-value context is often not a sentence of requirements but existing artifacts. Learners must turn those artifacts into model-readable, referable, and verifiable context.",
       },
       {
         title: "4. 课程落地：每个项目先做一页工作坊产物",
         titleEn: "4. Course application: every project begins with a workshop artifact",
         body: "在项目题库里，每个项目都可以要求提交一页工作坊产物：用户是谁、当前流程是什么、关键截图是什么、NSM 是什么、不能做什么、最小 Demo 证明什么。这样学生不会直接跳进代码，而是先建立业务和体验的共同语言。",
-        bodyEn: "Each project brief can require a one-page workshop artifact: who the users are, what the current workflow is, what the key screenshots are, what the NSM is, what must not be done, and what the minimum demo proves. Students then do not jump directly into code; they first establish a shared business and experience language.",
+        bodyEn: "Each project brief can require a one-page workshop artifact: who the users are, what the current workflow is, what the key screenshots are, what the NSM is, what must not be done, and what the minimum demo proves. Learners do not jump directly into code; they first establish a shared business and experience language.",
       },
     ],
     assignments: [
