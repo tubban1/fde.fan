@@ -236,13 +236,6 @@ export const insightArticles: InsightArticle[] = [
   },
 ];
 
-export const insightIndexMetrics = [
-  ["5", "专业来源", "professional sources"],
-  ["4", "FDE 能力层", "FDE capability layers"],
-  ["3", "交付表格", "delivery tables"],
-  ["1", "统一课程化框架", "course-ready framework"],
-];
-
 export const insightDeepDives: Record<string, {
   sourceMap: Array<[string, string, string]>;
   sourceMapEn: Array<[string, string, string]>;

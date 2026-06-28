@@ -606,19 +606,72 @@ select {
   top: 92px;
   display: grid;
   align-self: start;
-  gap: 0.2rem;
+  gap: 0.7rem;
+}
+
+.sidebar-group {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.sidebar-group summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-height: 2.7rem;
+  padding: 0.7rem 0.8rem;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 900;
+  list-style: none;
+}
+
+.sidebar-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.sidebar-group summary::after {
+  content: "›";
+  color: var(--cyan);
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: transform 0.18s ease;
+}
+
+.sidebar-group[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.sidebar-group-links {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.15rem 0.45rem 0.55rem;
 }
 
 .doc-sidebar a {
+  display: block;
   border-left: 2px solid transparent;
-  padding: 0.68rem 0.8rem;
+  border-radius: 0 6px 6px 0;
+  padding: 0.5rem 0.65rem;
   color: rgba(255, 255, 255, 0.62);
+  font-size: 0.86rem;
+  line-height: 1.35;
 }
 
-.doc-sidebar a:hover {
+.doc-sidebar a:hover,
+.doc-sidebar a.active {
   border-color: var(--cyan);
   background: rgba(69, 244, 255, 0.08);
   color: white;
+}
+
+.doc-sidebar a.active {
+  box-shadow: inset 0 0 0 1px rgba(69, 244, 255, 0.12);
+  font-weight: 900;
 }
 
 .doc-content {
@@ -1131,10 +1184,14 @@ select {
 
   .doc-sidebar {
     position: static;
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    overflow: visible;
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.6rem;
+  }
+
+  .sidebar-group {
+    min-width: 0;
   }
 }
 
