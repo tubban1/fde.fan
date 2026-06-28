@@ -12,18 +12,25 @@ function normalizeTask(task) {
   return String(task || '').trim().toUpperCase().replace(/[^A-Z0-9]+/g, '_');
 }
 
+function isPromptModelTask(taskKey) {
+  return taskKey === 'EXTRACTION' || taskKey === 'REPORT';
+}
+
 function getTextProvider(task) {
   const taskKey = normalizeTask(task);
-  return getEnvValue(
-    taskKey ? `${taskKey}_MODEL_PROVIDER` : '',
-    'TEXT_MODEL_PROVIDER'
-  )?.toLowerCase() || 'tokenrouter';
+  const taskProvider = getEnvValue(taskKey ? `${taskKey}_MODEL_PROVIDER` : '');
+  if (taskProvider) return taskProvider.toLowerCase();
+  if (isPromptModelTask(taskKey)) return 'vectorengine';
+  return (process.env.TEXT_MODEL_PROVIDER || 'tokenrouter').toLowerCase();
 }
 
 function getTextModel(task, provider) {
   const taskKey = normalizeTask(task);
   const taskModel = getEnvValue(taskKey ? `${taskKey}_MODEL` : '');
   if (taskModel) return taskModel;
+  if (isPromptModelTask(taskKey)) {
+    return process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite';
+  }
   if (provider === 'vectorengine') {
     return process.env.VECTORENGINE_TEXT_MODEL || process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite';
   }
