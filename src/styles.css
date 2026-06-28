@@ -584,16 +584,15 @@ select {
 
 .doc-hero {
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: clamp(1.4rem, 4vw, 3rem);
-  max-width: 80rem;
+  grid-template-columns: minmax(0, 1fr);
+  width: min(calc(100% - 2 * clamp(1rem, 5vw, 4rem)), calc(80rem - 2 * clamp(1rem, 5vw, 4rem)));
   margin: 0 auto;
-  padding: 4rem clamp(1rem, 5vw, 4rem) 2rem;
+  padding: 4rem 0 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .doc-hero > * {
-  grid-column: 1 / -1;
+  grid-column: 1;
 }
 
 .doc-layout {
