@@ -2,7 +2,7 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
 import InsightVisual from "../../components/InsightVisual.astro";
-import { insightArticles } from "../../data/insights";
+import { insightArticles, insightDeepDives } from "../../data/insights";
 
 export const prerender = true;
 
@@ -14,6 +14,7 @@ export function getStaticPaths() {
 }
 
 const { article } = Astro.props;
+const deepDive = insightDeepDives[article.slug];
 ---
 
 <SiteLayout title={`${article.titleEn} | FDE FAN Insights`} description={article.abstract}>
@@ -38,7 +39,41 @@ const { article } = Astro.props;
       <small>{article.dateLabel}</small>
     </div>
 
+    <div class="insight-note">
+      <b><span class="zh">阅读说明</span><span class="en">Reading Note</span></b>
+      <p>
+        <span class="zh">以下是 FDE FAN 的深度讲义版整理：保留原文论点、结构、图表化信息和课程转译，但不复制第三方全文。完整原文请通过引用链接阅读。</span>
+        <span class="en">The following is a FDE FAN deep-study brief: it preserves the source argument, structure, visualized information, and curriculum translation without republishing the third-party article in full. Read the full original through the citation link.</span>
+      </p>
+    </div>
+
     <InsightVisual type={article.figure} />
+
+    {deepDive && (
+      <>
+        <h2><span class="zh">原文结构地图</span><span class="en">Source Structure Map</span></h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><span class="zh">原文层级</span><span class="en">Source Layer</span></th>
+                <th><span class="zh">深度理解</span><span class="en">Interpretation</span></th>
+                <th><span class="zh">课程转译</span><span class="en">Course Translation</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {deepDive.sourceMap.map((row, index) => (
+                <tr>
+                  <td><span class="zh">{row[0]}</span><span class="en">{deepDive.sourceMapEn[index][0]}</span></td>
+                  <td><span class="zh">{row[1]}</span><span class="en">{deepDive.sourceMapEn[index][1]}</span></td>
+                  <td><span class="zh">{row[2]}</span><span class="en">{deepDive.sourceMapEn[index][2]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
 
     <h2><span class="zh">核心观点</span><span class="en">Key Takeaways</span></h2>
     <div class="takeaway-list">
@@ -72,10 +107,38 @@ const { article } = Astro.props;
       </table>
     </div>
 
+    {deepDive && (
+      <>
+        <h2><span class="zh">深度讲义</span><span class="en">Deep Study Notes</span></h2>
+        <div class="deep-section-list">
+          {deepDive.sections.map((section) => (
+            <section class="deep-section">
+              <h3><span class="zh">{section.title}</span><span class="en">{section.titleEn}</span></h3>
+              <p><span class="zh">{section.body}</span><span class="en">{section.bodyEn}</span></p>
+            </section>
+          ))}
+        </div>
+      </>
+    )}
+
     <section class="insight-lesson">
       <p class="eyebrow"><span class="zh">给 FDE FAN 的课程启发</span><span class="en">Curriculum Implication for FDE FAN</span></p>
       <p><span class="zh">{article.fdeLesson}</span><span class="en">{article.fdeLessonEn}</span></p>
     </section>
+
+    {deepDive && (
+      <>
+        <h2><span class="zh">课堂任务</span><span class="en">Classroom Assignments</span></h2>
+        <div class="assignment-list">
+          {deepDive.assignments.map((item, index) => (
+            <div>
+              <b>{String(index + 1).padStart(2, "0")}</b>
+              <p><span class="zh">{item}</span><span class="en">{deepDive.assignmentsEn[index]}</span></p>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
 
     <section class="citation-box">
       <h2><span class="zh">引用</span><span class="en">Citation</span></h2>
