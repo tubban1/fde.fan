@@ -1604,6 +1604,7 @@ export default function DiagnosisPage() {
           display: flex;
           flex-direction: column;
           height: 100%;
+          min-height: 0;
           overflow: hidden;
         }
 
@@ -1622,7 +1623,19 @@ export default function DiagnosisPage() {
           display: flex;
           flex-direction: column;
           height: 100%;
+          min-height: 0;
+          overflow-y: auto;
+          overscroll-behavior: contain;
           box-sizing: border-box;
+        }
+
+        .sidebar-card::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .sidebar-card::-webkit-scrollbar-thumb {
+          background: rgba(13, 148, 136, 0.28);
+          border-radius: 999px;
         }
 
         .section-title {
@@ -3145,6 +3158,11 @@ export default function DiagnosisPage() {
           .chat-container-card,
           .tabbed-container-card {
             border-radius: 14px;
+          }
+
+          .sidebar-card {
+            height: auto;
+            overflow: visible;
           }
 
           .completeness-circle-container {
