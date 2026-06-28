@@ -1,0 +1,87 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import InsightVisual from "../../components/InsightVisual.astro";
+import { insightArticles } from "../../data/insights";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return insightArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+
+<SiteLayout title={`${article.titleEn} | FDE FAN Insights`} description={article.abstract}>
+  <DocShell
+    eyebrow="INSIGHT BRIEF"
+    title={article.title}
+    titleEn={article.titleEn}
+    description={article.abstract}
+    descriptionEn={article.abstractEn}
+    links={[
+      { href: "/insights", label: "专业洞察" },
+      { href: article.sourceUrl, label: "Source" },
+    ]}
+  >
+    <div class="source-strip">
+      <div>
+        <span class="zh">引用来源</span>
+        <span class="en">Citation Source</span>
+        <strong>{article.sourcePublisher}</strong>
+      </div>
+      <a href={article.sourceUrl} target="_blank" rel="noreferrer">{article.sourceTitle}</a>
+      <small>{article.dateLabel}</small>
+    </div>
+
+    <InsightVisual type={article.figure} />
+
+    <h2><span class="zh">核心观点</span><span class="en">Key Takeaways</span></h2>
+    <div class="takeaway-list">
+      {article.takeaways.map((item, index) => (
+        <div>
+          <b>{String(index + 1).padStart(2, "0")}</b>
+          <p><span class="zh">{item}</span><span class="en">{article.takeawaysEn[index]}</span></p>
+        </div>
+      ))}
+    </div>
+
+    <h2><span class="zh">{article.tableTitle}</span><span class="en">{article.tableTitleEn}</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th><span class="zh">层级</span><span class="en">Layer</span></th>
+            <th><span class="zh">含义</span><span class="en">Meaning</span></th>
+            <th><span class="zh">FDE 产物</span><span class="en">FDE Artifact</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {article.rows.map((row, index) => (
+            <tr>
+              <td><span class="zh">{row[0]}</span><span class="en">{article.rowsEn[index][0]}</span></td>
+              <td><span class="zh">{row[1]}</span><span class="en">{article.rowsEn[index][1]}</span></td>
+              <td><span class="zh">{row[2]}</span><span class="en">{article.rowsEn[index][2]}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <section class="insight-lesson">
+      <p class="eyebrow"><span class="zh">给 FDE FAN 的课程启发</span><span class="en">Curriculum Implication for FDE FAN</span></p>
+      <p><span class="zh">{article.fdeLesson}</span><span class="en">{article.fdeLessonEn}</span></p>
+    </section>
+
+    <section class="citation-box">
+      <h2><span class="zh">引用</span><span class="en">Citation</span></h2>
+      <p>
+        {article.sourcePublisher}. <i>{article.sourceTitle}</i>. {article.sourceUrl}. {article.dateLabel}.
+      </p>
+    </section>
+  </DocShell>
+</SiteLayout>

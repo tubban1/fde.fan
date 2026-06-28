@@ -1,0 +1,72 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import DocShell from "../../components/DocShell.astro";
+import InsightVisual from "../../components/InsightVisual.astro";
+import { insightArticles, insightIndexMetrics } from "../../data/insights";
+---
+
+<SiteLayout title="FDE FAN Insights | 专业洞察" description="FDE FAN 专业洞察栏目，整理 Forward Deployed Engineering、AI-FDE、工具栈、上下文工程和 AI UX 工作坊研究。">
+  <DocShell eyebrow="INSIGHTS" title="专业洞察" titleEn="Professional Insights" description="把外部 FDE 研究文章转成课程可用的中英文摘要、图表、表格、引用和训练启发。" descriptionEn="Translate external FDE research into bilingual briefs, visuals, tables, citations, and curriculum implications.">
+    <section class="metric-grid">
+      {insightIndexMetrics.map(([value, zh, en]) => (
+        <div class="metric-card">
+          <strong>{value}</strong>
+          <span class="zh">{zh}</span>
+          <span class="en">{en}</span>
+        </div>
+      ))}
+    </section>
+
+    <div class="insight-note">
+      <b><span class="zh">版权与引用说明</span><span class="en">Copyright and Citation Note</span></b>
+      <p>
+        <span class="zh">本站不搬运全文。每篇文章被整理为课程化摘要、原创图表和引用卡片，原文版权归对应发布方所有。</span>
+        <span class="en">This section does not republish full articles. Each source is transformed into course-ready summaries, original visuals, and citation cards. Copyright remains with the original publishers.</span>
+      </p>
+    </div>
+
+    <section class="insight-grid">
+      {insightArticles.map((article) => (
+        <a class="insight-card" href={`/insights/${article.slug}`}>
+          <div class="insight-card-copy">
+            <p class="eyebrow"><span class="zh">{article.kicker}</span><span class="en">{article.kickerEn}</span></p>
+            <h2><span class="zh">{article.title}</span><span class="en">{article.titleEn}</span></h2>
+            <p><span class="zh">{article.abstract}</span><span class="en">{article.abstractEn}</span></p>
+            <small>{article.sourcePublisher} · {article.dateLabel}</small>
+          </div>
+          <InsightVisual type={article.figure} />
+        </a>
+      ))}
+    </section>
+
+    <h2><span class="zh">统一课程化框架</span><span class="en">Unified Course Framework</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th><span class="zh">研究主题</span><span class="en">Research Theme</span></th>
+            <th><span class="zh">对应训练</span><span class="en">Training Translation</span></th>
+            <th><span class="zh">学生交付物</span><span class="en">Student Deliverable</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI flywheel</td>
+            <td><span class="zh">需求、上下文、Agent、部署、复盘闭环</span><span class="en">Requirement, context, agent, deployment, retrospective loop</span></td>
+            <td>README / eval set / launch log</td>
+          </tr>
+          <tr>
+            <td>Context platform</td>
+            <td><span class="zh">把一次交付变成可复用资产</span><span class="en">Turn one-off work into reusable assets</span></td>
+            <td>Prompt version / source map / permission notes</td>
+          </tr>
+          <tr>
+            <td>Tool stack</td>
+            <td><span class="zh">按交付阶段选工具</span><span class="en">Select tools by delivery stage</span></td>
+            <td>Demo URL / logs / rollback note</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </DocShell>
+</SiteLayout>

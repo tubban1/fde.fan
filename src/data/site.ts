@@ -2,6 +2,7 @@ export const navItems = [
   { href: "/learn", zh: "课程", en: "Learn" },
   { href: "/industries", zh: "行业", en: "Industries" },
   { href: "/cases", zh: "案例", en: "Cases" },
+  { href: "/insights", zh: "洞察", en: "Insights" },
   { href: "/projects", zh: "项目", en: "Projects" },
   { href: "/resources", zh: "资源", en: "Resources" },
   { href: "/assessment", zh: "评分", en: "Assessment" },

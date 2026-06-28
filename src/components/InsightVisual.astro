@@ -1,0 +1,98 @@
+---
+import type { InsightFigure } from "../data/insights";
+
+interface Props {
+  type: InsightFigure;
+}
+
+const { type } = Astro.props;
+---
+
+{type === "flywheel" && (
+  <figure class="insight-visual flywheel-visual">
+    <figcaption><span class="zh">图 1：FDE-AI 飞轮</span><span class="en">Figure 1: FDE-AI Flywheel</span></figcaption>
+    <div class="flywheel-ring">
+      {[
+        ["01", "业务语境", "Context"],
+        ["02", "模型能力", "Model"],
+        ["03", "Agent 编排", "Agent"],
+        ["04", "部署观测", "Deploy"],
+        ["05", "复盘沉淀", "Learn"],
+      ].map(([mark, zh, en]) => (
+        <div class="flywheel-node">
+          <strong>{mark}</strong>
+          <span class="zh">{zh}</span>
+          <span class="en">{en}</span>
+        </div>
+      ))}
+      <div class="flywheel-core">FDE</div>
+    </div>
+  </figure>
+)}
+
+{type === "platform-shift" && (
+  <figure class="insight-visual platform-visual">
+    <figcaption><span class="zh">图 1：FDE 能力的平台化迁移</span><span class="en">Figure 1: Platform Shift of FDE Capability</span></figcaption>
+    <div class="shift-lanes">
+      {[
+        ["现场经验", "Field Memory", "38%"],
+        ["模板资产", "Reusable Assets", "64%"],
+        ["上下文平台", "Context Platform", "86%"],
+      ].map(([zh, en, width]) => (
+        <div class="shift-lane">
+          <span><span class="zh">{zh}</span><span class="en">{en}</span></span>
+          <i style={`width:${width}`}></i>
+        </div>
+      ))}
+    </div>
+  </figure>
+)}
+
+{type === "tool-stack" && (
+  <figure class="insight-visual stack-visual">
+    <figcaption><span class="zh">图 1：FDE 工具栈泳道</span><span class="en">Figure 1: FDE Tool Stack Lanes</span></figcaption>
+    <div class="stack-lanes">
+      {[
+        ["IDE", "AI coding"],
+        ["UI", "Internal tools"],
+        ["API", "Workflow"],
+        ["DATA", "Integration"],
+        ["OPS", "Telemetry"],
+      ].map(([mark, label]) => (
+        <div>
+          <b>{mark}</b>
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  </figure>
+)}
+
+{type === "role-map" && (
+  <figure class="insight-visual role-visual">
+    <figcaption><span class="zh">图 1：FDE 位于客户、产品、工程之间</span><span class="en">Figure 1: FDE Between Customer, Product, and Engineering</span></figcaption>
+    <div class="role-map">
+      <div>Customer</div>
+      <div>Product</div>
+      <div>Engineering</div>
+      <strong>FDE</strong>
+    </div>
+  </figure>
+)}
+
+{type === "workshop-loop" && (
+  <figure class="insight-visual workshop-visual">
+    <figcaption><span class="zh">图 1：工作坊到交付物闭环</span><span class="en">Figure 1: Workshop-to-Deliverable Loop</span></figcaption>
+    <div class="workshop-steps">
+      {[
+        ["访谈", "Interview"],
+        ["截图/流程", "Artifacts"],
+        ["NSM", "NSM"],
+        ["Prompt", "Prompt"],
+        ["Demo", "Demo"],
+      ].map(([zh, en]) => (
+        <div><span class="zh">{zh}</span><span class="en">{en}</span></div>
+      ))}
+    </div>
+  </figure>
+)}
