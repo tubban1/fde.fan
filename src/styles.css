@@ -360,9 +360,16 @@ select {
   letter-spacing: 0;
 }
 
-.section-heading p:not(.eyebrow),
-.doc-hero p:not(.eyebrow) {
+.section-heading p:not(.eyebrow) {
   max-width: 50rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.doc-hero p:not(.eyebrow) {
+  width: 100%;
+  max-width: none;
   color: rgba(255, 255, 255, 0.68);
   font-size: 1.05rem;
   line-height: 1.85;
