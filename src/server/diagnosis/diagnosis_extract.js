@@ -18,6 +18,40 @@ async function generateTextWithRetry(options, context, maxAttempts = 2) {
   throw lastError;
 }
 
+function parseModelJsonObject(rawContent) {
+  let jsonStr = String(rawContent || '').trim();
+  if (jsonStr.includes('```')) {
+    const match = jsonStr.match(/```(?:json)?([\s\S]*?)```/);
+    if (match) {
+      jsonStr = match[1].trim();
+    }
+  }
+
+  const objectStart = jsonStr.indexOf('{');
+  const objectEnd = jsonStr.lastIndexOf('}');
+  if (objectStart >= 0 && objectEnd > objectStart) {
+    jsonStr = jsonStr.slice(objectStart, objectEnd + 1);
+  }
+
+  try {
+    return JSON.parse(jsonStr);
+  } catch (firstError) {
+    const relaxedJson = jsonStr
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/,\s*([}\]])/g, '$1')
+      .trim();
+    try {
+      return JSON.parse(relaxedJson);
+    } catch {
+      console.error('[Diagnosis Extract] Failed to parse model JSON:', {
+        error: firstError.message,
+        preview: jsonStr.slice(0, 500)
+      });
+      throw firstError;
+    }
+  }
+}
+
 function formatConversationContext(messages = []) {
   return messages
     .map((msg) => `${msg.sender === 'user' ? '用户' : '转型顾问 Agent'}: ${msg.content}`)
@@ -117,8 +151,8 @@ ${conversationContext || '暂无上下文'}
     "successCriteria": "..."
   },
   "missingFields": ["列出当前认为仍然缺失的维度名称，例如 '组织与预算' 等，最多列出 8 个，如果全部收齐则输出空数组"],
-  "completeness": 40, // 0~100 的整数，表示当前已知事实的覆盖和充实度评分。每个维度填入有效细节约占 10~12% 权重
-  "status": "collecting_info" // 如果 completeness >= 80，你可以选择升级为 "diagnosing"，否则保持 "collecting_info"
+  "completeness": 40,
+  "status": "collecting_info"
 }`;
 
     // 4. 调用大模型进行异步抽取
@@ -134,15 +168,7 @@ ${conversationContext || '暂无上下文'}
     );
 
     // 5. 解析并合并写入数据库
-    let jsonStr = rawContent.trim();
-    if (jsonStr.includes('```')) {
-      const match = jsonStr.match(/```(?:json)?([\s\S]*?)```/);
-      if (match) {
-        jsonStr = match[1].trim();
-      }
-    }
-
-    const parsedData = JSON.parse(jsonStr);
+    const parsedData = parseModelJsonObject(rawContent);
     const newKnownFacts = parsedData.knownFacts || {};
     const newMissingFields = parsedData.missingFields || [];
     const newCompleteness = typeof parsedData.completeness === 'number' ? parsedData.completeness : 0;

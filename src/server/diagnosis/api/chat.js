@@ -4,14 +4,6 @@ import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
 
-function runAfterResponse(res, task) {
-  res.on('finish', () => {
-    task().catch((error) => {
-      console.error('[Diagnosis Background Task Error]:', formatErrorForLog(error));
-    });
-  });
-}
-
 function persistAgentMessage(sessionId, content, label) {
   query(
     `INSERT INTO diagnosis_messages (session_id, sender, content) VALUES (?, ?, ?)`,
@@ -169,11 +161,15 @@ export default async function handler(req, res) {
       return true;
     };
 
+    let extractionPromise = null;
     if (shouldExtract(message, historyMessages)) {
       // 同步发起本地快速粗提取，秒级回馈完整度跳变！
       await extractDiagnosisProfileLocally(sessionId, message);
-      // 立刻触发后台异步慢提取任务，不等 AI 对话回复！
-      runAfterResponse(res, () => extractDiagnosisProfile(sessionId, message, historyMessages));
+      // 立刻触发模型提取，与聊天回复并行；响应结束前会等待它落库，避免 Serverless 截断后台任务。
+      extractionPromise = extractDiagnosisProfile(sessionId, message, historyMessages)
+        .catch((error) => {
+          console.error('[Diagnosis Extraction Task Error]:', formatErrorForLog(error));
+        });
     }
 
     // 5. 读取当前已保存的画像事实作为上下文
@@ -220,6 +216,9 @@ ${conversationContext}
       });
 
       accumulatedReply = await pipeModelStreamToResponse(modelStream, res);
+      if (extractionPromise) {
+        await extractionPromise;
+      }
       if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
       if (accumulatedReply?.trim()) {
         res.end();
@@ -230,6 +229,9 @@ ${conversationContext}
       return;
     } catch (apiErr) {
       console.error('[Chat Stream API Error]:', formatErrorForLog(apiErr));
+      if (extractionPromise) {
+        await extractionPromise;
+      }
       await safeEndWithFallback(accumulatedReply);
       return;
     }
