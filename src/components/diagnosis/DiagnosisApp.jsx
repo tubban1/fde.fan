@@ -463,11 +463,13 @@ export default function DiagnosisPage() {
     setIsChatLoading(true);
     setErrorMsg('');
     // 过滤纯提问、短语或闲聊，避免不必要的画像提取转圈
+    const isContextualShortAnswer = (text) => /^(都有|都要|全部|全都|都可以|第?[一二三四五六七八九十\d]+个?|选?[A-Fa-f1-6]+|有|没有|是|不是|可以|不可以|对|不对|没错|暂时没有)$/i.test(text.trim());
+    const hasRecentAgentContext = () => messages.some(msg => msg.sender === 'agent' && msg.content?.trim());
     const shouldExtract = (text) => {
       if (!text) return false;
       const t = text.trim();
-      if (t.length < 5) return false;
       if (/^(你好|您好|在吗|在么|谢谢|感谢|hello|hi|👋)$/i.test(t)) return false;
+      if (t.length < 5) return isContextualShortAnswer(t) && hasRecentAgentContext();
       if (
         t.includes('？') || 
         t.includes('?') || 

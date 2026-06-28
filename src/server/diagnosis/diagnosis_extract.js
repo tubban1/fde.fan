@@ -188,27 +188,56 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
 
     const nextFacts = { ...currentFacts };
     let hasNewInfo = false;
+    const text = latestUserMessage.trim();
+
+    const mergeFact = (key, value) => {
+      if (!value) return;
+      const existing = nextFacts[key];
+      if (!existing || existing.includes('待补充') || existing === '') {
+        nextFacts[key] = value;
+        hasNewInfo = true;
+        return;
+      }
+      if (!existing.includes(value.replace(/^\[初筛线索\]:\s*/, ''))) {
+        nextFacts[key] = `${existing}；${value}`;
+        hasNewInfo = true;
+      }
+    };
 
     // 1. 企业基本信息 (basicInfo) - 仅限匹配强格式的人数/团队规模
     let sizeText = '';
-    const sizeMatch = latestUserMessage.match(/(\d+\s*人|\d+\s*员工|\d+\s*成员|\d+\s*团队成员)/i);
+    const sizeMatch = text.match(/(\d+\s*人|\d+\s*员工|\d+\s*成员|\d+\s*团队成员)/i);
     if (sizeMatch) {
       sizeText = `规模约 ${sizeMatch[0]}`;
-      nextFacts.basicInfo = `[初筛线索]: ${sizeText}`;
-      hasNewInfo = true;
+      mergeFact('basicInfo', `[初筛线索]: ${sizeText}`);
     }
 
-    // 2. 业务目标 (businessGoal) - 移至后台 AI 提取，本地不进行主观匹配
+    // 2. 业务目标 (businessGoal) - 对明确价值/转化/买单意图做保守提取
+    if (/(价值|梦想|愿景|认同|品牌|转化|成交|买单|付费|销售|增长|引流|私域)/.test(text)) {
+      const negatedPayment = /(不太想|不想|不愿意|不愿|不肯|没预算|预算少|太贵|花钱|省钱|免费)/.test(text) && /(买单|付费|花钱|预算)/.test(text);
+      if (negatedPayment) {
+        mergeFact('businessGoal', '[初筛线索]: 用户关注低成本获客/转化，不希望方案依赖高预算投放或高成本付费转化。');
+        mergeFact('orgFoundation', '[初筛线索]: 老板/决策者对花钱买单较谨慎，预算意愿需要进一步确认。');
+        mergeFact('riskConstraints', '[初筛线索]: 方案需要控制预算和试错成本，优先验证低成本、可复用的小切口。');
+      } else if (/(愿意|可以|会|能).{0,8}(买单|付费)|买单/.test(text)) {
+        mergeFact('businessGoal', '[初筛线索]: 用户希望围绕价值认同、愿景/梦想或品牌价值设计转化路径。');
+        mergeFact('successCriteria', '[初筛线索]: 老板愿意为被证明有价值、能带来认同或转化的结果买单。');
+      } else {
+        mergeFact('businessGoal', `[初筛线索]: ${text}`);
+      }
+    }
 
-    // 3. 当前流程 (currentProcess) - 移至后台 AI 提取，本地不进行主观匹配
+    // 3. 当前流程 (currentProcess) - 对明确渠道/链路词做保守提取
+    if (/(小红书|抖音|视频号|微信|私域|朋友圈|公众号|客服|咨询|报价|线索|内容|引流)/.test(text)) {
+      mergeFact('currentProcess', `[初筛线索]: 用户提到的关键业务链路/渠道包括：${text}`);
+    }
 
     // 4. 技术基础设施 (techFoundation) - 移至后台 AI 提取，本地不进行主观/系统匹配以彻底消除否定词跨度误判风险
 
     // 5. 成功度量标准 (successCriteria) - 仅限匹配强格式指标（百分比、时间段）
-    const criteriaMatch = latestUserMessage.match(/(提升\s*\d+%\s*|提高\s*\d+%\s*|降低\s*\d+%\s*|\d+%\s*|\d+\s*(天|个月|周))/i);
+    const criteriaMatch = text.match(/(提升\s*\d+%\s*|提高\s*\d+%\s*|降低\s*\d+%\s*|\d+%\s*|\d+\s*(天|个月|周))/i);
     if (criteriaMatch) {
-      nextFacts.successCriteria = `[初筛线索]: 预期指标包含 ${criteriaMatch[0]}`;
-      hasNewInfo = true;
+      mergeFact('successCriteria', `[初筛线索]: 预期指标包含 ${criteriaMatch[0]}`);
     }
 
     if (hasNewInfo) {
