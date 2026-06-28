@@ -88,6 +88,12 @@ ${conversationContext || '暂无上下文'}
 7. riskConstraints (安全合规约束：隐私、合规、安全、人工审核要求等描述)
 8. successCriteria (成功度量标准：希望 30/60/90 天看到的结果等描述)
 
+【语义映射提醒】：
+- 用户说“老板愿意为梦想/价值/品牌/认同买单”，通常应提取为 businessGoal 和 successCriteria，而不是忽略。
+- 用户说“老板不太想花钱买单/预算谨慎/不想投钱”，通常应提取为 orgFoundation 和 riskConstraints，并在 businessGoal 中体现“低成本验证/低预算转化”。
+- 用户提到“小红书、抖音、视频号、微信、私域、内容、引流、咨询、客服、报价”等，应提取到 currentProcess；如果能看出已有数据或工具，再同步更新 dataFoundation/techFoundation。
+- 用户表达“所有价值都愿意买单”等泛化答案时，应结合上文 Agent 的问题和选项判断其确认了哪些价值方向。
+
 【更新规则】：
 1. 优先从用户最新话语中提取事实；如果最新话语是“都有”“第二个”“选 A”“是/不是”等短答，必须结合上一轮 Agent 提问和选项理解其真实含义。
 2. 允许从最近对话上下文中补全用户已明确表达过的信息，但不要把 Agent 的建议、假设或选项当成用户事实，除非用户最新回答明确选择、确认或否定了它。
@@ -118,7 +124,7 @@ ${conversationContext || '暂无上下文'}
         systemPrompt,
         userPrompt: '请提取并更新企业画像事实。',
         temperature: 0.1,
-        timeout: 25000,
+        timeout: 45000,
         task: 'extraction'
       },
       'Diagnosis Extract'
@@ -169,7 +175,7 @@ ${conversationContext || '暂无上下文'}
   }
 }
 
-// 本地轻量级规则粗提取，秒级回馈完整度
+// 本地轻量级提取只保留客观硬指标，不做业务语义判断；语义画像统一交给模型提取。
 export async function extractDiagnosisProfileLocally(sessionId, latestUserMessage) {
   try {
     const profiles = await query(
@@ -212,25 +218,7 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
       mergeFact('basicInfo', `[初筛线索]: ${sizeText}`);
     }
 
-    // 2. 业务目标 (businessGoal) - 对明确价值/转化/买单意图做保守提取
-    if (/(价值|梦想|愿景|认同|品牌|转化|成交|买单|付费|销售|增长|引流|私域)/.test(text)) {
-      const negatedPayment = /(不太想|不想|不愿意|不愿|不肯|没预算|预算少|太贵|花钱|省钱|免费)/.test(text) && /(买单|付费|花钱|预算)/.test(text);
-      if (negatedPayment) {
-        mergeFact('businessGoal', '[初筛线索]: 用户关注低成本获客/转化，不希望方案依赖高预算投放或高成本付费转化。');
-        mergeFact('orgFoundation', '[初筛线索]: 老板/决策者对花钱买单较谨慎，预算意愿需要进一步确认。');
-        mergeFact('riskConstraints', '[初筛线索]: 方案需要控制预算和试错成本，优先验证低成本、可复用的小切口。');
-      } else if (/(愿意|可以|会|能).{0,8}(买单|付费)|买单/.test(text)) {
-        mergeFact('businessGoal', '[初筛线索]: 用户希望围绕价值认同、愿景/梦想或品牌价值设计转化路径。');
-        mergeFact('successCriteria', '[初筛线索]: 老板愿意为被证明有价值、能带来认同或转化的结果买单。');
-      } else {
-        mergeFact('businessGoal', `[初筛线索]: ${text}`);
-      }
-    }
-
-    // 3. 当前流程 (currentProcess) - 对明确渠道/链路词做保守提取
-    if (/(小红书|抖音|视频号|微信|私域|朋友圈|公众号|客服|咨询|报价|线索|内容|引流)/.test(text)) {
-      mergeFact('currentProcess', `[初筛线索]: 用户提到的关键业务链路/渠道包括：${text}`);
-    }
+    // 2/3. 业务目标和流程链路等语义信息由模型结合上下文提取，本地不做关键词推断。
 
     // 4. 技术基础设施 (techFoundation) - 移至后台 AI 提取，本地不进行主观/系统匹配以彻底消除否定词跨度误判风险
 
