@@ -583,13 +583,17 @@ select {
 }
 
 .doc-hero {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: clamp(1.4rem, 4vw, 3rem);
+  max-width: 80rem;
+  margin: 0 auto;
   padding: 4rem clamp(1rem, 5vw, 4rem) 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .doc-hero > * {
-  max-width: 80rem;
-  margin-inline: auto;
+  grid-column: 2;
 }
 
 .doc-layout {
@@ -1157,11 +1161,16 @@ select {
 
   .home-hero,
   .boundary-panel,
+  .doc-hero,
   .doc-layout,
   .tool-panel,
   .insight-card,
   .source-strip {
     grid-template-columns: 1fr;
+  }
+
+  .doc-hero > * {
+    grid-column: 1;
   }
 
   .hero-console {
