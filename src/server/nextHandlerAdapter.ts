@@ -6,6 +6,8 @@ interface AdaptedResponse {
   chunks: Uint8Array[];
   finished: boolean;
   writableEnded: boolean;
+  responseStarted: boolean;
+  streamController: ReadableStreamDefaultController<Uint8Array> | null;
   finishCallbacks: FinishCallback[];
   status: (code: number) => AdaptedResponse;
   setHeader: (key: string, value: string) => void;
@@ -33,13 +35,44 @@ function concatBytes(chunks: Uint8Array[]) {
   return output;
 }
 
+function responseHeaders(headers: Record<string, string>) {
+  const nextHeaders = new Headers(headers);
+  nextHeaders.delete("Transfer-Encoding");
+  return nextHeaders;
+}
+
 function createResponse(resolve: (response: Response) => void): AdaptedResponse {
-  const res: AdaptedResponse = {
+  let res: AdaptedResponse;
+  let streamController: ReadableStreamDefaultController<Uint8Array> | null = null;
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      streamController = controller;
+    },
+  });
+
+  const resolveStreamingResponse = () => {
+    if (res.responseStarted) return;
+    res.responseStarted = true;
+    resolve(new Response(stream, {
+      status: res.statusCode,
+      headers: responseHeaders(res.headers),
+    }));
+  };
+
+  const runFinishCallbacks = () => {
+    for (const callback of res.finishCallbacks) {
+      Promise.resolve(callback()).catch((error) => console.error("[adapter finish callback]", error));
+    }
+  };
+
+  res = {
     statusCode: 200,
     headers: {},
     chunks: [],
     finished: false,
     writableEnded: false,
+    responseStarted: false,
+    streamController,
     finishCallbacks: [],
     status(code) {
       this.statusCode = code;
@@ -51,28 +84,45 @@ function createResponse(resolve: (response: Response) => void): AdaptedResponse 
     writeHead(code, headers = {}) {
       this.statusCode = code;
       Object.assign(this.headers, headers);
+      if (/text\/plain|text\/event-stream/i.test(this.headers["Content-Type"] || "")) {
+        resolveStreamingResponse();
+      }
     },
     json(value) {
       this.headers["Content-Type"] = "application/json; charset=utf-8";
       this.end(JSON.stringify(value));
     },
     write(chunk) {
-      this.chunks.push(toBytes(chunk));
+      const bytes = toBytes(chunk);
+      if (this.responseStarted) {
+        streamController?.enqueue(bytes);
+        return;
+      }
+      if (/text\/plain|text\/event-stream/i.test(this.headers["Content-Type"] || "")) {
+        resolveStreamingResponse();
+        streamController?.enqueue(bytes);
+        return;
+      }
+      this.chunks.push(bytes);
     },
     end(chunk) {
       if (this.finished) return;
-      if (chunk !== undefined) this.write(chunk);
       this.finished = true;
       this.writableEnded = true;
+      if (this.responseStarted) {
+        if (chunk !== undefined) this.write(chunk);
+        streamController?.close();
+        runFinishCallbacks();
+        return;
+      }
+      if (chunk !== undefined) this.write(chunk);
       const body = this.chunks.length ? concatBytes(this.chunks) : null;
       const response = new Response(body, {
         status: this.statusCode,
-        headers: this.headers,
+        headers: responseHeaders(this.headers),
       });
       resolve(response);
-      for (const callback of this.finishCallbacks) {
-        Promise.resolve(callback()).catch((error) => console.error("[adapter finish callback]", error));
-      }
+      runFinishCallbacks();
     },
     on(event, callback) {
       if (event === "finish") this.finishCallbacks.push(callback);

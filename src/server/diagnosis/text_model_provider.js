@@ -37,6 +37,11 @@ function getTextModel(task, provider) {
   return process.env.TEXT_MODEL || process.env.PROMPT_MODEL || 'google/gemini-3.5-flash';
 }
 
+function logModelSelection(task, provider, model) {
+  const taskLabel = task || 'chat';
+  console.log(`[Diagnosis Model] task=${taskLabel} provider=${provider} model=${model}`);
+}
+
 function getTokenRouterConfig(task) {
   const apiKey = process.env.TOKENROUTER_API_KEY;
   if (!apiKey) {
@@ -109,6 +114,7 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
 
   if (provider === 'tokenrouter') {
     const config = getTokenRouterConfig(task);
+    logModelSelection(task, provider, config.model);
     const response = await axios.post(
       `${config.baseUrl}/${config.model}:generateContent`,
       buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
@@ -125,6 +131,7 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
   }
 
   const config = getVectorEngineConfig(task);
+  logModelSelection(task, provider, config.model);
   const response = await axios.post(
     `${config.chatBaseUrl}/chat/completions`,
     {
@@ -147,11 +154,12 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
   return response.data?.choices?.[0]?.message?.content || '';
 }
 
-export async function streamText({ systemPrompt, userPrompt, temperature = 0.7, timeout = 70000 }) {
-  const provider = getTextProvider();
+export async function streamText({ systemPrompt, userPrompt, temperature = 0.7, timeout = 70000, task }) {
+  const provider = getTextProvider(task);
 
   if (provider === 'tokenrouter') {
-    const config = getTokenRouterConfig();
+    const config = getTokenRouterConfig(task);
+    logModelSelection(task || 'chat_stream', provider, config.model);
     const response = await axios.post(
       `${config.baseUrl}/${config.model}:streamGenerateContent?alt=sse`,
       buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
@@ -168,10 +176,19 @@ export async function streamText({ systemPrompt, userPrompt, temperature = 0.7, 
     return response.data;
   }
 
-  const config = getVectorEngineConfig();
+  const config = getVectorEngineConfig(task);
+  logModelSelection(task || 'chat_stream', provider, config.model);
   const response = await axios.post(
-    `${config.baseUrl}/models/${config.model}:streamGenerateContent?key=&alt=sse`,
-    buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
+    `${config.chatBaseUrl}/chat/completions`,
+    {
+      model: config.model,
+      messages: [
+        ...(systemPrompt ? [{ role: 'system', content: systemPrompt }] : []),
+        { role: 'user', content: userPrompt }
+      ],
+      temperature,
+      stream: true
+    },
     {
       headers: {
         'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import { query } from '../db.js';
 import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diagnosis_extract.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
-import { generateText } from '../text_model_provider.js';
+import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
 
 function runAfterResponse(res, task) {
   res.on('finish', () => {
@@ -35,6 +35,54 @@ function hasRecentAgentContext(messages = []) {
 function isContextualShortAnswer(text) {
   const t = text.trim();
   return /^(都有|都要|全部|全都|都可以|第?[一二三四五六七八九十\d]+个?|选?[A-Fa-f1-6]+|有|没有|是|不是|可以|不可以|对|不对|没错|暂时没有)$/i.test(t);
+}
+
+function extractTextFromSseData(data) {
+  const payload = data.trim();
+  if (!payload || payload === '[DONE]') return '';
+  try {
+    return extractStreamTextFromJson(JSON.parse(payload));
+  } catch {
+    return '';
+  }
+}
+
+async function pipeModelStreamToResponse(modelStream, res) {
+  let pending = '';
+  let accumulated = '';
+
+  const consumeLine = (line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    let text = '';
+    if (trimmed.startsWith('data:')) {
+      text = extractTextFromSseData(trimmed.slice(5));
+    } else if (trimmed.startsWith('{')) {
+      text = extractTextFromSseData(trimmed);
+    }
+
+    if (!text) return;
+    accumulated += text;
+    if (!res.writableEnded) {
+      res.write(text);
+    }
+  };
+
+  for await (const chunk of modelStream) {
+    pending += Buffer.isBuffer(chunk) ? chunk.toString('utf8') : String(chunk);
+    const lines = pending.split(/\r?\n/);
+    pending = lines.pop() || '';
+    for (const line of lines) {
+      consumeLine(line);
+    }
+  }
+
+  if (pending.trim()) {
+    consumeLine(pending);
+  }
+
+  return accumulated;
 }
 
 export default async function handler(req, res) {
@@ -162,25 +210,27 @@ ${conversationContext}
 5. 如果用户否认先前方向或表示困惑，先承认理解偏差，再重新定位真正目标。
 6. 请直接输出中文对话文本，严禁返回 JSON，也不要用 markdown 代码块。`;
 
+    let accumulatedReply = '';
     try {
-      const reply = await generateText({
+      const modelStream = await streamText({
         systemPrompt,
         userPrompt: promptUserContent,
         temperature: 0.6,
         timeout: 70000
       });
+
+      accumulatedReply = await pipeModelStreamToResponse(modelStream, res);
       if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
-      if (reply?.trim()) {
-        res.write(reply);
+      if (accumulatedReply?.trim()) {
         res.end();
-        persistAgentMessage(sessionId, reply, 'Chat Save Error');
+        persistAgentMessage(sessionId, accumulatedReply, 'Chat Save Error');
         return;
       }
       await safeEndWithFallback('');
       return;
     } catch (apiErr) {
-      console.error('[Chat Non-stream API Error]:', formatErrorForLog(apiErr));
-      await safeEndWithFallback('');
+      console.error('[Chat Stream API Error]:', formatErrorForLog(apiErr));
+      await safeEndWithFallback(accumulatedReply);
       return;
     }
 
