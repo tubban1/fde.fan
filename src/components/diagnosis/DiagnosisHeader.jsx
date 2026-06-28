@@ -22,13 +22,13 @@ export default function Header({
     <>
       <header className="site-header">
         <div className="header-container">
-          <div className="logo-section">
+          <a className="logo-section" href="/" aria-label="返回 FDE FAN 首页">
             <img src="/assets/fde-logo-mark.png" alt="FDE FAN Diagnosis Logo" className="logo-img" />
             <div>
               <h1 className="logo-title">{title}</h1>
               {subtitle && <span className="logo-tagline">{subtitle}</span>}
             </div>
-          </div>
+          </a>
 
           <div className="user-section">
             <button
@@ -268,6 +268,16 @@ export default function Header({
           display: flex;
           align-items: center;
           gap: 1rem;
+          color: inherit;
+          text-decoration: none;
+          cursor: pointer;
+          border-radius: 10px;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .logo-section:hover {
+          opacity: 0.86;
+          transform: translateY(-1px);
         }
 
         .logo-img {
