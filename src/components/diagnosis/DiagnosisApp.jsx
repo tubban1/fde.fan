@@ -3,6 +3,16 @@ import Header from './DiagnosisHeader.jsx';
 import axios from 'axios';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const POLL_INTERVAL_MS = 3000;
+const POLL_RETRY_INTERVAL_MS = 6000;
+const MAX_PROFILE_POLLS = 8;
+
+const isTransientAxiosNetworkError = (err) => {
+  return axios.isAxiosError(err) && !err.response && (
+    err.code === 'ERR_NETWORK' ||
+    err.message === 'Network Error'
+  );
+};
 
 export default function DiagnosisPage() {
   const [sessionId, setSessionId] = useState(null);
@@ -62,15 +72,21 @@ export default function DiagnosisPage() {
 
   // 3. 轮询后台画像抽取进度
   useEffect(() => {
-    let timer = null;
+    let timeoutId = null;
+    let isActive = true;
     let pollCount = 0;
-    const maxPolls = 8; // 最多轮询 24 秒 (8 次 * 3秒)，完美覆盖后台 Gemini 慢提取生命周期
+    const controller = new AbortController();
 
     const poll = async () => {
-      if (!sessionId) return;
+      if (!isActive || !sessionId) return;
+      if (navigator.onLine === false) {
+        timeoutId = setTimeout(poll, POLL_RETRY_INTERVAL_MS);
+        return;
+      }
+
       pollCount++;
       try {
-      const res = await axios.post('/api/diagnosis/session', { id: sessionId, email, password });
+        const res = await axios.post('/api/diagnosis/session', { id: sessionId, email, password }, { signal: controller.signal });
         if (res.data?.success) {
           const { session, knownFacts: facts, missingFields: missing } = res.data;
           
@@ -88,29 +104,42 @@ export default function DiagnosisPage() {
           });
 
           // 仅在轮询次数达到上限后清除定时器并收尾状态
-          if (pollCount >= maxPolls) {
+          if (pollCount >= MAX_PROFILE_POLLS) {
             setProfileStatus('updated');
-            if (timer) clearInterval(timer);
+            return;
           }
         }
       } catch (err) {
-        console.error('Polling profile status error:', err);
-        if (pollCount >= maxPolls) {
-          setProfileStatus('updated'); // 超时也平滑为 updated，保全信心
-          if (timer) clearInterval(timer);
+        if (axios.isCancel(err) || err.code === 'ERR_CANCELED') {
+          return;
         }
+
+        if (!isTransientAxiosNetworkError(err)) {
+          console.error('Polling profile status error:', err);
+        }
+
+        if (pollCount >= MAX_PROFILE_POLLS) {
+          setProfileStatus('updated'); // 超时也平滑为 updated，保全信心
+          return;
+        }
+      }
+
+      if (isActive) {
+        const delay = navigator.onLine === false ? POLL_RETRY_INTERVAL_MS : POLL_INTERVAL_MS;
+        timeoutId = setTimeout(poll, delay);
       }
     };
 
     if (profileStatus === 'updating' && sessionId) {
-      // 3秒轮询一次
-      timer = setInterval(poll, 3000);
+      timeoutId = setTimeout(poll, POLL_INTERVAL_MS);
     }
 
     return () => {
-      if (timer) clearInterval(timer);
+      isActive = false;
+      controller.abort();
+      if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [profileStatus, sessionId]);
+  }, [profileStatus, sessionId, email, password]);
 
   // 登录/验证邮箱
   const handleVerifyEmail = async (emailToVerify, passwordToVerify) => {
