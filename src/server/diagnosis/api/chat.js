@@ -166,6 +166,28 @@ ${conversationContext}
 5. 如果用户否认先前方向或表示困惑，先承认理解偏差，再重新定位真正目标。
 6. 请直接输出中文对话文本，严禁返回 JSON，也不要用 markdown 代码块。`;
 
+    try {
+      const reply = await generateText({
+        systemPrompt,
+        userPrompt: promptUserContent,
+        temperature: 0.6,
+        timeout: 70000
+      });
+      if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
+      if (reply?.trim()) {
+        res.write(reply);
+        res.end();
+        persistAgentMessage(sessionId, reply, 'Chat Save Error');
+        return;
+      }
+      await safeEndWithFallback('');
+      return;
+    } catch (apiErr) {
+      console.error('[Chat Non-stream API Error]:', formatErrorForLog(apiErr));
+      await safeEndWithFallback('');
+      return;
+    }
+
     let stream;
     try {
       stream = await streamText({
