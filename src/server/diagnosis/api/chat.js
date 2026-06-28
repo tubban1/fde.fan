@@ -2,7 +2,7 @@ import { query } from '../db.js';
 import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diagnosis_extract.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
-import { extractStreamTextFromJson, generateText, streamText } from '../text_model_provider.js';
+import { generateText } from '../text_model_provider.js';
 
 function runAfterResponse(res, task) {
   res.on('finish', () => {
@@ -10,27 +10,6 @@ function runAfterResponse(res, task) {
       console.error('[Diagnosis Background Task Error]:', formatErrorForLog(error));
     });
   });
-}
-
-function handleStreamLine(line, res, replyRef) {
-  const trimmed = line.trim();
-  if (!trimmed || trimmed.includes('[DONE]')) {
-    return;
-  }
-  if (trimmed.startsWith('data:')) {
-    try {
-      const dataStr = trimmed.slice(5).trim();
-      const json = JSON.parse(dataStr);
-      const content = extractStreamTextFromJson(json);
-
-      if (content) {
-        replyRef.value += content;
-        res.write(content);
-      }
-    } catch (e) {
-      console.warn('[Chat Stream Parse Warning]:', formatErrorForLog(e));
-    }
-  }
 }
 
 function persistAgentMessage(sessionId, content, label) {
@@ -187,107 +166,6 @@ ${conversationContext}
       await safeEndWithFallback('');
       return;
     }
-
-    let stream;
-    try {
-      stream = await streamText({
-        systemPrompt,
-        userPrompt: promptUserContent,
-        temperature: 0.6,
-        timeout: 70000
-      });
-    } catch (apiErr) {
-      console.error('[Chat API Request Error]:', formatErrorForLog(apiErr));
-      await safeEndWithFallback('');
-      return;
-    }
-
-    let hasReceivedData = false;
-    let fullReply = '';
-    const replyRef = { value: '' };
-
-    // 首字等待提示：不结束请求，只告诉前端仍在等模型真实返回
-    const timeoutTimer = setTimeout(() => {
-      if (!hasReceivedData) {
-        console.warn('[Chat Stream Waiting] No chunk received within 12s, still waiting for model response');
-      }
-    }, 12000);
-
-    let buffer = '';
-    let idleTimer = null;
-    const resetIdleTimer = () => {
-      if (idleTimer) clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => {
-        if (!res.writableEnded) {
-          console.warn('[Chat Stream Idle Timeout] No chunk received after stream started, triggering fallback');
-          if (stream) {
-            stream.destroy(new Error('idle timeout'));
-          }
-        }
-      }, 30000);
-    };
-    resetIdleTimer();
-
-    stream.on('data', chunk => {
-      hasReceivedData = true;
-      clearTimeout(timeoutTimer);
-      resetIdleTimer();
-
-      buffer += chunk.toString();
-      let boundary = buffer.lastIndexOf('\n');
-      if (boundary === -1) {
-        // 说明没有完整的换行符，全部属于阶段残余包，继续缓存
-        return;
-      }
-
-      const completeData = buffer.slice(0, boundary);
-      buffer = buffer.slice(boundary + 1);
-
-      const lines = completeData.split('\n');
-      for (const line of lines) {
-        handleStreamLine(line, res, replyRef);
-      }
-      fullReply = replyRef.value;
-    });
-
-    stream.on('end', async () => {
-      clearTimeout(timeoutTimer);
-      if (idleTimer) clearTimeout(idleTimer);
-      if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
-      if (buffer.trim()) {
-        handleStreamLine(buffer, res, replyRef);
-        fullReply = replyRef.value;
-        buffer = '';
-      }
-      if (!fullReply.trim()) {
-        try {
-          fullReply = await generateText({
-            systemPrompt,
-            userPrompt: promptUserContent,
-            temperature: 0.6,
-            timeout: 70000
-          });
-          if (fullReply.trim()) {
-            res.write(fullReply);
-          }
-        } catch (fallbackErr) {
-          console.error('[Chat Non-stream Fallback Error]:', formatErrorForLog(fallbackErr));
-          await safeEndWithFallback('');
-          return;
-        }
-      }
-      res.end();
-      if (fullReply.trim()) {
-        persistAgentMessage(sessionId, fullReply, 'Chat Save Error');
-      }
-    });
-
-    stream.on('error', async (err) => {
-      clearTimeout(timeoutTimer);
-      if (idleTimer) clearTimeout(idleTimer);
-      console.error('[Chat Stream Event Error]:', formatErrorForLog(err));
-      await safeEndWithFallback(fullReply);
-    });
 
   } catch (error) {
     console.error('Diagnosis chat API error:', formatErrorForLog(error));
