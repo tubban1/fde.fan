@@ -21,6 +21,22 @@ function persistAgentMessage(sessionId, content, label) {
   });
 }
 
+function formatConversationContext(messages = []) {
+  return messages.map(msg => {
+    return `${msg.sender === 'user' ? '用户' : '转型顾问 Agent'}: ${msg.content}`;
+  }).join('\n\n');
+}
+
+function hasRecentAgentContext(messages = []) {
+  const previousAgent = [...messages].reverse().find(msg => msg.sender === 'agent');
+  return Boolean(previousAgent?.content?.trim());
+}
+
+function isContextualShortAnswer(text) {
+  const t = text.trim();
+  return /^(都有|都要|全部|全都|都可以|第?[一二三四五六七八九十\d]+个?|选?[A-Fa-f1-6]+|有|没有|是|不是|可以|不可以|对|不对|没错|暂时没有)$/i.test(t);
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: '方法不允许' });
@@ -81,12 +97,21 @@ export default async function handler(req, res) {
       [sessionId, 'user', message]
     );
 
+    // 3. 读取最近的对话消息，上下文同时供画像提取和 AI 对话使用
+    const historyRows = await query(
+      `SELECT sender, content FROM diagnosis_messages WHERE session_id = ? ORDER BY id DESC LIMIT 15`,
+      [sessionId]
+    );
+    const historyMessages = historyRows.reverse();
+
     // 3. 过滤纯提问、短语或闲聊，避免不必要的画像提取
-    const shouldExtract = (text) => {
+    const shouldExtract = (text, messages) => {
       if (!text) return false;
       const t = text.trim();
-      if (t.length < 5) return false;
       if (/^(你好|您好|在吗|在么|谢谢|感谢|hello|hi|👋)$/i.test(t)) return false;
+      if (t.length < 5) {
+        return isContextualShortAnswer(t) && hasRecentAgentContext(messages);
+      }
       if (
         t.includes('？') || 
         t.includes('?') || 
@@ -96,11 +121,11 @@ export default async function handler(req, res) {
       return true;
     };
 
-    if (shouldExtract(message)) {
+    if (shouldExtract(message, historyMessages)) {
       // 同步发起本地快速粗提取，秒级回馈完整度跳变！
       await extractDiagnosisProfileLocally(sessionId, message);
       // 立刻触发后台异步慢提取任务，不等 AI 对话回复！
-      runAfterResponse(res, () => extractDiagnosisProfile(sessionId, message));
+      runAfterResponse(res, () => extractDiagnosisProfile(sessionId, message, historyMessages));
     }
 
     // 5. 读取当前已保存的画像事实作为上下文
@@ -114,16 +139,8 @@ export default async function handler(req, res) {
       }
     }
 
-    // 6. 读取最近的对话消息作为 AI 对话的上下文 (最多拉取 15 条)
-    const historyMessages = await query(
-      `SELECT sender, content FROM diagnosis_messages WHERE session_id = ? ORDER BY id ASC LIMIT 15`,
-      [sessionId]
-    );
-
     // 构造快速对话的 Prompt
-    const conversationContext = historyMessages.map(msg => {
-      return `${msg.sender === 'user' ? '用户' : '转型顾问 Agent'}: ${msg.content}`;
-    }).join('\n\n');
+    const conversationContext = formatConversationContext(historyMessages);
 
     const promptUserContent = `
 当前已整理的企业画像事实 (knownFacts):

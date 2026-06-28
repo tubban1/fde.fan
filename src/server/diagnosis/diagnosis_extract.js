@@ -18,7 +18,21 @@ async function generateTextWithRetry(options, context, maxAttempts = 2) {
   throw lastError;
 }
 
-export async function extractDiagnosisProfile(sessionId, latestUserMessage) {
+function formatConversationContext(messages = []) {
+  return messages
+    .map((msg) => `${msg.sender === 'user' ? '用户' : '转型顾问 Agent'}: ${msg.content}`)
+    .join('\n\n');
+}
+
+async function getRecentMessages(sessionId) {
+  const rows = await query(
+    `SELECT sender, content FROM diagnosis_messages WHERE session_id = ? ORDER BY id DESC LIMIT 15`,
+    [sessionId]
+  );
+  return rows.reverse();
+}
+
+export async function extractDiagnosisProfile(sessionId, latestUserMessage, recentMessages = null) {
   console.log(`[Diagnosis Extract] Starting async extraction for session: ${sessionId}`);
   try {
     // 1. 后台静默处理，不需要在首部阻断更新状态
@@ -44,14 +58,22 @@ export async function extractDiagnosisProfile(sessionId, latestUserMessage) {
       }
     }
 
+    const contextMessages = Array.isArray(recentMessages) && recentMessages.length > 0
+      ? recentMessages
+      : await getRecentMessages(sessionId);
+    const conversationContext = formatConversationContext(contextMessages);
+
     // 3. 构建大模型提取 Prompt
-    const systemPrompt = `你是一个专业的数据提取 AI。你的任务是分析用户的最新陈述，提炼出关键的诊断画像事实，并合并更新到原有的已知事实 knownFacts 中。
+    const systemPrompt = `你是一个专业的数据提取 AI。你的任务是结合最近对话上下文和用户最新陈述，提炼出关键的诊断画像事实，并合并更新到原有的已知事实 knownFacts 中。
 
 当前已知的企业画像已知事实 (knownFacts) 如下：
 ${JSON.stringify(currentFacts, null, 2)}
 
 当前认为缺失的维度 (missingFields)：
 ${JSON.stringify(currentMissing, null, 2)}
+
+最近对话上下文如下：
+${conversationContext || '暂无上下文'}
 
 用户的最新陈述内容是：
 "${latestUserMessage}"
@@ -67,9 +89,11 @@ ${JSON.stringify(currentMissing, null, 2)}
 8. successCriteria (成功度量标准：希望 30/60/90 天看到的结果等描述)
 
 【更新规则】：
-1. 仅提炼并合并用户最新话语中明确交代的事实。不要凭空瞎编或虚构事实。
-2. 保持客观，对于用户本次没有提供新信息的任何字段，必须原封不动地保留原有的已知 facts 描述，严禁清空！
-3. 特别同理心逻辑：如果用户明确在陈述中推翻了先前的方向、目标或表示“没有关注/不关注XX”（例如：“我并不关注降本增效”），你必须相应地把 businessGoal（核心业务目标）修改为“待明确（用户澄清不关注XX）”来否定先前的信息，并且重新列入 missingFields 缺失维度中。
+1. 优先从用户最新话语中提取事实；如果最新话语是“都有”“第二个”“选 A”“是/不是”等短答，必须结合上一轮 Agent 提问和选项理解其真实含义。
+2. 允许从最近对话上下文中补全用户已明确表达过的信息，但不要把 Agent 的建议、假设或选项当成用户事实，除非用户最新回答明确选择、确认或否定了它。
+3. 不要凭空瞎编或虚构事实。
+4. 保持客观，对于用户本次没有提供新信息的任何字段，必须原封不动地保留原有的已知 facts 描述，严禁清空！
+5. 特别同理心逻辑：如果用户明确在陈述中推翻了先前的方向、目标或表示“没有关注/不关注XX”（例如：“我并不关注降本增效”），你必须相应地把 businessGoal（核心业务目标）修改为“待明确（用户澄清不关注XX）”来否定先前的信息，并且重新列入 missingFields 缺失维度中。
 
 请最终输出并且仅输出一个严格合规的 JSON 对象（如使用 markdown 包裹，请确保可以 parse），格式如下：
 {
