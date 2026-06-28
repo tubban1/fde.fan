@@ -1,38 +1,61 @@
 import axios from 'axios';
 import https from 'https';
 
-function getTextProvider() {
-  return (process.env.TEXT_MODEL_PROVIDER || 'tokenrouter').toLowerCase();
+function getEnvValue(...names) {
+  for (const name of names) {
+    if (process.env[name]) return process.env[name];
+  }
+  return '';
 }
 
-function getTextModel() {
+function normalizeTask(task) {
+  return String(task || '').trim().toUpperCase().replace(/[^A-Z0-9]+/g, '_');
+}
+
+function getTextProvider(task) {
+  const taskKey = normalizeTask(task);
+  return getEnvValue(
+    taskKey ? `${taskKey}_MODEL_PROVIDER` : '',
+    'TEXT_MODEL_PROVIDER'
+  )?.toLowerCase() || 'tokenrouter';
+}
+
+function getTextModel(task, provider) {
+  const taskKey = normalizeTask(task);
+  const taskModel = getEnvValue(taskKey ? `${taskKey}_MODEL` : '');
+  if (taskModel) return taskModel;
+  if (provider === 'vectorengine') {
+    return process.env.VECTORENGINE_TEXT_MODEL || process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite';
+  }
   return process.env.TEXT_MODEL || process.env.PROMPT_MODEL || 'google/gemini-3.5-flash';
 }
 
-function getTokenRouterConfig() {
+function getTokenRouterConfig(task) {
   const apiKey = process.env.TOKENROUTER_API_KEY;
   if (!apiKey) {
     throw new Error('TOKENROUTER_API_KEY is not configured');
   }
 
+  const provider = 'tokenrouter';
   return {
     apiKey,
     baseUrl: (process.env.TOKENROUTER_API_BASE || 'https://api.tokenrouter.com/v1beta/models').replace(/\/$/, ''),
-    model: getTextModel()
+    model: getTextModel(task, provider)
   };
 }
 
-function getVectorEngineConfig() {
+function getVectorEngineConfig(task) {
   const apiKey = process.env.VECTORENGINE_GEMINI_KEY || process.env.VECTORENGINE_API_KEY;
   if (!apiKey) {
     throw new Error('VECTORENGINE_GEMINI_KEY or VECTORENGINE_API_KEY is not configured');
   }
 
+  const provider = 'vectorengine';
   return {
     apiKey,
     baseUrl: (process.env.VECTORENGINE_GEMINI_STREAM_BASE || 'https://api.vectorengine.ai/v1beta').replace(/\/$/, ''),
     chatBaseUrl: (process.env.VECTORENGINE_API_BASE || 'https://api.vectorengine.cn/v1').replace(/\/$/, ''),
-    model: process.env.TEXT_MODEL || process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite'
+    model: getTextModel(task, provider)
   };
 }
 
@@ -74,11 +97,11 @@ export function extractStreamTextFromJson(data) {
   return extractGeminiText(data);
 }
 
-export async function generateText({ systemPrompt, userPrompt, temperature = 0.7, timeout = 90000 }) {
-  const provider = getTextProvider();
+export async function generateText({ systemPrompt, userPrompt, temperature = 0.7, timeout = 90000, task }) {
+  const provider = getTextProvider(task);
 
   if (provider === 'tokenrouter') {
-    const config = getTokenRouterConfig();
+    const config = getTokenRouterConfig(task);
     const response = await axios.post(
       `${config.baseUrl}/${config.model}:generateContent`,
       buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
@@ -94,7 +117,7 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
     return extractGeminiText(response.data);
   }
 
-  const config = getVectorEngineConfig();
+  const config = getVectorEngineConfig(task);
   const response = await axios.post(
     `${config.chatBaseUrl}/chat/completions`,
     {

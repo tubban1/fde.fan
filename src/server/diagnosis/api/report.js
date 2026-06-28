@@ -130,7 +130,8 @@ ${JSON.stringify(knownFacts, null, 2)}
       systemPrompt,
       userPrompt: promptUserContent,
       temperature: 0.3,
-      timeout: 90000
+      timeout: 90000,
+      task: 'report'
     });
 
     // 解析 JSON

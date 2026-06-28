@@ -41,6 +41,15 @@ SUPABASE_DB_SSL=true
 TEXT_MODEL_PROVIDER=tokenrouter
 TOKENROUTER_API_KEY=...
 TEXT_MODEL=google/gemini-3.5-flash
+
+# Optional task-specific model routing
+EXTRACTION_MODEL_PROVIDER=vectorengine
+EXTRACTION_MODEL=gemini-3.1-flash-lite
+REPORT_MODEL_PROVIDER=vectorengine
+REPORT_MODEL=gemini-3.1-flash-lite
+VECTORENGINE_API_BASE=https://api.vectorengine.cn/v1
+VECTORENGINE_GEMINI_KEY=...
+GEMINI_THINKING_BUDGET=8192
 ```
 
 ## 上线检查

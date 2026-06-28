@@ -1,6 +1,6 @@
 import { query } from './db.js';
-import { delay, formatErrorForLog, isTransientNetworkError } from './safe_error';
-import { generateText } from './text_model_provider';
+import { delay, formatErrorForLog, isTransientNetworkError } from './safe_error.js';
+import { generateText } from './text_model_provider.js';
 
 async function generateTextWithRetry(options, context, maxAttempts = 2) {
   let lastError;
@@ -94,7 +94,8 @@ ${JSON.stringify(currentMissing, null, 2)}
         systemPrompt,
         userPrompt: '请提取并更新企业画像事实。',
         temperature: 0.1,
-        timeout: 25000
+        timeout: 25000,
+        task: 'extraction'
       },
       'Diagnosis Extract'
     );
