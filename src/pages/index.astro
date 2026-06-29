@@ -18,6 +18,7 @@ const allianceMembers = [
 ];
 
 const allianceMarquee = [...allianceMembers, ...allianceMembers];
+const allianceMemberCount = allianceMembers.length;
 ---
 
 <SiteLayout title="FDE FAN Academy | AI Agent FDE 前端部署工程师学习站" description="FDE FAN Academy 将课程、案例、项目和企业 AI 转型诊断 Agent 融合，训练学员完成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。">
@@ -176,7 +177,7 @@ const allianceMarquee = [...allianceMembers, ...allianceMembers];
       <h2><span class="zh">FDE 联盟成员</span><span class="en">FDE Alliance Members</span></h2>
     </div>
     <div class="alliance-marquee">
-      <div class="alliance-track">
+      <div class="alliance-track" data-alliance-track data-member-count={allianceMemberCount}>
         {allianceMarquee.map((member) => (
           <div class="alliance-item">
             <span class={`alliance-logo ${member.type}`}>
@@ -188,4 +189,19 @@ const allianceMarquee = [...allianceMembers, ...allianceMembers];
       </div>
     </div>
   </section>
+
+  <script>
+    const track = document.querySelector("[data-alliance-track]");
+    if (track instanceof HTMLElement) {
+      const count = Number(track.dataset.memberCount || 0);
+      const sourceItems = Array.from(track.children).slice(0, count);
+      for (let index = sourceItems.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [sourceItems[index], sourceItems[swapIndex]] = [sourceItems[swapIndex], sourceItems[index]];
+      }
+      const firstLoop = sourceItems.map((item) => item.cloneNode(true));
+      const secondLoop = sourceItems.map((item) => item.cloneNode(true));
+      track.replaceChildren(...firstLoop, ...secondLoop);
+    }
+  </script>
 </SiteLayout>
