@@ -637,8 +637,8 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
-  min-width: 240px;
-  min-height: 84px;
+  min-width: 300px;
+  min-height: 92px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background:
     radial-gradient(circle at 15% 20%, rgba(69, 244, 255, 0.12), transparent 42%),
@@ -678,11 +678,28 @@ select {
   object-fit: cover;
 }
 
-.alliance-item strong {
+.alliance-copy {
+  display: flex;
+  min-width: 0;
+  max-width: 210px;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.alliance-copy strong {
   color: rgba(255, 255, 255, 0.92);
   font-size: 1.04rem;
   font-weight: 950;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alliance-copy small {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 @keyframes alliance-scroll {

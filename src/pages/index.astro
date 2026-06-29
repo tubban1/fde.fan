@@ -4,20 +4,22 @@ import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTrack
 
 const allianceMembers = [
   { name: "TG Technologie", image: "/assets/alliance/tg-technologie.png", type: "logo" },
-  { name: "Bin Altman", image: "/assets/alliance/bin-altman.png", type: "avatar" },
-  { name: "Ziyange", image: "/assets/alliance/ziyange.png", type: "avatar" },
-  { name: "Shawn Von", image: "/assets/alliance/shawn-von.png", type: "avatar" },
-  { name: "Liang Rao", image: "/assets/alliance/liang-rao.png", type: "avatar" },
-  { name: "Beckwen", image: "/assets/alliance/beckwen.png", type: "avatar" },
-  { name: "Shen Pei", image: "/assets/alliance/shen-pei.png", type: "avatar" },
-  { name: "Jane Yao", image: "/assets/alliance/jane-yao.png", type: "avatar" },
-  { name: "AliceLuo", image: "/assets/alliance/alice-luo.png", type: "avatar" },
+  { name: "WeOPC", image: "/assets/alliance/weopc.png", type: "logo" },
+  { name: "Bin Altman", org: "FDE FAN Alliance", image: "/assets/alliance/bin-altman.png", type: "avatar" },
+  { name: "Ziyange", org: "FDE FAN Alliance", image: "/assets/alliance/ziyange.png", type: "avatar" },
+  { name: "Shawn Von", org: "FDE FAN Alliance", image: "/assets/alliance/shawn-von.png", type: "avatar" },
+  { name: "Liang Rao", org: "FDE FAN Alliance", image: "/assets/alliance/liang-rao.png", type: "avatar" },
+  { name: "Beckwen", org: "FDE FAN Alliance", image: "/assets/alliance/beckwen.png", type: "avatar" },
+  { name: "Shen Pei", org: "FDE FAN Alliance", image: "/assets/alliance/shen-pei.png", type: "avatar" },
+  { name: "Jane Yao", org: "FDE FAN Alliance", image: "/assets/alliance/jane-yao.png", type: "avatar" },
+  { name: "AliceLuo", org: "FDE FAN Alliance", image: "/assets/alliance/alice-luo.png", type: "avatar" },
+  { name: "Lotte Huang", org: "Macau University of Science and Technology", image: "/assets/alliance/lotte-huang.png", type: "avatar" },
   { name: "AuraBaba 灵光爸爸", image: "/assets/alliance/aurababa.png", type: "logo" },
   { name: "OpenAI", image: "/assets/alliance/openai.png", type: "logo" },
   { name: "Anthropic", image: "/assets/alliance/anthropic.png", type: "logo" },
   { name: "NVIDIA", image: "/assets/alliance/nvidia.png", type: "logo" },
   { name: "Palantir", image: "/assets/alliance/palantir.svg", type: "logo" },
-  { name: "Elon Musk", image: "/assets/alliance/elon-musk.png", type: "avatar" },
+  { name: "Elon Musk", org: "xAI / Tesla", image: "/assets/alliance/elon-musk.png", type: "avatar" },
   { name: "EPFL", image: "/assets/alliance/epfl.png", type: "logo" },
   { name: "PHBern", image: "/assets/alliance/phbern.png", type: "logo" },
 ];
@@ -188,7 +190,10 @@ const allianceMemberCount = allianceMembers.length;
             <span class={`alliance-logo ${member.type}`}>
               <img src={member.image} alt={`${member.name} logo`} loading="lazy" />
             </span>
-            <strong>{member.name}</strong>
+            <span class="alliance-copy">
+              <strong>{member.name}</strong>
+              {member.org && <small>{member.org}</small>}
+            </span>
           </div>
         ))}
       </div>
