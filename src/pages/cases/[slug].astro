@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
+import { articleJsonLd, breadcrumbJsonLd } from "../../lib/seo";
 
 export const prerender = true;
 
@@ -12,9 +13,23 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const pagePath = `/cases/${entry.slug}`;
+const description = `${entry.data.title} 案例：${entry.data.deliverables.join("、")}。`;
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "Cases", path: "/cases" },
+    { name: entry.data.title, path: pagePath },
+  ]),
+  articleJsonLd({
+    headline: `${entry.data.title} / ${entry.data.titleEn}`,
+    description,
+    path: pagePath,
+  }),
+];
 ---
 
-<SiteLayout title={`${entry.data.title} | FDE FAN Case`} description={`${entry.data.title} 案例：${entry.data.deliverables.join("、")}。`}>
+<SiteLayout title={`${entry.data.title} | FDE FAN Case`} description={description} jsonLd={jsonLd}>
   <DocShell eyebrow={entry.data.category.toUpperCase()} title={entry.data.title} titleEn={entry.data.titleEn} description={`交付物：${entry.data.deliverables.join(" / ")}`} descriptionEn={`Deliverables: ${entry.data.deliverables.join(" / ")}`}>
     <div class="case-meta">
       <span>{entry.data.difficulty}</span>

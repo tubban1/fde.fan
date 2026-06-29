@@ -3,6 +3,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
 import InsightVisual from "../../components/InsightVisual.astro";
 import { insightArticles, insightDeepDives } from "../../data/insights";
+import { articleJsonLd, breadcrumbJsonLd } from "../../lib/seo";
 
 export const prerender = true;
 
@@ -15,9 +16,23 @@ export function getStaticPaths() {
 
 const { article } = Astro.props;
 const deepDive = insightDeepDives[article.slug];
+const pagePath = `/insights/${article.slug}`;
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "Insights", path: "/insights" },
+    { name: article.title, path: pagePath },
+  ]),
+  articleJsonLd({
+    headline: `${article.title} / ${article.titleEn}`,
+    description: article.abstract,
+    path: pagePath,
+    datePublished: "2026-06-28",
+  }),
+];
 ---
 
-<SiteLayout title={`${article.titleEn} | FDE FAN Insights`} description={article.abstract}>
+<SiteLayout title={`${article.titleEn} | FDE FAN Insights`} description={article.abstract} jsonLd={jsonLd}>
   <DocShell
     eyebrow="INSIGHT BRIEF"
     title={article.title}

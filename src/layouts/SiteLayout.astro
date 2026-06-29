@@ -1,19 +1,35 @@
 ---
 import "../styles.css";
 import Header from "../components/Header.astro";
+import { DEFAULT_IMAGE, SITE_NAME, SITE_URL, organizationJsonLd, webPageJsonLd, websiteJsonLd } from "../lib/seo";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  keywords?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title,
   description,
-  image = "https://www.fde.fan/assets/wechat-share.jpg",
+  image = DEFAULT_IMAGE,
+  keywords,
+  noindex = false,
+  jsonLd,
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, "https://www.fde.fan").toString();
+const canonical = new URL(Astro.url.pathname, SITE_URL).toString();
+const resolvedImage = image.startsWith("http") ? image : new URL(image, SITE_URL).toString();
+const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const schemaGraph = [
+  organizationJsonLd,
+  websiteJsonLd,
+  webPageJsonLd({ title, description, path: Astro.url.pathname, image: resolvedImage }),
+  ...extraJsonLd,
+];
+const schema = { "@context": "https://schema.org", "@graph": schemaGraph };
 ---
 
 <!doctype html>
@@ -22,20 +38,25 @@ const canonical = new URL(Astro.url.pathname, "https://www.fde.fan").toString();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow,max-image-preview:large"} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <link rel="icon" type="image/png" href="/assets/fde-favicon-source.png" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="zh_CN" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    <meta property="og:image:secure_url" content={image} />
+    <meta property="og:image" content={resolvedImage} />
+    <meta property="og:image:secure_url" content={resolvedImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image" content={resolvedImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     <title>{title}</title>
   </head>
   <body>

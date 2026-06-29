@@ -1,0 +1,82 @@
+---
+import DocShell from "../../components/DocShell.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { breadcrumbJsonLd, faqJsonLd } from "../../lib/seo";
+
+const title = "FDE 术语解释：Forward Deployed Engineer / AI-FDE / 前端部署工程师 | FDE FAN";
+const description =
+  "FDE 术语词条，解释 Forward Deployed Engineer、AI-FDE、前端部署工程师、Prompt to Product、Agent Workflow 和部署交付。";
+const faqItems = [
+  {
+    question: "Forward Deployed Engineer 中文怎么理解？",
+    answer:
+      "可以理解为前线部署工程师或现场交付工程师。FDE 贴近客户现场，把业务需求转成可以运行、测试、部署和移交的工程产物。",
+  },
+  {
+    question: "AI-FDE 是什么？",
+    answer:
+      "AI-FDE 是 AI Agent 时代的 FDE，核心能力包括 Prompt to Product、Agent 工作流、前端 Demo、部署上线、评估验收和交付文档。",
+  },
+  {
+    question: "前端部署工程师是不是只做部署？",
+    answer:
+      "不是。这里的部署指把本地代码、环境配置、数据连接和运行方式变成稳定可访问的线上应用，并支持测试、演示、回滚和验收。",
+  },
+];
+---
+
+<SiteLayout
+  title={title}
+  description={description}
+  keywords="FDE, Forward Deployed Engineer, AI-FDE, FDE 术语, 前端部署工程师, Agent Workflow"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "FDE 词条", path: "/glossary/fde" },
+    ]),
+    faqJsonLd(faqItems),
+  ]}
+>
+  <DocShell
+    eyebrow="GLOSSARY"
+    title="FDE 术语词条"
+    titleEn="FDE Glossary"
+    description="把搜索里容易混淆的 FDE、AI-FDE、前端部署工程师、Agent 工作流和交付系统一次讲清楚。"
+    descriptionEn="A clear glossary for FDE, AI-FDE, front-end deployment engineering, agent workflow, and delivery systems."
+  >
+    <h2>FDE / Forward Deployed Engineer</h2>
+    <p>
+      FDE 是 Forward Deployed Engineer 的缩写。它强调 “forward deployed”：工程师不是只在内部写代码，而是靠近客户现场、业务流程和真实使用场景，把问题变成可运行的解决方案。
+    </p>
+
+    <h2>AI-FDE</h2>
+    <p>
+      AI-FDE 是 AI Agent 时代的 FDE。它把前端工程、Prompt 工程、Agent 工作流、数据边界、部署上线和交付文档组合起来，服务于企业 AI 转型和行业场景落地。
+    </p>
+
+    <h2>前端部署工程师</h2>
+    <p>
+      在 FDE FAN 里，前端部署工程师不是只点一个发布按钮。部署意味着把本地 Demo、配置、环境变量、API、数据连接和运行方式整理成稳定 URL，让业务方可以打开、测试、演示、复现和验收。
+    </p>
+
+    <h2>Prompt to Product</h2>
+    <p>
+      Prompt to Product 是把业务需求转成产品规格、页面结构、组件任务、AI 编程指令和验收标准的过程。它要求 FDE 既懂业务，也懂前端和模型边界。
+    </p>
+
+    <h2>Agent Workflow</h2>
+    <p>
+      Agent Workflow 是让 AI Agent 在真实任务中工作的方法：会话、画像抽取、追问、工具调用、状态更新、Human-in-the-loop、报告生成、错误回退和日志审计。
+    </p>
+
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      {faqItems.map((item) => (
+        <section class="panel">
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </section>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

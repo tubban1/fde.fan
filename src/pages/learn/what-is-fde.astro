@@ -1,0 +1,154 @@
+---
+import DocShell from "../../components/DocShell.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from "../../lib/seo";
+
+const title = "FDE 是什么？AI Agent 时代的 Forward Deployed Engineer 学习指南 | FDE FAN";
+const description =
+  "系统解释 FDE、AI-FDE、前端部署工程师、Forward Deployed Engineer 的岗位边界、学习路径、交付物和真实企业 AI Agent 场景。";
+const faqs = [
+  {
+    question: "FDE 是什么？",
+    answer:
+      "FDE 通常指 Forward Deployed Engineer，是贴近客户现场、把业务需求转成可运行方案、部署链接、Agent 工作流和交付文档的工程交付角色。",
+  },
+  {
+    question: "AI-FDE 和传统前端工程师有什么区别？",
+    answer:
+      "传统前端更关注页面实现，AI-FDE 还需要完成需求澄清、Prompt 设计、Agent 流程、模型边界、部署验收和交付复盘。",
+  },
+  {
+    question: "FDE FAN 训练什么？",
+    answer:
+      "FDE FAN 训练学员把企业需求转成 Prompt、前端 Demo、Agent 工作流、部署链接、README、测试清单、演示脚本和复盘报告。",
+  },
+];
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "Learn", path: "/learn" },
+    { name: "FDE 是什么", path: "/learn/what-is-fde" },
+  ]),
+  courseJsonLd({
+    name: "FDE 是什么：AI Agent 时代的 Forward Deployed Engineer",
+    description,
+    path: "/learn/what-is-fde",
+  }),
+  faqJsonLd(faqs),
+];
+---
+
+<SiteLayout
+  title={title}
+  description={description}
+  keywords="FDE 是什么, Forward Deployed Engineer, AI-FDE, 前端部署工程师, AI Agent 工程师, FDE 培训"
+  jsonLd={jsonLd}
+>
+  <DocShell
+    eyebrow="WHAT IS FDE"
+    title="FDE 是什么"
+    titleEn="What Is a Forward Deployed Engineer"
+    description="FDE 不是传统前端、不是售前顾问，也不是只会调 AI 工具的人。FDE 是把现场问题变成可运行系统、可验证交付和可复用资产的人。"
+    descriptionEn="An FDE is not a traditional front-end developer, presales consultant, or AI tool operator. An FDE turns field problems into running systems, verifiable delivery, and reusable assets."
+  >
+    <section class="insight-note">
+      <b>一句话定义 / One-line Definition</b>
+      <p>
+        <span class="zh">FDE 是站在客户现场与工程系统之间的交付型工程师：听懂业务、拆解需求、构建 Demo、编排 Agent、部署上线、写清验收和移交文档。</span>
+        <span class="en">An FDE works between the customer field and engineering system: understand the business, break down requirements, build demos, orchestrate agents, deploy, and document acceptance and handoff.</span>
+      </p>
+    </section>
+
+    <h2>FDE 的核心工作</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>阶段</th>
+            <th>FDE 要做什么</th>
+            <th>交付物</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>诊断</td>
+            <td>访谈客户，识别业务目标、数据边界、阻塞点和成功标准。</td>
+            <td>需求澄清表、场景地图、机会清单</td>
+          </tr>
+          <tr>
+            <td>转译</td>
+            <td>把业务语言转成 Prompt、页面结构、数据字段、Agent 状态和验收规则。</td>
+            <td>Prompt 模板、规格说明、验收标准</td>
+          </tr>
+          <tr>
+            <td>构建</td>
+            <td>用 AI 编程和前端工具快速做出可操作 Demo，并修复生成代码的问题。</td>
+            <td>前端 Demo、组件说明、测试路径</td>
+          </tr>
+          <tr>
+            <td>编排</td>
+            <td>设计 Agent 的输入、工具调用、追问、人审点、报告生成和失败回退。</td>
+            <td>Agent 工作流、追问策略、错误处理</td>
+          </tr>
+          <tr>
+            <td>部署</td>
+            <td>把本地项目发布到稳定 URL，让客户能打开、测试、演示、复现和验收。</td>
+            <td>部署链接、环境变量说明、运行手册</td>
+          </tr>
+          <tr>
+            <td>复盘</td>
+            <td>记录失败样本、客户反馈、下一步迭代和可复用资产。</td>
+            <td>README、测试清单、演示脚本、复盘报告</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>AI-FDE 与传统岗位的区别</h2>
+    <div class="grid two">
+      <div class="panel">
+        <h3>不是传统前端</h3>
+        <p>传统前端关注页面和交互。AI-FDE 还要理解业务流程、模型能力、Agent 边界、部署环境和客户验收。</p>
+      </div>
+      <div class="panel">
+        <h3>不是只做售前</h3>
+        <p>售前证明价值，FDE 还要把方案做成可运行产物，并把现场反馈沉淀给产品和工程。</p>
+      </div>
+      <div class="panel">
+        <h3>不是 AI 工具运营</h3>
+        <p>会用工具只是起点。FDE 必须能说明为什么这样设计 Prompt、为什么这样部署、哪里需要人工确认。</p>
+      </div>
+      <div class="panel">
+        <h3>不是无边界外包</h3>
+        <p>FDE 可以做试点和交付包，但不能在无授权、无测试、无数据治理的情况下独立承担企业核心系统。</p>
+      </div>
+    </div>
+
+    <h2>FDE FAN 的学习路径</h2>
+    <ol>
+      <li>先建立岗位边界：知道 FDE 能做什么、不能承诺什么。</li>
+      <li>补齐前端基础：HTML、CSS、JavaScript、React、Vite、Git 和部署。</li>
+      <li>学习 Prompt to Product：把需求变成页面、组件、验收标准和 Demo。</li>
+      <li>进入 Agent Workflow：工具调用、会话状态、追问、人审、报告生成和日志。</li>
+      <li>做垂直行业案例：跨境电商、文旅和企业 AI 转型诊断。</li>
+      <li>完成交付系统：README、测试清单、演示脚本、部署链接和复盘报告。</li>
+    </ol>
+
+    <h2>常见问题</h2>
+    <div class="faq-list">
+      {faqs.map((item) => (
+        <section class="panel">
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </section>
+      ))}
+    </div>
+
+    <section class="insight-lesson">
+      <p class="eyebrow">下一步 / Next Step</p>
+      <p>
+        <a href="/learn">进入课程总目录</a>，或先体验 <a href="/diagnosis">企业 AI 转型诊断 Agent</a>，看看真实 FDE 案例如何把访谈、画像、报告和交付建议连成一个系统。
+      </p>
+    </section>
+  </DocShell>
+</SiteLayout>

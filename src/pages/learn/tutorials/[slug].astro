@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import DocShell from "../../../components/DocShell.astro";
+import { breadcrumbJsonLd, courseJsonLd } from "../../../lib/seo";
 
 export const prerender = true;
 
@@ -12,9 +13,22 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const pagePath = `/learn/tutorials/${entry.slug}`;
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "Learn", path: "/learn" },
+    { name: entry.data.title, path: pagePath },
+  ]),
+  courseJsonLd({
+    name: `${entry.data.title} / ${entry.data.titleEn}`,
+    description: entry.data.summary,
+    path: pagePath,
+  }),
+];
 ---
 
-<SiteLayout title={`${entry.data.title} | FDE FAN`} description={entry.data.summary}>
+<SiteLayout title={`${entry.data.title} | FDE FAN`} description={entry.data.summary} jsonLd={jsonLd}>
   <DocShell eyebrow={entry.data.track.toUpperCase()} title={entry.data.title} titleEn={entry.data.titleEn} description={entry.data.summary} descriptionEn={entry.data.summaryEn}>
     <Content />
   </DocShell>
