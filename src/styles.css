@@ -589,6 +589,102 @@ select {
   font-weight: 900;
 }
 
+.alliance-section {
+  overflow: hidden;
+  padding: 3.8rem 0 4.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(5, 7, 13, 0.76);
+}
+
+.alliance-heading {
+  max-width: 80rem;
+  margin: 0 auto 1.4rem;
+  padding: 0 clamp(1rem, 5vw, 4rem);
+}
+
+.alliance-heading h2 {
+  margin: 0;
+  color: white;
+  font-size: clamp(1.7rem, 4vw, 3.6rem);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.alliance-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+  mask-image: linear-gradient(90deg, transparent, black 9%, black 91%, transparent);
+}
+
+.alliance-track {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  padding: 1rem;
+  animation: alliance-scroll 34s linear infinite;
+}
+
+.alliance-marquee:hover .alliance-track {
+  animation-play-state: paused;
+}
+
+.alliance-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 240px;
+  min-height: 84px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(69, 244, 255, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.045);
+  padding: 1rem 1.15rem;
+}
+
+.alliance-logo {
+  display: inline-flex;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(69, 244, 255, 0.42);
+  background: rgba(69, 244, 255, 0.08);
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  box-shadow: 0 0 26px rgba(69, 244, 255, 0.12);
+}
+
+.alliance-item strong {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.04rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+@keyframes alliance-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alliance-track {
+    animation: none;
+  }
+}
+
 .doc-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

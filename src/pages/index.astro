@@ -1,6 +1,18 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTracks, outcomes, stats, weekPath } from "../data/site";
+
+const allianceMembers = [
+  { name: "OpenAI", mark: "OAI" },
+  { name: "Anthropic", mark: "ANT" },
+  { name: "NVIDIA", mark: "NV" },
+  { name: "Palantir", mark: "PLTR" },
+  { name: "Elon Musk", mark: "X" },
+  { name: "EPFL", mark: "EPFL" },
+  { name: "PHBern", mark: "PHB" },
+];
+
+const allianceMarquee = [...allianceMembers, ...allianceMembers];
 ---
 
 <SiteLayout title="FDE FAN Academy | AI Agent FDE 前端部署工程师学习站" description="FDE FAN Academy 将课程、案例、项目和企业 AI 转型诊断 Agent 融合，训练学员完成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。">
@@ -148,6 +160,23 @@ import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTrack
       <div>
         {boundaryItems.map((item) => (
           <p><span>OK</span>{item}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="alliance-section" aria-label="FDE alliance members">
+    <div class="alliance-heading">
+      <p class="eyebrow">FDE ALLIANCE</p>
+      <h2><span class="zh">FDE 联盟成员</span><span class="en">FDE Alliance Members</span></h2>
+    </div>
+    <div class="alliance-marquee">
+      <div class="alliance-track">
+        {allianceMarquee.map((member) => (
+          <div class="alliance-item">
+            <span class="alliance-logo">{member.mark}</span>
+            <strong>{member.name}</strong>
+          </div>
         ))}
       </div>
     </div>
