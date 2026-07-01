@@ -5,7 +5,7 @@ import DocShell from "../../components/DocShell.astro";
 import PromptCopy from "../../components/PromptCopy";
 
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "prompt-to-ui").sort((a, b) => a.data.order - b.data.order);
-const prompt = `你是一名 AI-FDE 前端部署工程师。请根据以下企业需求生成一个可运行前端 Demo 方案：\n1. 业务意图与成功指标\n2. 用户角色与使用场景\n3. 数据来源、敏感字段与权限边界\n4. 输入字段、输出结构与状态机\n5. 页面结构、交互状态与错误回退\n6. Agent 工具调用点与人工确认点\n7. 验收标准、测试样例与上线风险`;
+const prompt = `你是一名 AI-FDE 前线部署工程师。请根据以下企业需求生成一个可运行前端 Demo 方案：\n1. 业务意图与成功指标\n2. 用户角色与使用场景\n3. 数据来源、敏感字段与权限边界\n4. 输入字段、输出结构与状态机\n5. 页面结构、交互状态与错误回退\n6. Agent 工具调用点与人工确认点\n7. 验收标准、测试样例与上线风险`;
 ---
 
 <SiteLayout title="Prompt to Product | FDE FAN" description="需求拆解、Prompt 结构、AI 生成前端和验收标准课程。">
