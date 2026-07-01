@@ -1,0 +1,39 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import RoadmapModulePage from "../../components/RoadmapModulePage.astro";
+import { breadcrumbJsonLd, courseJsonLd } from "../../lib/seo";
+import { diagnosticQuestions, discoveryChecklist, roadmapModules } from "../../data/roadmap";
+
+const module = roadmapModules.find((item) => item.slug === "consulting")!;
+const checklist = discoveryChecklist.filter((item) => item.group === "组织与政治");
+---
+
+<SiteLayout
+  title="Soft Stack and Diagnostic Mindset | FDE FAN"
+  description="FDE Soft Stack 课程：Diagnostic Mindset、三问诊断、MECE、Pyramid Principle、范围控制、红旗识别和客户共识。"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "Learn", path: "/learn" },
+      { name: "Soft Stack", path: "/learn/consulting" },
+    ]),
+    courseJsonLd({ name: "Soft Stack and Diagnostic Mindset for FDE", description: module.summary, path: module.href }),
+  ]}
+>
+  <RoadmapModulePage
+    module={module}
+    checklist={checklist}
+    extraIntro="Soft Stack 不是鸡汤。它决定 FDE 能不能把一个模糊、政治化、数据混乱的企业需求，转成可执行、可验收、有人维护的工程计划。"
+    extraIntroEn="The Soft Stack is not motivational talk. It decides whether an FDE can turn ambiguous, political, messy enterprise needs into executable, acceptable, maintainable engineering plans."
+  >
+    <h2><span class="zh">Diagnostic Mindset 课堂练习</span><span class="en">Diagnostic Mindset Practice</span></h2>
+    <div class="assignment-list">
+      {diagnosticQuestions.map((item, index) => (
+        <div>
+          <b>{String(index + 1).padStart(2, "0")}</b>
+          <p><strong><span class="zh">{item.q}</span><span class="en">{item.qEn}</span></strong><br /><span class="zh">{item.a}</span><span class="en">{item.aEn}</span></p>
+        </div>
+      ))}
+    </div>
+  </RoadmapModulePage>
+</SiteLayout>

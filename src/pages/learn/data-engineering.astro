@@ -1,0 +1,29 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import RoadmapModulePage from "../../components/RoadmapModulePage.astro";
+import { breadcrumbJsonLd, courseJsonLd } from "../../lib/seo";
+import { discoveryChecklist, roadmapModules } from "../../data/roadmap";
+
+const module = roadmapModules.find((item) => item.slug === "data-engineering")!;
+const checklist = discoveryChecklist.filter((item) => item.group === "数据与安全");
+---
+
+<SiteLayout
+  title="Data Engineering for FDE | FDE FAN"
+  description="FDE 数据工程课程：SQL、DuckDB、本地数据审计、字段字典、数据质量、业务指标和模型输入准备。"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "Learn", path: "/learn" },
+      { name: "Data Engineering", path: "/learn/data-engineering" },
+    ]),
+    courseJsonLd({ name: "Data Engineering for Forward Deployed Engineers", description: module.summary, path: module.href }),
+  ]}
+>
+  <RoadmapModulePage
+    module={module}
+    checklist={checklist}
+    extraIntro="FDE 进入企业现场，经常不是先写代码，而是先面对一堆本地 Excel、CSV、ERP 导出、历史数据库和口径不一致的指标。本章训练学员先把数据弄明白。"
+    extraIntroEn="In the field, an FDE often starts not with code but with Excel files, CSV exports, ERP dumps, legacy databases, and conflicting metric definitions. This chapter trains learners to understand the data first."
+  />
+</SiteLayout>

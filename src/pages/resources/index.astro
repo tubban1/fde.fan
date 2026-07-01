@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
+import { artifactTemplates } from "../../data/roadmap";
 
 const resources = await getCollection("resources");
 ---
@@ -16,6 +17,27 @@ const resources = await getCollection("resources");
           <p>{entry.data.usage}</p>
         </article>
       ))}
+    </div>
+    <h2>Artifact Templates</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Template</th>
+            <th>中文名称</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          {artifactTemplates.map(([name, zh, usage]) => (
+            <tr>
+              <td>{name}</td>
+              <td>{zh}</td>
+              <td>{usage}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </DocShell>
 </SiteLayout>

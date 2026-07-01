@@ -1,0 +1,29 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import RoadmapModulePage from "../../components/RoadmapModulePage.astro";
+import { breadcrumbJsonLd, courseJsonLd } from "../../lib/seo";
+import { discoveryChecklist, roadmapModules } from "../../data/roadmap";
+
+const module = roadmapModules.find((item) => item.slug === "evaluation")!;
+const checklist = discoveryChecklist.filter((item) => item.group === "AI 与评估");
+---
+
+<SiteLayout
+  title="AI Agent Evaluation | FDE FAN"
+  description="AI Agent 评估课程：Golden Dataset、人工评分 Rubric、工具轨迹检查、幻觉检测、上线前验收和上线后观测。"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "Learn", path: "/learn" },
+      { name: "Evaluation", path: "/learn/evaluation" },
+    ]),
+    courseJsonLd({ name: "AI Agent Evaluation for Forward Deployed Engineers", description: module.summary, path: module.href }),
+  ]}
+>
+  <RoadmapModulePage
+    module={module}
+    checklist={checklist}
+    extraIntro="FDE 不能只说 Agent 看起来不错。评估要证明它是否用了正确工具、是否遵守上下文、是否能被人工复核、是否达到上线门槛。"
+    extraIntroEn="An FDE cannot say an agent merely looks good. Evaluation proves whether it used the right tools, followed context, supports human review, and meets launch thresholds."
+  />
+</SiteLayout>

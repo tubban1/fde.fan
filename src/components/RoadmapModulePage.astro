@@ -1,0 +1,67 @@
+---
+import DocShell from "./DocShell.astro";
+import type { RoadmapModule } from "../data/roadmap";
+
+interface Props {
+  module: RoadmapModule;
+  checklist?: Array<{ group: string; groupEn: string; items: string[][] }>;
+  extraIntro?: string;
+  extraIntroEn?: string;
+}
+
+const { module, checklist = [], extraIntro, extraIntroEn } = Astro.props;
+---
+
+<DocShell
+  eyebrow={module.mark}
+  title={module.title}
+  titleEn={module.titleEn}
+  description={module.summary}
+  descriptionEn={module.summaryEn}
+>
+  <section class="insight-note">
+    <b><span class="zh">所属层级</span><span class="en">Layer</span></b>
+    <p><span class="zh">{module.layer}</span><span class="en">{module.layerEn}</span></p>
+    {extraIntro && <p><span class="zh">{extraIntro}</span><span class="en">{extraIntroEn}</span></p>}
+  </section>
+
+  <h2><span class="zh">学习产出</span><span class="en">Learning Outcomes</span></h2>
+  <div class="takeaway-list">
+    {module.outcomes.map((item, index) => (
+      <div>
+        <b>{String(index + 1).padStart(2, "0")}</b>
+        <p><span class="zh">{item}</span><span class="en">{module.outcomesEn[index]}</span></p>
+      </div>
+    ))}
+  </div>
+
+  <h2><span class="zh">扩展学习资源</span><span class="en">Resources</span></h2>
+  <div class="resource-list">
+    {module.resources.map((item) => (
+      <a href={item.href} target="_blank" rel="noreferrer">
+        <b>{item.title}</b>
+        <span class="zh">{item.note}</span>
+        <span class="en">{item.noteEn}</span>
+      </a>
+    ))}
+  </div>
+
+  {checklist.length > 0 && (
+    <>
+      <h2><span class="zh">检查清单</span><span class="en">Checklist</span></h2>
+      <div class="deep-section-list">
+        {checklist.map((group) => (
+          <section class="deep-section">
+            <h3><span class="zh">{group.group}</span><span class="en">{group.groupEn}</span></h3>
+            <ul>
+              {group.items.map(([zh, en]) => (
+                <li><span class="zh">{zh}</span><span class="en">{en}</span></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </>
+  )}
+  <slot />
+</DocShell>

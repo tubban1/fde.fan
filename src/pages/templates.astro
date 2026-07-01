@@ -1,0 +1,44 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DocShell from "../components/DocShell.astro";
+import { breadcrumbJsonLd } from "../lib/seo";
+import { artifactTemplates } from "../data/roadmap";
+---
+
+<SiteLayout
+  title="FDE FAN Artifact Templates | 交付模板"
+  description="FDE FAN Artifact Templates：需求澄清表、数据审计表、技术 PRD、MVA 架构图、评估 Rubric、SOW、ADR 和 Day-2 Runbook。"
+  jsonLd={breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "Artifact Templates", path: "/templates" },
+  ])}
+>
+  <DocShell
+    eyebrow="ARTIFACT TEMPLATES"
+    title="FDE 交付模板"
+    titleEn="FDE Artifact Templates"
+    description="模板不是附录，而是 FDE 交付能不能被接手、复盘和扩展的核心资产。"
+    descriptionEn="Templates are not appendices; they decide whether FDE delivery can be handed off, reviewed, and extended."
+  >
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Template</th>
+            <th>中文名称</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          {artifactTemplates.map(([name, zh, usage]) => (
+            <tr>
+              <td>{name}</td>
+              <td>{zh}</td>
+              <td>{usage}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </DocShell>
+</SiteLayout>

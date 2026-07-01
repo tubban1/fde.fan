@@ -1,15 +1,25 @@
 export const navItems = [
+  { href: "/roadmap", zh: "路线图", en: "Roadmap" },
   { href: "/learn", zh: "课程", en: "Learn" },
   { href: "/industries", zh: "行业", en: "Industries" },
   { href: "/cases", zh: "案例", en: "Cases" },
   { href: "/insights", zh: "洞察", en: "Insights" },
   { href: "/projects", zh: "项目", en: "Projects" },
   { href: "/resources", zh: "资源", en: "Resources" },
+  { href: "/templates", zh: "模板", en: "Templates" },
   { href: "/assessment", zh: "评分", en: "Assessment" },
   { href: "/tools/diagnosis", zh: "诊断工具", en: "Diagnosis" },
 ];
 
 export const learningTracks = [
+  {
+    href: "/roadmap",
+    mark: "MAP",
+    zh: "Systematic FDE Roadmap",
+    en: "Systematic FDE Roadmap",
+    summary: "从基础、交付、企业到行业四层，系统化学习 Forward Deployed Engineer 能力。",
+    summaryEn: "Learn Forward Deployed Engineer capabilities across foundation, delivery, enterprise, and industry layers.",
+  },
   {
     href: "/learn",
     mark: "FDE",
@@ -17,6 +27,22 @@ export const learningTracks = [
     en: "AI-FDE Operating Model",
     summary: "对齐意图、上下文、数据权限、工具调用、验证、评审和上线审计。",
     summaryEn: "Align intent, context, data access, tools, validation, review, and launch audit.",
+  },
+  {
+    href: "/learn/data-engineering",
+    mark: "DATA",
+    zh: "Data Engineering",
+    en: "Data Engineering",
+    summary: "SQL、DuckDB、本地数据审计、字段字典、数据质量、业务指标和模型输入准备。",
+    summaryEn: "SQL, DuckDB, local data audit, field dictionaries, data quality, business metrics, and model inputs.",
+  },
+  {
+    href: "/learn/cloud-deployment",
+    mark: "CLOUD",
+    zh: "Cloud and Operations",
+    en: "Cloud and Operations",
+    summary: "API、数据库、阿里云/本地部署、环境变量、日志、监控、回滚和最小可行架构。",
+    summaryEn: "APIs, databases, cloud/local deployment, env vars, logs, monitoring, rollback, and MVA.",
   },
   {
     href: "/learn/foundations",
@@ -41,6 +67,22 @@ export const learningTracks = [
     en: "Agent Workflow",
     summary: "学习工具调用、状态、路由、协作、人审和安全边界。",
     summaryEn: "Learn tool calling, state, routing, collaboration, human review, and safety boundaries.",
+  },
+  {
+    href: "/learn/evaluation",
+    mark: "EVAL",
+    zh: "AI Agent Evaluation",
+    en: "AI Agent Evaluation",
+    summary: "Golden Dataset、人工 Rubric、工具轨迹、幻觉检测、上线验收和上线后观测。",
+    summaryEn: "Golden datasets, human rubrics, tool trajectories, hallucination checks, launch acceptance, and observation.",
+  },
+  {
+    href: "/learn/consulting",
+    mark: "SOFT",
+    zh: "Soft Stack",
+    en: "Soft Stack",
+    summary: "Diagnostic Mindset、MECE、Pyramid Principle、范围控制、红旗识别和客户共识。",
+    summaryEn: "Diagnostic Mindset, MECE, Pyramid Principle, scoping, red flags, and stakeholder alignment.",
   },
   {
     href: "/industries",

@@ -1,0 +1,29 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import RoadmapModulePage from "../../components/RoadmapModulePage.astro";
+import { breadcrumbJsonLd, courseJsonLd } from "../../lib/seo";
+import { discoveryChecklist, roadmapModules } from "../../data/roadmap";
+
+const module = roadmapModules.find((item) => item.slug === "cloud-deployment")!;
+const checklist = discoveryChecklist.filter((item) => item.group === "基础设施");
+---
+
+<SiteLayout
+  title="Cloud Deployment and Operations | FDE FAN"
+  description="FDE 云部署与运行课程：API、数据库、阿里云/本地部署、环境变量、日志、监控、回滚和最小可行架构。"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "Learn", path: "/learn" },
+      { name: "Cloud Deployment", path: "/learn/cloud-deployment" },
+    ]),
+    courseJsonLd({ name: "Cloud Deployment and Operations for FDE", description: module.summary, path: module.href }),
+  ]}
+>
+  <RoadmapModulePage
+    module={module}
+    checklist={checklist}
+    extraIntro="中文版作业不以 GCP 为唯一示例。我们用阿里云 ECS、函数计算、ACK、RDS，或者本地 DuckDB/SQLite + 内网 API，训练同一套部署思维：可访问、可观测、可回滚、可移交。"
+    extraIntroEn="Assignments are cloud-neutral. We use Alibaba Cloud, local DuckDB/SQLite, private APIs, and equivalent patterns to train one deployment mindset: accessible, observable, rollbackable, and transferable."
+  />
+</SiteLayout>

@@ -7,8 +7,8 @@ import { aiFdeLoop, learningTracks, weekPath } from "../../data/site";
 const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<SiteLayout title="FDE FAN Learn | 课程总目录" description="FDE FAN Academy 课程总目录，按 FDE Role、Frontend Basics、Prompt to Product、Agent Workflow、Cross-border AI Cases 和 Delivery System 展示学习路径。">
-  <DocShell eyebrow="LEARN" title="AI-FDE 学习路径" titleEn="AI-FDE Learning Path" description="按阶段学习岗位、前端、Prompt、Agent、行业实验室、评估审计和交付系统。" descriptionEn="Learn role, front-end, prompts, agents, industry labs, evaluation, audit, and delivery systems by stage.">
+<SiteLayout title="FDE FAN Learn | 课程总目录" description="FDE FAN Academy 课程总目录，按系统路线图、基础层、交付层、企业层、行业层展示 Forward Deployed Engineer 学习路径。">
+  <DocShell eyebrow="LEARN" title="系统化 FDE 学习路径" titleEn="Systematic FDE Learning Path" description="按基础、交付、企业和行业四层学习岗位、前端、数据、云部署、Prompt、Agent、评估、Soft Stack 和交付系统。" descriptionEn="Learn role, front-end, data, cloud, prompts, agents, evaluation, soft stack, and delivery systems across foundation, delivery, enterprise, and industry layers.">
     <h2>AI-FDE 工作闭环</h2>
     <div class="loop-grid compact">
       {aiFdeLoop.map((item) => (

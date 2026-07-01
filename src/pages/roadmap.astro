@@ -1,0 +1,112 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DocShell from "../components/DocShell.astro";
+import { articleJsonLd, breadcrumbJsonLd } from "../lib/seo";
+import { artifactTemplates, caseStudyReferences, diagnosticQuestions, discoveryChecklist, roadmapLayers, roadmapModules } from "../data/roadmap";
+
+const title = "FDE FAN Roadmap | 系统化 Forward Deployed Engineer 学习路线图";
+const description = "FDE FAN 系统化路线图：基础层、交付层、企业层和行业层，覆盖数据工程、云部署、Agent 工作流、AI 评估、Soft Stack、案例研究和 Artifact Templates。";
+---
+
+<SiteLayout
+  title={title}
+  description={description}
+  keywords="FDE Roadmap, Forward Deployed Engineer, 前线部署工程师, AI-FDE, Agent Evaluation, Diagnostic Mindset"
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "FDE FAN", path: "/" },
+      { name: "Roadmap", path: "/roadmap" },
+    ]),
+    articleJsonLd({ headline: title, description, path: "/roadmap" }),
+  ]}
+>
+  <DocShell
+    eyebrow="SYSTEM ROADMAP"
+    title="系统化 FDE 学习路线图"
+    titleEn="Systematic FDE Learning Roadmap"
+    description="FDE.FAN 不做单纯资源清单，而是把 Forward Deployed Engineer 拆成四层能力：基础、交付、企业和行业。每章都有产出、Resources、Checklist 和模板。"
+    descriptionEn="FDE.FAN turns Forward Deployed Engineer training into four layers: foundation, delivery, enterprise, and industry. Each chapter has outcomes, resources, checklists, and templates."
+  >
+    <h2><span class="zh">四层能力架构</span><span class="en">Four-Layer Capability Architecture</span></h2>
+    <div class="loop-grid compact">
+      {roadmapLayers.map((layer) => (
+        <div class="loop-card">
+          <span>{layer.mark}</span>
+          <h3><span class="zh">{layer.titleZh}</span><span class="en">{layer.title}</span></h3>
+          <p><span class="zh">{layer.body}</span><span class="en">{layer.bodyEn}</span></p>
+        </div>
+      ))}
+    </div>
+
+    <h2><span class="zh">课程主线</span><span class="en">Curriculum Tracks</span></h2>
+    <section class="content-grid">
+      {roadmapModules.map((module) => (
+        <a class="doc-card" href={module.href}>
+          <span class="tag">{module.mark}</span>
+          <h2><span class="zh">{module.title}</span><span class="en">{module.titleEn}</span></h2>
+          <p><span class="zh">{module.summary}</span><span class="en">{module.summaryEn}</span></p>
+        </a>
+      ))}
+    </section>
+
+    <h2><span class="zh">Diagnostic Mindset：FDE 的三问</span><span class="en">Diagnostic Mindset: The Three Whys</span></h2>
+    <div class="assignment-list">
+      {diagnosticQuestions.map((item, index) => (
+        <div>
+          <b>{String(index + 1).padStart(2, "0")}</b>
+          <p>
+            <strong><span class="zh">{item.q}</span><span class="en">{item.qEn}</span></strong><br />
+            <span class="zh">{item.a}</span><span class="en">{item.aEn}</span>
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <h2><span class="zh">Forward Deployment Discovery Checklist</span><span class="en">Forward Deployment Discovery Checklist</span></h2>
+    <div class="deep-section-list">
+      {discoveryChecklist.map((group) => (
+        <section class="deep-section">
+          <h3><span class="zh">{group.group}</span><span class="en">{group.groupEn}</span></h3>
+          <ul>
+            {group.items.map(([zh, en]) => (
+              <li><span class="zh">{zh}</span><span class="en">{en}</span></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+    <h2><span class="zh">Case Study 参考</span><span class="en">Case Study References</span></h2>
+    <div class="resource-list">
+      {caseStudyReferences.map((item) => (
+        <a href={item.href} target="_blank" rel="noreferrer">
+          <b>{item.title}</b>
+          <span class="zh">{item.lesson}</span>
+          <span class="en">{item.lessonEn}</span>
+        </a>
+      ))}
+    </div>
+
+    <h2><span class="zh">Artifact Templates</span><span class="en">Artifact Templates</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Template</th>
+            <th>中文名称</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          {artifactTemplates.map(([name, zh, usage]) => (
+            <tr>
+              <td>{name}</td>
+              <td>{zh}</td>
+              <td>{usage}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </DocShell>
+</SiteLayout>
