@@ -2,31 +2,83 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
-import { aiFdeLoop, learningTracks, weekPath } from "../../data/site";
+import { weekPath } from "../../data/site";
 
 const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
+const phases = [
+  {
+    mark: "START",
+    title: "先理解 FDE",
+    titleEn: "Understand FDE First",
+    href: "/learn/what-is-fde",
+    body: "明确前线部署工程师做什么、不做什么，以及为什么所有训练都围绕 AI 工具交付。",
+    bodyEn: "Clarify what a Forward Deployed Engineer does and does not do, and why training centers on AI-tool delivery.",
+  },
+  {
+    mark: "TOOLS",
+    title: "AI 工具工作流",
+    titleEn: "AI Tool Workflow",
+    href: "/learn/foundations",
+    body: "用 Codex、Claude Code、Antigravity、Cursor 理解项目、改页面、跑构建、查错误。",
+    bodyEn: "Use Codex, Claude Code, Antigravity, and Cursor to inspect projects, edit pages, run builds, and debug errors.",
+  },
+  {
+    mark: "BUILD",
+    title: "从需求到 Demo",
+    titleEn: "Requirement to Demo",
+    href: "/learn/prompt-to-ui",
+    body: "把企业需求写成 AI 工具任务卡、Prompt、页面结构和验收标准。",
+    bodyEn: "Turn business needs into AI-tool task briefs, prompts, page structures, and acceptance checks.",
+  },
+  {
+    mark: "AGENT",
+    title: "Agent 工作流",
+    titleEn: "Agent Workflow",
+    href: "/learn/agent-workflows",
+    body: "用 AI 工具画流程、生成最小 Demo、补测试，并保留人审、权限和审计边界。",
+    bodyEn: "Use AI tools to map flows, generate minimal demos, add tests, and preserve human review, access, and audit boundaries.",
+  },
+  {
+    mark: "SHIP",
+    title: "部署、评估与交付",
+    titleEn: "Deploy, Evaluate, Deliver",
+    href: "/learn/deployment",
+    body: "完成可访问 URL、日志检查、回滚说明、评估报告和交付文档。",
+    bodyEn: "Ship accessible URLs, log checks, rollback notes, evaluation reports, and delivery documents.",
+  },
+  {
+    mark: "FIELD",
+    title: "Soft Stack 与行业案例",
+    titleEn: "Soft Stack and Industry Cases",
+    href: "/learn/consulting",
+    body: "训练 Diagnostic Mindset，再进入跨境电商、文旅和企业诊断案例。",
+    bodyEn: "Train the Diagnostic Mindset, then move into commerce, tourism, and enterprise diagnosis cases.",
+  },
+];
 ---
 
 <SiteLayout title="FDE FAN Learn | 课程总目录" description="FDE FAN Academy 课程总目录，围绕 Codex、Claude Code、Antigravity、Cursor 等 AI 工具组织 Forward Deployed Engineer 学习路径。">
-  <DocShell eyebrow="LEARN" title="AI 工具驱动的 FDE 学习路径" titleEn="AI-Tool-Driven FDE Learning Path" description="所有训练都围绕 AI 工具应用展开：理解必要技术概念，是为了更好地指挥工具完成需求、Demo、Agent、部署、评估和交付。" descriptionEn="All training is organized around AI tool application. Technical concepts are learned only to better direct tools for requirements, demos, agents, deployment, evaluation, and delivery.">
-    <h2>AI-FDE 工作闭环</h2>
-    <div class="loop-grid compact">
-      {aiFdeLoop.map((item) => (
-        <div class="loop-card">
-          <span>{item.mark}</span>
-          <h3><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h3>
-          <p><span class="zh">{item.text}</span><span class="en">{item.textEn}</span></p>
-        </div>
-      ))}
-    </div>
+  <DocShell eyebrow="LEARN" title="从这里开始学习" titleEn="Start Learning Here" description="这里是上课入口：按阶段进入课程、教程和项目。想先看完整能力全景，请去系统路线图。" descriptionEn="This is the classroom entrance: follow stages into lessons, tutorials, and projects. Use the roadmap for the full capability map.">
+    <section class="insight-lesson">
+      <p class="eyebrow">LEARN VS ROADMAP</p>
+      <p>
+        <span class="zh">学习路径负责“下一步学什么”；系统路线图负责“为什么这些能力属于 FDE”。</span>
+        <span class="en">The learning path answers what to study next; the roadmap explains why these capabilities belong to FDE.</span>
+      </p>
+      <a class="cta-secondary" href="/roadmap">查看系统路线图</a>
+    </section>
+
+    <h2>阶段式课程入口</h2>
     <section class="content-grid">
-      {learningTracks.map((track) => (
-        <a class="doc-card" href={track.href}>
-          <h2><span class="zh">{track.zh}</span><span class="en">{track.en}</span></h2>
-          <p><span class="zh">{track.summary}</span><span class="en">{track.summaryEn}</span></p>
+      {phases.map((phase) => (
+        <a class="doc-card" href={phase.href}>
+          <span class="tag">{phase.mark}</span>
+          <h2><span class="zh">{phase.title}</span><span class="en">{phase.titleEn}</span></h2>
+          <p><span class="zh">{phase.body}</span><span class="en">{phase.bodyEn}</span></p>
         </a>
       ))}
     </section>
+
     <h2>8 周训练路径</h2>
     <div class="timeline">
       {weekPath.map(([week, zh, en]) => (

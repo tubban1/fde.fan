@@ -2,7 +2,7 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import DocShell from "../components/DocShell.astro";
 import { articleJsonLd, breadcrumbJsonLd } from "../lib/seo";
-import { caseStudyReferences, diagnosticQuestions, discoveryChecklist, roadmapLayers, roadmapModules } from "../data/roadmap";
+import { caseStudyReferences, diagnosticQuestions, discoveryChecklist, roadmapLayers } from "../data/roadmap";
 
 const title = "FDE FAN Roadmap | 系统化 Forward Deployed Engineer 学习路线图";
 const description = "FDE FAN 系统化路线图：围绕 Codex、Claude Code、Antigravity、Cursor 等 AI 工具，训练前线部署工程师完成需求、Demo、Agent、部署、评估和交付。";
@@ -24,8 +24,8 @@ const description = "FDE FAN 系统化路线图：围绕 Codex、Claude Code、A
     eyebrow="SYSTEM ROADMAP"
     title="系统化 FDE 学习路线图"
     titleEn="Systematic FDE Learning Roadmap"
-    description="FDE.FAN 不做纯技术专精，而是训练学员用 Codex、Claude Code、Antigravity、Cursor 等 AI 工具完成真实交付。技术概念服务于判断和验收。"
-    descriptionEn="FDE.FAN does not teach deep tech for its own sake. It trains learners to use AI tools such as Codex, Claude Code, Antigravity, and Cursor for real delivery. Technical concepts serve judgment and acceptance."
+    description="这里不是课程目录，而是 FDE 能力地图：解释为什么要学 AI 工具、交付闭环、企业判断、行业场景和模板资产。具体上课入口在 Learn。"
+    descriptionEn="This is not the course directory. It is the FDE capability map: why AI tools, delivery loops, field judgment, industry scenarios, and templates matter. Use Learn for course entry."
   >
     <h2><span class="zh">四层能力架构</span><span class="en">Four-Layer Capability Architecture</span></h2>
     <div class="loop-grid compact">
@@ -38,15 +38,13 @@ const description = "FDE FAN 系统化路线图：围绕 Codex、Claude Code、A
       ))}
     </div>
 
-    <h2><span class="zh">课程主线</span><span class="en">Curriculum Tracks</span></h2>
-    <section class="content-grid">
-      {roadmapModules.map((module) => (
-        <a class="doc-card" href={module.href}>
-          <span class="tag">{module.mark}</span>
-          <h2><span class="zh">{module.title}</span><span class="en">{module.titleEn}</span></h2>
-          <p><span class="zh">{module.summary}</span><span class="en">{module.summaryEn}</span></p>
-        </a>
-      ))}
+    <section class="insight-lesson">
+      <p class="eyebrow">COURSE ENTRY</p>
+      <p>
+        <span class="zh">如果你已经理解能力全景，下一步进入 Learn，按阶段完成课程和项目。</span>
+        <span class="en">Once you understand the capability map, move to Learn and complete lessons and projects by stage.</span>
+      </p>
+      <a class="cta-secondary" href="/learn">进入学习路径</a>
     </section>
 
     <h2><span class="zh">Diagnostic Mindset：FDE 的三问</span><span class="en">Diagnostic Mindset: The Three Whys</span></h2>
