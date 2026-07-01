@@ -2,10 +2,10 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import DocShell from "../components/DocShell.astro";
 import { articleJsonLd, breadcrumbJsonLd } from "../lib/seo";
-import { artifactTemplates, caseStudyReferences, diagnosticQuestions, discoveryChecklist, roadmapLayers, roadmapModules } from "../data/roadmap";
+import { caseStudyReferences, diagnosticQuestions, discoveryChecklist, roadmapLayers, roadmapModules } from "../data/roadmap";
 
 const title = "FDE FAN Roadmap | 系统化 Forward Deployed Engineer 学习路线图";
-const description = "FDE FAN 系统化路线图：基础层、交付层、企业层和行业层，覆盖数据工程、云部署、Agent 工作流、AI 评估、Soft Stack、案例研究和 Artifact Templates。";
+const description = "FDE FAN 系统化路线图：围绕 Codex、Claude Code、Antigravity、Cursor 等 AI 工具，训练前线部署工程师完成需求、Demo、Agent、部署、评估和交付。";
 ---
 
 <SiteLayout
@@ -24,8 +24,8 @@ const description = "FDE FAN 系统化路线图：基础层、交付层、企业
     eyebrow="SYSTEM ROADMAP"
     title="系统化 FDE 学习路线图"
     titleEn="Systematic FDE Learning Roadmap"
-    description="FDE.FAN 不做单纯资源清单，而是把 Forward Deployed Engineer 拆成四层能力：基础、交付、企业和行业。每章都有产出、Resources、Checklist 和模板。"
-    descriptionEn="FDE.FAN turns Forward Deployed Engineer training into four layers: foundation, delivery, enterprise, and industry. Each chapter has outcomes, resources, checklists, and templates."
+    description="FDE.FAN 不做纯技术专精，而是训练学员用 Codex、Claude Code、Antigravity、Cursor 等 AI 工具完成真实交付。技术概念服务于判断和验收。"
+    descriptionEn="FDE.FAN does not teach deep tech for its own sake. It trains learners to use AI tools such as Codex, Claude Code, Antigravity, and Cursor for real delivery. Technical concepts serve judgment and acceptance."
   >
     <h2><span class="zh">四层能力架构</span><span class="en">Four-Layer Capability Architecture</span></h2>
     <div class="loop-grid compact">
@@ -88,25 +88,13 @@ const description = "FDE FAN 系统化路线图：基础层、交付层、企业
     </div>
 
     <h2><span class="zh">Artifact Templates</span><span class="en">Artifact Templates</span></h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Template</th>
-            <th>中文名称</th>
-            <th>用途</th>
-          </tr>
-        </thead>
-        <tbody>
-          {artifactTemplates.map(([name, zh, usage]) => (
-            <tr>
-              <td>{name}</td>
-              <td>{zh}</td>
-              <td>{usage}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section class="insight-lesson">
+      <p class="eyebrow">TEMPLATE LIBRARY</p>
+      <p>
+        <span class="zh">完整模板集中放在 Artifact Templates 页面，避免同一批模板在 Roadmap、Resources 和 Templates 多处重复维护。</span>
+        <span class="en">The full template library lives on the Artifact Templates page to avoid maintaining the same templates across Roadmap, Resources, and Templates.</span>
+      </p>
+      <a class="cta-secondary" href="/templates">Open Artifact Templates</a>
+    </section>
   </DocShell>
 </SiteLayout>

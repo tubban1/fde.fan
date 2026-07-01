@@ -7,8 +7,8 @@ import { aiFdeLoop, diagnosisFlow } from "../../data/site";
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "agent-workflows").sort((a, b) => a.data.order - b.data.order);
 ---
 
-<SiteLayout title="Agent Workflows | FDE FAN" description="Agent 概念、工具调用、工作流、路由、Human-in-the-loop 和企业诊断 Agent 拆解。">
-  <DocShell eyebrow="AGENT WORKFLOW" title="Agent 工作流" titleEn="Agent Workflows" description="从工具调用到企业诊断 Agent，训练带权限、评估、人审和审计的可交付工作流。" descriptionEn="From tool calls to diagnosis agents, build workflows with access control, evaluation, human review, and auditability.">
+<SiteLayout title="Agent Workflows | FDE FAN" description="Agent 概念、工具调用、Human-in-the-loop 和企业诊断 Agent 拆解，重点是用 AI 工具画流程、写 Demo、补测试。">
+  <DocShell eyebrow="AGENT WORKFLOW" title="AI 工具辅助 Agent 工作流" titleEn="AI-Assisted Agent Workflows" description="从工具调用到企业诊断 Agent，训练学员用 AI 工具画流程、生成 Demo、补测试，并保留权限、评估、人审和审计边界。" descriptionEn="From tool calls to diagnosis agents, train learners to use AI tools to map flows, generate demos, add tests, and preserve access, evaluation, human review, and audit boundaries.">
     <h2>企业级 Agent 不只会回答</h2>
     <div class="loop-grid compact">
       {aiFdeLoop.slice(1).map((item) => (

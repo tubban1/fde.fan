@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
-import { artifactTemplates } from "../../data/roadmap";
 
 const resources = await getCollection("resources");
 ---
@@ -18,26 +17,10 @@ const resources = await getCollection("resources");
         </article>
       ))}
     </div>
-    <h2>Artifact Templates</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Template</th>
-            <th>中文名称</th>
-            <th>用途</th>
-          </tr>
-        </thead>
-        <tbody>
-          {artifactTemplates.map(([name, zh, usage]) => (
-            <tr>
-              <td>{name}</td>
-              <td>{zh}</td>
-              <td>{usage}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section class="insight-lesson">
+      <p class="eyebrow">ARTIFACTS</p>
+      <p>完整 Artifact Templates 已集中到独立页面，Resources 只保留课件和交付资源入口。</p>
+      <a class="cta-secondary" href="/templates">查看 Artifact Templates</a>
+    </section>
   </DocShell>
 </SiteLayout>

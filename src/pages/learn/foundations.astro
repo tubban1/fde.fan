@@ -6,10 +6,10 @@ import DocShell from "../../components/DocShell.astro";
 const tutorials = (await getCollection("tutorials")).filter((item) => ["foundations", "deployment"].includes(item.data.track)).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<SiteLayout title="Frontend Basics | FDE FAN" description="Web、HTML、CSS、JS、React、Vite、Git 和部署基础课程。">
-  <DocShell eyebrow="FOUNDATIONS" title="前端与部署基础" titleEn="Front-End and Deployment Basics" description="FDE 必须能读懂、修改、部署 AI 生成的前端项目。" descriptionEn="FDEs must read, adjust, and deploy AI-generated front-end projects.">
+<SiteLayout title="AI Tool Workflow Foundations | FDE FAN" description="FDE AI 工具工作流基础：用 Codex、Claude Code、Antigravity、Cursor 理解项目、修改页面、运行构建和完成最小部署。">
+  <DocShell eyebrow="FOUNDATIONS" title="AI 工具工作流基础" titleEn="AI Tool Workflow Foundations" description="FDE 不需要先成为传统前端工程师，但必须能借助 AI 工具读懂、修改、验证、部署 AI 生成的前端项目。" descriptionEn="FDEs do not need to become traditional front-end engineers first, but they must use AI tools to read, adjust, verify, and deploy AI-generated front-end projects.">
     <h2>学习目标</h2>
-    <p>掌握工具页、表单页、报告页、状态管理、Git 提交、Vite 构建和 Vercel 部署。</p>
+    <p>学习目标不是背语法，而是会把任务交给 Codex、Claude Code、Antigravity、Cursor：让工具解释项目结构、修改工具页/表单页/报告页、运行 Vite 构建、定位错误、完成 Git 提交和部署。</p>
     <div class="resource-list">
       {tutorials.map((entry) => <a href={`/learn/tutorials/${entry.slug}`}><b>{entry.data.title}</b><span>{entry.data.summary}</span></a>)}
     </div>

@@ -6,38 +6,38 @@ import DocShell from "../../components/DocShell.astro";
 const tutorials = (await getCollection("tutorials")).filter((item) => item.data.track === "deployment").sort((a, b) => a.data.order - b.data.order);
 ---
 
-<SiteLayout title="Deployment System | FDE FAN" description="FDE 部署课程：把本地前端或 Agent 工具发布成可访问、可测试、可回滚、可交付的线上应用。">
-  <DocShell eyebrow="DEPLOYMENT" title="部署到底是在做什么" titleEn="What Deployment Actually Means" description="部署不是发截图，也不是只配分享图。部署是把本地代码、配置、数据连接和运行环境变成一个稳定 URL，让业务方可以打开、测试、演示、复现和验收。" descriptionEn="Deployment is not screenshots or share images. It turns local code, configuration, data connections, and runtime into a stable URL that stakeholders can open, test, demo, reproduce, and accept.">
+<SiteLayout title="AI-Assisted Deployment System | FDE FAN" description="FDE 部署课程：用 AI 工具协助把本地前端或 Agent 工具发布成可访问、可测试、可回滚、可交付的线上应用。">
+  <DocShell eyebrow="DEPLOYMENT" title="AI 工具辅助部署" titleEn="AI-Assisted Deployment" description="部署不是发截图，也不是只配分享图。FDE 要会让 AI 工具协助检查构建、配置、数据连接、日志和回滚，把项目变成业务方能打开、测试、演示、复现和验收的稳定 URL。" descriptionEn="Deployment is not screenshots or share images. FDEs use AI tools to inspect builds, configuration, data connections, logs, and rollback so stakeholders can open, test, demo, reproduce, and accept a stable URL.">
     <div class="note-panel">
       <strong>一句话定义</strong>
-      <p>FDE 的部署交付，就是把 AI 生成或人工修正后的项目，从“我电脑上能跑”推进到“任何被授权的人都能通过链接使用，并且出问题能定位、修复和回滚”。</p>
+      <p>FDE 的部署交付，就是借助 AI 工具把 AI 生成或人工修正后的项目，从“我电脑上能跑”推进到“任何被授权的人都能通过链接使用，并且出问题能定位、修复和回滚”。</p>
     </div>
 
     <h2>部署包含哪些工作</h2>
     <div class="matrix-grid two">
       <div class="matrix-card">
         <h3>构建与运行时</h3>
-        <p>确认项目能在生产模式构建，例如 Vite/Astro/Next 的 build，不依赖本机缓存、临时文件或开发服务器。</p>
+        <p>让 AI 工具运行并解释 Vite/Astro/Next 的 build，确认项目不依赖本机缓存、临时文件或开发服务器。</p>
       </div>
       <div class="matrix-card">
         <h3>托管平台</h3>
-        <p>选择 Vercel、Netlify、Cloudflare Pages、服务器或对象存储，理解静态站、SSR、Serverless API 的差异。</p>
+        <p>用 AI 工具辅助判断 Vercel、Netlify、Cloudflare Pages、服务器或对象存储的适配性，理解静态站、SSR、Serverless API 的基本差异。</p>
       </div>
       <div class="matrix-card">
         <h3>环境变量与密钥</h3>
-        <p>把 API Key、数据库地址、模型 Provider、回调地址放到平台环境变量里，不写死在前端代码中。</p>
+        <p>让 AI 工具检查 API Key、数据库地址、模型 Provider、回调地址是否正确进入平台环境变量，而不是写死在前端代码中。</p>
       </div>
       <div class="matrix-card">
         <h3>接口与数据连接</h3>
-        <p>检查前端能否正确调用 API，服务端能否连接数据库、模型服务、文件存储或第三方工具。</p>
+        <p>让 AI 工具根据日志和请求结果判断前端 API、数据库、模型服务、文件存储或第三方工具是否连接成功。</p>
       </div>
       <div class="matrix-card">
         <h3>域名与访问控制</h3>
-        <p>配置正式域名、HTTPS、路径规则、登录限制、测试入口和必要的基础鉴权。</p>
+        <p>让 AI 工具协助梳理正式域名、HTTPS、路径规则、登录限制、测试入口和必要的基础鉴权清单。</p>
       </div>
       <div class="matrix-card">
         <h3>日志、监控与回滚</h3>
-        <p>知道在哪里看构建日志、运行日志、错误堆栈；保留可回滚版本，避免线上改坏后无法恢复。</p>
+        <p>会把构建日志、运行日志、错误堆栈交给 AI 工具解释；保留可回滚版本，避免线上改坏后无法恢复。</p>
       </div>
     </div>
 
