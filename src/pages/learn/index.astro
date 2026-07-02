@@ -5,6 +5,40 @@ import DocShell from "../../components/DocShell.astro";
 import { weekPath } from "../../data/site";
 
 const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
+const learningTools = [
+  {
+    mark: "PROJECTS",
+    title: "项目题库",
+    titleEn: "Project Bank",
+    href: "/projects",
+    body: "把课程能力落到 8 周项目任务、结业作品和验收清单里。",
+    bodyEn: "Turn course skills into 8-week project tasks, capstones, and acceptance checks.",
+  },
+  {
+    mark: "RESOURCES",
+    title: "课件与资源",
+    titleEn: "Resources",
+    href: "/resources",
+    body: "需求澄清表、Prompt、测试清单、演示脚本和复盘材料。",
+    bodyEn: "Clarification forms, prompts, test checklists, demo scripts, and review materials.",
+  },
+  {
+    mark: "TEMPLATES",
+    title: "交付模板",
+    titleEn: "Templates",
+    href: "/templates",
+    body: "PRD、SOW、ADR、Runbook 和评估 Rubric 等可复用交付资产。",
+    bodyEn: "Reusable delivery assets such as PRDs, SOWs, ADRs, runbooks, and rubrics.",
+  },
+  {
+    mark: "ASSESS",
+    title: "评分体系",
+    titleEn: "Assessment",
+    href: "/assessment",
+    body: "用作品、工具轨迹、交付文档和边界意识判断学习成果。",
+    bodyEn: "Evaluate outcomes through artifacts, tool traces, delivery docs, and boundary awareness.",
+  },
+];
 const phases = [
   {
     mark: "START",
@@ -75,6 +109,17 @@ const phases = [
           <span class="tag">{phase.mark}</span>
           <h2><span class="zh">{phase.title}</span><span class="en">{phase.titleEn}</span></h2>
           <p><span class="zh">{phase.body}</span><span class="en">{phase.bodyEn}</span></p>
+        </a>
+      ))}
+    </section>
+
+    <h2>学习工具箱</h2>
+    <section class="content-grid">
+      {learningTools.map((tool) => (
+        <a class="doc-card" href={tool.href}>
+          <span class="tag">{tool.mark}</span>
+          <h2><span class="zh">{tool.title}</span><span class="en">{tool.titleEn}</span></h2>
+          <p><span class="zh">{tool.body}</span><span class="en">{tool.bodyEn}</span></p>
         </a>
       ))}
     </section>

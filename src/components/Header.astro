@@ -8,7 +8,7 @@ import { navItems } from "../data/site";
     <img src="/assets/fde-logo-mark.png" alt="" />
     <span>FDE FAN</span>
   </a>
-  <nav>
+  <nav class="desktop-nav" aria-label="主导航">
     {navItems.map((item) => (
       <a href={item.href}>
         <span class="zh">{item.zh}</span>
@@ -16,5 +16,24 @@ import { navItems } from "../data/site";
       </a>
     ))}
   </nav>
-  <LanguageToggle client:load />
+  <div class="desktop-locale">
+    <LanguageToggle client:load />
+  </div>
+  <details class="mobile-menu">
+    <summary aria-label="打开导航">
+      <span class="zh">菜单</span>
+      <span class="en">Menu</span>
+    </summary>
+    <div class="mobile-menu-panel">
+      <LanguageToggle client:load />
+      <nav aria-label="移动端导航">
+        {navItems.map((item) => (
+          <a href={item.href}>
+            <span class="zh">{item.zh}</span>
+            <span class="en">{item.en}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </details>
 </header>

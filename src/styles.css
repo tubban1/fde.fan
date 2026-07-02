@@ -80,13 +80,19 @@ select {
   object-fit: contain;
 }
 
-.site-header nav {
+.desktop-nav {
   display: flex;
   justify-content: center;
   gap: 0.25rem;
 }
 
-.site-header nav a,
+.desktop-locale {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.desktop-nav a,
+.mobile-menu-panel nav a,
 .locale-toggle button {
   min-height: 38px;
   border: 1px solid transparent;
@@ -95,7 +101,8 @@ select {
   font-size: 0.9rem;
 }
 
-.site-header nav a:hover,
+.desktop-nav a:hover,
+.mobile-menu-panel nav a:hover,
 .locale-toggle button.active {
   border-color: rgba(69, 244, 255, 0.38);
   background: rgba(69, 244, 255, 0.1);
@@ -111,6 +118,53 @@ select {
 .locale-toggle button {
   cursor: pointer;
   background: transparent;
+}
+
+.mobile-menu {
+  position: relative;
+  display: none;
+  justify-self: end;
+}
+
+.mobile-menu summary {
+  display: inline-flex;
+  min-height: 38px;
+  cursor: pointer;
+  list-style: none;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.mobile-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu-panel {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 0;
+  width: min(82vw, 300px);
+  border: 1px solid var(--line);
+  background: rgba(8, 12, 20, 0.98);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+  padding: 0.75rem;
+}
+
+.mobile-menu-panel .locale-toggle {
+  width: 100%;
+  margin-bottom: 0.7rem;
+}
+
+.mobile-menu-panel .locale-toggle button {
+  flex: 1;
+}
+
+.mobile-menu-panel nav {
+  display: grid;
+  gap: 0.35rem;
 }
 
 .home-hero {
@@ -1290,13 +1344,16 @@ select {
 
 @media (max-width: 960px) {
   .site-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto;
   }
 
-  .site-header nav {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-    overflow-x: auto;
+  .desktop-nav,
+  .desktop-locale {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
   }
 
   .home-hero,

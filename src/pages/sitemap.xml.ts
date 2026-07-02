@@ -9,6 +9,7 @@ const staticRoutes = [
   "/",
   "/roadmap",
   "/learn",
+  "/agents",
   "/learn/what-is-fde",
   "/learn/foundations",
   "/learn/data-engineering",
@@ -31,6 +32,7 @@ const staticRoutes = [
   "/insights",
   "/tools/diagnosis",
   "/diagnosis",
+  "/worldcup",
 ];
 
 const escapeXml = (value: string) =>
