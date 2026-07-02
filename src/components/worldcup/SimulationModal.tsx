@@ -375,24 +375,34 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         ctx.font = '900 36px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
         ctx.fillText(winner, 72, 350);
 
+        if (aiPrompt) {
+            ctx.fillStyle = 'rgba(255,255,255,0.07)';
+            ctx.fillRect(72, 382, 1056, 58);
+            ctx.strokeStyle = 'rgba(165,180,252,0.18)';
+            ctx.strokeRect(72, 382, 1056, 58);
+            ctx.fillStyle = '#a5b4fc';
+            ctx.font = '800 24px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+            drawWrappedText(ctx, `提问：${aiPrompt}`.slice(0, 58), 104, 419, 980, 30, 1);
+        }
+
         ctx.fillStyle = 'rgba(255,255,255,0.08)';
-        ctx.fillRect(72, 420, 1056, 260);
+        ctx.fillRect(72, 470, 1056, 260);
         ctx.strokeStyle = 'rgba(165,180,252,0.35)';
         ctx.lineWidth = 2;
-        ctx.strokeRect(72, 420, 1056, 260);
+        ctx.strokeRect(72, 470, 1056, 260);
 
         ctx.fillStyle = '#ffffff';
         ctx.font = '900 42px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
-        ctx.fillText(`${homeMeta.flag || ''} ${homeName}`, 120, 515);
+        ctx.fillText(`${homeMeta.flag || ''} ${homeName}`, 120, 565);
         ctx.fillStyle = '#64748b';
         ctx.font = '900 32px Arial, sans-serif';
-        ctx.fillText('VS', 560, 515);
+        ctx.fillText('VS', 560, 565);
         ctx.fillStyle = '#ffffff';
         ctx.font = '900 42px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
-        ctx.fillText(`${awayName} ${awayMeta.flag || ''}`, 670, 515);
+        ctx.fillText(`${awayName} ${awayMeta.flag || ''}`, 670, 565);
 
         const barX = 120;
-        const barY = 590;
+        const barY = 640;
         const barW = 960;
         const barH = 28;
         ctx.fillStyle = '#10b981';
@@ -404,26 +414,26 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
 
         ctx.font = '800 28px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
         ctx.fillStyle = '#6ee7b7';
-        ctx.fillText(`主胜 ${(adjusted.home * 100).toFixed(1)}%`, barX, 655);
+        ctx.fillText(`主胜 ${(adjusted.home * 100).toFixed(1)}%`, barX, 705);
         ctx.fillStyle = '#cbd5e1';
-        ctx.fillText(`平局 ${(adjusted.draw * 100).toFixed(1)}%`, 500, 655);
+        ctx.fillText(`平局 ${(adjusted.draw * 100).toFixed(1)}%`, 500, 705);
         ctx.fillStyle = '#fda4af';
-        ctx.fillText(`客胜 ${(adjusted.away * 100).toFixed(1)}%`, 835, 655);
+        ctx.fillText(`客胜 ${(adjusted.away * 100).toFixed(1)}%`, 835, 705);
 
         ctx.fillStyle = '#c7d2fe';
         ctx.font = '800 32px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
-        ctx.fillText('3 个关键依据', 72, 780);
+        ctx.fillText('3 个关键依据', 72, 820);
 
         const cards = takeaways.length > 0 ? takeaways : ['模型基于排名、Elo 与近期状态形成基准判断', '人工输入的伤停、首发、天气和赔率会影响推演结果', '完整解释和数据依据请扫码查看'];
         cards.slice(0, 3).forEach((item: string, index: number) => {
-            const y = 830 + index * 118;
+            const y = 870 + index * 108;
             ctx.fillStyle = 'rgba(255,255,255,0.07)';
-            ctx.fillRect(72, y, 1056, 86);
+            ctx.fillRect(72, y, 1056, 78);
             ctx.strokeStyle = 'rgba(255,255,255,0.10)';
-            ctx.strokeRect(72, y, 1056, 86);
+            ctx.strokeRect(72, y, 1056, 78);
             ctx.fillStyle = '#818cf8';
             ctx.font = '900 28px Arial, sans-serif';
-            ctx.fillText(`0${index + 1}`, 108, y + 53);
+            ctx.fillText(`0${index + 1}`, 108, y + 50);
             ctx.fillStyle = '#f8fafc';
             ctx.font = '700 28px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
             drawWrappedText(ctx, item.replace(/\s+/g, ' ').slice(0, 46), 170, y + 50, 880, 34, 1);
@@ -443,12 +453,6 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         ctx.fillStyle = '#a5b4fc';
         ctx.font = '700 26px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
         drawWrappedText(ctx, qrText.replace(/^https?:\/\//, ''), 72, 1302, 680, 36, 3);
-
-        if (aiPrompt) {
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '600 24px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
-            drawWrappedText(ctx, `提问：${aiPrompt}`.slice(0, 52), 72, 1138, 960, 34, 1);
-        }
 
         ctx.fillStyle = '#ffffff';
         ctx.font = '900 30px Arial, sans-serif';
