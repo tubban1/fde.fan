@@ -1,0 +1,164 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no, email=no"/>   
+<meta http-equiv="pragma" content="no-cache">  
+<meta http-equiv="cache-control" content="no-cache">  
+<meta http-equiv="expires" content="0">
+<title>2025年辽宁省普通高等学校招生录取普通类高职（专科）提前批“征集志愿”录取最低分</title>
+<meta name="keywords" content="辽宁招生考试之窗" />
+<meta name="description" content="辽宁招生考试之窗" />
+<link href="../css/public.css?v=20260123175327" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="../images/lnzsks.ico" type="image/x-icon"/> 
+<style type="text/css">
+    .content{
+        /*letter-spacing: 4px;*/
+		word-spacing : 3px;
+    }
+    body { -webkit-text-size-adjust: 100% !important; }
+</style>
+<script type="text/javascript" src="../js/bdtj.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+        var i = 1;
+        var hiddenId;
+
+
+        function adjustIndent() {
+            //const paragraphs = document.querySelectorAll('p');
+            const paragraphs = document.querySelectorAll(".content p");
+            paragraphs.forEach(paragraph => {
+                // 获取当前字体大小
+                paragraph.style.fontSize = '14px';
+                const fontSize = window.getComputedStyle(paragraph).fontSize;
+                const fontSizeNum = parseFloat(fontSize); // 转换为数字
+                const indent = fontSizeNum * 2; // 计算2em的缩进值
+                //console.log(paragraph.style.textIndent == "" || paragraph.style.textIndent == null);
+                // 设置缩进
+                const indent_str = paragraph.style.textIndent;
+                const indent_num  = parseInt(indent_str,10);
+                if((!indent_str == "" || !indent_str == null)&& indent_num > 0){
+                    paragraph.style.textIndent = `0px`;
+                    let paragraph_innerHtml_str = paragraph.innerHTML;
+                    paragraph_innerHtml_str = "　　" + paragraph_innerHtml_str;
+                    paragraph.innerHTML = paragraph_innerHtml_str;
+
+                    /*
+                    paragraph.style.textIndent = `${indent}px`;
+
+                    const p_children_list = paragraph.querySelectorAll("span");
+                    p_children_list.forEach(child_element => {
+                        if(!child_element.style.textIndent == "" || !child_element.style.textIndent == null) {
+                            child_element.style.textIndent = `0px`;
+                            const innerText = "　　" + child_element.innerText;
+                            child_element.innerText = innerText;
+                            paragraph.style.textIndent = `0px`;
+                        }
+                    });*/
+                }
+            });
+        }
+        window.onload = adjustIndent;
+
+
+
+        $(function () {
+            //获取隐藏的<div>的数量
+            var total = $("#total").val();
+            console.log(total)
+            /*下滑到本页最下面在之后加载下一页*/
+            $(window).scroll(function () {
+                //浏览器所能看到的页面的那部分的高度
+                var winH = $(window).height();
+                var scrH = $(window).scrollTop();//滚动的高度
+                //获取整个页面的高度 htmH为设置的滚动到的高度位置
+                var htmH = $(document).height() - 100;
+                //可见高度+滚动高度 超出 设置的高度，触发方法
+                if (winH + scrH >= htmH) {
+                    //到达底部-100的高度，触发方法
+                    hiddenId = "#hiddenDiv" + i;
+                    $(hiddenId).show();
+                    i = i + 1;
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="header">
+  <img src="../images/head.jpg" />
+  <div class="qrcode">
+    <img src="../images/qrcode.jpg" />
+    <p>请关注"辽宁省教育招生考试"</p>
+  </div>
+</div>
+<div class="nav">
+  <ul class="clearfix">
+  	<li><a target="_blank" href="../index.html">首页</a></li><li class="active"><a target="_blank" href="../ptgk.html">普通高考</a></li><li><a target="_blank" href="../listinfo/xysp_1.html">学业水平</a></li><li><a target="_blank" href="../listinfo/yjs_1.html">研究生</a></li><li><a target="_blank" href="../zsb.html">专升本</a></li><li><a target="_blank" href="../crgk.html">成人高考</a></li><li><a target="_blank" href="../listinfo/zxks_1.html">自学考试</a></li><li><a target="_blank" href="../listinfo/wnz_1.html">五年制高职</a></li><li><a target="_blank" href="../fxlinfo/fxl_1600_1.html">非学历考试</a></li><li><a target="_blank" href="../dxszb.html">大学生征兵</a></li>
+  </ul>
+</div>
+<div class="head-search clearfix">
+  <div class="date" id="date">2018年01月07日 星期四</div>
+
+ <a href="../zzjg/zzjg.html" class="btn" target="_blank">组织机构</a>
+    <a href="../listinfo/cggk_1.html" class="btn" target="_blank">政务公开</a>
+
+  <a href="../wbzx.html" class="btn" target="_blank">网报中心</a>
+  <a href="../cxzx.html" class="btn" target="_blank">查询中心</a>
+  <a href="../cjzm/cjzmlist_new.html" class="btn" target="_blank">成绩证明</a>
+  <a href="../zkzz.html" class="btn" target="_blank">招考杂志</a>
+  <div class="search">
+    <form id="infoform" name="infoform" method="post" action="../lnzsksSearch/search/index.action" >
+      <input type="text" name="title" id="title" class="input" value="" placeholder="站内搜索" />
+      <input type="image" name="" id="" class="button" src="../images/headsearch.jpg" />
+    </form>
+  </div>
+</div>
+<div class="main clearfix">
+  <div class="position">
+    <a href="../index.html" style="color:#3f98ef">首页</a>
+    <img style="margin-right: 4px" src="../images/link.png"><a style="color:#3f98ef"href=" ../ptgk.html">普通高考</a><img style="margin-left: 4px" src="../images/link.png">
+    <a style="color:#3f98ef"href=" ../listinfo/NewsList_1104_1.html">录取分数线</a><img style="margin-left: 8px" src="../images/link.png"><a style="color:#3f98ef">正文</a>
+  </div>
+  <div class="info">
+    <h3>2025年辽宁省普通高等学校招生录取普通类高职（专科）提前批“征集志愿”录取最低分</h3>
+    <div class="subtitle clearfix">
+      <span class="mr20">时间：2025-08-07 14:00</span>
+	  <!--
+	  $editor$
+      <span class="mr20">&nbsp;&nbsp;作者：辽宁省招生考试办公室</span>
+		-->
+	</div>
+    <div class="content">
+    	<p style="text-align: center; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2025/2025gklqzktqzj0807w.xlsx" target="_self"><span style="text-wrap-mode: nowrap; color: rgb(255, 0, 0);">2025年辽宁省普通高等学校招生录取普通类高职（专科）提前批（历史学科类）“征集志愿”录取最低分（点击链接下载查看）</span></a></p><p style="text-align: center; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2025/2025gklqzktqzj0807l.xlsx" target="_self"><span style="text-wrap-mode: nowrap; color: rgb(255, 0, 0);">2025年辽宁省普通高等学校招生录取普通类高职（专科）提前批（物理学科类）“征集志愿”录取最低分（点击链接下载查看）</span></a></p><p style="word-spacing: 0px;"><span style="text-wrap-mode: nowrap;">	</span></p><p style="word-spacing: 0px;"><br></p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="footline"></div>
+   <div class="footerA">
+	  <div class="footlink">
+		  <a href="../wzdh.html" target="_blank" style="margin: 0;padding: 0;">网站地图</a>
+	  </div>
+	  <div class="footlink" >
+		<p>主管单位：辽宁省高中等教育招生考试委员会办公室 &emsp;&emsp;&emsp;主办单位：辽宁招生考试杂志社</p>
+	  </div>
+	   <div class="footlink" >
+	   <p>地址：沈阳市于洪区怒江北街101号&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;邮编：110034</p>
+	   
+	   </div>
+	  <div class="footlink" >
+	    <p>辽B2-20120095-1&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;温馨提示：显示器分辨率1440*900或以上，IE9.0或以上浏览器为最佳显示效果 </p>
+	   </div>
+	   <div class="footbiao">
+		<a href="https://bszs.conac.cn/sitename?method=show&id=48B617745CDCAC82E06310291AACD9F3" target="_blank"><img src="../images/biao.png" /></a>
+	  </div>
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.superslide.2.1.1.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/pageshow.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+</body>
+</html>

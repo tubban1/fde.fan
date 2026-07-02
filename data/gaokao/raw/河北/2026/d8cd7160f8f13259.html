@@ -1,0 +1,1362 @@
+
+<!doctype html>
+<html>
+  <head>
+<meta charset="utf-8">
+
+<title>考生咨询台--河北省教育考试院</title>
+<link rel="stylesheet" href="/v3/css/bootstrap.min.css" type="text/css" />
+
+
+<!-- 作者名称 -->
+
+<!-- favicon.ico -->
+<link href="https://file.hebeea.edu.cn/favicon.ico" rel="icon"/>
+<!-- 页面匹配手机1:1 需要设置响应式 -->
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,initial-scale=1 ">
+<!-- css -->
+<link href="https://www.hebeea.edu.cn/images/default.css?v=2026042401" rel="stylesheet" type="text/css" />
+<link href="https://www.hebeea.edu.cn/images/media.css?v=20260612" rel="stylesheet" type="text/css" id="mediaCss"/>
+<link href="https://www.hebeea.edu.cn/images/print.css?v=20260424" rel="stylesheet" type="text/css" media="print"/>
+<link rel="stylesheet" href="https://www.hebeea.edu.cn/images/swiper-bundle.min.css"/>
+<!-- js -->
+<script type="text/javascript" src='https://file.hebeea.edu.cn/wzfile/images/jquery-1.8.3.min.js'></script>
+<script src="https://file.hebeea.edu.cn/wzfile/images/swiper-bundle.min.js"></script>
+
+
+
+  <script>
+	var frontAppContext = 'https://www.hebeea.edu.cn/hbksy/';
+	var siteID = "122";
+</script>
+<script src="/js/zcms_require.js" contextpath="https://www.hebeea.edu.cn/hbksy/"></script>
+
+    
+
+<style>
+	  body {
+	      font-family: Arial, sans-serif;
+	      margin: 0;
+	      padding: 0;
+	      background-color: #f5f5f5;
+	  }
+	.min_nav ul{margin-bottom: 0;}
+	
+	.form-group{margin-bottom: 25px;}
+	.verify-message{position: absolute;}
+  .col-md-4 .verify-mandatory,.col-md-4 .verify-message li{display:none}
+  
+  .col-md-2 #btnSubmit{ height:30px;}
+  
+  .form-horizontal .control-label{font-size: 14px;font-weight: normal;width:140px;}
+  #form2 .control-label{width:auto;}
+
+	.has-success .control-label{color: #2e74b0;}
+	.page ul{margin:0}
+  .pagebar{height:50px;line-height:50px;}
+  .pagebar a{
+      display: inline-block;
+    padding: 0 18px;
+    background-color: #fff;
+    color: #333;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid #C9C9C9;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0;
+  }
+  .pagebar a:hover{color:#f00!important}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  .input-group .form-control:last-child{    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;}
+  /* 让最外层form-group撑满并左右分布 */
+#form2 .form-group.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 让输入区和按钮区紧贴左右 */
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+/* 左侧字段整体做成一组，右侧按钮单独一组 */
+#form2 .search-fields {
+  display: flex;
+  align-items: center;
+  gap: 32px;  /* 控制身份证和验证码之间的宽度，可酌情增减 */
+}
+
+/* 每个输入对包裹宽度自适应，避免拥挤 */
+#form2 .search-fields > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;  /* 标签与输入之间的距离 */
+}
+
+/* 输入框适当放宽一点 */
+#form2 input.form-control {
+ max-width: calc(100% - 138px);
+}
+
+/* 验证码输入框宽度稍小 */
+#form2 input.verify-code {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+/* 按钮样式，让按钮贴右且高度对齐 */
+  #form3 .form-group{margin:0}
+  #form3 .control-label{text-align:left;width:auto}
+#form2 .form-group .btn ,#btnSubmit2 {
+min-width: 120px;
+    height: 32px;
+    font-size: 14px;
+    float: right;
+    padding: 6px;
+    margin-right: 15px;margin-top:0!important
+}
+
+/* 移动端自动折行 */
+@media (max-width: 768px) {
+  #form2 .form-group.row,
+  #form2 .search-fields {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  #form2 .form-group .btn {
+           width: 90%;
+        margin: 10px auto;
+        float: none;
+        display: block
+  }
+}
+  
+  
+  /* 容器布局 */
+	  .container {
+	      display: flex;
+	      max-width: 1200px;
+	      margin: 20px auto;
+	      padding: 10px;
+	      gap: 20px;
+	      background-color: #fff;
+	      border-radius: 8px;
+	      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	         flex-wrap: wrap; /* 允许换行 */
+	
+	  }
+	  .form-horizontal .has-feedback .form-control-feedback {
+    right: -15px;
+}
+	  /* 左侧导航栏 */
+	  .left-box {
+	      flex: 0 0 185px;
+	      padding: 10px;
+	      border-right: 1px solid #ddd;
+	     padding-top:0;-webkit-box-sizing: content-box;
+	    -moz-box-sizing: content-box;
+	    box-sizing: content-box;
+	  }
+	  
+	  nav {
+	      display: flex;
+	      flex-direction: column;
+	      gap: 10px;
+	  }
+	  
+	  nav a {
+	      display: block;
+	      padding: 10px;
+	      text-decoration: none;
+	      border: 1px solid #ddd;
+	      border-radius: 4px;
+	      color:#2e74b0;
+	      background-color: #fff;
+	      text-align: center;
+	      font-size: 14px;
+	      transition: all 0.3s ease;
+	    
+	  }
+	  
+	  /* IE 下没有原生 .classList.remove("active")，演示时先简化用替换字符串方式；或者自行写一个兼容函数操作 className */
+	  nav a.active-link {
+	      background-color:#2e74b0;
+	      color: #fff;
+	      font-weight: bold;
+	
+	  }
+	  
+	   nav a:hover,.zixun:hover {
+	      background-color: #3289ea;
+	      color: #fff;
+	  }
+	
+	   .zixun{display: block;font-weight:bold;
+	    padding: 10px;
+	    text-decoration: none;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	    color: #2e74b0;
+	    background-color: #cde5ff;
+	    text-align: center;
+	    font-size: 14px;
+	transition: all 0.3s ease;margin-bottom:10px
+	   
+	   }
+	  /* 右侧内容区 */
+	 /* ======== 优化 right-box 整体排版 ======== */
+	.right-box {
+	  /* 去掉默认内边距，使用内部卡片留白 */
+	  padding: 0; 
+	  display: flex;
+	  flex-direction: column;
+	      width:calc(100% - 236px)
+	}
+	
+	/* ======== 卡片效果 + 统一阴影 + 边框圆角 ======== */
+	.search-bar-card,
+	.list-card,
+	.detail-card {
+	  background-color: #fff;
+	  border: 1px solid #ddd;
+	  border-radius: 6px;
+	  padding: 15px 20px;
+	  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+	}
+	
+	/* 让 search-bar-card 更紧凑一些 */
+	.search-bar-card {
+	  padding: 10px 15px;
+	}
+	
+	/* ======== 搜索栏本身可适度做横向排版 ======== */
+	.search-bar {
+	  display: none;
+	  align-items: center;
+	  gap: 10px;;
+	     margin-bottom:10px
+	}
+	
+	/* 调整 label，令其最小宽度，避免文本挤压 */
+	.search-bar label {
+	  min-width: 120px;
+	  font-weight: bold;
+	  color: #444;
+	}
+	
+	.search-bar input {
+	  flex: 1;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  padding: 6px 10px;
+	  font-size: 14px;
+	}
+	
+	/* 搜索、取消按钮 */
+	.search-bar button {
+	  font-size: 14px;
+	  padding: 6px 12px;
+	  border-radius: 4px;
+	  border: none;
+	  background-color:#2e74b0;
+	  color: #fff;
+	  transition: background-color .3s;
+	  cursor: pointer;
+	}
+	.search-bar button:hover {
+	  background-color: #0056b3;
+	}
+	   
+	   
+	   
+	   /* 输入表单 */  
+	#form1{
+	      width: calc(100% - 40px);
+	  margin: 0 auto;
+	  padding: 20px;
+	  background-color: #f9f9f9;
+	  border: 1px solid #ddd;
+	  border-radius: 8px;
+	}
+	
+	
+	   
+	
+	/* ======== 表头 + 列表区美化 ======== */
+	.table-header {
+	     display:none;
+	  background-color: #ebebeb;
+	  font-weight: bold;
+	  overflow: hidden; /* 防止子元素超出 */
+	}
+	   .table-header .table-cell{
+	     border:0;text-align:center;}
+	.table-row {
+	  display: flex;
+	}
+  .table-body  .table-row:hover{background:#E2E2E2}
+	.table-cell {
+	  flex: 1;
+	  border: 1px solid #ddd;
+	  text-align: left;
+	  overflow: hidden;
+	  white-space: nowrap;
+	  text-overflow: ellipsis;
+	     height:40px; line-height:41px;font-size:14px
+	}
+	
+	   .tip{color:red; line-height:30px;font-size:14px;line-height:1em;;margin:0 20px; text-align:center}
+	/* ======== 列表区域（虚拟滚动） ======== */
+	#list-container {
+	  max-height: 596px;
+	  overflow-y: auto;
+	  padding: 10px;
+	  background-color: #fff;
+	  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+	  position: relative;
+	     display:none
+	}
+	   
+	   
+	   
+	   
+	
+	
+	    /* 滚动条美化 (适用于现代浏览器) */
+	    #list-container::-webkit-scrollbar {
+	        width: 8px; /* 滚动条宽度 */
+	        height: 8px; /* 滚动条高度 */
+	    }
+	
+	    #list-container::-webkit-scrollbar-thumb {
+	        background-color:#2e74b0; /* 滚动条颜色 */
+	        border-radius: 4px; /* 滚动条圆角 */
+	    }
+	
+	    #list-container::-webkit-scrollbar-thumb:hover {
+	        background-color:#2e74b0; /* 滚动条悬停颜色 */
+	    }
+	
+	    #list-container::-webkit-scrollbar-track {
+	        background-color:#2e74b0; /* 滚动条轨道颜色 */
+	        border-radius: 4px; /* 轨道圆角 */
+	    }
+	
+	    /* 滚动条样式 (适用于 Firefox) */
+	    #list-container {
+	        scrollbar-width: thin; /* 滚动条宽度 */
+	    }   
+	
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+.table-cell.col-1 { flex: 5 1 0; }  /* 标题 5 份 */
+.table-cell.col-2 { flex: 2 1 0; }  /* 类型 2 份 */
+.table-cell.col-3 { flex: 2 1 0; }  /* 咨询人 2 份 */
+.table-cell.col-4 { flex: 2 1 0; }  /* 创建时间 2 份 */
+.table-cell.col-5 { flex: 1 0 0; }  /* 状态 1 份（可不让它缩） */  
+  
+	   
+	   .col-1{padding-left:10px}
+	   .col-2,.col-3,.col-4,.col-5{text-align:center}
+  .col-1 a{cursor:pointer;color:#337ab7}
+	   .col-5{color:green}
+	/* 无数据提示时可设置灰色、居中等 */
+	.no-result {
+	  text-align: center;
+	  color: #999;
+	  padding: 20px;
+	}
+	   
+	
+	/* ======== 详情区域 ======== */
+	.detail-card {
+	  display: none; /* 默认隐藏，由脚本控制 */
+	}
+	
+	.detail-card h3 {
+	  margin-top: 0;
+	  margin-bottom: 15px;
+	  color: #333;
+	  border-bottom: 1px solid #ddd;
+	  padding-bottom: 5px;
+	}
+	.detail-card p {
+	  margin: 6px 0;
+	  line-height: 1.6;
+	  color: #555;
+	}
+	.detail-card p strong {
+	  color: #333;
+	}
+	  /* 美化详细信息区域为表格样式 */
+	    #detail-container {
+	        padding: 20px;
+	        background-color: #fff;
+	        border: 1px solid #ddd;
+	        border-radius: 6px;
+	        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	        line-height: 1.8;
+	        color: #333;
+	    }
+	
+	    
+	
+	    /* 表格样式 */
+	    .detail-table {
+	        display: table;
+	        width: 100%;
+	        border-collapse: collapse;
+	    }
+	
+	    .detail-row {
+	        display: table-row;
+	    }
+	
+	    .detail-cell {
+	        display: table-cell;
+	        padding: 10px;
+	        border: 1px solid #ddd;
+	        vertical-align: top;
+	     font-size:14px
+	    }
+	
+	    .detail-cell.label {
+	        width: 120px; /* 固定左侧宽度 */
+	        font-weight: bold;
+	        background-color: #f9f9f9;
+	        text-align: right;
+	        color: #555;
+        vertical-align: middle;
+	    }
+	
+	    .detail-cell.value {
+	        width: auto; /* 自适应右侧宽度 */
+	        text-align: left;
+	        color: #333;
+	        word-break: break-word; /* 自动换行 */
+	    }
+	
+	    /* 返回按钮 */
+	    .back-button {
+	        margin: 20px auto;
+	        padding: 10px 15px;
+	        background-color: #2e74b0;
+	        color: #fff;
+	        border: none;
+	        border-radius: 4px;
+	        font-size: 14px;
+	        cursor: pointer;
+	     transition: all 0.3s ease;display:block
+	    }
+	
+	    .back-button:hover {
+	        background-color: #3289ea;
+	    }
+	.bc_nav {
+	  /* 让它占满整行 */
+	  flex: 0 0 100%;
+	  width: 100%;
+	  /* 让它和后面元素保持一点间距 */
+	  margin-bottom: 10px;
+	}
+	  
+	   .tip-span-left{display:inline}
+	   .tip-span-top{display:none}  
+	  
+	  /* 添加响应式设计 */
+	@media (max-width: 768px) {
+	  /* 容器布局 */
+	  .container {
+	    flex-direction: column;
+	    padding: 15px;
+	  }
+	
+	  /* 左侧导航栏 */
+	  .left-box {
+	    flex: 0 0 auto;
+	    width: 100%;
+	    padding: 10px 0;
+	    border-right: none;
+	    border-bottom: 1px solid #ddd;
+	  }
+	
+	  nav a, .zixun {
+	    font-size: 14px;
+	    padding: 8px;
+	  }
+	
+	  /* 右侧内容区 */
+	  .right-box {
+	    width: 100%;
+	    padding: 10px 0;
+	  }
+	
+	  /* 搜索栏 */
+	  .search-bar {
+	    flex-direction: column;
+	    gap: 5px;
+	  }
+	
+	  .search-bar label {
+	    min-width: auto;
+	    margin-bottom: 5px;
+	  }
+	
+	  .search-bar input {
+	    width: 100%;
+	  }
+	
+	  .search-bar button {
+	    width: 100%;
+	  }
+	
+	  /* 表单 */
+	  #CustomForm_kszxt {
+	    width: calc(100% - 30px);
+	    padding: 10px;
+	  }
+	
+	  #CustomForm_kszxt .form-row {
+	    align-items: flex-start;
+	  }
+	
+	  #CustomForm_kszxt label {
+	         text-align: left;
+	        margin-bottom: 5px;
+	        width: 60px;
+	        margin-right: 0;
+	  }
+	
+	  #CustomForm_kszxt input,
+	  #CustomForm_kszxt select,
+	  #CustomForm_kszxt textarea {
+	    width: calc(100vw - 150px);
+	    max-width: 100%;
+	  }
+	
+	  #CustomFormSubmit,
+	  #clearFormButton {
+	    width: 100%;
+	    margin-top: 10px;
+	  }
+	   
+	 .required{margin:0!important}
+	  /* 表头和列表 */
+	  .table-header {
+	    display: none; /* 隐藏表头 */
+	  }
+	
+	  .table-cell {
+	    font-size: 12px;
+	  }
+	
+	  /* 详情区域 */
+	  .detail-card {
+	    padding: 15px;
+	  }
+	
+	  .detail-card h3 {
+	    font-size: 18px;
+	  }
+	
+	  .detail-cell {
+	    font-size: 14px;
+	  }
+	
+	  /* 返回按钮 */
+	  .back-button {
+	    width: 100%;
+	    margin-top: 15px;
+	  }
+	   .h5block{display:block}
+	   .ul-img{display:flex;gap:10px}
+	   .ul-img img{ height:80%}
+	   .tip-span-left{display:none}
+	   .tip-span-top{display:inline}
+	   
+	}
+	
+</style>
+<style>
+/* 面板外观保持你原来的样式 */
+#search-title-block.search-panel{
+  border:1px solid #eee; padding:15px; border-radius:4px; margin-bottom:15px;
+}
+
+/* 统一一下间距 */
+#search-title-block .m-b-0{ margin-bottom:0; }
+#search-title-block .m-t-xs{ margin-top:10px; }
+
+/* 手机端适配 */
+@media (max-width: 767px){
+  /* 标签放到输入框上方，左对齐，缩小行距 */
+  #search-title-block .control-label{
+    float:none; text-align:left; padding-top:0; margin-bottom:6px;
+    width:100%;
+  }
+  /* 让原本的 .col-sm-* 在手机端全宽堆叠 */
+  #search-title-block .col-sm-3,
+  #search-title-block .col-sm-9{
+    float:none; width:100%;
+  }
+  /* 输入框更易点按 */
+  #search-title-block input.form-control{
+    height:40px;
+  }
+  /* 按钮全宽 */
+  #search-title-block .btn-lg{
+    width:100%;
+  }
+  #form3 .form-group .btn {margin-right:0}
+  #form3 .col-xs-10{width:100%;margin-bottom:10px}
+  #btnSubmit2 {margin:10px auto!important
+}
+  
+}
+</style>
+
+
+</head>
+<body class="wrap1">
+  
+  <style>
+    .score-radio input[type="radio"]:checked + span {
+    color: #2e74b0;  
+    font-weight: bold;
+}
+    .score-row label{margin-right:10px;cursor:pointer;font-weight:normal}
+      #manyi { display: none; }
+    .enterclick{    padding: 10px ;    font-size: 14px;    ;}
+    #divVerifyCode input.verify-code{min-width:70px;padding-left:5px;padding-right:0}
+    #form1  .form-group{    margin-bottom: 0;    display: flex;    align-content: center;    align-items: center;}
+    @media (max-width: 768px) {
+    #AuthCode{padding:0; min-width:70px;padding-left:5px}
+    #form1{width:100%}
+    #form1  .form-group{display:block}
+    #divVerifyCode{margin-bottom:30px}
+}
+    
+
+  </style>
+<!-- 专题分享代码，不要更换id名称 -->
+<div id="content" style="display:none">
+  <img src="https://www.hebeea.edu.cn/template/images/logo.png" ><p id="shareTitle"></p><p id="shareDesc"></p>
+</div>
+
+  
+  
+
+
+
+  
+  
+  
+  
+<div id="nav2" style="display:block">
+  
+  <div class="header">
+<div class="page">
+  <div class="min_logo"><img src="https://file.hebeea.edu.cn/wzfile/images/logo2.png"></div>
+    <div class="min_right1">
+      <div class="min_s_top">
+        		<!--<a href="https://zlcms.wes2.com/zlcms/search/result?Query=&SiteID=128&AllSite="><img src="${prefix("images/ser.png")}"></a>-->
+        
+       
+        		<div class="search-box">
+					<form id="form2" action="/hbksy/search/result" method="get" target="_blank">
+ <!-- 隐藏字段 -->
+    <textarea id="_query" style="display:none"></textarea>
+    <input type="hidden" name="SiteID" value="122">
+    <input type="hidden" name="AllSite" value="">
+       <input name="Sort" type="hidden" value="PublishDate" />
+                  <span class="search" style="width:auto"><input placeholder="请输入搜索关键词"  type="text" class="input" name="Query" id="query" size="16" value="" suggest="true" suggestsource="Search.suggest"><span class="suffix"><button class="anticon" onclick="search();return false;" id="btn-submit" style="    padding: 0;    border: 0;    background: 0;"><svg viewBox="64 64 896 896" data-icon="search" width="20px" height="20px" fill="currentColor" aria-hidden="true" class=" "><path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path></svg></button></span></span>
+                      </form>
+                  
+             
+				</div>
+        <div class="zixundianhua" style="font-size: 15px;font-weight:bold;margin-top:5px;display:none">咨询电话：0311-66007000</div>
+      	   </div>
+           
+      
+        <div class="cl"></div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var navBtn = document.getElementById('navHamburger');
+    var navUl = document.getElementById('mainNavUl');
+    // 展开/收起菜单
+    navBtn.onclick = function(e) {
+        e.stopPropagation();
+        navUl.classList.toggle('show');
+    };
+    // 点击其它区域关闭
+    document.addEventListener('click', function(){
+        navUl.classList.remove('show');
+    });
+    // 防止点击菜单本身时关闭
+    navUl.onclick = function(e){
+        e.stopPropagation();
+    };
+});
+</script>
+
+<div class="nav">
+    <div class="min_nav">
+                <ul id="mainNavUl">
+          <li class="" _t_nav="home" ><a href="/" target="_self"><i class="nav-icon"></i>首页</a></li>
+            <li class="" _t_nav="zhxx"><a href="https://www.hebeea.edu.cn/zhxx/" target="_self" >综合信息</a></li><!--综合信息-->
+                              <li class="" _t_nav="djzj"><a href="https://www.hebeea.edu.cn/djzj/" target="_self">党建工作</a></li><!--党建之家-->
+
+                  
+            <li class="" _t_nav="ksxm"><a >考试项目</a></li><!--考试项目-->
+            <!--<li class="" _t_nav="ywxt"><a href="http://hebeea11111.wes2.com/ywxt/" >业务系统</a></li>业务系统-->
+            <li class="" _t_nav="kypj"><a href="/zdpyc/" target="_self">政务服务</a></li><!--科研评价111-->
+            <li class="" _t_nav="zczx"><a>咨询服务</a></li><!--科研评价-->
+
+                  
+        </ul>
+      
+      <div class="hamburger" id="navHamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+      
+      
+    </div>
+    <div class="navigation-down">
+        
+      
+        <div id="ksxm" class="nav-down-menu" style="display: none;" _t_nav="ksxm"><!--考试科目-->
+            <div class="page">
+                <ul style="    width: 400px;    margin-left: 645px;" _t_nav="ksxm">
+                  
+<li class="" ><a href="https://www.hebeea.edu.cn/ptgk/" target="_self">普通高考</a></li><!--普通高考-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/zxks/"  target="_self">自学考试</a></li><!--自学考试-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/crgk/"  target="_self">成人高考</a></li><!--成人高考-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/ptzsb/"  target="_self">普通专升本</a></li><!--普通专升本-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/yzyk/"  target="_self">研招研考</a></li><!--研招研考-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/dxyyslj/"  target="_self">全国大学英语四、六级</a></li><!--大学英语四六级-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/zxxjszg/"  target="_self">中小学教师资格笔试</a></li><!--中小学教师资格-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/qgjsjdj/"  target="_self">全国计算机等级考试</a></li><!--全国计算机等级-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/czxk/"  target="_self">初中学考</a></li><!--初中学考-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/zzxk/"  target="_self">高中学考</a></li><!--高中学考-->
+ <li class="" ><a href="https://www.hebeea.edu.cn/yywzcs/"  target="_self">语言文字测试</a></li><!--语言文字测试-->
+
+
+  
+              </ul>
+            </div>
+        </div>
+      
+      <div id="zczx" class="nav-down-menu" style="display: none;" _t_nav="zczx"><!--考试科目-->
+            <div class="page">
+              <ul style="    width: 200px;  float:right" _t_nav="zczx">
+                <li class="" style="width:100%" ><a href="/c/2025-01-16/485517.html" >咨询电话</a></li><!--普通高考-->
+ <li class=""  style="width:100%"><a href="https://robot.clttai.com/wzkf/hbsjyksy/index.html###" >智能客服</a></li><!--自学考试-->
+              
+              </ul>
+            </div>
+        </div>
+      
+      
+      
+      
+    </div>
+    <script type="text/javascript">
+jQuery(function ($) {
+
+    var qcloud = {};
+    var MOBILE_MAX = 1000;
+
+    function isMobileNav() {
+        return window.matchMedia && window.matchMedia("(max-width: " + MOBILE_MAX + "px)").matches;
+    }
+
+    function closeAllDropdown() {
+        $('[_t_nav]').removeClass('nav-up-selected');
+        $('.nav-down-menu').stop(true, true).slideUp(200);
+    }
+
+    function openDropdown(navKey) {
+        $('[_t_nav]').each(function () {
+            $(this)[navKey == $(this).attr('_t_nav') ? 'addClass' : 'removeClass']('nav-up-selected');
+        });
+        $('#' + navKey).stop(true, true).slideDown(200);
+    }
+
+    // 1) PC：保持 hover 行为
+    $('[_t_nav]').hover(function () {
+        if (isMobileNav()) return;
+
+        var _nav = $(this).attr('_t_nav');
+        clearTimeout(qcloud[_nav + '_timer']);
+        qcloud[_nav + '_timer'] = setTimeout(function () {
+            openDropdown(_nav);
+        }, 150);
+
+    }, function () {
+        if (isMobileNav()) return;
+
+        var _nav = $(this).attr('_t_nav');
+        clearTimeout(qcloud[_nav + '_timer']);
+        qcloud[_nav + '_timer'] = setTimeout(function () {
+            closeAllDropdown();
+        }, 150);
+    });
+
+    // 2) 手机：点击切换开关（点一次开，再点一次关）
+    $('[_t_nav]').on('click', function (e) {
+        if (!isMobileNav()) return;
+
+        var _nav = $(this).attr('_t_nav');
+
+        // 只有真正有下拉层的才处理（避免点“首页/综合信息”等也触发关闭逻辑）
+        if ($('#' + _nav).length === 0) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 如果当前已经打开，就关闭；否则先关其它再开它
+        if ($('#' + _nav).is(':visible')) {
+            closeAllDropdown();
+        } else {
+            closeAllDropdown();
+            openDropdown(_nav);
+        }
+    });
+
+    // 3) 手机：点击空白处，关闭下拉
+    $(document).on('click touchstart', function () {
+        if (!isMobileNav()) return;
+        closeAllDropdown();
+    });
+
+    // 4) 手机：点下拉菜单内部不要触发关闭
+    $('.nav-down-menu').on('click touchstart', function (e) {
+        if (!isMobileNav()) return;
+        e.stopPropagation();
+    });
+
+    // 5) 窗口变化：从手机切回PC时，清掉下拉状态，避免残留
+    $(window).on('resize', function () {
+        if (!isMobileNav()) {
+            closeAllDropdown();
+        }
+    });
+
+});
+      
+      
+      // 子菜单里的链接，必须允许正常跳转
+$('.nav-down-menu a').on('click', function (e) {
+    e.stopPropagation();
+    // 不要 preventDefault
+});
+
+</script>
+
+
+</div>
+
+  
+  
+  
+  
+  </div><!--nav2-->  
+
+
+
+
+<div class="wrap">
+	
+	<div class="container"  id="tip">
+	
+	
+	<div class="bc_nav"><!--<img src="/images/home.png">--><a href="/">首页</a>&gt;&gt;<a>考生咨询台</a></div>
+	
+	<div class="left-box">
+		  <!-- 1. 导航区域 -->
+	  <a href="/hbksy/exam/studentFaqFront/add?SiteID=122" class="zixun">我要咨询</a>
+		  <nav id="lx-nav">
+
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=1#tip">普通高考问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=2#tip">成人高考问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=3#tip">研招考试问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=4#tip">自学考试问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=5#tip">普通专升本问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=6#tip">大学英语四六级问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=7#tip">全国计算机等级问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=8#tip">中小学教师资格笔试问题</a>
+<a href="/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=9#tip">高中学考问题</a>
+		</nav>
+	  
+						<div class="ul-img">
+						   <a href="https://robot.clttai.com/wzkf/hbsjyksy/index.html###"><img src="/images/znkf.gif" style="width:100%;margin-top:10px"></a>
+        <a href="http://www.hebeeb.com/gkzx/consultCenter" target="_blank" title="2025年高考报名咨询电话"><img src="/images/2026/gkwszxdt.png?v=20260620" style="width:100%;margin-top:10px"></a>
+        <a href="https://www.hebeea.edu.cn/c/2026-06-10/492928.html" target="_blank" title="2025年高考报名咨询电话"><img src="/images/2026/gkgezxdh.png?v=20260620" style="width:100%;margin-top:10px"></a>
+						</div>
+	   
+	</div>
+	
+	<div class="right-box">
+<!-- 			<div class="tip"><p>为使我们更快更好回复您咨询的问题，请您在留言前先点击查看<span class="tip-span-left">左</span><span class="tip-span-top">上</span>侧咨询的业务问题列表，看是否有雷同或类似问题回复。</p><p>感谢您的留言，我们会尽快跟您联系。</p></div -->
+
+		<div id="form12">
+		
+		<div id="detail-container">
+		                            <div class="detail-table">
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">标题：</div>
+		                                    <div class="detail-cell value" id="detail-bt">《2026年河北省普通高等学校招生计划》何时发布，在哪里查看，有电子版吗</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">类型：</div>
+		                                    <div class="detail-cell value" id="detail-lx">1</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">咨询人：</div>
+		                                    <div class="detail-cell value" id="detail-zxr">考生</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">电话：</div>
+		                                    <div class="detail-cell value" id="detail-dh">***********</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">地市：</div>
+		                                    <div class="detail-cell value" id="detail-ds">邢台市</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">地址：</div>
+		                                    <div class="detail-cell value" id="detail-dz">邢台市***</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">邮编：</div>
+		                                    <div class="detail-cell value" id="detail-yb">1</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">咨询时间：</div>
+		                                    <div class="detail-cell value" id="detail-fbsj">2026-06-20 11:05:55</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">咨询内容：</div>
+		                                    <div class="detail-cell value" id="detail-nr">《2026年河北省普通高等学校招生计划》何时发布，在哪里查看，有电子版吗</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">回复时间：</div>
+		                                    <div class="detail-cell value" id="detail-hfsj">2026-06-22 15:14:37</div>
+		                                </div>
+		                                <div class="detail-row">
+		                                    <div class="detail-cell label">回复内容：</div>
+		                                    <div class="detail-cell value" id="detail-hf">考生可通过以下方式查询2026年我省普通高校招生计划：一是通过河北省教育考试院普通高考信息服务平台“信息查询”入口登录查询（https://gk.hebeea.edu.cn）；二是通过高考志愿填报智能参考系统(http://www.hbzyck.com)查询；三是查阅省教育考试院印制的《2026年河北省普通高校招生计划》册，前期未订阅的考生也可联系我院书店咨询购买。售书地址及时间安排请点击下列网址查看：http://www.hebeeaddd.com/notice-detail?id=25&amp;shopId=0&amp;shopName=。联系电话：0311-83823367。</div>
+		                                </div>
+
+ 
+
+                                      
+
+                                    <div class="detail-row" id="manyi">
+		                                    <div class="detail-cell label">满意度：</div>
+		                                    <div class="detail-cell value" id="scoreResult" ><span id="scoreText"></span>
+                                                                      
+                               			
+          
+          
+		                            </div>
+
+		                        </div>
+		
+			
+
+
+		
+		 
+
+		
+		
+		
+		</div>
+		    				                            <button type="button" class="back-button" id="back-button" onclick="history.go(-1);">返回</button>
+
+		
+		
+	</div>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+</div>
+
+</div></div>
+
+
+
+
+
+
+
+
+
+<script src="/v3/js/bootstrap.min.js"></script>
+<script src="/v3/js/hammer.min.js"></script>
+<script src="/v3/js/v3_common.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	
+	var qtypeToHighlight = "1";  // 要高亮的Qtype数字，类型
+
+  // 工具函数：从 URL 中获取指定参数值
+  function getQueryParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]);
+    return null;
+  }
+
+  // 1. 页面加载时自动设置 Qtype（如果有）
+  var qtypeFromUrl = getQueryParam("Qtype");
+  if (qtypeFromUrl) {
+    var qtypeSel = document.getElementById("Qtype");
+    if (qtypeSel) qtypeSel.value = qtypeFromUrl;
+  }
+
+  // 2. 处理分页区所有 a 标签，加锚点
+  document.querySelectorAll('.pagebar a').forEach(function(a) {
+    if (!a.getAttribute('href') || a.getAttribute('href').indexOf('#tip') > -1) return;
+    a.setAttribute('href', a.getAttribute('href') + '#tip');
+  });
+
+  // 3. 检查 table-body 是否为空，为空则显示“无数据”
+  var tableBody = document.querySelector('.table-body');
+  if (tableBody && tableBody.innerHTML.trim() === "") {
+    tableBody.innerHTML = "<div class='no-data' style='text-align:center; color:#888; padding:40px 0;'>无数据</div>";
+  }
+// 4. Qtype数字转文字
+var qtypeMap = {
+  "1": "普通高考问题",
+  "2": "成人高考问题",
+  "3": "研招考试问题",
+  "4": "自学考试问题",
+  "5": "普通专升本问题",
+  "6": "大学英语四六级问题",
+  "7": "全国计算机等级问题",
+  "8": "中小学教师资格笔试问题",
+  "9": "高中学考问题"
+};
+document.querySelectorAll('.table-cell.col-2').forEach(function(cell) {
+  var v = cell.textContent.trim();
+  if (qtypeMap[v]) cell.textContent = qtypeMap[v];
+});
+
+
+  // 5. 去掉所有 .table-cell.col-4 的时分秒，只留日期
+  document.querySelectorAll('.table-cell.col-4').forEach(function(cell) {
+    var txt = cell.textContent.trim();
+    var dateOnly = txt.replace(/^(\d{4}-\d{2}-\d{2}) .*/, '$1');
+    cell.textContent = dateOnly;
+  });
+
+  // 6. 高亮nav链接
+ document.querySelectorAll("#lx-nav a").forEach(function(a) {
+     var linkQtype = null;
+     var href = a.getAttribute("href");
+     if (href) {
+       var reg = /[?&]Qtype=(\d+)/i;
+       var match = href.match(reg);
+       if (match) linkQtype = match[1];
+     }
+     if (qtypeToHighlight && linkQtype && qtypeToHighlight === linkQtype) {
+       a.classList.add("active-link");
+     } else {
+       a.classList.remove("active-link");
+     }
+   });
+  
+  // 7. 将 detail-lx 的 Qtype 数字转换为文字
+var detailLx = document.getElementById("detail-lx");
+if (detailLx) {
+    var qtype = detailLx.textContent.trim();
+    detailLx.textContent = qtypeMap[qtype] || qtype;
+}
+  
+  
+ });
+  
+  
+// 查询按钮函数，不要放DOMContentLoaded里
+function login() {
+  if (typeof Verify !== "undefined" && Verify.hasError && Verify.hasError()) return;
+
+  var qtype = document.getElementById("Qtype").value || "1";
+  var keyword = document.getElementById("keyword").value.trim();
+  var encoder = window["encodeURIComponent"];
+  var targetUrl = "/hbksy/exam/studentFaqFront/list?SiteID=122&Qtype=" + qtype + "&keyword=" + encoder(keyword);
+
+  window.location.href = targetUrl;
+}
+</script>
+
+  
+  <script>
+		function showcount() {
+			const browserInfo = {
+			    userAgent: navigator.userAgent,
+			    platform: navigator.platform,
+			    language: navigator.language,
+			    cookiesEnabled: navigator.cookieEnabled,
+			    screenWidth: window.screen.width,
+			    screenHeight: window.screen.height,
+			};
+			var dc = {
+				ID: $("#ID").val(),
+				SearchUserAgent: navigator.userAgent,
+				SearchBrowserInfo: JSON.stringify(browserInfo)
+			};
+			Server.sendRequest("exam.studentFaqFrontApi.showcount", dc, function(response) {
+				console.log("response is : ", response);
+			});
+		}
+		showcount();
+		
+		function login() {
+			if (Verify.hasError()) {
+				return;
+			}
+			$("#btnSubmit").disable();
+			var dc = Form.getData("form1");
+			Server.sendRequest("exam.studentFaqFrontApi.score", dc, function(response) {
+				console.log("response is : ", response);
+				if (response.code == 1) {
+					console.log("刷新页面");
+					window.location.reload();
+				} else {
+					$("#btnSubmit").enable();
+					Dialog.alert(response.message);
+				}
+			});
+		}
+	</script>
+  
+  <script>
+    var scoreValue = "";
+    var scoreTextMap = {
+        '1': '不满意',
+        '2': '基本满意',
+        '3': '满意',
+        '4': '非常满意'
+    };
+
+    // 赋值
+    if (scoreValue && scoreTextMap[scoreValue]) {
+        document.getElementById('scoreText').innerText = scoreTextMap[scoreValue];
+    } else {
+        document.getElementById('scoreText').innerText = '';
+    }
+
+    // 根据scoreText内容判断显示隐藏
+    var scoreText = document.getElementById('scoreText');
+    if (scoreText && scoreText.innerText.trim() !== "") {
+        document.getElementById('form1').style.display = 'none';
+        document.getElementById('scoreResult').style.display = 'table-cell';
+    } else {
+        document.getElementById('form1').style.display = 'block';
+        document.getElementById('scoreText').style.display = 'none';
+    }
+</script>
+<script>
+    if (window.location.href.indexOf('fromlist=my') !== -1) {
+        document.getElementById('manyi').style.display = 'table-row';
+    }
+</script>
+
+<div class="footer_link">
+  <div class="page">
+    <!--友情链接：<a href="javascript:void(0);" target="_self">教育部</a>
+    <a href="javascript:void(0);" target="_self">教育部教育考试院</a>
+    <a href="javascript:void(0);" target="_self">中国河北</a>
+    <a href="javascript:void(0);" target="_self">河北省教育厅</a>
+    <a href="javascript:void(0);" target="_self">阳光高考信息平台</a>
+    <a href="javascript:void(0);" target="_self">研招网</a>
+    <a href="javascript:void(0);" target="_self">中国教育在线</a>
+    <a href="javascript:void(0);" target="_self">中小学教师资格考试网</a>
+    <a href="javascript:void(0);" target="_self">各市招考机构</a>
+    <a href="javascript:void(0);" target="_self">各院校链接</a>-->
+    
+    
+    
+  <strong>友情链接：</strong>
+    <a href="http://www.moe.gov.cn/" target="_blank" title="教育部">教育部</a><a href="http://www.neea.edu.cn/" target="_blank" title="教育部教育考试院">教育部教育考试院</a><a href="http://www.hebei.gov.cn" target="_blank" title="中国河北">中国河北</a><a href="http://www.hee.gov.cn/" target="_blank" title="河北省教育厅">河北省教育厅</a><a href="http://gaokao.chsi.com.cn" target="_blank" title="阳光高考信息平台">阳光高考信息平台</a><a href="http://yz.chsi.com.cn/" target="_blank" title="研招网">研招网</a><a href="http://ntce.neea.edu.cn/" target="_blank" title="中小学教师资格考试网">中小学教师资格考试网</a>
+    
+    <select name="" id="zkjg_select" onchange="window.open($(this).val())" style="height: 32px;
+    border: 1px solid #cccccc;
+    /* width: 209px; */
+    outline: none;
+    margin-top: 4px;
+    padding: 7px;
+border-radius: 5px;font-size:16px;">
+                <option value="#">各市招考机构</option>
+                    <option value="http://www.sjzjyksxx.com.cn">
+                        <a href="http://www.sjzjyksxx.com.cn" target="_blank" title="石家庄市教育考试院">石家庄市教育考试院</a>
+                    </option>
+                    <option value="http://www.tsjyksy.cn">
+                        <a href="http://www.tsjyksy.cn" target="_blank" title="唐山市教育考试院">唐山市教育考试院</a>
+                    </option>
+                    <option value="http://www.qhdksy.cn">
+                        <a href="http://www.qhdksy.cn" target="_blank" title="秦皇岛教育考试院">秦皇岛教育考试院</a>
+                    </option>
+                    <option value="http://www.hdks.net.cn">
+                        <a href="http://www.hdks.net.cn" target="_blank" title="邯郸市教育考试院">邯郸市教育考试院</a>
+                    </option>
+                    <option value="https://www.xtjyks.cn">
+                        <a href="https://www.xtjyks.cn" target="_blank" title="邢台市教育考试院">邢台市教育考试院</a>
+                    </option>
+                    <option value="http://www.bdksy.cn">
+                        <a href="http://www.bdksy.cn" target="_blank" title="保定市教育考试院">保定市教育考试院</a>
+                    </option>
+                    <option value="http://jyj.cangzhou.gov.cn/jyj/c101905/listDisplaySelf.shtml">
+                        <a href="http://jyj.cangzhou.gov.cn/jyj/c101905/listDisplaySelf.shtml" target="_blank" title="沧州市教育考试院">沧州市教育考试院</a>
+                    </option>
+                    <option value="http://www.zjkjyksy.cn">
+                        <a href="http://www.zjkjyksy.cn" target="_blank" title="张家口市教育考试院">张家口市教育考试院</a>
+                    </option>
+                    <option value="http://zsks.cdcedu.cn">
+                        <a href="http://zsks.cdcedu.cn" target="_blank" title="承德市教育考试院">承德市教育考试院</a>
+                    </option>
+                    <option value="http://www.lfksy.cn/">
+                        <a href="http://www.lfksy.cn/" target="_blank" title="廊坊市教育考试院">廊坊市教育考试院</a>
+                    </option>
+                    <option value="http://www.hseea.net">
+                        <a href="http://www.hseea.net" target="_blank" title="衡水市教育考试院">衡水市教育考试院</a>
+                    </option>
+                    <option value="#">
+                        <a href="#" target="_blank" title="华北油田招生办公室">华北油田招生办公室</a>
+                    </option>
+                    <option value="#">
+                        <a href="#" target="_blank" title="定州市招生办公室">定州市招生办公室</a>
+                    </option>
+                    <option value="#">
+                        <a href="#" target="_blank" title="辛集市招生办公室">辛集市招生办公室</a>
+                    </option>
+                    
+                    
+            </select>
+    
+    
+    
+</div>
+    
+    
+    
+</div>
+</div>
+<div class="min_footer">
+<div class="page">
+  <div class="footer_qr">
+           <div class="min_piz"><img src="https://file.hebeea.edu.cn/wzfile/images/QRcodeWX.png"><p>微信公众号</p></div>
+      <div class="min_piz"><img src="https://file.hebeea.edu.cn/wzfile/images/QRcodeAPP.png"><p>手机客户端</p></div>
+  </div>
+	<p><span>办公地址：河北省石家庄市红旗大街231号</span><span>邮编：050091</span></p>
+  <p><span>版权所有：河北省教育考试院</span><span><a href="https://beian.miit.gov.cn" target="_blank" style="color:#fff">冀ICP备05002806号-1</a></span><span><a style="color:#fff" href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=13010402000947" target="_blank">
+    <img src="https://file.hebeea.edu.cn/wzfile/images/hui.png" width="18" style="vertical-align:middle;">
+         冀公网安备13010402000947号
+        </a></span></p>
+  <p>
+    总访问量：
+    <span id=_zving_totalhitcount style="display:none;padding:0 10px 0 0"><script src="/hbksy/counter/site?Type=Total&SiteID=122&DomID=_zving_totalhitcount&VarName=_zving_totalhitcount" type="text/javascript"></script></span> 今日：<span id=_zving_todayhitcount style="display:inline;padding:0"><script src="/hbksy/counter/site?Type=today&SiteID=122&DomID=_zving_todayhitcount&VarName=_zving_todayhitcount" type="text/javascript"></script></span>
+  </p>
+  <div class="footer_mail"><span id="_ideConac"><a href="https://bszs.conac.cn/sitename?method=show&amp;id=119F80C957FF7706E053022819AC16A9" target="_blank"><img id="imgConac" vspace="0" hspace="0" border="0" src="https://dcs.conac.cn/image/blue.png" data-bd-imgshare-binded="1"></a></span> <a href="http://www.hebeea.edu.cn/html/yjxt/index.html"  target="_blank">邮箱登录</a></div>
+</div>
+</div>
+
+
+
+
+<script>
+(function () {
+  var BASE = (27105 * 2) * 10000;
+
+  var el = document.getElementById("_zving_totalhitcount");
+  if (!el) return;
+
+  var timer = setInterval(function () {
+    var real = Number(window._zving_totalhitcount);
+    if (isFinite(real)) {
+      el.textContent = String(real + BASE);
+      el.style.display = "inline";  
+      clearInterval(timer);
+    }
+  }, 50);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<script src="https://www.hebeea.edu.cn/hbksy/stat/front/stat.js" type="text/javascript"></script>
+<script>
+if(window._zcms_stat)_zcms_stat("SiteID=122&Dest=https://www.hebeea.edu.cn/hbksy/stat/dealer");
+</script>
+<!-- App=hbksy(河北省教育考试院) 2.5.230301,CostTime=17,PublishDate=2026-07-01 00:12:14 -->
+</body>
+</html>

@@ -1,0 +1,97 @@
+[
+  {
+    "source_type": "enrollment_plan",
+    "province": "北京",
+    "year": 2026,
+    "title": "北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/html/gkgz/tzgg/2026/0625/88244.html",
+    "file_url": null,
+    "file_hash": "6efcb6b65a6fd3491faf281630efe96b0dfab3ed57de9b21ec996316966b0619",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.bjeea.cn/",
+      "local_path": "data/gaokao/raw/北京/2026/6efcb6b65a6fd349.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "· 关于《北京市2026年普通高等学校招生专业目录》补充说明（本科部分）",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "admission_record",
+    "province": "北京",
+    "year": 2026,
+    "title": "北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/html/gkgz/tzgg/2026/0624/88239.html",
+    "file_url": null,
+    "file_hash": "d6770b626bc7399ba50924b56be892867b5576e4ee667f957238e0dbc08fef3c",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.bjeea.cn/",
+      "local_path": "data/gaokao/raw/北京/2026/d6770b626bc7399b.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "· 北京市2026年普通高等学校招生录取最低控制分数线",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "北京",
+    "year": 2025,
+    "title": "北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/html/zkzz/tzgg/2025/0712/87240.html",
+    "file_url": null,
+    "file_hash": "11f0aa94c4d841fd3ea78b391ac3373ca310f48bdcc6db44dc099712b3088d00",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.bjeea.cn/",
+      "local_path": "data/gaokao/raw/北京/2025/11f0aa94c4d841fd.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "志愿填报",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "北京",
+    "year": 2026,
+    "title": "中考中招 / 计划查询-北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/html/zkzh/jhcx/",
+    "file_url": null,
+    "file_hash": "6d18fd762d160c8f9469a18d03bf883d70f49e6e9b4d26769e5960c9305bfc1b",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.bjeea.cn/",
+      "local_path": "data/gaokao/raw/北京/2026/6d18fd762d160c8f.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2026年北京市中等职业教育自主招生计划",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "北京",
+    "year": 2025,
+    "title": "北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/html/zkzz/faq/2025/0709/87230.html",
+    "file_url": null,
+    "file_hash": "4b83d3d38086f9dd2ed044e414a44764d57179637b4aec6fcfdda8e965df0b65",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.bjeea.cn/",
+      "local_path": "data/gaokao/raw/北京/2025/4b83d3d38086f9dd.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2025年关于高级中等学校志愿填报问题解答",
+      "crawled_by": "crawl-official-sources"
+    }
+  }
+]

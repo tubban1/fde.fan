@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "id": "fifa-official",
+      "name": "FIFA Official Match Center",
+      "type": "official",
+      "url": "https://www.fifa.com/tournaments/mens/worldcup/canadamexicousa2026",
+      "description": "Official fixtures, results, venues, and stages."
+    },
+    {
+      "id": "fifa-rankings",
+      "name": "FIFA Men's World Ranking",
+      "type": "official",
+      "url": "https://www.fifa.com/fifa-world-ranking/men",
+      "description": "FIFA World Rankings snapshots."
+    },
+    {
+      "id": "elo-ratings",
+      "name": "World Football Elo Ratings",
+      "type": "community",
+      "url": "https://www.eloratings.net/",
+      "description": "Elo rating snapshots."
+    },
+    {
+      "id": "open-meteo",
+      "name": "Open-Meteo",
+      "type": "api",
+      "url": "https://open-meteo.com/",
+      "description": "Weather data for match venues."
+    },
+    {
+      "id": "user-supplied",
+      "name": "User manual entry",
+      "type": "manual",
+      "url": null,
+      "description": "Manual entry for odds, injuries, and starting lineups."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+---
+import Header from '../../../components/Header.astro';
+import GapsDashboard from '../../../components/worldcup/GapsDashboard.tsx';
+import '../../../styles.css';
+
+// Basic static layout, admin guard should ideally sit in middleware
+// For this MVP, we just render the component which will fetch data from our protected API.
+---
+
+<html lang="en" class="bg-[#0B0F19]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup Admin | Missing Features</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="min-h-screen text-slate-300 font-sans">
+    <Header />
+    <main class="pt-24 pb-16">
+      <GapsDashboard client:load />
+    </main>
+  </body>
+</html>

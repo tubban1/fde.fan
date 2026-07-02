@@ -1,7 +1,36 @@
-import mysql from 'serverless-mysql';
+import fs from 'node:fs';
+import path from 'node:path';
 import pg from 'pg';
 
 const { Pool } = pg;
+
+function loadLocalEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  for (const line of fs.readFileSync(filePath, 'utf8').split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const separatorIndex = trimmed.indexOf('=');
+    if (separatorIndex === -1) continue;
+    const key = trimmed.slice(0, separatorIndex).trim();
+    let value = trimmed.slice(separatorIndex + 1).trim();
+    if (!key || process.env[key] !== undefined) continue;
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    process.env[key] = value;
+  }
+}
+
+function loadLocalEnv() {
+  const cwd = process.cwd();
+  loadLocalEnvFile(path.join(cwd, '.env.local'));
+  loadLocalEnvFile(path.join(cwd, '.env'));
+}
+
+loadLocalEnv();
 
 function inferDbProvider() {
   const explicitProvider = process.env.DB_PROVIDER || process.env.DATABASE_PROVIDER;
@@ -14,7 +43,15 @@ function inferDbProvider() {
   ) {
     return 'postgres';
   }
-  return 'mysql';
+  if (
+    process.env.MYSQL_HOST ||
+    process.env.MYSQL_DATABASE ||
+    process.env.MYSQL_USER ||
+    process.env.MYSQL_PASSWORD
+  ) {
+    return 'mysql';
+  }
+  return 'supabase';
 }
 
 export const dbProvider = inferDbProvider();
@@ -61,12 +98,28 @@ export function getDatabaseConfigStatus() {
   };
 }
 
-// 保持原有导出的兼容性，同时提供一个可以热重建的 activeDb
-export const db = mysql({ config: dbConfig });
-let activeDb = db;
+// 保持旧导出名的兼容性；MySQL client 只在 MySQL 模式下懒加载，Supabase/Postgres 模式不会初始化它。
+export const db = null;
+let activeDb = null;
 let queryQueue = Promise.resolve();
 
 let pgPool = null;
+let mysqlFactoryPromise = null;
+
+async function getMysqlFactory() {
+  if (!mysqlFactoryPromise) {
+    mysqlFactoryPromise = import('serverless-mysql').then((module) => module.default || module);
+  }
+  return mysqlFactoryPromise;
+}
+
+async function getMysqlClient() {
+  if (!activeDb) {
+    const mysql = await getMysqlFactory();
+    activeDb = mysql({ config: dbConfig });
+  }
+  return activeDb;
+}
 
 function getPgPool() {
   if (!pgPool) {
@@ -233,7 +286,8 @@ async function runQuery(q, values) {
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const results = await withTimeout(activeDb.query(q, values), queryTimeout, 'Database query');
+      const mysqlDb = await getMysqlClient();
+      const results = await withTimeout(mysqlDb.query(q, values), queryTimeout, 'Database query');
       return results;
     } catch (error) {
       lastError = error;
@@ -256,9 +310,9 @@ async function runQuery(q, values) {
       ) {
         console.warn(`[Database query] Detected dead pool state "${error.message}". Re-initializing active client pool via quit().`);
         try {
-          activeDb.quit(); // 清空并重置底层私有 pool 变量为 null
+          activeDb?.quit(); // 清空并重置底层私有 pool 变量为 null
         } catch (e) {}
-        activeDb = mysql({ config: dbConfig });
+        activeDb = null;
       }
       
       if (attempt < maxRetries) {

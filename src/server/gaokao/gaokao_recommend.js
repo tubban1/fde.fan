@@ -28,6 +28,75 @@ function inferRiskBand(rankGap) {
   return 'fallback';
 }
 
+function riskLabel(riskBand) {
+  return { rush: '冲', stable: '稳', safe: '保', fallback: '垫' }[riskBand] || '待定';
+}
+
+function probabilityRange(riskBand, hasCurrentPlans) {
+  if (!hasCurrentPlans) {
+    return {
+      rush: '历史位次偏冲，需当年计划校验',
+      stable: '历史位次相近，需当年计划校验',
+      safe: '历史位次偏稳，需当年计划校验',
+      fallback: '历史位次保底，需当年计划校验'
+    }[riskBand] || '待校验';
+  }
+  return {
+    rush: '30%-50%',
+    stable: '50%-75%',
+    safe: '75%-90%',
+    fallback: '90%+'
+  }[riskBand] || '待评估';
+}
+
+function buildDeterministicReport(knownFacts, structured) {
+  const hasCurrentPlans = structured.dataCoverage.hasCurrentPlans;
+  const hasHistory = structured.dataCoverage.historicalAdmissionCount > 0;
+  const riskPreference = knownFacts.preferences?.riskPreference || 'balanced';
+
+  return {
+    summary: hasCurrentPlans
+      ? '已基于当年招生计划和历年录取位次生成候选志愿。'
+      : hasHistory
+        ? '当前已匹配到近三年历史录取位次，但缺少当年招生计划。本报告只能作为历史位次初筛，不能直接作为最终填报顺序。'
+        : '当前数据库缺少该省份历年录取位次和当年招生计划，暂不能生成可靠推荐。',
+    dataQuality: {
+      level: hasCurrentPlans && hasHistory ? 'sufficient' : hasHistory ? 'partial' : 'insufficient',
+      notes: [
+        `当年招生计划记录：${structured.dataCoverage.currentPlanCount}`,
+        `历史录取记录：${structured.dataCoverage.historicalAdmissionCount}`,
+        hasCurrentPlans ? '已接入当年计划，可进一步核对选科、人数、学费、校区和特殊限制。' : '缺少当年招生计划，必须补齐后才能做精准概率测算和最终排序。'
+      ]
+    },
+    strategy: {
+      riskPreference,
+      rushStableSafeRatio: riskPreference === 'aggressive' ? '4:4:2' : riskPreference === 'conservative' ? '2:4:4' : '3:4:3',
+      mainTradeoff: knownFacts.preferences?.priority || '先按位次锁定范围，再结合城市、专业、学校层次筛选。'
+    },
+    recommendations: structured.candidates.slice(0, 24).map((item, index) => ({
+      order: index + 1,
+      riskBand: riskLabel(item.riskBand),
+      institution: item.institutionName,
+      majorGroup: item.majorGroupCode || '',
+      major: item.majorName || '',
+      probabilityRange: probabilityRange(item.riskBand, hasCurrentPlans),
+      reason: `近年最低位次均值约 ${item.avgMinRank}，与考生位次差 ${item.rankGap}；样本年份：${item.years.map(year => year.year).join('、')}。`,
+      risks: [
+        hasCurrentPlans ? '仍需核对专业选科、体检、语种、单科成绩和招生章程限制。' : '缺少当年招生计划，若专业停招、扩招或缩招，历史位次参考会明显失真。',
+        '专业热度、城市热度和新增专业可能导致位次波动。'
+      ],
+      alternatives: []
+    })),
+    parentVersion: hasCurrentPlans
+      ? '家长您好，本表已结合当年计划与历史位次，但仍建议逐项核对招生章程中的体检、语种、单科和收费要求。'
+      : '家长您好，现在这份表是历史位次初筛，不是最终志愿表。下一步必须导入当年招生计划，重点核对今年是否招生、招几人、选科和特殊限制。',
+    studentVersion: hasCurrentPlans
+      ? '同学你好，这份清单先按位次和风险分层，你可以再按城市、专业兴趣和能否接受调剂做取舍。'
+      : '同学你好，这份清单先帮你把往年大概够得上的学校专业圈出来。真正填报前，还要看今年招生计划有没有变化。',
+    nextDataNeeded: hasCurrentPlans ? [] : ['当年招生计划', '专业选科要求', '学费/校区/体检/语种/单科限制']
+  };
+}
+
 export async function buildStructuredRecommendationContext(knownFacts) {
   const province = knownFacts.province;
   const examYear = parseInt(knownFacts.examYear, 10);
@@ -51,9 +120,13 @@ export async function buildStructuredRecommendationContext(knownFacts) {
        FROM gaokao_admission_records a
        LEFT JOIN gaokao_institutions i ON i.id = a.institution_id
       WHERE a.province = ? AND a.year IN (?, ?, ?)
-      ORDER BY a.year DESC, a.min_rank ASC
-      LIMIT 240`,
-    [province, targetYears[0] || 0, targetYears[1] || 0, targetYears[2] || 0]
+        AND a.min_rank IS NOT NULL
+        ${rank ? 'AND a.min_rank BETWEEN ? AND ?' : ''}
+      ORDER BY a.year DESC, ABS(a.min_rank - ?) ASC
+      LIMIT 600`,
+    rank
+      ? [province, targetYears[0] || 0, targetYears[1] || 0, targetYears[2] || 0, Math.max(1, rank - 30000), rank + 60000, rank]
+      : [province, targetYears[0] || 0, targetYears[1] || 0, targetYears[2] || 0, 0]
   ) : [];
 
   const byKey = new Map();
@@ -109,6 +182,11 @@ export async function buildStructuredRecommendationContext(knownFacts) {
 export async function generateRecommendationReport(knownFacts) {
   const structured = await buildStructuredRecommendationContext(knownFacts);
   const hasEnoughData = structured.dataCoverage.hasCurrentPlans && structured.dataCoverage.historicalAdmissionCount > 0;
+  const hasHistoricalFallback = structured.dataCoverage.historicalAdmissionCount > 0;
+
+  if (!hasEnoughData && hasHistoricalFallback) {
+    return { report: buildDeterministicReport(knownFacts, structured), structured };
+  }
 
   const prompt = `
 考生画像：
@@ -180,11 +258,11 @@ JSON 格式：
       },
       recommendations: structured.candidates.slice(0, 12).map((item, index) => ({
         order: index + 1,
-        riskBand: { rush: '冲', stable: '稳', safe: '保', fallback: '垫' }[item.riskBand] || '待定',
+        riskBand: riskLabel(item.riskBand),
         institution: item.institutionName,
         majorGroup: item.majorGroupCode || '',
         major: item.majorName || '',
-        probabilityRange: item.riskBand === 'rush' ? '30%-50%' : item.riskBand === 'stable' ? '50%-75%' : item.riskBand === 'safe' ? '75%-90%' : '待评估',
+        probabilityRange: probabilityRange(item.riskBand, structured.dataCoverage.hasCurrentPlans),
         reason: `近年平均最低位次约 ${item.avgMinRank}，与考生位次差 ${item.rankGap}。`,
         risks: ['需核对当年招生计划、选科要求、体检/语种/单科限制。'],
         alternatives: []

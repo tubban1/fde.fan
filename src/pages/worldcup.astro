@@ -1,0 +1,21 @@
+---
+import Header from '../components/Header.astro';
+import SchedulePrediction from '../components/worldcup/SchedulePrediction.tsx';
+import '../styles.css';
+---
+
+<html lang="en" class="bg-[#0B0F19]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2026 World Cup Predictions</title>
+    <meta name="description" content="AI-powered 2026 World Cup predictions using Elo and recent form." />
+  </head>
+  <body class="min-h-screen text-slate-300">
+    <Header />
+    <main class="pt-24 pb-16">
+      <div class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-emerald-900/20 to-transparent pointer-events-none -z-10"></div>
+      <SchedulePrediction client:load />
+    </main>
+  </body>
+</html>

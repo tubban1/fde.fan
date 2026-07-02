@@ -14,9 +14,11 @@ const province = getArg('province');
 const year = Number(getArg('year', '2026'));
 const type = getArg('type'); // 'score_rank' or 'admission_record'
 const limitChunks = Number(getArg('limit-chunks', '5'));
+const candidateTrackArg = getArg('candidate-track');
+const subjectComboArg = getArg('subject-combo');
 
 if (!province || !type) {
-  console.error('Usage: node scripts/gaokao/parse-national-admissions.mjs --province=北京|上海|广东 --year=2026 --type=score_rank|admission_record [--limit-chunks=5]');
+  console.error('Usage: node scripts/gaokao/parse-national-admissions.mjs --province=北京|上海|广东 --year=2026 --type=score_rank|admission_record [--limit-chunks=5] [--candidate-track=物理类] [--subject-combo=物理类]');
   process.exit(1);
 }
 
@@ -152,8 +154,18 @@ await withDb(async (pool) => {
     
     let successCount = 0;
     for (const seg of parsedSegments) {
-      const candidateTrack = '综合改革';
-      const subjectCombo = '不限';
+      let candidateTrack = candidateTrackArg || '综合改革';
+      let subjectCombo = subjectComboArg || '不限';
+      
+      const titleLower = (chunkRows.rows[0].title || '').toLowerCase();
+      if (titleLower.includes('物理')) {
+        candidateTrack = '物理类';
+        subjectCombo = '物理类';
+      } else if (titleLower.includes('历史')) {
+        candidateTrack = '历史类';
+        subjectCombo = '历史类';
+      }
+
       const minRank = seg.cumulative_count - seg.same_score_count + 1;
       const maxRank = seg.cumulative_count;
       
@@ -196,7 +208,15 @@ await withDb(async (pool) => {
 
     let successCount = 0;
     for (const rec of parsedRecords) {
-      const candidateTrack = '综合改革';
+      let candidateTrack = candidateTrackArg || '综合改革';
+      const recSubjectCombo = rec.subject_combo || '不限';
+      
+      if (recSubjectCombo.includes('物理') || recSubjectCombo.includes('仅物理')) {
+        candidateTrack = '物理类';
+      } else if (recSubjectCombo.includes('历史') || recSubjectCombo.includes('仅历史')) {
+        candidateTrack = '历史类';
+      }
+
       const batch = '普通类平行录取';
       const resolvedInstId = await ensureInstitution(pool, rec.institution_code, rec.institution_name, province);
       

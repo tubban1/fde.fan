@@ -1,0 +1,38 @@
+[
+  {
+    "source_type": "admission_record",
+    "province": "浙江",
+    "year": 2026,
+    "title": "2023年至2025年浙江省普通高校招生投档及专业录取情况",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/art/2026/6/22/art_45_12416.html",
+    "coverage": ["2023投档及专业录取", "2024投档及专业录取", "2025投档及专业录取"]
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省2026年普通高校招生成绩分数段表（总分）",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/art/2026/6/26/art_45_12452.html",
+    "coverage": ["一分一段", "成绩分段"]
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院关于做好2026年浙江省普通高校招生录取工作的通知",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/art/2026/6/18/art_45_12398.html",
+    "coverage": ["录取规则", "投档规则"]
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院关于做好2026年普通高校招生网上填报志愿工作的通知",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/art/2026/6/13/art_45_12375.html",
+    "coverage": ["志愿填报规则"]
+  }
+]

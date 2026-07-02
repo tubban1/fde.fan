@@ -1,0 +1,8375 @@
+
+
+
+
+
+
+
+
+<html>
+  <head>
+      <title>志愿填报表格</title>
+<style>
+	body{font-size:12px;}
+	td{border-bottom:1px solid #000000;
+	   border-right:1px solid #000000;
+	   height:22px;
+	 }
+	 .notdborder{border :0px solid #000000;
+	   height:22px;
+	 }
+	.table_v
+	{
+		/*border:1px solid #000000;*/
+	} 
+	.td_title{background-color:#efecec;}
+</style>
+  </head>
+  
+  <body>
+  <div style="align:center;text-align:center">
+  <font style="font-size:20px"><b>2026年福建省普通高校招生考生志愿填报</b></font><br/>
+  <font style="font-size:12px"><b>计划科类：</b></font>
+	                	<font style="font-size:12px"><b>普通类（物理科目组）</b></font>
+	                	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                	<font style="font-size:12px"><b>批次名称：</b></font>
+	                	<font style="font-size:12px"><b>普通类本科批常规志愿</b></font><br/>
+	        <font style="font-size:12px"><b>
+				  开始时间：2026-07-03 08:00:00 —— 
+				  结束时间：2026-07-06 18:00:00
+				  </b></font>        	
+</div>
+		<table style="width:720px" border="0" cellspacing="0" cellpadding="0" align="center" class="table_v">
+		<tr>
+			<td align="center" class="td_title" colspan="4" style="border-top:1px solid #000000;border-left:1px solid #000000;">
+			考生基本信息
+			</td>
+		</tr>
+		<tr>
+	        <td align="center" width="25%" style="border-left:1px solid #000000;">
+				<b>姓　名</b>
+			</td>
+			<td width="25%">
+				&nbsp;
+			</td>
+	        <td align="center" width="25%">
+				<b>考 生 号</b>
+			</td>
+			<td  width="25%">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+	        <td align="center"  style="border-left:1px solid #000000;">
+				<b>性　别</b>
+			</td>
+			<td >
+				&nbsp;
+			</td>
+	        <td align="center" >
+				<b>身份证号</b>
+			</td>
+			<td >
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+	        <td align="center"  style="border-left:1px solid #000000;">
+				<b>选考科目</b>
+			</td>
+			<td colspan="3">
+				&nbsp;
+			</td>
+		</tr>
+		</table>
+		
+		
+		<table  style="width:720px" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+		<tr>
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			01志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			02志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			03志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			04志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			05志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			06志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			07志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			08志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			09志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			10志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			11志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			12志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			13志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			14志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			15志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			16志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			17志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			18志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			19志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			20志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			21志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			22志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			23志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			24志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			25志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			26志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			27志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			28志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			29志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			30志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			31志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			32志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			33志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			34志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			35志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			36志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			37志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			38志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			39志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			40志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			41志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			42志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			43志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			44志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			45志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			46志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			47志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			48志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+	    	</tr>
+	    	<tr>
+	    	
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4"  style="align:center;border-left: #000000 solid 1px;">
+			
+			
+			49志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				<td style="width:85px;align:center;border-left: #000000 solid 1px;">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+			 	<td style="width:75px;align:center;border-left:1px solid #000000;">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+			
+			<td  valign="top"  class="notdborder">
+			 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="notdborder">
+			<tr>
+			
+			
+				<td align="center" class="td_title" colspan="4" >
+			
+			
+			50志愿
+			</td>
+		</tr>
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>院校代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>院校名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		<!-- 非专科批需选择专业组 -->
+
+		
+		<tr>
+	       
+				 <td style="width:85px;align:center">
+			
+				<b>专业组代号</b>
+			</td>
+			<td style="width:60px">
+				&nbsp;
+			</td>
+	        <td style="width:85px;align:center">
+				<b>专业组名称</b>
+			</td>
+			<td style="width:100px">
+				
+			</td>
+		</tr>
+		
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号1</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称1</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号2</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称2</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号3</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称3</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号4</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称4</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号5</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称5</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<tr>	
+			 
+				 <td style="width:75px;align:center">
+				
+				<b>专业代号6</b>
+			</td>
+			<td>
+				&nbsp;
+			</td>
+	        <td style="width:75px;align:center">
+				<b>专业名称6</b>
+			</td>			
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		
+		<!-- 是否专业调剂，从缓存中读取配置 -->
+		
+		<tr>
+			<td >
+				<b>是否服从<br/>专业调剂</b>
+			</td>
+			<td colspan="4" class="">
+				&nbsp;&nbsp;&nbsp;是&nbsp;&nbsp;&nbsp;否
+			</td>
+		</tr>
+		
+			</table>
+			</td>			
+				
+			
+					
+		</tr>
+		
+		</table>
+		
+		
+		<!-- 是否院校调剂，从缓存中读取配置 -->
+
+		    			
+		
+		
+  </body>
+</html>

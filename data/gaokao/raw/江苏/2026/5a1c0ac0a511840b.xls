@@ -1,0 +1,2762 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="ProgId" content="Excel.Sheet">
+  <meta name="Generator" content="WPS Office ET">
+  <!--[if gte mso 9]>
+   <xml>
+    <o:DocumentProperties>
+     <o:Created>2026-06-17T09:20:44</o:Created>
+     <o:LastAuthor>夏亚培</o:LastAuthor>
+     <o:LastSaved>2026-06-26T14:12:12</o:LastSaved>
+    </o:DocumentProperties>
+    <o:CustomDocumentProperties>
+     <o:ICV dt:dt="string">697709BB6D5C40F09EF8E3284594E3BD_12</o:ICV>
+     <o:KSOProductBuildVer dt:dt="string">2052-12.1.0.26895</o:KSOProductBuildVer>
+     <o:CalculationRule dt:dt="float">0.0</o:CalculationRule>
+    </o:CustomDocumentProperties>
+   </xml>
+  <![endif]-->
+  <style>
+<!-- @page
+	{mso-footer-data:"&C第 &P 页，共 &N 页";
+	margin:1.00in 0.75in 1.00in 0.75in;
+	mso-header-margin:0.50in;
+	mso-footer-margin:0.50in;}
+tr
+	{mso-height-source:auto;
+	mso-ruby-visibility:none;}
+col
+	{mso-width-source:auto;
+	mso-ruby-visibility:none;}
+br
+	{mso-data-placement:same-cell;}
+.font0
+	{color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font1
+	{color:#000000;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"黑体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font2
+	{color:#000000;
+	font-size:22.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"方正小标宋简体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font3
+	{color:#000000;
+	font-size:14.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"黑体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font4
+	{color:#000000;
+	font-size:16.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"黑体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font5
+	{color:#000000;
+	font-size:9.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"黑体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font6
+	{color:#000000;
+	font-size:10.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Arial Unicode MS";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font7
+	{color:#000000;
+	font-size:9.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Arial Unicode MS";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font8
+	{color:#000000;
+	font-size:10.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Arial Unicode MS";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font9
+	{color:#000000;
+	font-size:8.3pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Arial Unicode MS";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font10
+	{color:#0000FF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:underline;
+	text-underline-style:single;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font11
+	{color:#800080;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:underline;
+	text-underline-style:single;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font12
+	{color:#FF0000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font13
+	{color:#44546A;
+	font-size:18.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font14
+	{color:#7F7F7F;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:italic;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font15
+	{color:#44546A;
+	font-size:15.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font16
+	{color:#44546A;
+	font-size:13.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font17
+	{color:#44546A;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.font18
+	{color:#3F3F76;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font19
+	{color:#3F3F3F;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font20
+	{color:#FA7D00;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font21
+	{color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font22
+	{color:#FA7D00;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font23
+	{color:#000000;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font24
+	{color:#006100;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font25
+	{color:#9C0006;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font26
+	{color:#9C6500;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font27
+	{color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font28
+	{color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"宋体";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;}
+.font29
+	{color:#000000;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Arial Unicode MS";
+	mso-generic-font-family:auto;
+	mso-font-charset:134;}
+.style0
+	{mso-number-format:"General";
+	text-align:general;
+	vertical-align:middle;
+	white-space:nowrap;
+	mso-rotate:0;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	border:none;
+	mso-protection:locked visible;
+	mso-style-name:"常规";
+	mso-style-id:0;}
+.style16
+	{mso-number-format:"_ * \#\,\#\#0\.00_ \;_ * \\-\#\,\#\#0\.00_ \;_ * \0022-\0022??_ \;_ \@_ ";
+	mso-style-name:"千位分隔";
+	mso-style-id:3;}
+.style17
+	{mso-number-format:"_ \\¥* \#\,\#\#0\.00_ \;_ \\¥* \\-\#\,\#\#0\.00_ \;_ \\¥* \0022-\0022??_ \;_ \@_ ";
+	mso-style-name:"货币";
+	mso-style-id:4;}
+.style18
+	{mso-number-format:"0%";
+	mso-style-name:"百分比";
+	mso-style-id:5;}
+.style19
+	{mso-number-format:"_ * \#\,\#\#0_ \;_ * \\-\#\,\#\#0_ \;_ * \0022-\0022_ \;_ \@_ ";
+	mso-style-name:"千位分隔[0]";
+	mso-style-id:6;}
+.style20
+	{mso-number-format:"_ \\¥* \#\,\#\#0_ \;_ \\¥* \\-\#\,\#\#0_ \;_ \\¥* \0022-\0022_ \;_ \@_ ";
+	mso-style-name:"货币[0]";
+	mso-style-id:7;}
+.style21
+	{color:#0000FF;
+	font-size:11.0pt;
+	text-decoration:underline;
+	text-underline-style:single;
+	font-family:宋体;
+	mso-style-name:"超链接";
+	mso-style-id:8;}
+.style22
+	{color:#800080;
+	font-size:11.0pt;
+	text-decoration:underline;
+	text-underline-style:single;
+	font-family:宋体;
+	mso-style-name:"已访问的超链接";
+	mso-style-id:9;}
+.style23
+	{mso-pattern:auto none;
+	background:#FFFFCC;
+	border:.5pt solid #B2B2B2;
+	mso-style-name:"注释";}
+.style24
+	{color:#FF0000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"警告文本";}
+.style25
+	{color:#44546A;
+	font-size:18.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	mso-style-name:"标题";}
+.style26
+	{color:#7F7F7F;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:italic;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"解释性文本";}
+.style27
+	{color:#44546A;
+	font-size:15.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	border-bottom:1.0pt solid #5B9BD5;
+	mso-style-name:"标题 1";}
+.style28
+	{color:#44546A;
+	font-size:13.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	border-bottom:1.0pt solid #5B9BD5;
+	mso-style-name:"标题 2";}
+.style29
+	{color:#44546A;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	border-bottom:1.0pt solid #ACCCEA;
+	mso-style-name:"标题 3";}
+.style30
+	{color:#44546A;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	mso-style-name:"标题 4";}
+.style31
+	{mso-pattern:auto none;
+	background:#FFCC99;
+	color:#3F3F76;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border:.5pt solid #7F7F7F;
+	mso-style-name:"输入";}
+.style32
+	{mso-pattern:auto none;
+	background:#F2F2F2;
+	color:#3F3F3F;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border:.5pt solid #3F3F3F;
+	mso-style-name:"输出";}
+.style33
+	{mso-pattern:auto none;
+	background:#F2F2F2;
+	color:#FA7D00;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border:.5pt solid #7F7F7F;
+	mso-style-name:"计算";}
+.style34
+	{mso-pattern:auto none;
+	background:#A5A5A5;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border:2.0pt double #3F3F3F;
+	mso-style-name:"检查单元格";}
+.style35
+	{color:#FA7D00;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border-bottom:2.0pt double #FF8001;
+	mso-style-name:"链接单元格";}
+.style36
+	{color:#000000;
+	font-size:11.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	border-top:.5pt solid #5B9BD5;
+	border-bottom:2.0pt double #5B9BD5;
+	mso-style-name:"汇总";}
+.style37
+	{mso-pattern:auto none;
+	background:#C6EFCE;
+	color:#006100;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"好";}
+.style38
+	{mso-pattern:auto none;
+	background:#FFC7CE;
+	color:#9C0006;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"差";}
+.style39
+	{mso-pattern:auto none;
+	background:#FFEB9C;
+	color:#9C6500;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"适中";}
+.style40
+	{mso-pattern:auto none;
+	background:#5B9BD5;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 1";}
+.style41
+	{mso-pattern:auto none;
+	background:#DDEBF7;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 1";}
+.style42
+	{mso-pattern:auto none;
+	background:#BDD7EE;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 1";}
+.style43
+	{mso-pattern:auto none;
+	background:#9BC2E6;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 1";}
+.style44
+	{mso-pattern:auto none;
+	background:#ED7D31;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 2";}
+.style45
+	{mso-pattern:auto none;
+	background:#FCE4D6;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 2";}
+.style46
+	{mso-pattern:auto none;
+	background:#F8CBAD;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 2";}
+.style47
+	{mso-pattern:auto none;
+	background:#F4B084;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 2";}
+.style48
+	{mso-pattern:auto none;
+	background:#A5A5A5;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 3";}
+.style49
+	{mso-pattern:auto none;
+	background:#EDEDED;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 3";}
+.style50
+	{mso-pattern:auto none;
+	background:#DBDBDB;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 3";}
+.style51
+	{mso-pattern:auto none;
+	background:#C9C9C9;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 3";}
+.style52
+	{mso-pattern:auto none;
+	background:#FFC000;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 4";}
+.style53
+	{mso-pattern:auto none;
+	background:#FFF2CC;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 4";}
+.style54
+	{mso-pattern:auto none;
+	background:#FFE699;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 4";}
+.style55
+	{mso-pattern:auto none;
+	background:#FFD966;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 4";}
+.style56
+	{mso-pattern:auto none;
+	background:#4472C4;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 5";}
+.style57
+	{mso-pattern:auto none;
+	background:#D9E1F2;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 5";}
+.style58
+	{mso-pattern:auto none;
+	background:#B4C6E7;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 5";}
+.style59
+	{mso-pattern:auto none;
+	background:#8EA9DB;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 5";}
+.style60
+	{mso-pattern:auto none;
+	background:#70AD47;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"强调文字颜色 6";}
+.style61
+	{mso-pattern:auto none;
+	background:#E2EFDA;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"20% - 强调文字颜色 6";}
+.style62
+	{mso-pattern:auto none;
+	background:#C6E0B4;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"40% - 强调文字颜色 6";}
+.style63
+	{mso-pattern:auto none;
+	background:#A9D08E;
+	color:#FFFFFF;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:0;
+	mso-style-name:"60% - 强调文字颜色 6";}
+td
+	{mso-style-parent:style0;
+	padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	mso-number-format:"General";
+	text-align:general;
+	vertical-align:middle;
+	white-space:nowrap;
+	mso-rotate:0;
+	color:#000000;
+	font-size:11.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-font-charset:134;
+	border:none;
+	mso-protection:locked visible;}
+.xl65
+	{mso-style-parent:style0;
+	text-align:center;
+	font-weight:700;
+	font-family:黑体, monospace;
+	mso-font-charset:134;}
+.xl66
+	{mso-style-parent:style0;
+	text-align:center;
+	mso-font-charset:134;}
+.xl67
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:22.0pt;
+	font-family:方正小标宋简体;
+	mso-font-charset:134;}
+.xl68
+	{mso-style-parent:style0;
+	text-align:left;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:14.0pt;
+	font-weight:700;
+	font-family:黑体, monospace;
+	mso-font-charset:134;}
+.xl69
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:16.0pt;
+	font-weight:700;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl70
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:9.0pt;
+	font-weight:700;
+	font-family:黑体, monospace;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl71
+	{mso-style-parent:style0;
+	mso-number-format:"\@";
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:10.0pt;
+	font-weight:700;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl72
+	{mso-style-parent:style0;
+	text-align:left;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:9.0pt;
+	font-weight:700;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl73
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:10.0pt;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl74
+	{mso-style-parent:style0;
+	text-align:center;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	mso-font-charset:134;
+	border-right:.5pt solid windowtext;}
+.xl75
+	{mso-style-parent:style0;
+	mso-number-format:"\@";
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:8.3pt;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl76
+	{mso-style-parent:style0;
+	text-align:left;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:8.3pt;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl77
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:8.3pt;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;
+	border:.5pt solid windowtext;}
+.xl78
+	{mso-style-parent:style0;
+	text-align:center;
+	white-space:normal;
+	mso-pattern:auto none;
+	background:#FFFFFF;
+	font-size:10.0pt;
+	font-family:Arial Unicode MS;
+	mso-font-charset:134;}
+ -->  </style>
+  <!--[if gte mso 9]>
+   <xml>
+    <x:ExcelWorkbook>
+     <x:ExcelWorksheets>
+      <x:ExcelWorksheet>
+       <x:Name>26年高水平运动队</x:Name>
+       <x:WorksheetOptions>
+        <x:DefaultRowHeight>400</x:DefaultRowHeight>
+        <x:Unsynced/>
+        <x:StandardWidth>2225</x:StandardWidth>
+        <x:Selected/>
+        <x:Panes>
+         <x:Pane>
+          <x:Number>3</x:Number>
+          <x:ActiveCol>6</x:ActiveCol>
+          <x:ActiveRow>3</x:ActiveRow>
+          <x:RangeSelection>G4</x:RangeSelection>
+         </x:Pane>
+        </x:Panes>
+        <x:DoNotDisplayGridlines/>
+        <x:FitToPage/>
+        <x:ProtectContents>False</x:ProtectContents>
+        <x:ProtectObjects>False</x:ProtectObjects>
+        <x:ProtectScenarios>False</x:ProtectScenarios>
+        <x:PageBreakZoom>100</x:PageBreakZoom>
+        <x:Print>
+         <x:ValidPrinterInfo/>
+         <x:FitHeight>0</x:FitHeight>
+         <x:PaperSizeIndex>9</x:PaperSizeIndex>
+         <x:Scale>72</x:Scale>
+         <x:HorizontalResolution>600</x:HorizontalResolution>
+        </x:Print>
+       </x:WorksheetOptions>
+      </x:ExcelWorksheet>
+     </x:ExcelWorksheets>
+     <x:ProtectStructure>False</x:ProtectStructure>
+     <x:ProtectWindows>False</x:ProtectWindows>
+     <x:SelectedSheets>0</x:SelectedSheets>
+     <x:WindowHeight>11805</x:WindowHeight>
+     <x:WindowWidth>28800</x:WindowWidth>
+    </x:ExcelWorkbook>
+   </xml>
+  <![endif]-->
+ </head>
+ <body link="blue" vlink="purple">
+  <table width="974.73" border="0" cellpadding="0" cellspacing="0" style='width:731.05pt;border-collapse:collapse;table-layout:fixed;'>
+   <col width="102.47" class="xl66" style='mso-width-source:userset;mso-width-alt:3278;'/>
+   <col width="642.07" class="xl66" style='mso-width-source:userset;mso-width-alt:20546;'/>
+   <col width="102.47" class="xl66" style='mso-width-source:userset;mso-width-alt:3278;'/>
+   <col width="63.87" span="2" class="xl66" style='mso-width-source:userset;mso-width-alt:2043;'/>
+   <tr height="106.67" style='height:80.00pt;mso-height-source:userset;mso-height-alt:1600;'>
+    <td class="xl67" height="106.67" width="974.73" colspan="5" style='height:80.00pt;width:731.05pt;border-right:none;border-bottom:none;' x:str>2026年普通高等学校在江苏招生专业目录（高水平运动队）</td>
+   </tr>
+   <tr height="80" style='height:60.00pt;mso-height-source:userset;mso-height-alt:1200;'>
+    <td class="xl68" height="80" colspan="5" style='height:60.00pt;border-right:none;border-bottom:none;' x:str>以下院校专业目录仅供相应院校高水平运动队入选考生填报,专业具体情况须查阅相应院校招生章程或详询院校</td>
+   </tr>
+   <tr height="53.33" style='height:40.00pt;mso-height-source:userset;mso-height-alt:800;'>
+    <td class="xl69" height="53.33" colspan="5" style='height:40.00pt;border-right:.5pt solid windowtext;border-bottom:.5pt solid windowtext;' x:str>高水平运动队(历史等科目类)</td>
+   </tr>
+   <tr height="40" class="xl65" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl70" height="40" style='height:30.00pt;' x:str>代号</td>
+    <td class="xl70" x:str>院校、专业名称及备注</td>
+    <td class="xl70" x:str>再选科目<font class="font5"><br/></font><font class="font5">要求</font></td>
+    <td class="xl70" x:str>学制</td>
+    <td class="xl70" x:str>学费</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1108</td>
+    <td class="xl72" x:str>南京师范大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1108D1</td>
+    <td class="xl72" x:str>南京师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>G6</td>
+    <td class="xl76" x:str>体育教育(师范)(报考该专业有色觉要求，具体请查阅院校招生章程)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1110</td>
+    <td class="xl72" x:str>南京工业大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1110D1</td>
+    <td class="xl72" x:str>南京工业大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>C6</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1261</td>
+    <td class="xl72" x:str>苏州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1261D1</td>
+    <td class="xl72" x:str>苏州大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>G2</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1301</td>
+    <td class="xl72" x:str>南通大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>1301D1</td>
+    <td class="xl72" x:str>南通大学D1专业组<font class="font7"><br/></font><font class="font29">以下专业在啬园校区学习：</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>G4</td>
+    <td class="xl76" x:str>体育教育(师范)(报考该专业有色觉要求，具体请查阅院校招生章程)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1381</td>
+    <td class="xl72" x:str>扬州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1381D1</td>
+    <td class="xl72" x:str>扬州大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>N6</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2101</td>
+    <td class="xl72" x:str>复旦大学(上海)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2101D1</td>
+    <td class="xl72" x:str>复旦大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>52</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2106</td>
+    <td class="xl72" x:str>华东师范大学(上海)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2106D1</td>
+    <td class="xl72" x:str>华东师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>60</td>
+    <td class="xl76" x:str>体育教育(师范)(闵行校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>7000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2605</td>
+    <td class="xl72" x:str>山东中医药大学(济南)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2605D1</td>
+    <td class="xl72" x:str>山东中医药大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>14</td>
+    <td class="xl76" x:str>社会体育指导与管理(长清校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2623</td>
+    <td class="xl72" x:str>青岛科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2623D1</td>
+    <td class="xl72" x:str>青岛科技大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>17</td>
+    <td class="xl76" x:str>休闲体育(崂山校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2631</td>
+    <td class="xl72" x:str>山东农业大学(泰安)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2631D1</td>
+    <td class="xl72" x:str>山东农业大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>26</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2711</td>
+    <td class="xl72" x:str>山东师范大学(济南)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2711D1</td>
+    <td class="xl72" x:str>山东师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>26</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6600</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3101</td>
+    <td class="xl72" x:str>北京大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3101D1</td>
+    <td class="xl72" x:str>北京大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>51</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3103</td>
+    <td class="xl72" x:str>清华大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3103D1</td>
+    <td class="xl72" x:str>清华大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>45</td>
+    <td class="xl76" x:str>体育教育(体育教育+工商管理双学士学位培养项目)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3106</td>
+    <td class="xl72" x:str>北京航空航天大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3106D1</td>
+    <td class="xl72" x:str>北京航空航天大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>18</td>
+    <td class="xl76" x:str>运动康复(学院路校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3107</td>
+    <td class="xl72" x:str>北京理工大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3107D1</td>
+    <td class="xl72" x:str>北京理工大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>21</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3108</td>
+    <td class="xl72" x:str>北京科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3108D1</td>
+    <td class="xl72" x:str>北京科技大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>26</td>
+    <td class="xl76" x:str>体育教育(北京校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3109</td>
+    <td class="xl72" x:str>北京化工大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>3109D1</td>
+    <td class="xl72" x:str>北京化工大学D1专业组<font class="font7"><br/></font><font class="font29">以下专业在朝阳校区/昌平校区学习，详询院校</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>31</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3111</td>
+    <td class="xl72" x:str>中国地质大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>3111D1</td>
+    <td class="xl72" x:str>中国地质大学(北京)D1专业组<font class="font7"><br/></font><font class="font29">以下专业第一学年在北京校区学习，第二学年起在雄安校区学习：</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>44</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3112</td>
+    <td class="xl72" x:str>中国政法大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3112D1</td>
+    <td class="xl72" x:str>中国政法大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>31</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3129</td>
+    <td class="xl72" x:str>中央民族大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3129D1</td>
+    <td class="xl72" x:str>中央民族大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>61</td>
+    <td class="xl76" x:str>体育教育(丰台校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3305</td>
+    <td class="xl72" x:str>河北地质大学(石家庄)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3305D1</td>
+    <td class="xl72" x:str>河北地质大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>18</td>
+    <td class="xl76" x:str>休闲体育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>8000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3407</td>
+    <td class="xl72" x:str>山西医科大学(太原)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3407D1</td>
+    <td class="xl72" x:str>山西医科大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>06</td>
+    <td class="xl76" x:str>运动康复(中都校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5100</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3416</td>
+    <td class="xl72" x:str>太原师范学院(晋中)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3416D1</td>
+    <td class="xl72" x:str>太原师范学院D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>23</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>4203</td>
+    <td class="xl72" x:str>吉林农业大学(长春)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>4203D1</td>
+    <td class="xl72" x:str>吉林农业大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>29</td>
+    <td class="xl76" x:str>体育教育(净月校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5201</td>
+    <td class="xl72" x:str>武汉大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5201D1</td>
+    <td class="xl72" x:str>武汉大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>60</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>9000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5203</td>
+    <td class="xl72" x:str>华中师范大学(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5203D1</td>
+    <td class="xl72" x:str>华中师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>36</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5205</td>
+    <td class="xl72" x:str>中国地质大学(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5205D1</td>
+    <td class="xl72" x:str>中国地质大学(武汉)D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>57</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5221</td>
+    <td class="xl72" x:str>湖北经济学院(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5221D1</td>
+    <td class="xl72" x:str>湖北经济学院D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>37</td>
+    <td class="xl76" x:str>休闲体育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5200</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5303</td>
+    <td class="xl72" x:str>湖南师范大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5303D1</td>
+    <td class="xl72" x:str>湖南师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>47</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5306</td>
+    <td class="xl72" x:str>湖南工商大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5306D1</td>
+    <td class="xl72" x:str>湖南工商大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>36</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5900</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5331</td>
+    <td class="xl72" x:str>中南林业科技大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5331D1</td>
+    <td class="xl72" x:str>中南林业科技大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>43</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5413</td>
+    <td class="xl72" x:str>华南师范大学(广州)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5413D1</td>
+    <td class="xl72" x:str>华南师范大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>09</td>
+    <td class="xl76" x:str>运动训练(广州校区大学城校园)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6850</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5419</td>
+    <td class="xl72" x:str>广州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5419D1</td>
+    <td class="xl72" x:str>广州大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>14</td>
+    <td class="xl76" x:str>体育教育(高水平运动队)(师范)(大学城校区)(不招色盲色弱)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6850</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5421</td>
+    <td class="xl72" x:str>汕头大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5421D1</td>
+    <td class="xl72" x:str>汕头大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>29</td>
+    <td class="xl76" x:str>体育教育(桑浦山校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6230</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5451</td>
+    <td class="xl72" x:str>深圳大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5451D1</td>
+    <td class="xl72" x:str>深圳大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>18</td>
+    <td class="xl76" x:str>体育教育(师范)(粤海校区)(学费拟按6230-6853元/年收费，以广东省物价部门批复为准)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:str>待定</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6131</td>
+    <td class="xl72" x:str>西南科技大学(绵阳)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6131D1</td>
+    <td class="xl72" x:str>西南科技大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>27</td>
+    <td class="xl76" x:str>运动康复(青义校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5760</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>28</td>
+    <td class="xl76" x:str>社会体育指导与管理(青义校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5760</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6203</td>
+    <td class="xl72" x:str>西南政法大学(重庆)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6203D1</td>
+    <td class="xl72" x:str>西南政法大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>35</td>
+    <td class="xl76" x:str>运动训练(两江校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>8000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6206</td>
+    <td class="xl72" x:str>重庆工商大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6206D1</td>
+    <td class="xl72" x:str>重庆工商大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>28</td>
+    <td class="xl76" x:str>体育教育(南岸校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5508</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6405</td>
+    <td class="xl72" x:str>云南农业大学(昆明)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>6405D1</td>
+    <td class="xl72" x:str>云南农业大学D1专业组<font class="font7"><br/></font><font class="font29">以下专业在校本部学习：</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>23</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>7108</td>
+    <td class="xl72" x:str>西安建筑科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>7108D1</td>
+    <td class="xl72" x:str>西安建筑科技大学D1专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>24</td>
+    <td class="xl76" x:str>社会体育指导与管理(草堂校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="53.33" style='height:40.00pt;mso-height-source:userset;mso-height-alt:800;'>
+    <td class="xl69" height="53.33" colspan="5" style='height:40.00pt;border-right:.5pt solid windowtext;border-bottom:.5pt solid windowtext;' x:str>高水平运动队(物理等科目类)</td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl70" height="40" style='height:30.00pt;' x:str>代号</td>
+    <td class="xl70" x:str>院校、专业名称及备注</td>
+    <td class="xl70" x:str>再选科目<font class="font5"><br/></font><font class="font5">要求</font></td>
+    <td class="xl70" x:str>学制</td>
+    <td class="xl70" x:str>学费</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1108</td>
+    <td class="xl72" x:str>南京师范大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1108D2</td>
+    <td class="xl72" x:str>南京师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>J2</td>
+    <td class="xl76" x:str>体育教育(师范)(报考该专业有色觉要求，具体请查阅院校招生章程)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1110</td>
+    <td class="xl72" x:str>南京工业大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1110D2</td>
+    <td class="xl72" x:str>南京工业大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>F1</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1261</td>
+    <td class="xl72" x:str>苏州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1261D2</td>
+    <td class="xl72" x:str>苏州大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>G3</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>G4</td>
+    <td class="xl76" x:str>运动康复  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1301</td>
+    <td class="xl72" x:str>南通大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>1301D2</td>
+    <td class="xl72" x:str>南通大学D2专业组<font class="font7"><br/></font><font class="font29">以下专业在啬园校区学习：</font><font class="font7"><span style='mso-spacerun:yes;'>&nbsp;</span></font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>L8</td>
+    <td class="xl76" x:str>体育教育(师范)(报考该专业有色觉要求，具体请查阅院校招生章程)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1381</td>
+    <td class="xl72" x:str>扬州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>1381D2</td>
+    <td class="xl72" x:str>扬州大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>W6</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5830</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2101</td>
+    <td class="xl72" x:str>复旦大学(上海)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2101D2</td>
+    <td class="xl72" x:str>复旦大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>53</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2106</td>
+    <td class="xl72" x:str>华东师范大学(上海)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2106D2</td>
+    <td class="xl72" x:str>华东师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>61</td>
+    <td class="xl76" x:str>体育教育(师范)(闵行校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>7000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2605</td>
+    <td class="xl72" x:str>山东中医药大学(济南)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2605D2</td>
+    <td class="xl72" x:str>山东中医药大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>15</td>
+    <td class="xl76" x:str>社会体育指导与管理(长清校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6300</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2623</td>
+    <td class="xl72" x:str>青岛科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2623D2</td>
+    <td class="xl72" x:str>青岛科技大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>18</td>
+    <td class="xl76" x:str>休闲体育(崂山校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2631</td>
+    <td class="xl72" x:str>山东农业大学(泰安)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2631D2</td>
+    <td class="xl72" x:str>山东农业大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>27</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2711</td>
+    <td class="xl72" x:str>山东师范大学(济南)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>2711D2</td>
+    <td class="xl72" x:str>山东师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>27</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6600</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3101</td>
+    <td class="xl72" x:str>北京大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3101D2</td>
+    <td class="xl72" x:str>北京大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>52</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3103</td>
+    <td class="xl72" x:str>清华大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3103D2</td>
+    <td class="xl72" x:str>清华大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>46</td>
+    <td class="xl76" x:str>体育教育(体育教育+工商管理双学士学位培养项目)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3106</td>
+    <td class="xl72" x:str>北京航空航天大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3106D2</td>
+    <td class="xl72" x:str>北京航空航天大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>19</td>
+    <td class="xl76" x:str>运动康复(学院路校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3107</td>
+    <td class="xl72" x:str>北京理工大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3107D2</td>
+    <td class="xl72" x:str>北京理工大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>22</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3108</td>
+    <td class="xl72" x:str>北京科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3108D2</td>
+    <td class="xl72" x:str>北京科技大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>27</td>
+    <td class="xl76" x:str>体育教育(北京校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3109</td>
+    <td class="xl72" x:str>北京化工大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>3109D2</td>
+    <td class="xl72" x:str>北京化工大学D2专业组<font class="font7"><br/></font><font class="font29">以下专业在朝阳校区/昌平校区学习，详询院校</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>32</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3111</td>
+    <td class="xl72" x:str>中国地质大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>3111D2</td>
+    <td class="xl72" x:str>中国地质大学(北京)D2专业组<font class="font7"><br/></font><font class="font29">以下专业第一学年在北京校区学习，第二学年起在雄安校区学习：</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>45</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3112</td>
+    <td class="xl72" x:str>中国政法大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3112D2</td>
+    <td class="xl72" x:str>中国政法大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>32</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3129</td>
+    <td class="xl72" x:str>中央民族大学(北京)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3129D2</td>
+    <td class="xl72" x:str>中央民族大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>62</td>
+    <td class="xl76" x:str>体育教育(丰台校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3305</td>
+    <td class="xl72" x:str>河北地质大学(石家庄)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3305D2</td>
+    <td class="xl72" x:str>河北地质大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>19</td>
+    <td class="xl76" x:str>休闲体育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>8000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3407</td>
+    <td class="xl72" x:str>山西医科大学(太原)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3407D2</td>
+    <td class="xl72" x:str>山西医科大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>07</td>
+    <td class="xl76" x:str>运动康复(中都校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5100</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3416</td>
+    <td class="xl72" x:str>太原师范学院(晋中)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>3416D2</td>
+    <td class="xl72" x:str>太原师范学院D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>24</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>4203</td>
+    <td class="xl72" x:str>吉林农业大学(长春)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>4203D2</td>
+    <td class="xl72" x:str>吉林农业大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>30</td>
+    <td class="xl76" x:str>体育教育(净月校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5201</td>
+    <td class="xl72" x:str>武汉大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5201D2</td>
+    <td class="xl72" x:str>武汉大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>61</td>
+    <td class="xl76" x:str>运动训练  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>9000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5203</td>
+    <td class="xl72" x:str>华中师范大学(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5203D2</td>
+    <td class="xl72" x:str>华中师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>37</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5205</td>
+    <td class="xl72" x:str>中国地质大学(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5205D2</td>
+    <td class="xl72" x:str>中国地质大学(武汉)D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>58</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5221</td>
+    <td class="xl72" x:str>湖北经济学院(武汉)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5221D2</td>
+    <td class="xl72" x:str>湖北经济学院D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>38</td>
+    <td class="xl76" x:str>休闲体育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5200</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5303</td>
+    <td class="xl72" x:str>湖南师范大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5303D2</td>
+    <td class="xl72" x:str>湖南师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>48</td>
+    <td class="xl76" x:str>体育教育(师范)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5306</td>
+    <td class="xl72" x:str>湖南工商大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5306D2</td>
+    <td class="xl72" x:str>湖南工商大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>37</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5900</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5331</td>
+    <td class="xl72" x:str>中南林业科技大学(长沙)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5331D2</td>
+    <td class="xl72" x:str>中南林业科技大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>44</td>
+    <td class="xl76" x:str>社会体育指导与管理  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5413</td>
+    <td class="xl72" x:str>华南师范大学(广州)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5413D2</td>
+    <td class="xl72" x:str>华南师范大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>10</td>
+    <td class="xl76" x:str>运动训练(广州校区大学城校园)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6850</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5419</td>
+    <td class="xl72" x:str>广州大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5419D2</td>
+    <td class="xl72" x:str>广州大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>15</td>
+    <td class="xl76" x:str>体育教育(高水平运动队)(师范)(大学城校区)(不招色盲色弱)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6850</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5421</td>
+    <td class="xl72" x:str>汕头大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5421D2</td>
+    <td class="xl72" x:str>汕头大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>30</td>
+    <td class="xl76" x:str>体育教育(桑浦山校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>6230</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5451</td>
+    <td class="xl72" x:str>深圳大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>5451D2</td>
+    <td class="xl72" x:str>深圳大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>19</td>
+    <td class="xl76" x:str>体育教育(师范)(粤海校区)(学费拟按6230-6853元/年收费，以广东省物价部门批复为准)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:str>待定</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6131</td>
+    <td class="xl72" x:str>西南科技大学(绵阳)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6131D2</td>
+    <td class="xl72" x:str>西南科技大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>29</td>
+    <td class="xl76" x:str>运动康复(青义校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5760</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>30</td>
+    <td class="xl76" x:str>社会体育指导与管理(青义校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5760</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6141</td>
+    <td class="xl72" x:str>西南石油大学(成都市新都区)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6141D2</td>
+    <td class="xl72" x:str>西南石油大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>12</td>
+    <td class="xl76" x:str>体育教育(报考该专业有色觉等要求，具体请查阅院校招生章程)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5760</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6203</td>
+    <td class="xl72" x:str>西南政法大学(重庆)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6203D2</td>
+    <td class="xl72" x:str>西南政法大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>36</td>
+    <td class="xl76" x:str>运动训练(两江校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>8000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6206</td>
+    <td class="xl72" x:str>重庆工商大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6206D2</td>
+    <td class="xl72" x:str>重庆工商大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>29</td>
+    <td class="xl76" x:str>体育教育(南岸校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5508</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>6405</td>
+    <td class="xl72" x:str>云南农业大学(昆明)</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="40" style='height:30.00pt;mso-height-source:userset;mso-height-alt:600;'>
+    <td class="xl71" height="40" style='height:30.00pt;' x:str>6405D2</td>
+    <td class="xl72" x:str>云南农业大学D2专业组<font class="font7"><br/></font><font class="font29">以下专业在校本部学习：</font></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>24</td>
+    <td class="xl76" x:str>体育教育  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>4500</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>7108</td>
+    <td class="xl72" x:str>西安建筑科技大学</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl71" height="26.67" style='height:20.00pt;' x:str>7108D2</td>
+    <td class="xl72" x:str>西安建筑科技大学D2专业组</td>
+    <td class="xl73"></td>
+    <td class="xl73"></td>
+    <td class="xl74"></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl75" height="26.67" style='height:20.00pt;' x:str>25</td>
+    <td class="xl76" x:str>社会体育指导与管理(草堂校区)  </td>
+    <td class="xl77" x:str>不限</td>
+    <td class="xl77" x:str>四</td>
+    <td class="xl77" x:num>5000</td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl78" height="26.67" colspan="5" style='height:20.00pt;border-right:none;border-bottom:none;'></td>
+   </tr>
+   <tr height="26.67" style='height:20.00pt;mso-height-source:userset;mso-height-alt:400;'>
+    <td class="xl78" height="26.67" colspan="5" style='height:20.00pt;border-right:none;border-bottom:none;'></td>
+   </tr>
+   <![if supportMisalignedColumns]>
+    <tr width="0" style='display:none;'>
+     <td width="102" style='width:77;'></td>
+     <td width="642" style='width:482;'></td>
+     <td width="102" style='width:77;'></td>
+     <td width="64" style='width:48;'></td>
+    </tr>
+   <![endif]>
+  </table>
+ </body>
+</html>

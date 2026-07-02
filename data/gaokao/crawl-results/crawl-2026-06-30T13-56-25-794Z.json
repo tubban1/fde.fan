@@ -1,0 +1,59 @@
+[
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4915636.html",
+    "file_url": null,
+    "file_hash": "51118747b911e461397938cccd75f9e108672cea99087b3e0274478149afc4ee",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/51118747b911e461.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "admission_record",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于公布广东省2026年普通高校招生录取最低分数线的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4915291.html",
+    "file_url": null,
+    "file_hash": "b3bb8caad819017812830107842171809fc3dab0a0f4d7ad34c3a63a09cd0b77",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/b3bb8caad8190178.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于公布广东省2026年普通高校招生录取最低分数线的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "2026年全国联招考试成绩查询、志愿填报及录取安排的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4913870.html",
+    "file_url": null,
+    "file_hash": "a87c78a6678e37c9a5bf6dd90367c229397946fb3a64678b657752eeab91a23c",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/a87c78a6678e37c9.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "2026年全国联招考试成绩查询、志愿填报及录取安排的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  }
+]

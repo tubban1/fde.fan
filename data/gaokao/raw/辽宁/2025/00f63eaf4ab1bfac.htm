@@ -1,0 +1,164 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no, email=no"/>   
+<meta http-equiv="pragma" content="no-cache">  
+<meta http-equiv="cache-control" content="no-cache">  
+<meta http-equiv="expires" content="0">
+<title>2027年及以后拟在辽宁招生的普通高校招生专业选考科目要求</title>
+<meta name="keywords" content="辽宁招生考试之窗" />
+<meta name="description" content="辽宁招生考试之窗" />
+<link href="../css/public.css?v=20260123175327" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="../images/lnzsks.ico" type="image/x-icon"/> 
+<style type="text/css">
+    .content{
+        /*letter-spacing: 4px;*/
+		word-spacing : 3px;
+    }
+    body { -webkit-text-size-adjust: 100% !important; }
+</style>
+<script type="text/javascript" src="../js/bdtj.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+        var i = 1;
+        var hiddenId;
+
+
+        function adjustIndent() {
+            //const paragraphs = document.querySelectorAll('p');
+            const paragraphs = document.querySelectorAll(".content p");
+            paragraphs.forEach(paragraph => {
+                // 获取当前字体大小
+                paragraph.style.fontSize = '14px';
+                const fontSize = window.getComputedStyle(paragraph).fontSize;
+                const fontSizeNum = parseFloat(fontSize); // 转换为数字
+                const indent = fontSizeNum * 2; // 计算2em的缩进值
+                //console.log(paragraph.style.textIndent == "" || paragraph.style.textIndent == null);
+                // 设置缩进
+                const indent_str = paragraph.style.textIndent;
+                const indent_num  = parseInt(indent_str,10);
+                if((!indent_str == "" || !indent_str == null)&& indent_num > 0){
+                    paragraph.style.textIndent = `0px`;
+                    let paragraph_innerHtml_str = paragraph.innerHTML;
+                    paragraph_innerHtml_str = "　　" + paragraph_innerHtml_str;
+                    paragraph.innerHTML = paragraph_innerHtml_str;
+
+                    /*
+                    paragraph.style.textIndent = `${indent}px`;
+
+                    const p_children_list = paragraph.querySelectorAll("span");
+                    p_children_list.forEach(child_element => {
+                        if(!child_element.style.textIndent == "" || !child_element.style.textIndent == null) {
+                            child_element.style.textIndent = `0px`;
+                            const innerText = "　　" + child_element.innerText;
+                            child_element.innerText = innerText;
+                            paragraph.style.textIndent = `0px`;
+                        }
+                    });*/
+                }
+            });
+        }
+        window.onload = adjustIndent;
+
+
+
+        $(function () {
+            //获取隐藏的<div>的数量
+            var total = $("#total").val();
+            console.log(total)
+            /*下滑到本页最下面在之后加载下一页*/
+            $(window).scroll(function () {
+                //浏览器所能看到的页面的那部分的高度
+                var winH = $(window).height();
+                var scrH = $(window).scrollTop();//滚动的高度
+                //获取整个页面的高度 htmH为设置的滚动到的高度位置
+                var htmH = $(document).height() - 100;
+                //可见高度+滚动高度 超出 设置的高度，触发方法
+                if (winH + scrH >= htmH) {
+                    //到达底部-100的高度，触发方法
+                    hiddenId = "#hiddenDiv" + i;
+                    $(hiddenId).show();
+                    i = i + 1;
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="header">
+  <img src="../images/head.jpg" />
+  <div class="qrcode">
+    <img src="../images/qrcode.jpg" />
+    <p>请关注"辽宁省教育招生考试"</p>
+  </div>
+</div>
+<div class="nav">
+  <ul class="clearfix">
+  	<li><a target="_blank" href="../index.html">首页</a></li><li class="active"><a target="_blank" href="../ptgk.html">普通高考</a></li><li><a target="_blank" href="../listinfo/xysp_1.html">学业水平</a></li><li><a target="_blank" href="../listinfo/yjs_1.html">研究生</a></li><li><a target="_blank" href="../zsb.html">专升本</a></li><li><a target="_blank" href="../crgk.html">成人高考</a></li><li><a target="_blank" href="../listinfo/zxks_1.html">自学考试</a></li><li><a target="_blank" href="../listinfo/wnz_1.html">五年制高职</a></li><li><a target="_blank" href="../fxlinfo/fxl_1600_1.html">非学历考试</a></li><li><a target="_blank" href="../dxszb.html">大学生征兵</a></li>
+  </ul>
+</div>
+<div class="head-search clearfix">
+  <div class="date" id="date">2018年01月07日 星期四</div>
+
+ <a href="../zzjg/zzjg.html" class="btn" target="_blank">组织机构</a>
+    <a href="../listinfo/cggk_1.html" class="btn" target="_blank">政务公开</a>
+
+  <a href="../wbzx.html" class="btn" target="_blank">网报中心</a>
+  <a href="../cxzx.html" class="btn" target="_blank">查询中心</a>
+  <a href="../cjzm/cjzmlist_new.html" class="btn" target="_blank">成绩证明</a>
+  <a href="../zkzz.html" class="btn" target="_blank">招考杂志</a>
+  <div class="search">
+    <form id="infoform" name="infoform" method="post" action="../lnzsksSearch/search/index.action" >
+      <input type="text" name="title" id="title" class="input" value="" placeholder="站内搜索" />
+      <input type="image" name="" id="" class="button" src="../images/headsearch.jpg" />
+    </form>
+  </div>
+</div>
+<div class="main clearfix">
+  <div class="position">
+    <a href="../index.html" style="color:#3f98ef">首页</a>
+    <img style="margin-right: 4px" src="../images/link.png"><a style="color:#3f98ef"href=" ../ptgk.html">普通高考</a><img style="margin-left: 4px" src="../images/link.png">
+    <a style="color:#3f98ef"href=" ../listinfo/NewsList_1105_1.html">招考指南</a><img style="margin-left: 8px" src="../images/link.png"><a style="color:#3f98ef">正文</a>
+  </div>
+  <div class="info">
+    <h3>2027年及以后拟在辽宁招生的普通高校招生专业选考科目要求</h3>
+    <div class="subtitle clearfix">
+      <span class="mr20">时间：2025-04-07 11:22</span>
+	  <!--
+	  $editor$
+      <span class="mr20">&nbsp;&nbsp;作者：辽宁省招生考试办公室</span>
+		-->
+	</div>
+    <div class="content">
+    	<p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="text-indent: 2em;">根据教育部要求，各高校按照《普通高校本科招生专业选考科目要求指引（通用版）》有关规定，研究确定了 2027 年及以后拟在我省招生专业（类）选考科目要求，经学校主管部门审核及教育部审定，现予以公布，并就有关事项说明如下。</span><br></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">一、选考科目要求适用范围及注意事项</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">2027年及以后拟在辽宁招生的普通高校招生专业选考科目要求<span style="background: rgb(255, 255, 255);">，供参加我省2027年及以后普通高考的学生选科时参考使用。</span><span style="background: rgb(255, 255, 255);">我省</span>2025年、2026年普通高校招生专业选考科目要求工作，继续按照《辽宁省教育厅关于拟在辽宁招生的普通高校招生专业选考科目要求的通知》执行，有关考生需关注高校公布的选考科目要求信息。特别提示，高校招生专业选考科目要求不等同于高校招生计划，此次公布的高校招生专业选考科目要求所列专业并不都会在我省安排年度招生计划，每一年招生的高校、科类（物理学科类、历史学科类）、专业及计划数等，以当年公布的招生计划为准；高校新增设招生专业的选考科目要求于招生当年确定，并与招生计划同时向社会公布。</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">二、选考科目要求有关内容解读</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">我省普通高考实行“3+1+2”模式，除语文、数学、外语3门统考科目外，考生首先在物理、历史科目中选择1门作为首选科目，再从化学、生物、思想政治、地理科目中选择2门作为再选科目。高校提出的选考科目要求可分为四类。第一类是对首选科目和再选科目都未提出要求的，即“不提科目要求”，表示首选科目为物理或历史均可、再选科目为任意2科的考生可报考。第二类是只对首选科目提出要求的，如“物理（1门科目考生必须选考方可报考）”，表示首选科目为物理、再选科目为任意2科的考生方可报考。第三类是只对再选科目提出要求的，如“化学（1门科目考生必须选考方可报考）”，表示首选科目为物理或历史、再选科目中含化学的考生方可报考；如“化学，生物（2门科目考生均须选考方可报考）”，表示首选科目为物理或历史、再选科目选考化学和生物的考生方可报考。第四类是对首选科目和再选科目均提出选考要求的，如“物理，化学（2门科目考生均须选考方可报考）”，表示首选科目为物理、再选科目中含化学的考生方可报考；如“物理，化学，生物（3门科目考生均须选考方可报考）”，表示首选科目为物理、再选科目选考化学和生物的考生方可报考。</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">&nbsp;</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;">附件：</p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2025/2027lnzsxkap0407bk.xlsx" target="_self"><span style="color: rgb(255, 0, 0);">1.2027年拟在辽宁招生专业选考科目要求（本科）（点击链接下载查看）</span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2025/2027lnzsxkap0407zk.xlsx" target="_self"><span style="color: rgb(255, 0, 0);">2.2027年拟在辽宁招生专业选考科目要求（高职专科）<span style="color: rgb(255, 0, 0); text-indent: 28px; text-wrap: wrap;">（点击链接下载查看）</span></span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2025/2027lnzsxkap0407jx.xlsx" target="_self"><span style="color: rgb(255, 0, 0);">3.2027年拟在辽宁招生专业选考科目要求（军队院校）<span style="color: rgb(255, 0, 0); text-indent: 28px; text-wrap: wrap;">（点击链接下载查看）</span></span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><br></p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="footline"></div>
+   <div class="footerA">
+	  <div class="footlink">
+		  <a href="../wzdh.html" target="_blank" style="margin: 0;padding: 0;">网站地图</a>
+	  </div>
+	  <div class="footlink" >
+		<p>主管单位：辽宁省高中等教育招生考试委员会办公室 &emsp;&emsp;&emsp;主办单位：辽宁招生考试杂志社</p>
+	  </div>
+	   <div class="footlink" >
+	   <p>地址：沈阳市于洪区怒江北街101号&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;邮编：110034</p>
+	   
+	   </div>
+	  <div class="footlink" >
+	    <p>辽B2-20120095-1&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;温馨提示：显示器分辨率1440*900或以上，IE9.0或以上浏览器为最佳显示效果 </p>
+	   </div>
+	   <div class="footbiao">
+		<a href="https://bszs.conac.cn/sitename?method=show&id=48B617745CDCAC82E06310291AACD9F3" target="_blank"><img src="../images/biao.png" /></a>
+	  </div>
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.superslide.2.1.1.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/pageshow.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no, email=no"/>   
+<meta http-equiv="pragma" content="no-cache">  
+<meta http-equiv="cache-control" content="no-cache">  
+<meta http-equiv="expires" content="0">
+<title>关于公布辽宁省2026年普通高等学校专升本招生录取剩余计划和填报第一次“征集志愿” 有关事项的说明</title>
+<meta name="keywords" content="辽宁招生考试之窗" />
+<meta name="description" content="辽宁招生考试之窗" />
+<link href="../css/public.css?v=20260523110210" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="../images/lnzsks.ico" type="image/x-icon"/> 
+<style type="text/css">
+    .content{
+        /*letter-spacing: 4px;*/
+		word-spacing : 3px;
+    }
+    body { -webkit-text-size-adjust: 100% !important; }
+</style>
+<script type="text/javascript" src="../js/bdtj.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+        var i = 1;
+        var hiddenId;
+
+
+        function adjustIndent() {
+            //const paragraphs = document.querySelectorAll('p');
+            const paragraphs = document.querySelectorAll(".content p");
+            paragraphs.forEach(paragraph => {
+                // 获取当前字体大小
+                paragraph.style.fontSize = '14px';
+                const fontSize = window.getComputedStyle(paragraph).fontSize;
+                const fontSizeNum = parseFloat(fontSize); // 转换为数字
+                const indent = fontSizeNum * 2; // 计算2em的缩进值
+                //console.log(paragraph.style.textIndent == "" || paragraph.style.textIndent == null);
+                // 设置缩进
+                const indent_str = paragraph.style.textIndent;
+                const indent_num  = parseInt(indent_str,10);
+                if((!indent_str == "" || !indent_str == null)&& indent_num > 0){
+                    paragraph.style.textIndent = `0px`;
+                    let paragraph_innerHtml_str = paragraph.innerHTML;
+                    paragraph_innerHtml_str = "　　" + paragraph_innerHtml_str;
+                    paragraph.innerHTML = paragraph_innerHtml_str;
+
+                    /*
+                    paragraph.style.textIndent = `${indent}px`;
+
+                    const p_children_list = paragraph.querySelectorAll("span");
+                    p_children_list.forEach(child_element => {
+                        if(!child_element.style.textIndent == "" || !child_element.style.textIndent == null) {
+                            child_element.style.textIndent = `0px`;
+                            const innerText = "　　" + child_element.innerText;
+                            child_element.innerText = innerText;
+                            paragraph.style.textIndent = `0px`;
+                        }
+                    });*/
+                }
+            });
+        }
+        window.onload = adjustIndent;
+
+
+
+        $(function () {
+            //获取隐藏的<div>的数量
+            var total = $("#total").val();
+            console.log(total)
+            /*下滑到本页最下面在之后加载下一页*/
+            $(window).scroll(function () {
+                //浏览器所能看到的页面的那部分的高度
+                var winH = $(window).height();
+                var scrH = $(window).scrollTop();//滚动的高度
+                //获取整个页面的高度 htmH为设置的滚动到的高度位置
+                var htmH = $(document).height() - 100;
+                //可见高度+滚动高度 超出 设置的高度，触发方法
+                if (winH + scrH >= htmH) {
+                    //到达底部-100的高度，触发方法
+                    hiddenId = "#hiddenDiv" + i;
+                    $(hiddenId).show();
+                    i = i + 1;
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="header">
+  <img src="../images/head.jpg" />
+  <div class="qrcode">
+    <img src="../images/qrcode.jpg" />
+    <p>请关注"辽宁省教育招生考试"</p>
+  </div>
+</div>
+<div class="nav">
+  <ul class="clearfix">
+  	<li><a target="_blank" href="../index.html">首页</a></li><li><a target="_blank" href="../ptgk.html">普通高考</a></li><li><a target="_blank" href="../listinfo/xysp_1.html">学业水平</a></li><li><a target="_blank" href="../listinfo/yjs_1.html">研究生</a></li><li class="active"><a target="_blank" href="../zsb.html">专升本</a></li><li><a target="_blank" href="../crgk.html">成人高考</a></li><li><a target="_blank" href="../listinfo/zxks_1.html">自学考试</a></li><li><a target="_blank" href="../listinfo/wnz_1.html">五年制高职</a></li><li><a target="_blank" href="../fxlinfo/fxl_1600_1.html">非学历考试</a></li><li><a target="_blank" href="../dxszb.html">大学生征兵</a></li>
+  </ul>
+</div>
+<div class="head-search clearfix">
+  <div class="date" id="date">2018年01月07日 星期四</div>
+
+ <a href="../zzjg/zzjg.html" class="btn" target="_blank">组织机构</a>
+    <a href="../listinfo/cggk_1.html" class="btn" target="_blank">政务公开</a>
+
+  <a href="../wbzx.html" class="btn" target="_blank">网报中心</a>
+  <a href="../cxzx.html" class="btn" target="_blank">查询中心</a>
+  <a href="../cjzm/cjzmlist_new.html" class="btn" target="_blank">成绩证明</a>
+  <a href="../zkzz.html" class="btn" target="_blank">招考杂志</a>
+  <div class="search">
+    <form id="infoform" name="infoform" method="post" action="../lnzsksSearch/search/index.action" >
+      <input type="text" name="title" id="title" class="input" value="" placeholder="站内搜索" />
+      <input type="image" name="" id="" class="button" src="../images/headsearch.jpg" />
+    </form>
+  </div>
+</div>
+<div class="main clearfix">
+  <div class="position">
+    <a href="../index.html" style="color:#3f98ef">首页</a>
+    <img style="margin-right: 4px" src="../images/link.png"><a style="color:#3f98ef"href=" ../zsb.html">专升本</a><img style="margin-left: 4px" src="../images/link.png">
+    <a style="color:#3f98ef"href=" ../listinfo/NewsList_2401_1.html">考生须知</a><img style="margin-left: 8px" src="../images/link.png"><a style="color:#3f98ef">正文</a>
+  </div>
+  <div class="info">
+    <h3>关于公布辽宁省2026年普通高等学校专升本招生录取剩余计划和填报第一次“征集志愿” 有关事项的说明</h3>
+    <div class="subtitle clearfix">
+      <span class="mr20">时间：2026-05-23 11:01</span>
+	  <!--
+	  $editor$
+      <span class="mr20">&nbsp;&nbsp;作者：辽宁省招生考试办公室</span>
+		-->
+	</div>
+    <div class="content">
+    	<p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;"><span style="">辽宁省</span><span style="">202</span>6<span style="">年普通高等学校专升本招生安排两次</span><span style="">“征集志愿”补充录取。现就公布第一阶段录取剩余计划和填报第一次“征集志愿”有关事项说明如下：</span></span></p><p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;">一、</span><span style="letter-spacing: 0px;">普通高等学</span><span style="letter-spacing: 0px;">校专升本的招生专业与</span><span style="letter-spacing: 0px;">填报专业组</span><span style="letter-spacing: 0px;">有着严格的对应关系要求，具体内容详见</span><span style="letter-spacing: 0px;">附件</span><span style="letter-spacing: 0px;">。未按要求填报志愿的视为无效志愿。</span></p><p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;">二、</span><span style="letter-spacing: 0px;">退役大学生士兵和建档立卡贫困家庭考生只有填报安排相应计划的院校和专业才能享受相关照顾政策。</span></p><p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;">三、</span><span style="letter-spacing: 0px;"><span style="">第一次</span><span style="">“征集志愿”实行网上填报，以1个“专业+院校”为志愿单位，设置30个平行志愿。符合相应条件且未被录取的考生，可按公布的剩余招生计划及相关填报要求填报“征集志愿”。补充录取按考生填报的“征集志愿”执行，录取原则、录取资格分数线及相关政策规定不变。</span></span></p><p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;">四、</span><span style="letter-spacing: 0px;"><span style="">第一次</span><span style="">“征集志愿”填报时间为：5月2</span></span><span style="letter-spacing: 0px;">5</span><span style="letter-spacing: 0px;"><span style="">日</span><span style="">9:00-15:00。志愿填报系统将在征集志愿规定截止时间准时关闭，考生要严格按照网上填报志愿流程，在规定时间内上网填报志愿。未在规定时间内填报的视为自愿放弃“征集志愿”补充录取。</span></span></p><p style="padding-right: 0px; text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="letter-spacing: 0px;">五、</span><span style="letter-spacing: 0px;">考生登录网上志愿填报系统（网址为：</span><span style="letter-spacing: 0px;">https://dkwb.lnzsks.com</span><span style="letter-spacing: 0px;"><span style="">）填报</span><span style="">“征集志愿”</span></span><span style="letter-spacing: 0px;">。</span></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="">&nbsp;</span></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><span style="">&nbsp;</span></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><span style=""><span style="">附件：</span></span></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2026/lns2026zsblqsyjhb0523lsy001.pdf" target="_self"><span style=""><span style=""></span></span><span style="color: rgb(255, 0, 0);">1.辽宁省2026年普通高等学校专升本招生录取剩余计划及代码对照表（普通类）（点击链接下载）</span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2026/lns2026zsblqsyjhb0523lsy002.pdf" target="_self"><span style="color: rgb(255, 0, 0);">2.辽宁省2026年普通高等学校专升本招生录取剩余计划及代码对照表（建档立卡贫困家庭）（点击链接下载）</span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><a href="https://www.lnzsks.com/lnzkbfiles/2026/lns2026zsblqsyjhb0523lsy003.pdf" target="_self"><span style="color: rgb(255, 0, 0);">3.辽宁省2026年普通高等学校专升本招生录取剩余计划及代码对照表（退役大学生士兵）（点击链接下载）</span></a></p><p style="text-indent: 2em; text-align: left; word-spacing: 0px;"><br></p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="footline"></div>
+   <div class="footerA">
+	  <div class="footlink">
+		  <a href="../wzdh.html" target="_blank" style="margin: 0;padding: 0;">网站地图</a>
+	  </div>
+	  <div class="footlink" >
+		<p>主管单位：辽宁省高中等教育招生考试委员会办公室 &emsp;&emsp;&emsp;主办单位：辽宁招生考试杂志社</p>
+	  </div>
+	   <div class="footlink" >
+	   <p>地址：沈阳市于洪区怒江北街101号&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;邮编：110034</p>
+	   
+	   </div>
+	  <div class="footlink" >
+	    <p>辽B2-20120095-1&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;温馨提示：显示器分辨率1440*900或以上，IE9.0或以上浏览器为最佳显示效果 </p>
+	   </div>
+	   <div class="footbiao">
+		<a href="https://bszs.conac.cn/sitename?method=show&id=48B617745CDCAC82E06310291AACD9F3" target="_blank"><img src="../images/biao.png" /></a>
+	  </div>
+  </div>
+</div>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.superslide.2.1.1.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/pageshow.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/jquery.js" charset="utf-8"></script>
+</body>
+</html>

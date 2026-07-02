@@ -1,0 +1,49 @@
+team_id,fifa_code,iso2,iso3,name_en,name_zh,confederation,is_host,source_name,source_url,fetched_at,raw_data
+mexico,MEX,MX,MEX,Mexico,墨西哥,CONCACAF,true,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+south-africa,RSA,ZA,ZAF,South Africa,南非,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+south-korea,KOR,KR,KOR,South Korea,韩国,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+czech-republic,CZE,CZ,CZE,Czech Republic,捷克,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+canada,CAN,CA,CAN,Canada,加拿大,CONCACAF,true,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+bosnia-herzegovina,BIH,BA,BIH,Bosnia & Herzegovina,波斯尼亚和黑塞哥维那,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+qatar,QAT,QA,QAT,Qatar,卡塔尔,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+switzerland,SUI,CH,CHE,Switzerland,瑞士,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+brazil,BRA,BR,BRA,Brazil,巴西,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+morocco,MAR,MA,MAR,Morocco,摩洛哥,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+haiti,HAI,HT,HTI,Haiti,海地,CONCACAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+scotland,SCO,GB,GBR,Scotland,苏格兰,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+usa,USA,US,USA,USA,美国,CONCACAF,true,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+paraguay,PAR,PY,PRY,Paraguay,巴拉圭,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+australia,AUS,AU,AUS,Australia,澳大利亚,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+turkey,TUR,TR,TUR,Turkey,土耳其,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+germany,GER,DE,DEU,Germany,德国,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+cura-ao,CUW,CW,CUW,Curaçao,库拉索,CONCACAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+ivory-coast,CIV,CI,CIV,Ivory Coast,科特迪瓦,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+ecuador,ECU,EC,ECU,Ecuador,厄瓜多尔,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+netherlands,NED,NL,NLD,Netherlands,荷兰,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+japan,JPN,JP,JPN,Japan,日本,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+sweden,SWE,SE,SWE,Sweden,瑞典,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+tunisia,TUN,TN,TUN,Tunisia,突尼斯,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+belgium,BEL,BE,BEL,Belgium,比利时,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+egypt,EGY,EG,EGY,Egypt,埃及,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+iran,IRN,IR,IRN,Iran,伊朗,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+new-zealand,NZL,NZ,NZL,New Zealand,新西兰,OFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+spain,ESP,ES,ESP,Spain,西班牙,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+cape-verde,CPV,CV,CPV,Cape Verde,佛得角,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+saudi-arabia,KSA,SA,SAU,Saudi Arabia,沙特阿拉伯,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+uruguay,URU,UY,URY,Uruguay,乌拉圭,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+france,FRA,FR,FRA,France,法国,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+senegal,SEN,SN,SEN,Senegal,塞内加尔,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+iraq,IRQ,IQ,IRQ,Iraq,伊拉克,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+norway,NOR,NO,NOR,Norway,挪威,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+argentina,ARG,AR,ARG,Argentina,阿根廷,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+algeria,ALG,DZ,DZA,Algeria,阿尔及利亚,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+austria,AUT,AT,AUT,Austria,奥地利,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+jordan,JOR,JO,JOR,Jordan,约旦,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+portugal,POR,PT,PRT,Portugal,葡萄牙,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+dr-congo,COD,CD,COD,DR Congo,刚果民主共和国,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+uzbekistan,UZB,UZ,UZB,Uzbekistan,乌兹别克斯坦,AFC,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+colombia,COL,CO,COL,Colombia,哥伦比亚,CONMEBOL,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+england,ENG,GB,GBR,England,英格兰,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+croatia,CRO,HR,HRV,Croatia,克罗地亚,UEFA,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+ghana,GHA,GH,GHA,Ghana,加纳,CAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+panama,PAN,PA,PAN,Panama,巴拿马,CONCACAF,false,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}

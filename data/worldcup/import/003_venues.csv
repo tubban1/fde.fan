@@ -1,0 +1,17 @@
+venue_id,name,city,country,timezone,capacity,latitude,longitude,source_name,source_url,fetched_at,raw_data
+mexico-city,Estadio Azteca,Mexico City,Mexico,America/Mexico_City,83264,19.302,-99.15,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+guadalajara-zapopan,Estadio Akron,Guadalajara,Mexico,America/Mexico_City,49850,20.681,-103.462,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+atlanta,Mercedes-Benz Stadium,Atlanta,USA,America/New_York,71000,33.755,-84.4,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+monterrey-guadalupe,Estadio BBVA,Monterrey,Mexico,America/Monterrey,53500,25.67,-100.244,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+toronto,BMO Field,Toronto,Canada,America/Toronto,45000,43.633,-79.418,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+san-francisco-bay-area-santa-clara,Levi's Stadium,San Francisco,USA,America/Los_Angeles,68500,37.403,-121.969,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+los-angeles-inglewood,SoFi Stadium,Los Angeles,USA,America/Los_Angeles,70240,33.953,-118.339,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+vancouver,BC Place,Vancouver,Canada,America/Vancouver,54500,49.276,-123.111,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+seattle,Lumen Field,Seattle,USA,America/Los_Angeles,69000,47.595,-122.331,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+new-york-new-jersey-east-rutherford,MetLife Stadium,New York/New Jersey,USA,America/New_York,82500,40.813,-74.074,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+boston-foxborough,Gillette Stadium,Boston,USA,America/New_York,65878,42.09,-71.264,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+philadelphia,Lincoln Financial Field,Philadelphia,USA,America/New_York,69796,39.901,-75.167,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+miami-miami-gardens,Hard Rock Stadium,Miami,USA,America/New_York,64767,25.957,-80.238,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+houston,NRG Stadium,Houston,USA,America/Chicago,72220,29.684,-95.41,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+kansas-city,Arrowhead Stadium,Kansas City,USA,America/Chicago,76416,39.048,-94.483,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}
+dallas-arlington,AT&T Stadium,Dallas,USA,America/Chicago,80000,32.747,-97.092,openfootball,https://github.com/openfootball/worldcup.json,2026-07-01T14:05:55.202Z,{}

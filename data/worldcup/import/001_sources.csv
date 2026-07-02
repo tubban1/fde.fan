@@ -1,0 +1,8 @@
+id,source_type,source_name,source_url,publisher,fetched_at,raw_data
+fifa-official,official,FIFA Official Match Center,https://www.fifa.com,FIFA,2026-07-01T12:00:00Z,"{}"
+fifa-rankings,official,FIFA Men's World Ranking,https://www.fifa.com/fifa-world-ranking/men,FIFA,2026-07-01T12:00:00Z,"{}"
+elo-ratings,community,World Football Elo Ratings,https://www.eloratings.net/,Elo,2026-07-01T12:00:00Z,"{}"
+open-meteo,api,Open-Meteo,https://open-meteo.com/,Open-Meteo,2026-07-01T12:00:00Z,"{}"
+user-supplied,manual,User manual entry,,User,2026-07-01T12:00:00Z,"{}"
+openfootball,community,openfootball,https://github.com/openfootball/worldcup.json,openfootball,2026-07-01T12:00:00Z,"{}"
+martj42-results,community,martj42-results,https://github.com/martj42/international_results,martj42,2026-07-01T12:00:00Z,"{}"

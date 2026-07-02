@@ -1,0 +1,382 @@
+[
+  {
+    "source_type": "official_policy",
+    "province": "上海",
+    "year": 2026,
+    "title": "第十届教育考试与评价研讨会（SEEE2026）会议预通知",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260430/3.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260430/3.pdf",
+    "file_hash": "c5220b74f92b45276057b0c1fa679d109fa6a1759aca07ed3cac9230d99654dd",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/c5220b74f92b4527.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "第十届教育考试与评价研讨会（SEEE2026）会议预通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "上海",
+    "year": 2026,
+    "title": "上海市教育考试院",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/page/08000/20260623/20373.html",
+    "file_url": null,
+    "file_hash": "90ac0ed2655b2ae8f4bce1555b9578612ac65c44e35fd9f7abbda006a3593918",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/90ac0ed2655b2ae8.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "上海市2026年普通高校招生本科阶段志愿填报特别提醒",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年普通高校在沪招收高水平运动队可填报志愿考生所获录取优惠条件公示",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260630/202601D7xc71.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260630/202601D7xc71.pdf",
+    "file_hash": "d173252b05a6ad095880e30c2956c6e67f7a33fa3c9ab89638950c644e935218",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/d173252b05a6ad09.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年普通高校在沪招收高水平运动队可填报志愿考生所获录取优惠条件公示",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年普通高校在沪招收高水平运动队测试合格考生名单公示",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260623/1.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260623/1.pdf",
+    "file_hash": "98248d1df912545020184912532227ee218144b8a13eec8d1afa0551b03406bf",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/98248d1df9125450.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年普通高校在沪招收高水平运动队测试合格考生名单公示",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年普通高校在沪招收保送生拟录取名单（补充公示）",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260603/1.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260603/1.pdf",
+    "file_hash": "b0bf2d62e2cf068647cbfd5f7bab1610196033ad45eae486241cc5c159ef83a2",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/b0bf2d62e2cf0686.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年普通高校在沪招收保送生拟录取名单（补充公示）",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年上海市民办普通高中国际课程班和中外合作办学学校招生录取方案",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260529/8.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260529/8.pdf",
+    "file_hash": "80f7dba2afe8e7ea92a611925f61b62a2d822f1bc100314f4b766ee71dac883e",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/80f7dba2afe8e7ea.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年上海市民办普通高中国际课程班和中外合作办学学校招生录取方案",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年上海市高中学校自主招生录取方案",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260529/7.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260529/7.pdf",
+    "file_hash": "9f8fd26b1288f65e31b61ea588a6a9432763a8dc1b24d3c64f91fd31877fc7a5",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/9f8fd26b1288f65e.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年上海市高中学校自主招生录取方案",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年上海市高中名额分配到区招生计划",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260529/4.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260529/4.pdf",
+    "file_hash": "3e2c1c6ccc44cf52cfa0b826efc4bc3d618a8820c7cbffcebd5bb7499774cfce",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/3e2c1c6ccc44cf52.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年上海市高中名额分配到区招生计划",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年上海市高中国际课程班和中外合作办学学校招生计划",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260529/3.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260529/3.pdf",
+    "file_hash": "c539802232dad9c67101440571905ad1be79c6a5ec53ecdac382c8aaa9b59fc5",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/c539802232dad9c6.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年上海市高中国际课程班和中外合作办学学校招生计划",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "上海",
+    "year": 2026,
+    "title": "2026年上海市高中自主招生计划（不含国际课程班）",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/download/20260529/5.pdf",
+    "file_url": "https://www.shmeea.edu.cn/download/20260529/5.pdf",
+    "file_hash": "7b1fe10087e4f9608bdce98f2a12548d26d62ccabcafb6083aa7c4bc2d140112",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.shmeea.edu.cn/",
+      "local_path": "data/gaokao/raw/上海/2026/7b1fe10087e4f960.pdf",
+      "content_type": "application/pdf",
+      "http_status": 200,
+      "anchor_text": "2026年上海市高中自主招生计划（不含国际课程班）",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4915636.html",
+    "file_url": null,
+    "file_hash": "51118747b911e461397938cccd75f9e108672cea99087b3e0274478149afc4ee",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/51118747b911e461.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "admission_record",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于公布广东省2026年普通高校招生录取最低分数线的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4915291.html",
+    "file_url": null,
+    "file_hash": "b3bb8caad819017812830107842171809fc3dab0a0f4d7ad34c3a63a09cd0b77",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/b3bb8caad8190178.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于公布广东省2026年普通高校招生录取最低分数线的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "2026年全国联招考试成绩查询、志愿填报及录取安排的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/news/content/post_4913870.html",
+    "file_url": null,
+    "file_hash": "a87c78a6678e37c9a5bf6dd90367c229397946fb3a64678b657752eeab91a23c",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/a87c78a6678e37c9.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "2026年全国联招考试成绩查询、志愿填报及录取安排的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于《广东省2026年普通高等学校招生专业目录》更正的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/tzgg/content/post_4917333.html",
+    "file_url": null,
+    "file_hash": "516744f531ac3f19acc8752ebb1b780c1948947a891681dd836b9246ea2490da",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/516744f531ac3f19.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于《广东省2026年普通高等学校招生专业目录》更正的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于公布广东省2026年普通高考成绩各分数段数据的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/tzgg/content/post_4916194.html",
+    "file_url": null,
+    "file_hash": "e5c850cd0ed1c83123ad05790c11ee3c77b6966b1c9562f352312621789a0af3",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/e5c850cd0ed1c831.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于公布广东省2026年普通高考成绩各分数段数据的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/tzgg/content/post_4915637.html",
+    "file_url": null,
+    "file_hash": "c6069565f6c9d93b92b512f2dd8bacc44d7a90c8247f786f91d7df2e9b73a385",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/c6069565f6c9d93b.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于《广东省2026年普通高等学校招生专业目录》更正的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/ptgk/content/post_4917051.html",
+    "file_url": null,
+    "file_hash": "da1de0bc793c0a415832afb3aff4aa67cc1c99218b558955b75571482028c746",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/da1de0bc793c0a41.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于《广东省2026年普通高等学校招生专业目录》更正的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于公布广东省2026年普通高考成绩各分数段数据的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/ptgk/content/post_4916165.html",
+    "file_url": null,
+    "file_hash": "1c121b0078eff38892a9a5920d20c4390a95843724d0830d30b2d5b50f3bcb7b",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/1c121b0078eff388.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于公布广东省2026年普通高考成绩各分数段数据的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "year": 2026,
+    "title": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/ptgk/content/post_4915574.html",
+    "file_url": null,
+    "file_hash": "83dce196e5d08a1fbfb437e2fa1e52016676ef23738d1aecb46b08b5722c3997",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/83dce196e5d08a1f.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "广东省招生委员会办公室关于做好2026年普通高校招生志愿填报工作的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "admission_record",
+    "province": "广东",
+    "year": 2026,
+    "title": "关于公布广东省2026年普通高校招生录取最低分数线的通知 广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/ptgk/content/post_4915151.html",
+    "file_url": null,
+    "file_hash": "fba7a579d36918cda0bede7be5d0ebac92320629cb8d12f8f9cedba3b8353052",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://eea.gd.gov.cn/",
+      "local_path": "data/gaokao/raw/广东/2026/fba7a579d36918cd.html",
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "anchor_text": "关于公布广东省2026年普通高校招生录取最低分数线的通知",
+      "crawled_by": "crawl-official-sources"
+    }
+  }
+]

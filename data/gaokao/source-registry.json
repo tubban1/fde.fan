@@ -1,0 +1,317 @@
+[
+  {
+    "source_type": "institution_site",
+    "province": null,
+    "title": "阳光高考信息平台",
+    "publisher": "教育部高校学生司 / 全国高等学校学生信息咨询与就业指导中心",
+    "url": "https://gaokao.chsi.com.cn/",
+    "coverage": ["院校库", "专业库", "招生章程", "特殊类型招生"],
+    "verified": true
+  },
+  {
+    "source_type": "major_catalog",
+    "province": null,
+    "title": "教育部普通高等学校本科专业目录与专业设置备案审批结果",
+    "publisher": "中华人民共和国教育部",
+    "url": "https://www.moe.gov.cn/",
+    "coverage": ["本科专业目录", "新增专业", "特殊专业标记"],
+    "verified": true
+  },
+  {
+    "source_type": "other",
+    "province": null,
+    "title": "全国普通高等学校名单",
+    "publisher": "中华人民共和国教育部",
+    "url": "https://hudong.moe.gov.cn/qggxmd/",
+    "coverage": ["院校名称", "所在地", "主管部门", "办学层次"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "北京",
+    "title": "北京教育考试院",
+    "publisher": "北京教育考试院",
+    "url": "https://www.bjeea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "天津",
+    "title": "天津招考资讯网",
+    "publisher": "天津市教育招生考试院",
+    "url": "https://www.zhaokao.net/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "河北",
+    "title": "河北省教育考试院",
+    "publisher": "河北省教育考试院",
+    "url": "https://www.hebeea.edu.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "山西",
+    "title": "山西招生考试网",
+    "publisher": "山西省招生考试管理中心",
+    "url": "https://www.sxkszx.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "内蒙古",
+    "title": "内蒙古招生考试信息网",
+    "publisher": "内蒙古自治区教育招生考试中心",
+    "url": "https://www.nm.zsks.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "辽宁",
+    "title": "辽宁招生考试之窗",
+    "publisher": "辽宁省高中等教育招生考试委员会办公室",
+    "url": "https://www.lnzsks.com/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "吉林",
+    "title": "吉林省教育考试院",
+    "publisher": "吉林省教育考试院",
+    "url": "https://www.jleea.com.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "黑龙江",
+    "title": "黑龙江省招生考试信息港",
+    "publisher": "黑龙江省招生考试院",
+    "url": "https://www.lzk.hl.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "上海",
+    "title": "上海招考热线",
+    "publisher": "上海市教育考试院",
+    "url": "https://www.shmeea.edu.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "江苏",
+    "title": "江苏省教育考试院",
+    "publisher": "江苏省教育考试院",
+    "url": "https://www.jseea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "title": "浙江省教育考试院",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col17/index.html",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线", "招生计划"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "title": "浙江省教育考试院普通高考统一高考栏目",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col45/index.html",
+    "coverage": ["统一高考", "分数段表", "投档线", "专业录取情况", "志愿规则"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "安徽",
+    "title": "安徽省教育招生考试院",
+    "publisher": "安徽省教育招生考试院",
+    "url": "https://www.ahzsks.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "福建",
+    "title": "福建省教育考试院",
+    "publisher": "福建省教育考试院",
+    "url": "https://www.eeafj.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "江西",
+    "title": "江西省教育考试院",
+    "publisher": "江西省教育考试院",
+    "url": "https://www.jxeea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "山东",
+    "title": "山东省教育招生考试院",
+    "publisher": "山东省教育招生考试院",
+    "url": "https://www.sdzk.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "河南",
+    "title": "河南省教育考试院",
+    "publisher": "河南省教育考试院",
+    "url": "https://www.haeea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "湖北",
+    "title": "湖北省教育考试院",
+    "publisher": "湖北省教育考试院",
+    "url": "https://www.hbea.edu.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "湖南",
+    "title": "湖南招生考试信息港",
+    "publisher": "湖南省教育考试院",
+    "url": "https://www.hneeb.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广东",
+    "title": "广东省教育考试院",
+    "publisher": "广东省教育考试院",
+    "url": "https://eea.gd.gov.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "广西",
+    "title": "广西招生考试院",
+    "publisher": "广西壮族自治区招生考试院",
+    "url": "https://www.gxeea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "海南",
+    "title": "海南省考试局",
+    "publisher": "海南省考试局",
+    "url": "https://ea.hainan.gov.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "重庆",
+    "title": "重庆市教育考试院",
+    "publisher": "重庆市教育考试院",
+    "url": "https://www.cqksy.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "四川",
+    "title": "四川省教育考试院",
+    "publisher": "四川省教育考试院",
+    "url": "https://www.sceea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "贵州",
+    "title": "贵州省招生考试院",
+    "publisher": "贵州省招生考试院",
+    "url": "https://zsksy.guizhou.gov.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "云南",
+    "title": "云南省招生考试院",
+    "publisher": "云南省招生考试院",
+    "url": "https://www.ynzs.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "西藏",
+    "title": "西藏自治区教育考试院",
+    "publisher": "西藏自治区教育考试院",
+    "url": "https://zsks.edu.xizang.gov.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": false
+  },
+  {
+    "source_type": "official_policy",
+    "province": "陕西",
+    "title": "陕西省教育考试院",
+    "publisher": "陕西省教育考试院",
+    "url": "https://www.sneea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "甘肃",
+    "title": "甘肃省教育考试院",
+    "publisher": "甘肃省教育考试院",
+    "url": "https://www.ganseea.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "青海",
+    "title": "青海省教育考试网",
+    "publisher": "青海省教育招生考试院",
+    "url": "https://www.qhjyks.com/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "宁夏",
+    "title": "宁夏教育考试院",
+    "publisher": "宁夏教育考试院",
+    "url": "https://www.nxjyks.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  },
+  {
+    "source_type": "official_policy",
+    "province": "新疆",
+    "title": "新疆招生网",
+    "publisher": "新疆维吾尔自治区教育考试院",
+    "url": "https://www.xjzk.gov.cn/",
+    "coverage": ["招生政策", "志愿规则", "一分一段", "投档线"],
+    "verified": true
+  }
+]

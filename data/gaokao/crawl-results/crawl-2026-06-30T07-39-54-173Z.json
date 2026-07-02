@@ -1,0 +1,581 @@
+[
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 考试招生",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col3/index.html",
+    "file_url": null,
+    "file_hash": "454c9dfe4b205564d66f2eba8fe1939f263c6f31160533d07e9f914b9f217b75",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/454c9dfe4b205564.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 3
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 考生办事",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col4/index.html",
+    "file_url": null,
+    "file_hash": "c033183be80aca72d237a53596da575a9752e16c7fef75051340acb0c9454523",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/c033183be80aca72.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 4
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 政策资讯",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col6/index.html",
+    "file_url": null,
+    "file_hash": "1995e5d20187b9c0cda80f086a63a276f23f6574ccdf672369789d944c6d568c",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/1995e5d20187b9c0.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 6
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 政策解读 浙江省2026年高考招生志愿填报百问百答",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/art/2026/6/17/art_159_12390.html",
+    "file_url": null,
+    "file_hash": "6747f2e29a1b7a5882e34db976016c8232316697691c1018c730498151979ef9",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/6747f2e29a1b7a58.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "浙江省2026年高考招生志愿填报百问百答 2026-06-17 微答疑 | 高校招生章程陆续发布，浙里助你精准解读 2026-05-25 微答疑 | 高考网上报名进行中，操作流程看浙里 2025-11-04 微答疑 | 2026年普通高考艺体类报名注意事项 2025-10-31 微答疑 | 2026年单独考试招生报名注意事项 2025-10-31 浙江省2025年高考招生志愿填报热点问答（二段更新版） 2025-07-25 党群e家",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 6
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年志愿填报辅助",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col7/index.html",
+    "file_url": null,
+    "file_hash": "db8dd373999470b65c52672a2897aff4c4dbb897a1b8ddcc9138d60e78fad214",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/db8dd373999470b6.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 7
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 考生办事",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col4/index.html",
+    "file_url": null,
+    "file_hash": "c033183be80aca72d237a53596da575a9752e16c7fef75051340acb0c9454523",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/c033183be80aca72.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "考生办事 - 2024年志愿填报辅助 考生办事 当下考事",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 7
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年志愿填报辅助",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col7/index.html",
+    "file_url": null,
+    "file_hash": "db8dd373999470b65c52672a2897aff4c4dbb897a1b8ddcc9138d60e78fad214",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/db8dd373999470b6.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年志愿填报辅助",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 7
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 内设机构",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col11/index.html",
+    "file_url": null,
+    "file_hash": "9f2df5b764e9d227512c4c0be05984053bdaa5735535ca6e5d1a046792db7307",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/9f2df5b764e9d227.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 11
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 普通高考",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col17/index.html",
+    "file_url": null,
+    "file_hash": "051221765c44e0c2e3285be8155cdb1f88289d8d90a20d774bc1097731640d45",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/051221765c44e0c2.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 17
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 研究生考试",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col19/index.html",
+    "file_url": null,
+    "file_hash": "35d8cdd4a9b9a101c997cf7a0f70a278eb908f86245ed0252216efe0237ed31b",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/35d8cdd4a9b9a101.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 19
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 成人高考",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col20/index.html",
+    "file_url": null,
+    "file_hash": "3487735c546ad99499c5256188a174c054bb8ef737807be0cfb6a4dd272ce94f",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/3487735c546ad994.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 20
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 自学考试",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col21/index.html",
+    "file_url": null,
+    "file_hash": "ed5acdaa40ba0a7131ed3bc12c36a0ed81e2cf25c55e89b81415a9e16c9fa22a",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/ed5acdaa40ba0a71.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 21
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 社会考试",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col22/index.html",
+    "file_url": null,
+    "file_hash": "470dadef29c59191f9d06ced1ac89fc70b41089f155e3031dc3bc5f8febebc34",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/470dadef29c59191.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 22
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 教师资格",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col23/index.html",
+    "file_url": null,
+    "file_hash": "804c908b8307a510c98f9a704be419d15c4bc225c5d03e93e58e0d97a1a626b6",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/804c908b8307a510.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 23
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 海外考试",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col24/index.html",
+    "file_url": null,
+    "file_hash": "a244fbafbcc599ef67d77fa00147f81baa8b64d3f9a6cce3877dda255ede4d99",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/a244fbafbcc599ef.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 24
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 分类办事",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col35/index.html",
+    "file_url": null,
+    "file_hash": "91505a364f7beb38c233695b3357324aa00858ec2454564b04b6701cc7446a3d",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/91505a364f7beb38.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 35
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年志愿填报辅助",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col7/index.html",
+    "file_url": null,
+    "file_hash": "db8dd373999470b65c52672a2897aff4c4dbb897a1b8ddcc9138d60e78fad214",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/db8dd373999470b6.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年志愿填报辅助",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 35
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 证明办理",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col36/index.html",
+    "file_url": null,
+    "file_hash": "364325d409201aae59b8b9731619c0affcf13a56fe719f53b59b875b9687cdb0",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/364325d409201aae.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 36
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年志愿填报辅助",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col7/index.html",
+    "file_url": null,
+    "file_hash": "db8dd373999470b65c52672a2897aff4c4dbb897a1b8ddcc9138d60e78fad214",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/db8dd373999470b6.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年志愿填报辅助",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 36
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 其他事项",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col37/index.html",
+    "file_url": null,
+    "file_hash": "3028da0fd6e152ff411cba9f79d836b8231950437b4bcc373afb08e52d56f912",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/3028da0fd6e152ff.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 37
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年志愿填报辅助",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col7/index.html",
+    "file_url": null,
+    "file_hash": "db8dd373999470b65c52672a2897aff4c4dbb897a1b8ddcc9138d60e78fad214",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/db8dd373999470b6.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年志愿填报辅助",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 37
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 普通专升本",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col48/index.html",
+    "file_url": null,
+    "file_hash": "3e4819e7724e2703cb84eb0ee352b143c2bbcb8839593d6fd28aaffb68ed8a4c",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/3e4819e7724e2703.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 48
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 热点专题",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col171/index.html",
+    "file_url": null,
+    "file_hash": "5713338d30783c2dc9faf99fd1bbca9d1556fa930eef99a20ac6d6dc09fb8b7f",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/5713338d30783c2d.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 171
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年选考科目要求",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col173/index.html",
+    "file_url": null,
+    "file_hash": "a077835fc4ab024c50a3d41c99db3a2b91272af60104c01e6545b2f877b45c87",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/a077835fc4ab024c.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年选考科目要求",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 171
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 2024年选考科目要求",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col173/index.html",
+    "file_url": null,
+    "file_hash": "a077835fc4ab024c50a3d41c99db3a2b91272af60104c01e6545b2f877b45c87",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/a077835fc4ab024c.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 173
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2024,
+    "title": "浙江省教育考试院官网 便捷服务",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col10/index.html",
+    "file_url": null,
+    "file_hash": "c59123f76d61c3c0a5261b2fba1600739bd9da971c8d89742e5efaec06373dd7",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/c59123f76d61c3c0.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "便捷服务 2024年选考科目要求 2024年普通高校招生专业选考科目要求 发布时间：2024-05-06 17:54 浏览量： 根据教育部统一部署，各普通高校编报了招生专业（类）选考科目要求，经学校主管部门审核后，由教育部汇总分发至各省，现予以公布，并就有关事项说明如下。 1.招生专业（类）选考科目要求由各普通高校依据教育部2021年新修订的《普通高校本科招生专业选考科目要求指引（通用版）》，结合自身办学定位和专业培养目标对学生学习基础的要求自主确定。选考科目要求分为4类：1科、2科、3科或不提。选择1科的专业，表示考生必须选考该科目；选择2科或3科的专业，表示考生必须同时选考规定的2科或3科；未提出科目要求的，表示考生可选考任意3科。 2.根据教育部规定，本次公布的选考科目要求从2024年高考招生开始适用。如无重大调整变化，不再每年组织编报。 3.各普通高校在我省实际招生的专业（类）及招生人数安排以当年实际公布的招生计划为准。本次公布的院校、专业（类），有部分不会在我省安排招生计划。 4.公布数据分为本科层次、高职（专科）层次两部分，两部分均按地域、院校国标码顺序编排。其中地域按照华北（北京、天津、河北、山西、内蒙古）、东北（辽宁、吉林、黑龙江）、华东（上海、江苏、浙江、安徽、福建、江西、山东）、华中（河南、湖北、湖南）、华南（广东、广西、海南）、西南（重庆、四川、贵州、云南、西藏）、西北（陕西、甘肃、青海、宁夏、新疆）、军队院校依次编排。 附件(另存为下载)： 2024年普通高校招生专业选考科目要求.rar",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 173
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2024,
+    "title": "2024年普通高校招生专业选考科目要求",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/xk2024/allcollege.html",
+    "file_url": null,
+    "file_hash": "89cf28574937c831796ee79a0b6394941a21f6518f7d8444e87068e6edad09c4",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2024/89cf28574937c831.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "2024年普通高校招生专业选考科目要求查询链接",
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 173
+    }
+  },
+  {
+    "source_type": "official_policy",
+    "province": "浙江",
+    "year": 2025,
+    "title": "浙江省教育考试院官网 志愿填报演示视频",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col174/index.html",
+    "file_url": null,
+    "file_hash": "d4e72e43d335712443726eff2805d320505118c1f98cb29f82bc17b96c22df7a",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2025/d4e72e43d3357124.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "crawled_by": "crawl-official-sources",
+      "scan_column": 174
+    }
+  },
+  {
+    "source_type": "enrollment_plan",
+    "province": "浙江",
+    "year": 2026,
+    "title": "浙江省教育考试院官网 便捷服务",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/col/col10/index.html",
+    "file_url": null,
+    "file_hash": "c59123f76d61c3c0a5261b2fba1600739bd9da971c8d89742e5efaec06373dd7",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2026/c59123f76d61c3c0.html",
+      "content_type": "text/html",
+      "http_status": 200,
+      "anchor_text": "便捷服务 2027年及以后选考科目要求 2027年及以后普通高校招生专业选考科目要求 发布时间：2025-02-20 19:52 浏览量： 根据教育部统一部署，各普通高校编报了招生专业（类）选考科目要求，经学校主管部门审核后，由教育部汇总分发至各省，现予以公布，并就有关事项说明如下。 1.选考科目要求分为4类：1科、2科、3科或不提。选择1科的专业，表示考生必须选考该科目；选择2科或3科的专业，表示考生必须同时选考规定的2科或3科；未提出科目要求的，表示考生可选考任意3科。 2.2025年、2026年参加我省普通高考的考生仍以《2024年普通高校招生专业选考科目要求》（可登录我院官网查询https://www.zjzs.net/col/col173/index.html）作为参考，具体以招生院校当年实际公布的招生计划为准。 3.各普通高校在我省实际招生的专业（类）及招生人数安排以当年实际公布的招生计划为准。本次公布的院校、专业（类），有部分不会在我省安排招生计划。高校如有新增招生专业的，选考科目要求于招生当年确定，与招生计划同时公布。 4.公布数据分为本科层次、高职（专科）层次两部分，两部分均按地域、院校国标码顺序编排。其中地域按照华北（北京、天津、河北、山西、内蒙古）、东北（辽宁、吉林、黑龙江）、华东（上海、江苏、浙江、安徽、福建、江西、山东）、华中（河南、湖北、湖南）、华南（广东、广西、海南）、西南（重庆、四川、贵州、云南、西藏）、西北（陕西、甘肃、青海、宁夏、新疆）、军队院校依次编排。 附件(另存为下载)： 2027年及以后普通高校招生专业选考科目要求.zip",
+      "crawled_by": "crawl-official-sources"
+    }
+  },
+  {
+    "source_type": "other",
+    "province": "浙江",
+    "year": 2025,
+    "title": "202502202039.zip",
+    "publisher": "浙江省教育考试院",
+    "url": "https://www.zjzs.net/picture/0/202502202039.zip",
+    "file_url": "https://www.zjzs.net/picture/0/202502202039.zip",
+    "file_hash": "3ccc6aa64b64fd76a5d8da0accdf6c271dba1b83d6aeadcc6175354922919d4f",
+    "parse_status": "pending",
+    "raw_data": {
+      "root_url": "https://www.zjzs.net/col/col17/index.html",
+      "local_path": "data/gaokao/raw/浙江/2025/3ccc6aa64b64fd76.zip",
+      "content_type": "application/zip",
+      "http_status": 200,
+      "anchor_text": "202502202039.zip",
+      "crawled_by": "crawl-official-sources"
+    }
+  }
+]
