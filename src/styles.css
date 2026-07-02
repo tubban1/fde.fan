@@ -169,6 +169,21 @@ select {
   transform: translateY(-7px) rotate(-45deg);
 }
 
+.mobile-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: none;
+  border: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  cursor: default;
+}
+
+.mobile-menu[open] .mobile-menu-backdrop {
+  display: block;
+}
+
 .mobile-menu-panel {
   position: fixed;
   top: 0;
@@ -186,17 +201,10 @@ select {
   padding: 1.1rem;
 }
 
-.mobile-menu[open]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 30;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
-}
-
 .mobile-menu-head {
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -206,6 +214,15 @@ select {
   color: white;
   font-size: 1.35rem;
   font-weight: 950;
+}
+
+.mobile-menu-close {
+  min-height: 34px;
+  cursor: pointer;
+  border: 1px solid rgba(69, 244, 255, 0.34);
+  background: rgba(69, 244, 255, 0.1);
+  padding: 0.45rem 0.7rem;
+  color: white;
 }
 
 .mobile-menu-panel .locale-toggle button {

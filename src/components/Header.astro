@@ -49,7 +49,6 @@ const mobileMenuGroups = [
       { href: "/agents", zh: "智能体中心", en: "Agent Hub" },
       { href: "/diagnosis", zh: "企业诊断 Agent", en: "Diagnosis Agent" },
       { href: "/worldcup", zh: "世界杯预测 Agent", en: "World Cup Agent" },
-      { href: "/gaokao", zh: "高考志愿 Agent", en: "Gaokao Agent" },
       { href: "/tools/diagnosis", zh: "诊断 Agent 说明", en: "Diagnosis Brief" },
     ],
   },
@@ -78,14 +77,19 @@ const mobileMenuGroups = [
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </summary>
+    <button class="mobile-menu-backdrop" type="button" aria-label="关闭导航" data-mobile-menu-close></button>
     <div class="mobile-menu-panel">
       <div class="mobile-menu-head">
         <span>
           <span class="zh">导航</span>
           <span class="en">Menu</span>
         </span>
-        <LanguageToggle client:load />
+        <button class="mobile-menu-close" type="button" data-mobile-menu-close>
+          <span class="zh">收回</span>
+          <span class="en">Close</span>
+        </button>
       </div>
+      <LanguageToggle client:load />
       <nav aria-label="移动端导航" class="mobile-menu-groups">
         {mobileMenuGroups.map((group) => (
           <details class="mobile-menu-group" open>
@@ -110,3 +114,25 @@ const mobileMenuGroups = [
     </div>
   </details>
 </header>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (!target.closest("[data-mobile-menu-close]")) return;
+
+    const menu = target.closest(".mobile-menu");
+    if (menu instanceof HTMLDetailsElement) {
+      menu.open = false;
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll(".mobile-menu[open]").forEach((menu) => {
+      if (menu instanceof HTMLDetailsElement) {
+        menu.open = false;
+      }
+    });
+  });
+</script>
