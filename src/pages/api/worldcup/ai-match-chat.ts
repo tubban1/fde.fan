@@ -7,7 +7,14 @@ const getEnv = (name: string) => {
 };
 
 const extractVectorEngineDelta = (data: any) => {
-    return data?.choices?.[0]?.delta?.content || data?.choices?.[0]?.message?.content || '';
+    const openAiText = data?.choices?.[0]?.delta?.content || data?.choices?.[0]?.message?.content || '';
+    if (openAiText) return openAiText;
+
+    return (data?.candidates || [])
+        .flatMap((candidate: any) => candidate?.content?.parts || [])
+        .filter((part: any) => !part?.thought && typeof part?.text === 'string')
+        .map((part: any) => part.text)
+        .join('');
 };
 
 const createVectorEngineStream = async (systemPrompt: string, userMessage: string) => {
@@ -237,7 +244,7 @@ Do not include any other text after the JSON block.`;
                     if (done) break;
                     
                     pending += decoder.decode(value, { stream: true });
-                    const lines = pending.split(/\\r?\\n/);
+                    const lines = pending.split(/\r?\n/);
                     pending = lines.pop() || '';
                     
                     for (const line of lines) {
@@ -247,19 +254,30 @@ Do not include any other text after the JSON block.`;
                             try {
                                 const parsed = JSON.parse(trimmed.slice(5).trim());
                                 const text = extractVectorEngineDelta(parsed);
-                                console.log("Extracted text:", text);
                                 if (text) {
                                     await writer.write(encoder.encode(text));
                                 }
                             } catch (e) {
-                                console.error("Parse error:", e.message);
+                                console.error("Parse error:", e instanceof Error ? e.message : e);
+                            }
+                        } else if (trimmed.startsWith('{')) {
+                            try {
+                                const parsed = JSON.parse(trimmed);
+                                const text = extractVectorEngineDelta(parsed);
+                                if (text) {
+                                    await writer.write(encoder.encode(text));
+                                }
+                            } catch (e) {
+                                console.error("Parse error:", e instanceof Error ? e.message : e);
                             }
                         }
                     }
                 }
-                if (pending.trim() && pending.startsWith('data:')) {
+                const remaining = pending.trim();
+                if (remaining && remaining !== 'data: [DONE]') {
                     try {
-                        const parsed = JSON.parse(pending.slice(5).trim());
+                        const payload = remaining.startsWith('data:') ? remaining.slice(5).trim() : remaining;
+                        const parsed = JSON.parse(payload);
                         const text = extractVectorEngineDelta(parsed);
                         if (text) {
                             await writer.write(encoder.encode(text));
