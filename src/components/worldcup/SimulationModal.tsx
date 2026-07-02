@@ -11,162 +11,6 @@ interface SimulationModalProps {
     mode?: 'ai' | 'manual';
 }
 
-const QR_VERSION = 4;
-const QR_SIZE = QR_VERSION * 4 + 17;
-const QR_DATA_CODEWORDS = 80;
-const QR_EC_CODEWORDS = 20;
-
-const gfExp = new Array<number>(512).fill(0);
-const gfLog = new Array<number>(256).fill(0);
-let gfReady = false;
-
-const initGf = () => {
-    if (gfReady) return;
-    let x = 1;
-    for (let i = 0; i < 255; i += 1) {
-        gfExp[i] = x;
-        gfLog[x] = i;
-        x <<= 1;
-        if (x & 0x100) x ^= 0x11d;
-    }
-    for (let i = 255; i < 512; i += 1) gfExp[i] = gfExp[i - 255];
-    gfReady = true;
-};
-
-const gfMul = (a: number, b: number) => {
-    if (a === 0 || b === 0) return 0;
-    return gfExp[gfLog[a] + gfLog[b]];
-};
-
-const reedSolomon = (data: number[], degree: number) => {
-    initGf();
-    let generator = [1];
-    for (let i = 0; i < degree; i += 1) {
-        const next = new Array(generator.length + 1).fill(0);
-        for (let j = 0; j < generator.length; j += 1) {
-            next[j] ^= generator[j];
-            next[j + 1] ^= gfMul(generator[j], gfExp[i]);
-        }
-        generator = next;
-    }
-
-    const result = new Array(degree).fill(0);
-    for (const value of data) {
-        const factor = value ^ result.shift()!;
-        result.push(0);
-        for (let i = 0; i < degree; i += 1) {
-            result[i] ^= gfMul(generator[i + 1], factor);
-        }
-    }
-    return result;
-};
-
-const bytesToBits = (bytes: number[]) => bytes.flatMap((byte) => Array.from({ length: 8 }, (_, i) => (byte >> (7 - i)) & 1));
-
-const buildQrCodewords = (text: string) => {
-    const encoder = new TextEncoder();
-    const bytes = Array.from(encoder.encode(text.slice(0, 72)));
-    const bits: number[] = [0, 1, 0, 0];
-    bits.push(...Array.from({ length: 8 }, (_, i) => (bytes.length >> (7 - i)) & 1));
-    bytes.forEach((byte) => bits.push(...Array.from({ length: 8 }, (_, i) => (byte >> (7 - i)) & 1)));
-    bits.push(...new Array(Math.min(4, QR_DATA_CODEWORDS * 8 - bits.length)).fill(0));
-    while (bits.length % 8) bits.push(0);
-
-    const data = [];
-    for (let i = 0; i < bits.length; i += 8) {
-        data.push(bits.slice(i, i + 8).reduce((acc, bit) => (acc << 1) | bit, 0));
-    }
-    let pad = 0xec;
-    while (data.length < QR_DATA_CODEWORDS) {
-        data.push(pad);
-        pad = pad === 0xec ? 0x11 : 0xec;
-    }
-    return [...data, ...reedSolomon(data, QR_EC_CODEWORDS)];
-};
-
-const drawQrFinder = (matrix: (boolean | null)[][], reserved: boolean[][], x: number, y: number) => {
-    for (let dy = -1; dy <= 7; dy += 1) {
-        for (let dx = -1; dx <= 7; dx += 1) {
-            const xx = x + dx;
-            const yy = y + dy;
-            if (xx < 0 || yy < 0 || xx >= QR_SIZE || yy >= QR_SIZE) continue;
-            const dark = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6 && (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
-            matrix[yy][xx] = dark;
-            reserved[yy][xx] = true;
-        }
-    }
-};
-
-const drawQrAlignment = (matrix: (boolean | null)[][], reserved: boolean[][], cx: number, cy: number) => {
-    for (let dy = -2; dy <= 2; dy += 1) {
-        for (let dx = -2; dx <= 2; dx += 1) {
-            const dark = Math.max(Math.abs(dx), Math.abs(dy)) !== 1;
-            matrix[cy + dy][cx + dx] = dark;
-            reserved[cy + dy][cx + dx] = true;
-        }
-    }
-};
-
-const makeQrMatrix = (text: string) => {
-    const matrix = Array.from({ length: QR_SIZE }, () => new Array<boolean | null>(QR_SIZE).fill(null));
-    const reserved = Array.from({ length: QR_SIZE }, () => new Array<boolean>(QR_SIZE).fill(false));
-
-    drawQrFinder(matrix, reserved, 0, 0);
-    drawQrFinder(matrix, reserved, QR_SIZE - 7, 0);
-    drawQrFinder(matrix, reserved, 0, QR_SIZE - 7);
-    drawQrAlignment(matrix, reserved, 26, 26);
-
-    for (let i = 8; i < QR_SIZE - 8; i += 1) {
-        const dark = i % 2 === 0;
-        matrix[6][i] = dark;
-        matrix[i][6] = dark;
-        reserved[6][i] = true;
-        reserved[i][6] = true;
-    }
-
-    matrix[QR_VERSION * 4 + 9][8] = true;
-    reserved[QR_VERSION * 4 + 9][8] = true;
-
-    for (let i = 0; i < 9; i += 1) {
-        reserved[8][i] = true;
-        reserved[i][8] = true;
-        reserved[8][QR_SIZE - 1 - i] = true;
-        reserved[QR_SIZE - 1 - i][8] = true;
-    }
-
-    const bits = bytesToBits(buildQrCodewords(text));
-    let bitIndex = 0;
-    let upward = true;
-    for (let col = QR_SIZE - 1; col > 0; col -= 2) {
-        if (col === 6) col -= 1;
-        for (let step = 0; step < QR_SIZE; step += 1) {
-            const row = upward ? QR_SIZE - 1 - step : step;
-            for (let c = 0; c < 2; c += 1) {
-                const x = col - c;
-                if (reserved[row][x]) continue;
-                const mask = (row + x) % 2 === 0;
-                matrix[row][x] = Boolean((bits[bitIndex] || 0) ^ (mask ? 1 : 0));
-                bitIndex += 1;
-            }
-        }
-        upward = !upward;
-    }
-
-    const format = 0x77c4;
-    const setFormat = (x: number, y: number, bit: number) => {
-        matrix[y][x] = Boolean((format >> bit) & 1);
-    };
-    for (let i = 0; i <= 5; i += 1) setFormat(i, 8, i);
-    setFormat(7, 8, 6);
-    setFormat(8, 8, 7);
-    setFormat(8, 7, 8);
-    for (let i = 9; i < 15; i += 1) setFormat(8, 14 - i, i);
-    for (let i = 0; i < 8; i += 1) setFormat(QR_SIZE - 1 - i, 8, i);
-    for (let i = 8; i < 15; i += 1) setFormat(8, QR_SIZE - 15 + i, i);
-
-    return matrix.map((row) => row.map(Boolean));
-};
-
 export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta, mode = 'manual' }: SimulationModalProps) {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [activeMode, setActiveMode] = useState<'ai' | 'manual'>(mode);
@@ -439,12 +283,42 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         return y + lineHeight;
     };
 
+    const loadQrImage = async (url: string): Promise<ImageBitmap | HTMLImageElement> => {
+        const qrEndpoint = `https://quickchart.io/qr?size=360&margin=3&ecLevel=H&text=${encodeURIComponent(url)}`;
+        const response = await fetch(qrEndpoint, { mode: 'cors', cache: 'no-store' });
+        if (!response.ok) throw new Error('二维码生成服务暂时不可用');
+        const blob = await response.blob();
+
+        if ('createImageBitmap' in window) {
+            return await createImageBitmap(blob);
+        }
+
+        return await new Promise<HTMLImageElement>((resolve, reject) => {
+            const image = new Image();
+            image.onload = () => resolve(image);
+            image.onerror = () => reject(new Error('二维码图片加载失败'));
+            image.src = URL.createObjectURL(blob);
+        });
+    };
+
     const handleDownloadShareImage = async () => {
         if (!aiAnswer.trim()) return;
 
         let finalUrl = shareUrl;
         if (!finalUrl) {
             finalUrl = await handleCreateShareLink();
+        }
+        if (!finalUrl) {
+            setShareError('请先生成分享链接，再生成二维码分享图');
+            return;
+        }
+
+        let qrImage: ImageBitmap | HTMLImageElement;
+        try {
+            qrImage = await loadQrImage(finalUrl);
+        } catch (error: any) {
+            setShareError(error.message || '二维码生成失败，请稍后重试');
+            return;
         }
 
         const homeName = homeMeta.zh || homeMeta.en || match.home_team_id;
@@ -555,21 +429,13 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
             drawWrappedText(ctx, item.replace(/\s+/g, ' ').slice(0, 46), 170, y + 50, 880, 34, 1);
         });
 
-        const qrText = finalUrl || window.location.href;
-        const qrMatrix = makeQrMatrix(qrText);
+        const qrText = finalUrl;
         const qrX = 830;
         const qrY = 1220;
-        const qrModule = 7;
-        const qrPadding = 18;
-        const qrBox = QR_SIZE * qrModule + qrPadding * 2;
+        const qrBox = 252;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(qrX, qrY, qrBox, qrBox);
-        ctx.fillStyle = '#0f172a';
-        qrMatrix.forEach((row, y) => {
-            row.forEach((dark, x) => {
-                if (dark) ctx.fillRect(qrX + qrPadding + x * qrModule, qrY + qrPadding + y * qrModule, qrModule, qrModule);
-            });
-        });
+        ctx.drawImage(qrImage, qrX, qrY, qrBox, qrBox);
 
         ctx.fillStyle = '#ffffff';
         ctx.font = '900 34px Arial, sans-serif';
