@@ -2,56 +2,7 @@ import type { APIRoute } from 'astro';
 // @ts-ignore
 import pg from 'pg';
 
-const getEnv = (name: string) => {
-    return process.env[name] || import.meta.env[name] || '';
-};
-
-const extractVectorEngineDelta = (data: any) => {
-    return data?.choices?.[0]?.delta?.content || data?.choices?.[0]?.message?.content || '';
-};
-
-const createVectorEngineStream = async (systemPrompt: string, userMessage: string) => {
-    const apiKey = getEnv('VECTORENGINE_GEMINI_KEY') || getEnv('VECTORENGINE_API_KEY');
-    const apiBase = (getEnv('VECTORENGINE_API_BASE') || 'https://api.vectorengine.cn/v1').replace(/\/$/, '');
-    const model = getEnv('REASONING_MODEL') || 'gemini-3.5-flash';
-
-    if (!apiKey) {
-        throw new Error('VECTORENGINE_GEMINI_KEY or VECTORENGINE_API_KEY is not configured');
-    }
-
-    const response = await fetch(`${apiBase}/chat/completions`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            model,
-            stream: true,
-            temperature: 0.7,
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: userMessage }
-            ]
-        })
-    });
-
-    if (!response.ok) {
-        const raw = await response.text().catch(() => '');
-        let message = raw || `VectorEngine API Error: ${response.status} ${response.statusText}`;
-        try {
-            const parsed = JSON.parse(raw);
-            message = parsed?.error?.message || parsed?.error || message;
-        } catch {}
-        throw new Error(message);
-    }
-
-    if (!response.body) {
-        throw new Error('VectorEngine returned an empty response body');
-    }
-
-    return response.body;
-};
+import { streamText, extractStreamTextFromJson } from '../../../server/diagnosis/text_model_provider.js';
 
 export const POST: APIRoute = async ({ request }) => {
     try {
@@ -221,20 +172,33 @@ Then, on a NEW LINE at the very end, output EXACTLY one markdown JSON block cont
 \`\`\`
 Do not include any other text after the JSON block.`;
 
-        const modelStream = await createVectorEngineStream(systemPrompt, user_message);
+        let modelStream;
+        try {
+            modelStream = await streamText({
+                systemPrompt,
+                userPrompt: user_message,
+                temperature: 0.7,
+                timeout: 70000,
+                task: 'REPORT' // Mapped to vectorengine inherently by text_model_provider
+            });
+        } catch (veError: any) {
+            console.warn("VectorEngine failed, falling back to TokenRouter", veError?.message || veError);
+            modelStream = await streamText({
+                systemPrompt,
+                userPrompt: user_message,
+                temperature: 0.7,
+                timeout: 70000,
+                task: 'CHAT' // Defaults to TEXT_MODEL_PROVIDER (tokenrouter)
+            });
+        }
 
         const stream = new ReadableStream({
             async start(controller) {
                 try {
-                    const reader = modelStream.getReader();
-                    const decoder = new TextDecoder();
                     let pending = '';
-                    while (true) {
-                        const { done, value } = await reader.read();
-                        if (done) break;
-
-                        pending += decoder.decode(value, { stream: true });
-                        const lines = pending.split(/\\r?\\n/);
+                    for await (const chunk of modelStream) {
+                        pending += Buffer.isBuffer(chunk) ? chunk.toString('utf8') : String(chunk);
+                        const lines = pending.split(/\r?\n/);
                         pending = lines.pop() || '';
                         for (const line of lines) {
                             const trimmed = line.trim();
@@ -242,9 +206,9 @@ Do not include any other text after the JSON block.`;
                             let text = '';
                             try {
                                 if (trimmed.startsWith('data:')) {
-                                    text = extractVectorEngineDelta(JSON.parse(trimmed.slice(5).trim() || '{}'));
+                                    text = extractStreamTextFromJson(JSON.parse(trimmed.slice(5) || '{}'));
                                 } else if (trimmed.startsWith('{')) {
-                                    text = extractVectorEngineDelta(JSON.parse(trimmed));
+                                    text = extractStreamTextFromJson(JSON.parse(trimmed));
                                 }
                             } catch (e) {
                                 // JSON parse error for incomplete chunk, ignore
@@ -257,8 +221,8 @@ Do not include any other text after the JSON block.`;
                     if (pending.trim()) {
                         let text = '';
                         try {
-                            if (pending.startsWith('data:')) text = extractVectorEngineDelta(JSON.parse(pending.slice(5).trim() || '{}'));
-                            else if (pending.startsWith('{')) text = extractVectorEngineDelta(JSON.parse(pending));
+                            if (pending.startsWith('data:')) text = extractStreamTextFromJson(JSON.parse(pending.slice(5) || '{}'));
+                            else if (pending.startsWith('{')) text = extractStreamTextFromJson(JSON.parse(pending));
                         } catch (e) {}
                         if (text) controller.enqueue(text);
                     }
@@ -278,8 +242,7 @@ Do not include any other text after the JSON block.`;
     } catch (e: any) {
         return new Response(JSON.stringify({
             error: e.message || 'AI service failed',
-            provider: 'vectorengine',
-            model: getEnv('REASONING_MODEL') || 'gemini-3.5-flash'
+            provider: 'vectorengine_or_tokenrouter'
         }), { status: 502 });
     }
 };
