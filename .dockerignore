@@ -1,0 +1,15 @@
+.git
+.astro
+.vercel
+dist
+node_modules
+python/model/venv
+venv_worldcup
+scratch
+.env
+.env.local
+data/gaokao
+data/worldcup/raw
+docs
+public
+src

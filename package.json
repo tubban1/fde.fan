@@ -27,7 +27,9 @@
     "gaokao:parse-anhui-special-plans": "node scripts/gaokao/parse-anhui-special-plans.mjs",
     "gaokao:parse-jiangsu-special-catalog": "node scripts/gaokao/parse-jiangsu-special-catalog.mjs",
     "gaokao:cleanup-invalid-records": "node scripts/gaokao/cleanup-invalid-records.mjs",
-    "gaokao:audit-national": "node scripts/gaokao/audit-national-coverage.mjs"
+    "gaokao:audit-national": "node scripts/gaokao/audit-national-coverage.mjs",
+    "worldcup:sync": "node scripts/worldcup/sync-worldcup-data.mjs",
+    "worldcup:sync:daemon": "node scripts/worldcup/worldcup-sync-daemon.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

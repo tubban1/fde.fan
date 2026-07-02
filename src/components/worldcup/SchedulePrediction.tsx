@@ -253,11 +253,11 @@ export default function SchedulePrediction() {
                                 </div>
                             </div>
                             
-                            <div className="absolute top-2 right-2 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="relative z-30 mt-4 grid grid-cols-2 gap-2 md:absolute md:top-2 md:right-2 md:mt-0 md:flex md:opacity-0 md:group-hover:opacity-100 md:transition-opacity">
                             <button 
                                 type="button"
                                 onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('ai'); }}
-                                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-md border border-indigo-400/30 bg-indigo-600/90 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 backdrop-blur-md transition-colors hover:bg-indigo-500"
+                                className="inline-flex min-h-10 items-center justify-center gap-1 rounded-md border border-indigo-400/30 bg-indigo-600/90 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 backdrop-blur-md transition-colors hover:bg-indigo-500 md:min-h-9 md:px-4"
                             >
                                 <span>✨</span>
                                 <span>Ask AI</span>
@@ -265,7 +265,7 @@ export default function SchedulePrediction() {
                             <button 
                                 type="button"
                                 onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('manual'); }}
-                                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-md bg-slate-700/80 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md transition-colors hover:bg-slate-600"
+                                className="inline-flex min-h-10 items-center justify-center gap-1 rounded-md bg-slate-700/80 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md transition-colors hover:bg-slate-600 md:min-h-9 md:px-4"
                             >
                                 🧪 <span className="zh">推演实验室</span><span className="en">Simulate</span>
                             </button>

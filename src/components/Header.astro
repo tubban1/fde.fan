@@ -1,6 +1,59 @@
 ---
 import LanguageToggle from "./LanguageToggle";
 import { navItems } from "../data/site";
+
+const mobileMenuGroups = [
+  {
+    zh: "课程",
+    en: "Learn",
+    href: "/learn",
+    links: [
+      { href: "/learn", zh: "课程总目录", en: "Learn Home" },
+      { href: "/roadmap", zh: "系统路线图", en: "Roadmap" },
+      { href: "/learn/what-is-fde", zh: "FDE 是什么", en: "What Is FDE" },
+      { href: "/learn/foundations", zh: "AI 工具基础", en: "Foundations" },
+      { href: "/learn/agent-workflows", zh: "Agent 工作流", en: "Agent Workflows" },
+      { href: "/projects", zh: "项目题库", en: "Projects" },
+      { href: "/resources", zh: "资源库", en: "Resources" },
+      { href: "/templates", zh: "交付模板", en: "Templates" },
+      { href: "/assessment", zh: "评分体系", en: "Assessment" },
+    ],
+  },
+  {
+    zh: "行业",
+    en: "Industries",
+    href: "/industries",
+    links: [
+      { href: "/industries", zh: "行业实验室", en: "Industry Labs" },
+      { href: "/industries/cross-border-commerce", zh: "跨境电商", en: "Commerce" },
+      { href: "/industries/culture-tourism", zh: "文旅 AI", en: "Tourism AI" },
+    ],
+  },
+  {
+    zh: "案例",
+    en: "Cases",
+    href: "/cases",
+    links: [
+      { href: "/cases", zh: "案例库", en: "Case Library" },
+      { href: "/insights", zh: "专业洞察", en: "Insights" },
+      { href: "/cases/enterprise-transformation-diagnosis-agent", zh: "企业诊断案例", en: "Diagnosis Case" },
+      { href: "/cases/cross-border-ai-diagnosis", zh: "跨境 AI 诊断", en: "Commerce Diagnosis" },
+      { href: "/cases/tourism-smart-guide-agent", zh: "文旅导览 Agent", en: "Tourism Agent" },
+    ],
+  },
+  {
+    zh: "智能体",
+    en: "Agents",
+    href: "/agents",
+    links: [
+      { href: "/agents", zh: "智能体中心", en: "Agent Hub" },
+      { href: "/diagnosis", zh: "企业诊断 Agent", en: "Diagnosis Agent" },
+      { href: "/worldcup", zh: "世界杯预测 Agent", en: "World Cup Agent" },
+      { href: "/gaokao", zh: "高考志愿 Agent", en: "Gaokao Agent" },
+      { href: "/tools/diagnosis", zh: "诊断 Agent 说明", en: "Diagnosis Brief" },
+    ],
+  },
+];
 ---
 
 <header class="site-header">
@@ -21,17 +74,37 @@ import { navItems } from "../data/site";
   </div>
   <details class="mobile-menu">
     <summary aria-label="打开导航">
-      <span class="zh">菜单</span>
-      <span class="en">Menu</span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </summary>
     <div class="mobile-menu-panel">
-      <LanguageToggle client:load />
-      <nav aria-label="移动端导航">
-        {navItems.map((item) => (
-          <a href={item.href}>
-            <span class="zh">{item.zh}</span>
-            <span class="en">{item.en}</span>
-          </a>
+      <div class="mobile-menu-head">
+        <span>
+          <span class="zh">导航</span>
+          <span class="en">Menu</span>
+        </span>
+        <LanguageToggle client:load />
+      </div>
+      <nav aria-label="移动端导航" class="mobile-menu-groups">
+        {mobileMenuGroups.map((group) => (
+          <details class="mobile-menu-group" open>
+            <summary>
+              <a href={group.href}>
+                <span class="zh">{group.zh}</span>
+                <span class="en">{group.en}</span>
+              </a>
+              <span class="mobile-menu-chevron">›</span>
+            </summary>
+            <div class="mobile-subnav">
+              {group.links.map((item) => (
+                <a href={item.href}>
+                  <span class="zh">{item.zh}</span>
+                  <span class="en">{item.en}</span>
+                </a>
+              ))}
+            </div>
+          </details>
         ))}
       </nav>
     </div>
