@@ -46,8 +46,8 @@ export const POST: APIRoute = async ({ request }) => {
         let dataGaps: any[] = [];
         let homeRecentForm: any[] = [];
         let awayRecentForm: any[] = [];
-        let homeRanking: any = null;
-        let awayRanking: any = null;
+        let homeRanking: any[] = [];
+        let awayRanking: any[] = [];
         
         try {
             const matchRes = await client.query(`
@@ -80,22 +80,33 @@ export const POST: APIRoute = async ({ request }) => {
 
             if (fullMatchContext.home_team_id && fullMatchContext.away_team_id) {
                 const rankingRes = await client.query(`
+                    WITH RankedRankings AS (
+                        SELECT team_id, ranking_type, rank, rating,
+                               ROW_NUMBER() OVER (PARTITION BY team_id, ranking_type ORDER BY ranking_date DESC) as rn
+                        FROM worldcup_team_rankings
+                        WHERE team_id IN ($1, $2)
+                    )
                     SELECT team_id, ranking_type, rank, rating
-                    FROM worldcup_team_rankings
-                    WHERE team_id IN ($1, $2)
+                    FROM RankedRankings
+                    WHERE rn = 1
                 `, [fullMatchContext.home_team_id, fullMatchContext.away_team_id]);
                 
                 rankingRes.rows.forEach((r: any) => {
-                    if (r.team_id === fullMatchContext.home_team_id) homeRanking = r;
-                    if (r.team_id === fullMatchContext.away_team_id) awayRanking = r;
+                    if (r.team_id === fullMatchContext.home_team_id) homeRanking.push(r);
+                    if (r.team_id === fullMatchContext.away_team_id) awayRanking.push(r);
                 });
 
                 const formRes = await client.query(`
-                    SELECT team_id, result, goals_for, goals_against, opponent_name_raw, competition, match_date
-                    FROM worldcup_team_form
-                    WHERE team_id IN ($1, $2)
+                    WITH RankedForm AS (
+                        SELECT team_id, result, goals_for, goals_against, opponent_name_raw, competition, match_date,
+                               ROW_NUMBER() OVER (PARTITION BY team_id ORDER BY match_date DESC) as rn
+                        FROM worldcup_team_form
+                        WHERE team_id IN ($1, $2)
+                    )
+                    SELECT team_id, result, goals_for, goals_against, opponent_name_raw, competition, match_date 
+                    FROM RankedForm 
+                    WHERE rn <= 10
                     ORDER BY match_date DESC
-                    LIMIT 20
                 `, [fullMatchContext.home_team_id, fullMatchContext.away_team_id]);
                 
                 formRes.rows.forEach((r: any) => {
@@ -162,23 +173,21 @@ Do not include any other text after the JSON block.`;
 
         let modelStream;
         try {
-            process.env.AIMATCH_MODEL_PROVIDER = 'vectorengine';
             modelStream = await streamText({
                 systemPrompt,
                 userPrompt: user_message,
                 temperature: 0.7,
                 timeout: 70000,
-                task: 'AIMATCH'
+                task: 'REPORT' // Mapped to vectorengine inherently by text_model_provider
             });
         } catch (veError: any) {
             console.warn("VectorEngine failed, falling back to TokenRouter", veError?.message || veError);
-            process.env.AIMATCH_MODEL_PROVIDER = 'tokenrouter';
             modelStream = await streamText({
                 systemPrompt,
                 userPrompt: user_message,
                 temperature: 0.7,
                 timeout: 70000,
-                task: 'AIMATCH'
+                task: 'CHAT' // Defaults to TEXT_MODEL_PROVIDER (tokenrouter)
             });
         }
 

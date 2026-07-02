@@ -8,9 +8,11 @@ interface SimulationModalProps {
     match: any; // The prediction match object
     homeMeta: any;
     awayMeta: any;
+    mode?: 'ai' | 'manual';
 }
 
-export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta }: SimulationModalProps) {
+export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta, mode = 'manual' }: SimulationModalProps) {
+    const inputRef = React.useRef<HTMLInputElement>(null);
     const [features, setFeatures] = useState<PredictionFeatures>({
         injury_impact_home: 0,
         injury_impact_away: 0,
@@ -35,7 +37,10 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         if (isOpen && match) {
             runSimulation(features);
         }
-    }, [isOpen, features, match]);
+        if (isOpen && mode === 'ai') {
+            setTimeout(() => inputRef.current?.focus(), 150);
+        }
+    }, [isOpen, features, match, mode]);
     
     const runSimulation = async (currentFeatures: PredictionFeatures) => {
         setLoading(true);
@@ -300,6 +305,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                             </h4>
                             <div className="flex gap-2 relative z-10">
                                 <input 
+                                    ref={inputRef}
                                     type="text" 
                                     className="flex-1 bg-slate-950/80 border border-indigo-500/50 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 shadow-inner"
                                     placeholder="比如：“主队核心缺阵，而且会下雨”"
