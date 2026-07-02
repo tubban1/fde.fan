@@ -223,53 +223,56 @@ Do not include any other text after the JSON block.`;
 
         const modelStream = await createVectorEngineStream(systemPrompt, user_message);
 
-        const stream = new ReadableStream({
-            async start(controller) {
-                try {
-                    const reader = modelStream.getReader();
-                    const decoder = new TextDecoder();
-                    let pending = '';
-                    while (true) {
-                        const { done, value } = await reader.read();
-                        if (done) break;
+        const { readable, writable } = new TransformStream();
+        const writer = writable.getWriter();
 
-                        pending += decoder.decode(value, { stream: true });
-                        const lines = pending.split(/\\r?\\n/);
-                        pending = lines.pop() || '';
-                        for (const line of lines) {
-                            const trimmed = line.trim();
-                            if (!trimmed || trimmed === 'data: [DONE]') continue;
-                            let text = '';
+        (async () => {
+            const reader = modelStream.getReader();
+            const decoder = new TextDecoder();
+            const encoder = new TextEncoder();
+            let pending = '';
+            try {
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    pending += decoder.decode(value, { stream: true });
+                    const lines = pending.split(/\\r?\\n/);
+                    pending = lines.pop() || '';
+                    
+                    for (const line of lines) {
+                        const trimmed = line.trim();
+                        if (!trimmed || trimmed === 'data: [DONE]') continue;
+                        if (trimmed.startsWith('data:')) {
                             try {
-                                if (trimmed.startsWith('data:')) {
-                                    text = extractVectorEngineDelta(JSON.parse(trimmed.slice(5).trim() || '{}'));
-                                } else if (trimmed.startsWith('{')) {
-                                    text = extractVectorEngineDelta(JSON.parse(trimmed));
+                                const parsed = JSON.parse(trimmed.slice(5).trim());
+                                const text = extractVectorEngineDelta(parsed);
+                                console.log("Extracted text:", text);
+                                if (text) {
+                                    await writer.write(encoder.encode(text));
                                 }
                             } catch (e) {
-                                // JSON parse error for incomplete chunk, ignore
-                            }
-                            if (text) {
-                                controller.enqueue(text);
+                                console.error("Parse error:", e.message);
                             }
                         }
                     }
-                    if (pending.trim()) {
-                        let text = '';
-                        try {
-                            if (pending.startsWith('data:')) text = extractVectorEngineDelta(JSON.parse(pending.slice(5).trim() || '{}'));
-                            else if (pending.startsWith('{')) text = extractVectorEngineDelta(JSON.parse(pending));
-                        } catch (e) {}
-                        if (text) controller.enqueue(text);
-                    }
-                    controller.close();
-                } catch (e) {
-                    controller.error(e);
                 }
+                if (pending.trim() && pending.startsWith('data:')) {
+                    try {
+                        const parsed = JSON.parse(pending.slice(5).trim());
+                        const text = extractVectorEngineDelta(parsed);
+                        if (text) {
+                            await writer.write(encoder.encode(text));
+                        }
+                    } catch (e) {}
+                }
+                await writer.close();
+            } catch (e) {
+                await writer.abort(e);
             }
-        });
+        })();
 
-        return new Response(stream, {
+        return new Response(readable, {
             headers: {
                 'Content-Type': 'text/plain; charset=utf-8',
                 'Transfer-Encoding': 'chunked'
