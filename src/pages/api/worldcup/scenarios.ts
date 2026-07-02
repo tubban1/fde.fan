@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+// @ts-ignore
 import pkg from 'pg';
 const { Client } = pkg;
 

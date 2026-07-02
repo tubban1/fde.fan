@@ -9,23 +9,28 @@ interface Gap {
     reason: string;
 }
 
+interface MatchFeatures {
+    odds_1x2_home: string | number | null;
+    odds_1x2_draw: string | number | null;
+    odds_1x2_away: string | number | null;
+    odds_provider?: string | null;
+    odds_market?: string | null;
+    odds_captured_at?: string | null;
+    injury_impact_home: string | number | null;
+    injury_impact_away: string | number | null;
+    lineup_strength_home: string | number | null;
+    lineup_strength_away: string | number | null;
+    source_url: string;
+    notes: string;
+}
+
 interface MatchGaps {
     match_id: string;
     home_team_id: string;
     away_team_id: string;
     stage: string;
     gaps: Gap[];
-    features: {
-        odds_1x2_home: string | number | null;
-        odds_1x2_draw: string | number | null;
-        odds_1x2_away: string | number | null;
-        injury_impact_home: string | number | null;
-        injury_impact_away: string | number | null;
-        lineup_strength_home: string | number | null;
-        lineup_strength_away: string | number | null;
-        source_url: string;
-        notes: string;
-    };
+    features: MatchFeatures;
 }
 
 export default function GapsDashboard() {

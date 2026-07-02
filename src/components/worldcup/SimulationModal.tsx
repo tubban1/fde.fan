@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { PredictionFeatures, SimulationResult } from '../../../lib/worldcupPredictionEngine';
+import type { PredictionFeatures, SimulationResult } from '../../lib/worldcupPredictionEngine';
 import GenericLoader from './GenericLoader';
 
 interface SimulationModalProps {
@@ -23,6 +23,14 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
     const [result, setResult] = useState<SimulationResult | null>(null);
     const [loading, setLoading] = useState(false);
     
+    // AI State
+    const [aiPrompt, setAiPrompt] = useState("");
+    const [aiAnswer, setAiAnswer] = useState("");
+    const [aiParsedData, setAiParsedData] = useState<any>(null);
+    const [aiSuggestedActions, setAiSuggestedActions] = useState<any[]>([]);
+    const [aiLoading, setAiLoading] = useState(false);
+    const [aiError, setAiError] = useState("");
+    
     useEffect(() => {
         if (isOpen && match) {
             runSimulation(features);
@@ -45,6 +53,82 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
             console.error(e);
         } finally {
             setLoading(false);
+        }
+    };
+    
+    const handleAskAI = async () => {
+        if (!aiPrompt.trim()) return;
+        setAiLoading(true);
+        setAiAnswer("");
+        setAiParsedData(null);
+        setAiSuggestedActions([]);
+        setAiError("");
+        try {
+            const res = await fetch('/api/worldcup/ai-match-chat', {
+                method: 'POST',
+                body: JSON.stringify({ 
+                    match_id: match.match_id, 
+                    user_message: aiPrompt, 
+                    match: match,
+                    baseline: baseline,
+                    features: match.features,
+                    current_scenario: features
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!res.ok) {
+                const errData = await res.json().catch(() => null);
+                throw new Error(errData?.error || `AI 服务暂时不可用 (${res.status})，请稍后重试。`);
+            }
+            if (!res.body) throw new Error("No readable stream");
+            
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let fullText = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value, { stream: true });
+                fullText += chunk;
+                
+                const parts = fullText.split('```json');
+                const answer = parts[0].trim();
+                
+                if (answer) {
+                    setAiAnswer(answer);
+                }
+
+                if (parts.length > 1 && fullText.endsWith('}')) {
+                    try {
+                        const jsonStr = parts[1].split('```')[0].trim();
+                        const parsed = JSON.parse(jsonStr);
+                        if (parsed.suggested_actions) {
+                             setAiSuggestedActions(parsed.suggested_actions);
+                        }
+                        setAiParsedData(parsed);
+                    } catch(e) {}
+                }
+            }
+            
+            // Final parse pass to ensure we got it
+            const finalParts = fullText.split('```json');
+            if (finalParts.length > 1) {
+                try {
+                     const parsed = JSON.parse(finalParts[1].split('```')[0].trim());
+                     if (parsed.suggested_actions) {
+                         setAiSuggestedActions(parsed.suggested_actions);
+                     }
+                     setAiParsedData(parsed);
+                } catch(e) {}
+            }
+        } catch(e: any) {
+            console.error(e);
+            setAiError(e.message || "请求异常");
+        } finally {
+            setAiLoading(false);
         }
     };
     
@@ -202,6 +286,125 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                     
                     {/* Right: Controls */}
                     <div className="space-y-6">
+                        
+                        {/* Ask AI Box */}
+                        <div className="bg-gradient-to-br from-indigo-900/40 to-fuchsia-900/20 p-5 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(79,70,229,0.15)] relative overflow-hidden group">
+                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+                            
+                            <h4 className="font-bold text-indigo-300 mb-3 relative z-10 flex items-center gap-2">
+                                <span className="text-xl">✨</span>
+                                <span>
+                                    <span className="zh">一句话推演 (Ask AI)</span>
+                                    <span className="en">Ask AI Simulator</span>
+                                </span>
+                            </h4>
+                            <div className="flex gap-2 relative z-10">
+                                <input 
+                                    type="text" 
+                                    className="flex-1 bg-slate-950/80 border border-indigo-500/50 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 shadow-inner"
+                                    placeholder="比如：“主队核心缺阵，而且会下雨”"
+                                    value={aiPrompt}
+                                    onChange={(e) => setAiPrompt(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAskAI()}
+                                />
+                                <button 
+                                    onClick={handleAskAI}
+                                    disabled={aiLoading || !aiPrompt.trim()}
+                                    className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg whitespace-nowrap"
+                                >
+                                    {aiLoading ? <span className="animate-pulse tracking-widest">...</span> : <span className="zh">发送</span>}
+                                    {!aiLoading && <span className="en hidden">Send</span>}
+                                </button>
+                            </div>
+
+                            {aiError && (
+                                <div className="mt-4 p-3 bg-red-900/40 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                                    <span className="font-bold mr-2">❌ 错误:</span>
+                                    {aiError}
+                                </div>
+                            )}
+
+                            {aiAnswer && (
+                                <div className="mt-4 pt-4 border-t border-indigo-500/30 relative z-10">
+                                    <div className="text-xs text-indigo-300 font-bold mb-2 flex items-center gap-1">
+                                        <span>🤖</span>
+                                        <span className="zh">AI 分析师解读：</span>
+                                        <span className="en">AI Analysis:</span>
+                                    </div>
+                                    <div className="text-sm text-indigo-100/90 whitespace-pre-wrap leading-relaxed">
+                                        {aiAnswer}
+                                    </div>
+                                    
+                                    {aiParsedData && (
+                                        <div className="mt-3 flex flex-wrap gap-2 text-[10px] uppercase font-bold tracking-wider">
+                                            {aiParsedData.scenario_judgement && (
+                                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.scenario_judgement === 'rule_exception' ? 'border-red-500/50 text-red-400' : 'border-indigo-500/50 text-indigo-400'}`}>
+                                                    {aiParsedData.scenario_judgement.replace('_', ' ')}
+                                                </span>
+                                            )}
+                                            {aiParsedData.data_quality && (
+                                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.data_quality === 'weak' ? 'border-amber-500/50 text-amber-400' : 'border-emerald-500/50 text-emerald-400'}`}>
+                                                    Data Quality: {aiParsedData.data_quality}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {aiParsedData?.model_basis && aiParsedData.model_basis.length > 0 && (
+                                        <div className="mt-3">
+                                            <div className="text-[11px] text-indigo-400 mb-1 font-bold">Model Basis:</div>
+                                            <div className="flex flex-wrap gap-1">
+                                                {aiParsedData.model_basis.map((basis: string, i: number) => (
+                                                    <span key={i} className="text-xs px-2 py-0.5 rounded bg-indigo-900/40 text-indigo-200">{basis}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {aiSuggestedActions.length > 0 && (
+                                        <div className="mt-4 flex flex-wrap gap-2">
+                                            {aiSuggestedActions.map((action, i) => (
+                                                <button
+                                                    key={i}
+                                                    onClick={() => {
+                                                        if (action.action === 'apply_features' && action.features) {
+                                                            setFeatures((prev: PredictionFeatures) => ({ ...prev, ...action.features }));
+                                                        } else if (action.action === 'set_match_status_exception') {
+                                                            alert('已标记异常，常规模型暂停适用。');
+                                                        }
+                                                    }}
+                                                    className={`border text-white px-3 py-1.5 rounded-md text-xs font-bold transition-colors shadow-lg ${
+                                                        action.action === 'set_match_status_exception' 
+                                                        ? 'bg-rose-600/50 hover:bg-rose-500 border-rose-400' 
+                                                        : 'bg-indigo-600/50 hover:bg-indigo-500 border-indigo-400'
+                                                    }`}
+                                                >
+                                                    {action.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {aiParsedData?.follow_up_questions && aiParsedData.follow_up_questions.length > 0 && (
+                                        <div className="mt-4 pt-3 border-t border-indigo-500/20">
+                                            <div className="text-[11px] text-slate-400 mb-1.5 font-bold">Try asking:</div>
+                                            <div className="flex flex-col gap-1.5">
+                                                {aiParsedData.follow_up_questions.map((q: string, i: number) => (
+                                                    <button 
+                                                        key={i} 
+                                                        onClick={() => { setAiPrompt(q); handleAskAI(); }}
+                                                        className="text-left text-xs text-indigo-300 hover:text-white transition-colors flex items-start gap-1.5"
+                                                    >
+                                                        <span className="text-indigo-500">→</span> {q}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
                         <div className="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
                             <h4 className="font-bold text-white mb-4">
                                 <span className="zh">首发强度 (Lineup Strength)</span>
@@ -305,10 +508,12 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                         </div>
                         
                         <div className="pt-4 flex justify-end">
+                            {/* Save Scenario hidden temporarily due to missing migrations 
                             <button onClick={handleSave} className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg">
                                 <span className="zh">保存推演方案 (Save Scenario)</span>
                                 <span className="en">Save Scenario</span>
                             </button>
+                            */}
                         </div>
                     </div>
                 </div>
