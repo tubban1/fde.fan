@@ -11,6 +11,162 @@ interface SimulationModalProps {
     mode?: 'ai' | 'manual';
 }
 
+const QR_VERSION = 4;
+const QR_SIZE = QR_VERSION * 4 + 17;
+const QR_DATA_CODEWORDS = 80;
+const QR_EC_CODEWORDS = 20;
+
+const gfExp = new Array<number>(512).fill(0);
+const gfLog = new Array<number>(256).fill(0);
+let gfReady = false;
+
+const initGf = () => {
+    if (gfReady) return;
+    let x = 1;
+    for (let i = 0; i < 255; i += 1) {
+        gfExp[i] = x;
+        gfLog[x] = i;
+        x <<= 1;
+        if (x & 0x100) x ^= 0x11d;
+    }
+    for (let i = 255; i < 512; i += 1) gfExp[i] = gfExp[i - 255];
+    gfReady = true;
+};
+
+const gfMul = (a: number, b: number) => {
+    if (a === 0 || b === 0) return 0;
+    return gfExp[gfLog[a] + gfLog[b]];
+};
+
+const reedSolomon = (data: number[], degree: number) => {
+    initGf();
+    let generator = [1];
+    for (let i = 0; i < degree; i += 1) {
+        const next = new Array(generator.length + 1).fill(0);
+        for (let j = 0; j < generator.length; j += 1) {
+            next[j] ^= generator[j];
+            next[j + 1] ^= gfMul(generator[j], gfExp[i]);
+        }
+        generator = next;
+    }
+
+    const result = new Array(degree).fill(0);
+    for (const value of data) {
+        const factor = value ^ result.shift()!;
+        result.push(0);
+        for (let i = 0; i < degree; i += 1) {
+            result[i] ^= gfMul(generator[i + 1], factor);
+        }
+    }
+    return result;
+};
+
+const bytesToBits = (bytes: number[]) => bytes.flatMap((byte) => Array.from({ length: 8 }, (_, i) => (byte >> (7 - i)) & 1));
+
+const buildQrCodewords = (text: string) => {
+    const encoder = new TextEncoder();
+    const bytes = Array.from(encoder.encode(text.slice(0, 72)));
+    const bits: number[] = [0, 1, 0, 0];
+    bits.push(...Array.from({ length: 8 }, (_, i) => (bytes.length >> (7 - i)) & 1));
+    bytes.forEach((byte) => bits.push(...Array.from({ length: 8 }, (_, i) => (byte >> (7 - i)) & 1)));
+    bits.push(...new Array(Math.min(4, QR_DATA_CODEWORDS * 8 - bits.length)).fill(0));
+    while (bits.length % 8) bits.push(0);
+
+    const data = [];
+    for (let i = 0; i < bits.length; i += 8) {
+        data.push(bits.slice(i, i + 8).reduce((acc, bit) => (acc << 1) | bit, 0));
+    }
+    let pad = 0xec;
+    while (data.length < QR_DATA_CODEWORDS) {
+        data.push(pad);
+        pad = pad === 0xec ? 0x11 : 0xec;
+    }
+    return [...data, ...reedSolomon(data, QR_EC_CODEWORDS)];
+};
+
+const drawQrFinder = (matrix: (boolean | null)[][], reserved: boolean[][], x: number, y: number) => {
+    for (let dy = -1; dy <= 7; dy += 1) {
+        for (let dx = -1; dx <= 7; dx += 1) {
+            const xx = x + dx;
+            const yy = y + dy;
+            if (xx < 0 || yy < 0 || xx >= QR_SIZE || yy >= QR_SIZE) continue;
+            const dark = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6 && (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
+            matrix[yy][xx] = dark;
+            reserved[yy][xx] = true;
+        }
+    }
+};
+
+const drawQrAlignment = (matrix: (boolean | null)[][], reserved: boolean[][], cx: number, cy: number) => {
+    for (let dy = -2; dy <= 2; dy += 1) {
+        for (let dx = -2; dx <= 2; dx += 1) {
+            const dark = Math.max(Math.abs(dx), Math.abs(dy)) !== 1;
+            matrix[cy + dy][cx + dx] = dark;
+            reserved[cy + dy][cx + dx] = true;
+        }
+    }
+};
+
+const makeQrMatrix = (text: string) => {
+    const matrix = Array.from({ length: QR_SIZE }, () => new Array<boolean | null>(QR_SIZE).fill(null));
+    const reserved = Array.from({ length: QR_SIZE }, () => new Array<boolean>(QR_SIZE).fill(false));
+
+    drawQrFinder(matrix, reserved, 0, 0);
+    drawQrFinder(matrix, reserved, QR_SIZE - 7, 0);
+    drawQrFinder(matrix, reserved, 0, QR_SIZE - 7);
+    drawQrAlignment(matrix, reserved, 26, 26);
+
+    for (let i = 8; i < QR_SIZE - 8; i += 1) {
+        const dark = i % 2 === 0;
+        matrix[6][i] = dark;
+        matrix[i][6] = dark;
+        reserved[6][i] = true;
+        reserved[i][6] = true;
+    }
+
+    matrix[QR_VERSION * 4 + 9][8] = true;
+    reserved[QR_VERSION * 4 + 9][8] = true;
+
+    for (let i = 0; i < 9; i += 1) {
+        reserved[8][i] = true;
+        reserved[i][8] = true;
+        reserved[8][QR_SIZE - 1 - i] = true;
+        reserved[QR_SIZE - 1 - i][8] = true;
+    }
+
+    const bits = bytesToBits(buildQrCodewords(text));
+    let bitIndex = 0;
+    let upward = true;
+    for (let col = QR_SIZE - 1; col > 0; col -= 2) {
+        if (col === 6) col -= 1;
+        for (let step = 0; step < QR_SIZE; step += 1) {
+            const row = upward ? QR_SIZE - 1 - step : step;
+            for (let c = 0; c < 2; c += 1) {
+                const x = col - c;
+                if (reserved[row][x]) continue;
+                const mask = (row + x) % 2 === 0;
+                matrix[row][x] = Boolean((bits[bitIndex] || 0) ^ (mask ? 1 : 0));
+                bitIndex += 1;
+            }
+        }
+        upward = !upward;
+    }
+
+    const format = 0x77c4;
+    const setFormat = (x: number, y: number, bit: number) => {
+        matrix[y][x] = Boolean((format >> bit) & 1);
+    };
+    for (let i = 0; i <= 5; i += 1) setFormat(i, 8, i);
+    setFormat(7, 8, 6);
+    setFormat(8, 8, 7);
+    setFormat(8, 7, 8);
+    for (let i = 9; i < 15; i += 1) setFormat(8, 14 - i, i);
+    for (let i = 0; i < 8; i += 1) setFormat(QR_SIZE - 1 - i, 8, i);
+    for (let i = 8; i < 15; i += 1) setFormat(8, QR_SIZE - 15 + i, i);
+
+    return matrix.map((row) => row.map(Boolean));
+};
+
 export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta, mode = 'manual' }: SimulationModalProps) {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [activeMode, setActiveMode] = useState<'ai' | 'manual'>(mode);
@@ -34,6 +190,10 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
     const [aiSuggestedActions, setAiSuggestedActions] = useState<any[]>([]);
     const [aiLoading, setAiLoading] = useState(false);
     const [aiError, setAiError] = useState("");
+    const [shareLoading, setShareLoading] = useState(false);
+    const [shareUrl, setShareUrl] = useState("");
+    const [shareStatus, setShareStatus] = useState("");
+    const [shareError, setShareError] = useState("");
     
     useEffect(() => {
         if (isOpen) {
@@ -76,6 +236,9 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         setAiParsedData(null);
         setAiSuggestedActions([]);
         setAiError("");
+        setShareUrl("");
+        setShareStatus("");
+        setShareError("");
         try {
             const res = await fetch('/api/worldcup/ai-match-chat', {
                 method: 'POST',
@@ -161,6 +324,296 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
             onClose();
         } catch (e) {
             alert('Save failed');
+        }
+    };
+
+    const buildShareTitle = () => {
+        const homeName = homeMeta.zh || homeMeta.en || match.home_team_id;
+        const awayName = awayMeta.zh || awayMeta.en || match.away_team_id;
+        return `${homeName} vs ${awayName} AI 预测分析`;
+    };
+
+    const buildShareSummary = (url = shareUrl) => {
+        const homeName = homeMeta.zh || homeMeta.en || match.home_team_id;
+        const awayName = awayMeta.zh || awayMeta.en || match.away_team_id;
+        const winner =
+            adjusted.home >= adjusted.draw && adjusted.home >= adjusted.away
+                ? `${homeName}方向`
+                : adjusted.away >= adjusted.home && adjusted.away >= adjusted.draw
+                    ? `${awayName}方向`
+                    : '平局方向';
+        const basis = aiParsedData?.model_basis?.length ? `\n关键依据：${aiParsedData.model_basis.slice(0, 3).join('、')}` : '';
+        const linkLine = url ? `\n完整分析：${url}` : '';
+        return [
+            `世界杯预测：${homeName} vs ${awayName}`,
+            `模型倾向：${winner}`,
+            `概率：主胜 ${(adjusted.home * 100).toFixed(1)}% / 平局 ${(adjusted.draw * 100).toFixed(1)}% / 客胜 ${(adjusted.away * 100).toFixed(1)}%`,
+            aiPrompt ? `提问：${aiPrompt}` : '',
+            basis,
+            linkLine
+        ].filter(Boolean).join('\n');
+    };
+
+    const handleCreateShareLink = async (): Promise<string> => {
+        if (!aiAnswer.trim()) return "";
+        setShareLoading(true);
+        setShareError("");
+        setShareStatus("");
+        try {
+            const res = await fetch('/api/worldcup/share-analysis', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    match_id: match.match_id,
+                    title: buildShareTitle(),
+                    home_team: homeMeta,
+                    away_team: awayMeta,
+                    question: aiPrompt,
+                    answer: aiAnswer,
+                    parsed_data: aiParsedData || {},
+                    features,
+                    baseline,
+                    adjusted,
+                    delta
+                })
+            });
+            const data = await res.json().catch(() => null);
+            if (!res.ok) throw new Error(data?.error || '生成分享链接失败');
+            setShareUrl(data.url);
+            setShareStatus('分享链接已生成');
+            await navigator.clipboard?.writeText(data.url).catch(() => undefined);
+            return data.url;
+        } catch (error: any) {
+            setShareError(error.message || '生成分享链接失败');
+            return "";
+        } finally {
+            setShareLoading(false);
+        }
+    };
+
+    const handleCopySummary = async () => {
+        try {
+            await navigator.clipboard.writeText(buildShareSummary());
+            setShareStatus('分析摘要已复制');
+        } catch {
+            setShareError('复制失败，请手动复制');
+        }
+    };
+
+    const stripMarkdown = (text: string) => text
+        .replace(/```[\s\S]*?```/g, '')
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/^\s*[-*]\s+/gm, '• ')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+
+    const drawWrappedText = (
+        ctx: CanvasRenderingContext2D,
+        text: string,
+        x: number,
+        y: number,
+        maxWidth: number,
+        lineHeight: number,
+        maxLines: number
+    ) => {
+        const chars = text.split('');
+        let line = '';
+        let lines = 0;
+        for (const char of chars) {
+            const testLine = line + char;
+            if (ctx.measureText(testLine).width > maxWidth && line) {
+                ctx.fillText(line, x, y);
+                y += lineHeight;
+                lines += 1;
+                line = char;
+                if (lines >= maxLines - 1) break;
+            } else {
+                line = testLine;
+            }
+        }
+        if (line && lines < maxLines) {
+            ctx.fillText(lines === maxLines - 1 && line.length < chars.length ? `${line}...` : line, x, y);
+        }
+        return y + lineHeight;
+    };
+
+    const handleDownloadShareImage = async () => {
+        if (!aiAnswer.trim()) return;
+
+        let finalUrl = shareUrl;
+        if (!finalUrl) {
+            finalUrl = await handleCreateShareLink();
+        }
+
+        const homeName = homeMeta.zh || homeMeta.en || match.home_team_id;
+        const awayName = awayMeta.zh || awayMeta.en || match.away_team_id;
+        const winner =
+            adjusted.home >= adjusted.draw && adjusted.home >= adjusted.away
+                ? `${homeName}胜面更高`
+                : adjusted.away >= adjusted.home && adjusted.away >= adjusted.draw
+                    ? `${awayName}胜面更高`
+                    : '平局概率不可忽视';
+        const rawBasis = aiParsedData?.model_basis?.slice(0, 3) || [];
+        const fallbackTakeaways = stripMarkdown(aiAnswer)
+            .split(/[。；.!?\n]/)
+            .map((item) => item.trim())
+            .filter((item) => item.length > 10)
+            .slice(0, 3);
+        const takeaways = rawBasis.length > 0 ? rawBasis : fallbackTakeaways;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 1200;
+        canvas.height = 1500;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const gradient = ctx.createLinearGradient(0, 0, 1200, 1500);
+        gradient.addColorStop(0, '#111b3f');
+        gradient.addColorStop(0.5, '#20194f');
+        gradient.addColorStop(1, '#060914');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1200, 1500);
+
+        ctx.fillStyle = 'rgba(99, 102, 241, 0.18)';
+        ctx.beginPath();
+        ctx.arc(1020, 120, 260, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+        ctx.beginPath();
+        ctx.arc(80, 1450, 260, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 42px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText('FDE FAN World Cup AI', 72, 92);
+
+        ctx.fillStyle = '#a5b4fc';
+        ctx.font = '800 26px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText('预测结论卡 · 扫码查看完整分析', 72, 136);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 60px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        drawWrappedText(ctx, `${homeName} vs ${awayName}`, 72, 250, 1050, 70, 2);
+
+        ctx.fillStyle = '#c7d2fe';
+        ctx.font = '900 36px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(winner, 72, 350);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fillRect(72, 420, 1056, 260);
+        ctx.strokeStyle = 'rgba(165,180,252,0.35)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(72, 420, 1056, 260);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 42px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(`${homeMeta.flag || ''} ${homeName}`, 120, 515);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '900 32px Arial, sans-serif';
+        ctx.fillText('VS', 560, 515);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 42px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText(`${awayName} ${awayMeta.flag || ''}`, 670, 515);
+
+        const barX = 120;
+        const barY = 590;
+        const barW = 960;
+        const barH = 28;
+        ctx.fillStyle = '#10b981';
+        ctx.fillRect(barX, barY, barW * adjusted.home, barH);
+        ctx.fillStyle = '#64748b';
+        ctx.fillRect(barX + barW * adjusted.home, barY, barW * adjusted.draw, barH);
+        ctx.fillStyle = '#f43f5e';
+        ctx.fillRect(barX + barW * (adjusted.home + adjusted.draw), barY, barW * adjusted.away, barH);
+
+        ctx.font = '800 28px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillStyle = '#6ee7b7';
+        ctx.fillText(`主胜 ${(adjusted.home * 100).toFixed(1)}%`, barX, 655);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText(`平局 ${(adjusted.draw * 100).toFixed(1)}%`, 500, 655);
+        ctx.fillStyle = '#fda4af';
+        ctx.fillText(`客胜 ${(adjusted.away * 100).toFixed(1)}%`, 835, 655);
+
+        ctx.fillStyle = '#c7d2fe';
+        ctx.font = '800 32px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText('3 个关键依据', 72, 780);
+
+        const cards = takeaways.length > 0 ? takeaways : ['模型基于排名、Elo 与近期状态形成基准判断', '人工输入的伤停、首发、天气和赔率会影响推演结果', '完整解释和数据依据请扫码查看'];
+        cards.slice(0, 3).forEach((item: string, index: number) => {
+            const y = 830 + index * 118;
+            ctx.fillStyle = 'rgba(255,255,255,0.07)';
+            ctx.fillRect(72, y, 1056, 86);
+            ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+            ctx.strokeRect(72, y, 1056, 86);
+            ctx.fillStyle = '#818cf8';
+            ctx.font = '900 28px Arial, sans-serif';
+            ctx.fillText(`0${index + 1}`, 108, y + 53);
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = '700 28px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+            drawWrappedText(ctx, item.replace(/\s+/g, ' ').slice(0, 46), 170, y + 50, 880, 34, 1);
+        });
+
+        const qrText = finalUrl || window.location.href;
+        const qrMatrix = makeQrMatrix(qrText);
+        const qrX = 830;
+        const qrY = 1220;
+        const qrModule = 7;
+        const qrPadding = 18;
+        const qrBox = QR_SIZE * qrModule + qrPadding * 2;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(qrX, qrY, qrBox, qrBox);
+        ctx.fillStyle = '#0f172a';
+        qrMatrix.forEach((row, y) => {
+            row.forEach((dark, x) => {
+                if (dark) ctx.fillRect(qrX + qrPadding + x * qrModule, qrY + qrPadding + y * qrModule, qrModule, qrModule);
+            });
+        });
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 34px Arial, sans-serif';
+        ctx.fillText('扫码查看完整分析', 72, 1248);
+        ctx.fillStyle = '#a5b4fc';
+        ctx.font = '700 26px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+        drawWrappedText(ctx, qrText.replace(/^https?:\/\//, ''), 72, 1302, 680, 36, 3);
+
+        if (aiPrompt) {
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '600 24px Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+            drawWrappedText(ctx, `提问：${aiPrompt}`.slice(0, 52), 72, 1138, 960, 34, 1);
+        }
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 30px Arial, sans-serif';
+        ctx.fillText('fde.fan', 72, 1430);
+
+        const link = document.createElement('a');
+        link.download = `${match.match_id || 'worldcup'}-ai-analysis.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        setShareStatus('分享图已生成');
+    };
+
+    const handleNativeShare = async () => {
+        const url = shareUrl || window.location.href;
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: buildShareTitle(),
+                    text: buildShareSummary(url),
+                    url
+                });
+                return;
+            } catch (error: any) {
+                if (error?.name === 'AbortError') return;
+            }
+        }
+        try {
+            await navigator.clipboard.writeText(shareUrl || buildShareSummary());
+            setShareStatus(shareUrl ? '分享链接已复制' : '摘要已复制');
+        } catch {
+            setShareError('当前浏览器不支持系统分享，请先生成链接后手动复制');
         }
     };
     
@@ -375,6 +828,51 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                             ))}
                         </div>
                     )}
+
+                    <div className="mt-4 rounded-xl border border-indigo-400/20 bg-slate-950/40 p-3">
+                        <div className="mb-2 text-[11px] font-bold text-indigo-300">
+                            <span className="zh">分享这次分析：</span>
+                            <span className="en">Share this analysis:</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            <button
+                                type="button"
+                                onClick={handleCreateShareLink}
+                                disabled={shareLoading}
+                                className="rounded-md bg-indigo-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            >
+                                {shareLoading ? '生成中...' : '生成分享链接'}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCopySummary}
+                                className="rounded-md border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-700"
+                            >
+                                复制摘要
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleNativeShare}
+                                className="rounded-md border border-cyan-500/40 bg-cyan-500/10 px-3 py-2 text-xs font-bold text-cyan-100 transition hover:bg-cyan-500/20"
+                            >
+                                手机系统分享
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleDownloadShareImage}
+                                className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs font-bold text-amber-100 transition hover:bg-amber-500/20"
+                            >
+                                保存分享图
+                            </button>
+                        </div>
+                        {shareUrl && (
+                            <a href={shareUrl} target="_blank" rel="noreferrer" className="mt-3 block truncate rounded-md border border-indigo-400/20 bg-indigo-500/10 px-3 py-2 text-xs text-indigo-200 hover:text-white">
+                                {shareUrl}
+                            </a>
+                        )}
+                        {shareStatus && <div className="mt-2 text-xs text-emerald-300">{shareStatus}</div>}
+                        {shareError && <div className="mt-2 text-xs text-rose-300">{shareError}</div>}
+                    </div>
 
                     {aiParsedData?.follow_up_questions && aiParsedData.follow_up_questions.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-indigo-500/20">
