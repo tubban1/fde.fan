@@ -13,7 +13,8 @@ interface SimulationModalProps {
 
 export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta, mode = 'manual' }: SimulationModalProps) {
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const isAiMode = mode === 'ai';
+    const [activeMode, setActiveMode] = useState<'ai' | 'manual'>(mode);
+    const isAiMode = activeMode === 'ai';
     const [features, setFeatures] = useState<PredictionFeatures>({
         injury_impact_home: 0,
         injury_impact_away: 0,
@@ -35,13 +36,19 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
     const [aiError, setAiError] = useState("");
     
     useEffect(() => {
+        if (isOpen) {
+            setActiveMode(mode);
+        }
+    }, [isOpen, mode, match?.match_id]);
+
+    useEffect(() => {
         if (isOpen && match) {
             runSimulation(features);
         }
-        if (isOpen && mode === 'ai') {
+        if (isOpen && activeMode === 'ai') {
             setTimeout(() => inputRef.current?.focus(), 150);
         }
-    }, [isOpen, features, match, mode]);
+    }, [isOpen, features, match, activeMode]);
     
     const runSimulation = async (currentFeatures: PredictionFeatures) => {
         setLoading(true);
@@ -167,6 +174,70 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         if (Math.abs(d) < 0.001) return <span className="text-slate-500">-</span>;
         return d > 0 ? <span className="text-emerald-400">+{ (d*100).toFixed(1) }%</span> : <span className="text-rose-400">{ (d*100).toFixed(1) }%</span>;
     };
+
+    const renderInlineMarkdown = (text: string) => {
+        const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+        return parts.map((part, index) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={index} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith('`') && part.endsWith('`')) {
+                return <code key={index} className="rounded bg-slate-950/70 px-1.5 py-0.5 font-mono text-[0.9em] text-indigo-200">{part.slice(1, -1)}</code>;
+            }
+            return <React.Fragment key={index}>{part}</React.Fragment>;
+        });
+    };
+
+    const renderMarkdown = (text: string) => {
+        return (
+            <div className="space-y-2">
+                {text.split(/\r?\n/).map((line, index) => {
+                    const trimmed = line.trim();
+                    if (!trimmed) return <div key={index} className="h-2" />;
+                    if (/^#{1,3}\s+/.test(trimmed)) {
+                        return <div key={index} className="pt-1 text-base font-bold text-white">{renderInlineMarkdown(trimmed.replace(/^#{1,3}\s+/, ''))}</div>;
+                    }
+                    if (/^[-*]\s+/.test(trimmed)) {
+                        return (
+                            <div key={index} className="flex gap-2">
+                                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-300" />
+                                <span>{renderInlineMarkdown(trimmed.replace(/^[-*]\s+/, ''))}</span>
+                            </div>
+                        );
+                    }
+                    if (/^\d+\.\s+/.test(trimmed)) {
+                        const marker = trimmed.match(/^\d+\./)?.[0] || '';
+                        return (
+                            <div key={index} className="flex gap-2">
+                                <span className="shrink-0 font-mono text-indigo-300">{marker}</span>
+                                <span>{renderInlineMarkdown(trimmed.replace(/^\d+\.\s+/, ''))}</span>
+                            </div>
+                        );
+                    }
+                    return <p key={index}>{renderInlineMarkdown(trimmed)}</p>;
+                })}
+            </div>
+        );
+    };
+
+    const getScenarioLabel = (value: string) => {
+        const labels: Record<string, string> = {
+            normal_assumption: '常规假设',
+            rule_exception: '规则异常',
+            data_gap: '数据缺口',
+            needs_clarification: '需要补充信息'
+        };
+        return labels[value] || value.replace(/_/g, ' ');
+    };
+
+    const getDataQualityLabel = (value: string) => {
+        const labels: Record<string, string> = {
+            complete: '数据较完整',
+            partial: '数据部分完整',
+            weak: '数据较弱'
+        };
+        return labels[value] || value;
+    };
     
     const ProgressBar = ({ pHome, pDraw, pAway }: { pHome: number, pDraw: number, pAway: number }) => (
         <div className="w-full h-4 bg-gray-800 rounded-full overflow-hidden flex">
@@ -251,19 +322,19 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                         <span className="en">Analysis:</span>
                     </div>
                     <div className="text-sm text-indigo-100/90 whitespace-pre-wrap leading-relaxed">
-                        {aiAnswer}
+                        {renderMarkdown(aiAnswer)}
                     </div>
                     
                     {aiParsedData && (
                         <div className="mt-3 flex flex-wrap gap-2 text-[10px] uppercase font-bold tracking-wider">
                             {aiParsedData.scenario_judgement && (
                                 <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.scenario_judgement === 'rule_exception' ? 'border-red-500/50 text-red-400' : 'border-indigo-500/50 text-indigo-400'}`}>
-                                    {aiParsedData.scenario_judgement.replace('_', ' ')}
+                                    {getScenarioLabel(aiParsedData.scenario_judgement)}
                                 </span>
                             )}
                             {aiParsedData.data_quality && (
                                 <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.data_quality === 'weak' ? 'border-amber-500/50 text-amber-400' : 'border-emerald-500/50 text-emerald-400'}`}>
-                                    Data Quality: {aiParsedData.data_quality}
+                                    数据质量：{getDataQualityLabel(aiParsedData.data_quality)}
                                 </span>
                             )}
                         </div>
@@ -271,7 +342,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
 
                     {aiParsedData?.model_basis && aiParsedData.model_basis.length > 0 && (
                         <div className="mt-3">
-                            <div className="text-[11px] text-indigo-400 mb-1 font-bold">Model Basis:</div>
+                            <div className="text-[11px] text-indigo-400 mb-1 font-bold">预测依据：</div>
                             <div className="flex flex-wrap gap-1">
                                 {aiParsedData.model_basis.map((basis: string, i: number) => (
                                     <span key={i} className="text-xs px-2 py-0.5 rounded bg-indigo-900/40 text-indigo-200">{basis}</span>
@@ -288,6 +359,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                                     onClick={() => {
                                         if (action.action === 'apply_features' && action.features) {
                                             setFeatures((prev: PredictionFeatures) => ({ ...prev, ...action.features }));
+                                            setActiveMode('manual');
                                         } else if (action.action === 'set_match_status_exception') {
                                             alert('已标记异常，常规模型暂停适用。');
                                         }
@@ -306,7 +378,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
 
                     {aiParsedData?.follow_up_questions && aiParsedData.follow_up_questions.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-indigo-500/20">
-                            <div className="text-[11px] text-slate-400 mb-1.5 font-bold">Try asking:</div>
+                            <div className="text-[11px] text-slate-400 mb-1.5 font-bold">你还可以问：</div>
                             <div className="flex flex-col gap-1.5">
                                 {aiParsedData.follow_up_questions.map((q: string, i: number) => (
                                     <button 
@@ -434,9 +506,6 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                     {/* Right: Controls */}
                     <div className="space-y-6">
                         
-                        {/* Ask AI Box */}
-                        {renderAiPanel()}
-
                         <div className="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
                             <h4 className="font-bold text-white mb-4">
                                 <span className="zh">首发强度 (Lineup Strength)</span>

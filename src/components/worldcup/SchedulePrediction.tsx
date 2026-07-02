@@ -253,17 +253,19 @@ export default function SchedulePrediction() {
                                 </div>
                             </div>
                             
-                            <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute top-2 right-2 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button 
+                                type="button"
                                 onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('ai'); }}
-                                className="bg-indigo-600/90 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded backdrop-blur-md transition-colors shadow-lg shadow-indigo-500/20 font-bold flex items-center gap-1 border border-indigo-400/30"
+                                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-md border border-indigo-400/30 bg-indigo-600/90 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 backdrop-blur-md transition-colors hover:bg-indigo-500"
                             >
                                 <span>✨</span>
                                 <span>Ask AI</span>
                             </button>
                             <button 
+                                type="button"
                                 onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('manual'); }}
-                                className="bg-slate-700/80 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded backdrop-blur-md transition-colors shadow-lg"
+                                className="inline-flex min-h-9 items-center justify-center gap-1 rounded-md bg-slate-700/80 px-4 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md transition-colors hover:bg-slate-600"
                             >
                                 🧪 <span className="zh">推演实验室</span><span className="en">Simulate</span>
                             </button>
