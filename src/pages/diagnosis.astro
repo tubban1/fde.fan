@@ -1,16 +1,37 @@
 ---
 import DiagnosisApp from "../components/diagnosis/DiagnosisApp.jsx";
+import SocialShare from "../components/SocialShare";
+import "../styles.css";
+
+const title = "FDE FAN Diagnosis | 企业 AI 转型诊断 Agent";
+const description = "FDE FAN 企业 AI 转型诊断 Agent，用轻量访谈帮助企业识别增长、降本、提效和 30/60/90 天落地路径";
+const shareImage = "https://www.fde.fan/assets/wechat-share.jpg";
 ---
 
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FDE FAN 企业 AI 转型诊断 Agent，用轻量访谈帮助企业识别增长、降本、提效和 30/60/90 天落地路径" />
+    <meta name="description" content={description} />
     <link rel="icon" type="image/png" href="/assets/fde-favicon-source.png" />
-    <title>FDE FAN Diagnosis | 企业 AI 转型诊断 Agent</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FDE FAN" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:secure_url" content={shareImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://www.fde.fan/diagnosis" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <title>{title}</title>
   </head>
   <body>
     <DiagnosisApp client:load />
+    <SocialShare client:load title={title} description={description} path="/diagnosis" variant="floating" />
   </body>
 </html>

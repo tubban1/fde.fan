@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import SocialShare from '../components/SocialShare';
 import SchedulePrediction from '../components/worldcup/SchedulePrediction.tsx';
 
 const title = "2026 World Cup Predictions | FDE FAN";
@@ -10,6 +11,9 @@ const description =
 <SiteLayout title={title} description={description} image="/assets/wechat-share.jpg">
   <section class="relative min-h-screen bg-[#0B0F19] pt-24 pb-16 text-slate-300">
     <div class="absolute top-0 left-0 -z-10 h-96 w-full bg-gradient-to-b from-emerald-900/20 to-transparent pointer-events-none"></div>
+    <div class="mx-auto mb-4 flex w-full max-w-5xl justify-end px-4 md:px-8">
+      <SocialShare client:load title={title} description={description} path="/worldcup" />
+    </div>
     <SchedulePrediction client:load />
   </section>
 </SiteLayout>

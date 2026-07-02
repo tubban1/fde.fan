@@ -1,4 +1,6 @@
 ---
+import SocialShare from "./SocialShare";
+
 interface Props {
   eyebrow: string;
   title: string;
@@ -81,6 +83,9 @@ const pageLinks = links.map((link) => ({ href: link.href, label: link.label, lab
   <p class="eyebrow">{eyebrow}</p>
   <h1><span class="zh">{title}</span><span class="en">{titleEn}</span></h1>
   <p><span class="zh">{description}</span><span class="en">{descriptionEn}</span></p>
+  <div class="doc-share">
+    <SocialShare client:load title={`${title} | FDE FAN`} description={description} path={Astro.url.pathname} align="left" />
+  </div>
 </section>
 <div class="doc-layout">
   <aside class="doc-sidebar" aria-label="文档导航">

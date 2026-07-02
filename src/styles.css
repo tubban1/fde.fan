@@ -731,6 +731,11 @@ select {
   grid-column: 1;
 }
 
+.doc-share {
+  display: flex;
+  margin-top: 1.3rem;
+}
+
 .doc-layout {
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
