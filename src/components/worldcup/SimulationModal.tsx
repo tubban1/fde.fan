@@ -13,6 +13,7 @@ interface SimulationModalProps {
 
 export default function SimulationModal({ isOpen, onClose, match, homeMeta, awayMeta, mode = 'manual' }: SimulationModalProps) {
     const inputRef = React.useRef<HTMLInputElement>(null);
+    const isAiMode = mode === 'ai';
     const [features, setFeatures] = useState<PredictionFeatures>({
         injury_impact_home: 0,
         injury_impact_away: 0,
@@ -175,37 +176,178 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
         </div>
     );
 
+    const renderMatchHeader = () => (
+        <div className="text-center flex justify-center items-center space-x-4 mb-6">
+            <span className="text-2xl font-bold">{homeMeta.flag} <span className="zh">{homeMeta.zh}</span><span className="en">{homeMeta.en}</span></span>
+            <span className="text-slate-500 font-bold">VS</span>
+            <span className="text-2xl font-bold"><span className="zh">{awayMeta.zh}</span><span className="en">{awayMeta.en}</span> {awayMeta.flag}</span>
+        </div>
+    );
+
+    const renderBaselineCard = () => (
+        <div className="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+            <div className="text-sm text-slate-400 mb-2 font-bold tracking-widest uppercase">
+                <span className="zh">基准预测 (Baseline)</span>
+                <span className="en">Baseline</span>
+            </div>
+            <ProgressBar pHome={baseline.home} pDraw={baseline.draw} pAway={baseline.away} />
+            <div className="flex justify-between text-xs mt-2 text-slate-400">
+                <span>{(baseline.home*100).toFixed(1)}%</span>
+                <span>{(baseline.draw*100).toFixed(1)}%</span>
+                <span>{(baseline.away*100).toFixed(1)}%</span>
+            </div>
+        </div>
+    );
+
+    const renderAiPanel = (prominent = false) => (
+        <div className={`bg-gradient-to-br from-indigo-900/40 to-fuchsia-900/20 p-5 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(79,70,229,0.15)] relative overflow-hidden group ${prominent ? 'min-h-[420px]' : ''}`}>
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+            
+            <h4 className="font-bold text-indigo-300 mb-3 relative z-10 flex items-center gap-2">
+                <span className="text-xl">✨</span>
+                <span>
+                    <span className="zh">{prominent ? 'Ask AI 预测分析师' : '一句话推演 (Ask AI)'}</span>
+                    <span className="en">{prominent ? 'Ask AI Match Analyst' : 'Ask AI Simulator'}</span>
+                </span>
+            </h4>
+            {prominent && (
+                <p className="relative z-10 text-sm text-indigo-100/70 mb-4 leading-relaxed">
+                    <span className="zh">用自然语言提问：伤停、首发、盘口、天气、弃赛或数据不完整时，AI 会解释预测依据并给出可选动作。</span>
+                    <span className="en">Ask about injuries, lineups, odds, weather, exceptions, or missing data. The analyst explains the prediction basis and suggests actions.</span>
+                </p>
+            )}
+            <div className="flex gap-2 relative z-10">
+                <input 
+                    ref={inputRef}
+                    type="text" 
+                    className="flex-1 bg-slate-950/80 border border-indigo-500/50 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 shadow-inner"
+                    placeholder="比如：“主队核心缺阵，而且会下雨”"
+                    value={aiPrompt}
+                    onChange={(e) => setAiPrompt(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAskAI()}
+                />
+                <button 
+                    onClick={handleAskAI}
+                    disabled={aiLoading || !aiPrompt.trim()}
+                    className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg whitespace-nowrap"
+                >
+                    {aiLoading ? <span className="animate-pulse tracking-widest">...</span> : <span className="zh">发送</span>}
+                    {!aiLoading && <span className="en hidden">Send</span>}
+                </button>
+            </div>
+
+            {aiError && (
+                <div className="mt-4 p-3 bg-red-900/40 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                    <span className="font-bold mr-2">错误:</span>
+                    {aiError}
+                </div>
+            )}
+
+            {aiAnswer && (
+                <div className="mt-4 pt-4 border-t border-indigo-500/30 relative z-10">
+                    <div className="text-xs text-indigo-300 font-bold mb-2 flex items-center gap-1">
+                        <span>AI</span>
+                        <span className="zh">分析师解读：</span>
+                        <span className="en">Analysis:</span>
+                    </div>
+                    <div className="text-sm text-indigo-100/90 whitespace-pre-wrap leading-relaxed">
+                        {aiAnswer}
+                    </div>
+                    
+                    {aiParsedData && (
+                        <div className="mt-3 flex flex-wrap gap-2 text-[10px] uppercase font-bold tracking-wider">
+                            {aiParsedData.scenario_judgement && (
+                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.scenario_judgement === 'rule_exception' ? 'border-red-500/50 text-red-400' : 'border-indigo-500/50 text-indigo-400'}`}>
+                                    {aiParsedData.scenario_judgement.replace('_', ' ')}
+                                </span>
+                            )}
+                            {aiParsedData.data_quality && (
+                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.data_quality === 'weak' ? 'border-amber-500/50 text-amber-400' : 'border-emerald-500/50 text-emerald-400'}`}>
+                                    Data Quality: {aiParsedData.data_quality}
+                                </span>
+                            )}
+                        </div>
+                    )}
+
+                    {aiParsedData?.model_basis && aiParsedData.model_basis.length > 0 && (
+                        <div className="mt-3">
+                            <div className="text-[11px] text-indigo-400 mb-1 font-bold">Model Basis:</div>
+                            <div className="flex flex-wrap gap-1">
+                                {aiParsedData.model_basis.map((basis: string, i: number) => (
+                                    <span key={i} className="text-xs px-2 py-0.5 rounded bg-indigo-900/40 text-indigo-200">{basis}</span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {aiSuggestedActions.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                            {aiSuggestedActions.map((action, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => {
+                                        if (action.action === 'apply_features' && action.features) {
+                                            setFeatures((prev: PredictionFeatures) => ({ ...prev, ...action.features }));
+                                        } else if (action.action === 'set_match_status_exception') {
+                                            alert('已标记异常，常规模型暂停适用。');
+                                        }
+                                    }}
+                                    className={`border text-white px-3 py-1.5 rounded-md text-xs font-bold transition-colors shadow-lg ${
+                                        action.action === 'set_match_status_exception' 
+                                        ? 'bg-rose-600/50 hover:bg-rose-500 border-rose-400' 
+                                        : 'bg-indigo-600/50 hover:bg-indigo-500 border-indigo-400'
+                                    }`}
+                                >
+                                    {action.label}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {aiParsedData?.follow_up_questions && aiParsedData.follow_up_questions.length > 0 && (
+                        <div className="mt-4 pt-3 border-t border-indigo-500/20">
+                            <div className="text-[11px] text-slate-400 mb-1.5 font-bold">Try asking:</div>
+                            <div className="flex flex-col gap-1.5">
+                                {aiParsedData.follow_up_questions.map((q: string, i: number) => (
+                                    <button 
+                                        key={i} 
+                                        onClick={() => { setAiPrompt(q); handleAskAI(); }}
+                                        className="text-left text-xs text-indigo-300 hover:text-white transition-colors flex items-start gap-1.5"
+                                    >
+                                        <span className="text-indigo-500">-&gt;</span> {q}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl">
+            <div className={`bg-slate-900 border border-slate-700 rounded-2xl w-full ${isAiMode ? 'max-w-2xl' : 'max-w-4xl'} max-h-[90vh] flex flex-col shadow-2xl`}>
                 <div className="p-6 border-b border-slate-800 flex justify-between items-center sticky top-0 bg-slate-900/95 z-10 rounded-t-2xl">
                     <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-                        🧪 <span className="zh">推演实验室</span><span className="en">Prediction Lab</span>
+                        {isAiMode ? '✨' : '🧪'} <span className="zh">{isAiMode ? 'Ask AI 预测分析师' : '推演实验室'}</span><span className="en">{isAiMode ? 'Ask AI Analyst' : 'Prediction Lab'}</span>
                     </h3>
                     <button onClick={onClose} className="text-slate-400 hover:text-white text-xl px-2">&times;</button>
                 </div>
                 
+                {isAiMode ? (
+                    <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                        {renderMatchHeader()}
+                        {renderBaselineCard()}
+                        {renderAiPanel(true)}
+                    </div>
+                ) : (
                 <div className="p-6 overflow-y-auto flex-1 grid md:grid-cols-2 gap-8">
                     {/* Left: Probabilities & Explanations */}
                     <div className="space-y-8">
-                        <div className="text-center flex justify-center items-center space-x-4 mb-6">
-                            <span className="text-2xl font-bold">{homeMeta.flag} <span className="zh">{homeMeta.zh}</span><span className="en">{homeMeta.en}</span></span>
-                            <span className="text-slate-500 font-bold">VS</span>
-                            <span className="text-2xl font-bold"><span className="zh">{awayMeta.zh}</span><span className="en">{awayMeta.en}</span> {awayMeta.flag}</span>
-                        </div>
+                        {renderMatchHeader()}
                         
-                        <div className="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
-                            <div className="text-sm text-slate-400 mb-2 font-bold tracking-widest uppercase">
-                                <span className="zh">基准预测 (Baseline)</span>
-                                <span className="en">Baseline</span>
-                            </div>
-                            <ProgressBar pHome={baseline.home} pDraw={baseline.draw} pAway={baseline.away} />
-                            <div className="flex justify-between text-xs mt-2 text-slate-400">
-                                <span>{(baseline.home*100).toFixed(1)}%</span>
-                                <span>{(baseline.draw*100).toFixed(1)}%</span>
-                                <span>{(baseline.away*100).toFixed(1)}%</span>
-                            </div>
-                        </div>
+                        {renderBaselineCard()}
                         
                         <div className="bg-indigo-900/20 p-5 rounded-xl border border-indigo-500/30">
                             <div className="text-sm text-indigo-300 mb-2 font-bold tracking-widest uppercase flex justify-between">
@@ -293,123 +435,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                     <div className="space-y-6">
                         
                         {/* Ask AI Box */}
-                        <div className="bg-gradient-to-br from-indigo-900/40 to-fuchsia-900/20 p-5 rounded-xl border border-indigo-500/30 shadow-[0_0_20px_rgba(79,70,229,0.15)] relative overflow-hidden group">
-                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
-                            
-                            <h4 className="font-bold text-indigo-300 mb-3 relative z-10 flex items-center gap-2">
-                                <span className="text-xl">✨</span>
-                                <span>
-                                    <span className="zh">一句话推演 (Ask AI)</span>
-                                    <span className="en">Ask AI Simulator</span>
-                                </span>
-                            </h4>
-                            <div className="flex gap-2 relative z-10">
-                                <input 
-                                    ref={inputRef}
-                                    type="text" 
-                                    className="flex-1 bg-slate-950/80 border border-indigo-500/50 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 shadow-inner"
-                                    placeholder="比如：“主队核心缺阵，而且会下雨”"
-                                    value={aiPrompt}
-                                    onChange={(e) => setAiPrompt(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleAskAI()}
-                                />
-                                <button 
-                                    onClick={handleAskAI}
-                                    disabled={aiLoading || !aiPrompt.trim()}
-                                    className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg whitespace-nowrap"
-                                >
-                                    {aiLoading ? <span className="animate-pulse tracking-widest">...</span> : <span className="zh">发送</span>}
-                                    {!aiLoading && <span className="en hidden">Send</span>}
-                                </button>
-                            </div>
-
-                            {aiError && (
-                                <div className="mt-4 p-3 bg-red-900/40 border border-red-500/50 rounded-lg text-red-300 text-sm">
-                                    <span className="font-bold mr-2">❌ 错误:</span>
-                                    {aiError}
-                                </div>
-                            )}
-
-                            {aiAnswer && (
-                                <div className="mt-4 pt-4 border-t border-indigo-500/30 relative z-10">
-                                    <div className="text-xs text-indigo-300 font-bold mb-2 flex items-center gap-1">
-                                        <span>🤖</span>
-                                        <span className="zh">AI 分析师解读：</span>
-                                        <span className="en">AI Analysis:</span>
-                                    </div>
-                                    <div className="text-sm text-indigo-100/90 whitespace-pre-wrap leading-relaxed">
-                                        {aiAnswer}
-                                    </div>
-                                    
-                                    {aiParsedData && (
-                                        <div className="mt-3 flex flex-wrap gap-2 text-[10px] uppercase font-bold tracking-wider">
-                                            {aiParsedData.scenario_judgement && (
-                                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.scenario_judgement === 'rule_exception' ? 'border-red-500/50 text-red-400' : 'border-indigo-500/50 text-indigo-400'}`}>
-                                                    {aiParsedData.scenario_judgement.replace('_', ' ')}
-                                                </span>
-                                            )}
-                                            {aiParsedData.data_quality && (
-                                                <span className={`px-2 py-1 rounded bg-slate-800 border ${aiParsedData.data_quality === 'weak' ? 'border-amber-500/50 text-amber-400' : 'border-emerald-500/50 text-emerald-400'}`}>
-                                                    Data Quality: {aiParsedData.data_quality}
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    {aiParsedData?.model_basis && aiParsedData.model_basis.length > 0 && (
-                                        <div className="mt-3">
-                                            <div className="text-[11px] text-indigo-400 mb-1 font-bold">Model Basis:</div>
-                                            <div className="flex flex-wrap gap-1">
-                                                {aiParsedData.model_basis.map((basis: string, i: number) => (
-                                                    <span key={i} className="text-xs px-2 py-0.5 rounded bg-indigo-900/40 text-indigo-200">{basis}</span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {aiSuggestedActions.length > 0 && (
-                                        <div className="mt-4 flex flex-wrap gap-2">
-                                            {aiSuggestedActions.map((action, i) => (
-                                                <button
-                                                    key={i}
-                                                    onClick={() => {
-                                                        if (action.action === 'apply_features' && action.features) {
-                                                            setFeatures((prev: PredictionFeatures) => ({ ...prev, ...action.features }));
-                                                        } else if (action.action === 'set_match_status_exception') {
-                                                            alert('已标记异常，常规模型暂停适用。');
-                                                        }
-                                                    }}
-                                                    className={`border text-white px-3 py-1.5 rounded-md text-xs font-bold transition-colors shadow-lg ${
-                                                        action.action === 'set_match_status_exception' 
-                                                        ? 'bg-rose-600/50 hover:bg-rose-500 border-rose-400' 
-                                                        : 'bg-indigo-600/50 hover:bg-indigo-500 border-indigo-400'
-                                                    }`}
-                                                >
-                                                    {action.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    {aiParsedData?.follow_up_questions && aiParsedData.follow_up_questions.length > 0 && (
-                                        <div className="mt-4 pt-3 border-t border-indigo-500/20">
-                                            <div className="text-[11px] text-slate-400 mb-1.5 font-bold">Try asking:</div>
-                                            <div className="flex flex-col gap-1.5">
-                                                {aiParsedData.follow_up_questions.map((q: string, i: number) => (
-                                                    <button 
-                                                        key={i} 
-                                                        onClick={() => { setAiPrompt(q); handleAskAI(); }}
-                                                        className="text-left text-xs text-indigo-300 hover:text-white transition-colors flex items-start gap-1.5"
-                                                    >
-                                                        <span className="text-indigo-500">→</span> {q}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                        {renderAiPanel()}
 
                         <div className="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
                             <h4 className="font-bold text-white mb-4">
@@ -523,6 +549,7 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                         </div>
                     </div>
                 </div>
+                )}
             </div>
         </div>
     );

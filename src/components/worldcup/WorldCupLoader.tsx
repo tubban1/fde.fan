@@ -1,5 +1,28 @@
 import React, { useEffect, useState } from 'react';
 
+const STARS = [
+  { width: 2.2, height: 2.8, top: 9, left: 13, duration: 1.4 },
+  { width: 1.4, height: 1.9, top: 18, left: 68, duration: 2.2 },
+  { width: 3.1, height: 2.4, top: 27, left: 46, duration: 1.8 },
+  { width: 1.7, height: 3.0, top: 38, left: 82, duration: 2.6 },
+  { width: 2.6, height: 1.6, top: 47, left: 24, duration: 1.2 },
+  { width: 3.7, height: 2.9, top: 56, left: 57, duration: 2.0 },
+  { width: 1.2, height: 1.5, top: 65, left: 8, duration: 1.7 },
+  { width: 2.9, height: 3.4, top: 72, left: 76, duration: 2.8 },
+  { width: 1.8, height: 2.1, top: 84, left: 35, duration: 1.5 },
+  { width: 3.4, height: 1.3, top: 12, left: 91, duration: 2.4 },
+  { width: 2.0, height: 2.7, top: 31, left: 6, duration: 1.9 },
+  { width: 1.5, height: 3.5, top: 43, left: 64, duration: 2.1 },
+  { width: 2.8, height: 2.2, top: 52, left: 42, duration: 1.3 },
+  { width: 3.2, height: 1.8, top: 61, left: 88, duration: 2.7 },
+  { width: 1.3, height: 2.6, top: 75, left: 19, duration: 1.6 },
+  { width: 2.5, height: 3.2, top: 89, left: 71, duration: 2.3 },
+  { width: 1.9, height: 1.4, top: 22, left: 31, duration: 1.1 },
+  { width: 3.6, height: 2.5, top: 36, left: 53, duration: 2.5 },
+  { width: 2.3, height: 3.7, top: 69, left: 49, duration: 1.8 },
+  { width: 1.6, height: 2.0, top: 7, left: 39, duration: 2.9 },
+];
+
 export default function WorldCupLoader() {
   const [dots, setDots] = useState('');
 
@@ -83,16 +106,16 @@ export default function WorldCupLoader() {
 
       {/* Floating Stars Layer (simplified CSS version) */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {STARS.map((star, i) => (
           <div 
             key={i} 
             className="absolute rounded-full bg-white opacity-80"
             style={{
-              width: Math.random() * 3 + 1 + 'px',
-              height: Math.random() * 3 + 1 + 'px',
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
-              animation: `pulse ${Math.random() * 2 + 1}s infinite alternate`
+              width: `${star.width}px`,
+              height: `${star.height}px`,
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              animation: `pulse ${star.duration}s infinite alternate`
             }}
           />
         ))}
