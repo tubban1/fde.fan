@@ -291,6 +291,118 @@ select {
   color: white;
 }
 
+.scroll-video-hero {
+  position: relative;
+  min-height: 520vh;
+  background: #05070d;
+}
+
+.scroll-video-sticky {
+  position: sticky;
+  top: 0;
+  display: grid;
+  min-height: 100vh;
+  overflow: hidden;
+  align-items: center;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 5rem);
+}
+
+.scroll-video-bg,
+.scroll-video-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-video-bg {
+  z-index: 0;
+  object-fit: cover;
+  opacity: 0.76;
+  filter: saturate(1.15) contrast(1.08);
+}
+
+.scroll-video-shade {
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 74% 24%, rgba(69, 244, 255, 0.2), transparent 34%),
+    linear-gradient(90deg, rgba(5, 7, 13, 0.92) 0%, rgba(5, 7, 13, 0.72) 44%, rgba(5, 7, 13, 0.2) 100%),
+    linear-gradient(180deg, rgba(5, 7, 13, 0.18), rgba(5, 7, 13, 0.88));
+}
+
+.scroll-video-hero .grid-mask {
+  z-index: 2;
+}
+
+.scroll-progress {
+  position: absolute;
+  right: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1rem, 4vw, 3rem);
+  z-index: 4;
+  width: min(28rem, 42vw);
+  height: 3px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.scroll-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--cyan), var(--lime));
+}
+
+.scroll-hero-copy {
+  position: relative;
+  z-index: 3;
+  min-height: min(640px, calc(100vh - 8rem));
+  max-width: 72rem;
+}
+
+.scroll-hero-panel {
+  position: absolute;
+  inset: 50% auto auto 0;
+  width: min(64rem, 100%);
+  transform: translateY(-44%) translateY(28px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.scroll-hero-panel.active {
+  transform: translateY(-44%);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-hero-panel h2 {
+  margin: 0;
+  max-width: 58rem;
+  font-size: clamp(2.5rem, 7vw, 7rem);
+  font-weight: 950;
+  line-height: 0.94;
+  letter-spacing: 0;
+  text-shadow:
+    0 0 34px rgba(69, 244, 255, 0.25),
+    0 0 90px rgba(255, 79, 216, 0.18);
+}
+
+.scroll-hero-panel p:not(.eyebrow):not(.scroll-hint) {
+  max-width: 50rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(1.02rem, 1.5vw, 1.3rem);
+  line-height: 1.85;
+}
+
+.scroll-hint {
+  margin-top: 1.4rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1rem;
+}
+
 .home-hero {
   position: relative;
   display: grid;
@@ -1481,6 +1593,7 @@ select {
   }
 
   .home-hero,
+  .scroll-video-sticky,
   .boundary-panel,
   .doc-hero,
   .doc-layout,
@@ -1492,6 +1605,36 @@ select {
 
   .doc-hero > * {
     grid-column: 1;
+  }
+
+  .scroll-video-sticky {
+    padding: 2rem 1rem;
+  }
+
+  .scroll-video-shade {
+    background:
+      radial-gradient(circle at 60% 16%, rgba(69, 244, 255, 0.2), transparent 34%),
+      linear-gradient(90deg, rgba(5, 7, 13, 0.94) 0%, rgba(5, 7, 13, 0.68) 100%),
+      linear-gradient(180deg, rgba(5, 7, 13, 0.16), rgba(5, 7, 13, 0.9));
+  }
+
+  .scroll-hero-copy {
+    min-height: calc(100vh - 7rem);
+  }
+
+  .scroll-hero-panel {
+    transform: translateY(-48%) translateY(22px);
+  }
+
+  .scroll-hero-panel.active {
+    transform: translateY(-48%);
+  }
+
+  .scroll-progress {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    width: auto;
   }
 
   .hero-console {
@@ -1542,6 +1685,19 @@ select {
 
   .hero-title {
     font-size: clamp(3.5rem, 22vw, 6rem);
+  }
+
+  .scroll-video-hero {
+    min-height: 500vh;
+  }
+
+  .scroll-hero-panel h2 {
+    font-size: clamp(2.4rem, 14vw, 4.7rem);
+  }
+
+  .scroll-hero-panel p:not(.eyebrow):not(.scroll-hint) {
+    font-size: 1rem;
+    line-height: 1.75;
   }
 
   .hero-actions,

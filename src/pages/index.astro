@@ -1,6 +1,6 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTracks, outcomes, stats, weekPath } from "../data/site";
+import { aiFdeLoop, assessmentLevels, boundaryItems, industryLabs, learningTracks, outcomes, stats } from "../data/site";
 
 const allianceMembers = [
   { name: "TG Technologie", image: "/assets/alliance/tg-technologie.png", type: "logo" },
@@ -34,42 +34,70 @@ const allianceMemberCount = allianceMembers.length;
 ---
 
 <SiteLayout title="FDE FAN Academy | AI Agent FDE 前线部署工程师学习站" description="FDE FAN Academy 将课程、案例、项目和企业 AI 转型诊断 Agent 融合，训练学员完成 Prompt、前端 Demo、Agent 工作流、部署链接和交付文档。">
-  <section class="home-hero">
-    <div class="grid-mask"></div>
-    <div class="hero-copy">
-      <p class="eyebrow">AI-FDE x Industry Agents x Deployment</p>
-      <h1 class="hero-title">FDE FAN</h1>
-      <p class="hero-subtitle">
-        <span class="zh">AI-FDE 前线部署工程师学习站</span>
-        <span class="en">AI Forward Deployed Engineer Academy</span>
-      </p>
-      <p class="hero-text">
-        <span class="zh">从业务意图、上下文工程、工具权限、Agent 工作流、评估审计到部署交付，训练学员把企业需求转成可验证的 AI 应用。</span>
-        <span class="en">Train intent framing, context engineering, tool access, agent workflow, evaluation, audit, and deployment for verifiable AI applications.</span>
-      </p>
-      <div class="hero-actions">
-        <a class="cta-primary" href="/learn"><span class="zh">开始学习 FDE 路径</span><span class="en">Start the FDE Path</span></a>
-        <a class="cta-secondary" href="/agents"><span class="zh">进入智能体中心</span><span class="en">Open Agent Hub</span></a>
-        <button class="cta-secondary join-btn"><span class="zh">加入我们</span><span class="en">Join Us</span></button>
-      </div>
-      <div class="stat-row">
-        {stats.map(([value, zh, en]) => (
-          <div>
-            <strong>{value}</strong>
-            <span class="zh">{zh}</span>
-            <span class="en">{en}</span>
+  <section class="scroll-video-hero" data-scroll-video-hero>
+    <div class="scroll-video-sticky">
+      <video
+        class="scroll-video-bg"
+        src="/assets/fde-fan-hero-scroll.mp4"
+        muted
+        playsinline
+        preload="auto"
+        data-scroll-video
+      ></video>
+      <div class="scroll-video-shade"></div>
+      <div class="grid-mask"></div>
+      <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
+      <div class="scroll-hero-copy">
+        <article class="scroll-hero-panel active" data-scroll-panel>
+          <p class="eyebrow">AI-FDE x Industry Agents x Deployment</p>
+          <h1 class="hero-title">FDE FAN</h1>
+          <p class="hero-subtitle">
+            <span class="zh">AI-FDE 前线部署工程师学习站</span>
+            <span class="en">AI Forward Deployed Engineer Academy</span>
+          </p>
+          <p class="scroll-hint">
+            <span class="zh">向下滑动，进入 FDE 交付现场。</span>
+            <span class="en">Scroll down to enter the FDE delivery flow.</span>
+          </p>
+        </article>
+
+        <article class="scroll-hero-panel" data-scroll-panel>
+          <p class="eyebrow">01 / INTENT</p>
+          <h2><span class="zh">先读懂业务，不急着写代码。</span><span class="en">Understand the business before writing code.</span></h2>
+          <p><span class="zh">FDE 从企业目标、用户场景、数据边界和验收标准开始，把模糊需求拆成 AI 工具能执行的任务。</span><span class="en">FDE starts from goals, users, data boundaries, and acceptance checks, turning vague needs into AI-tool tasks.</span></p>
+        </article>
+
+        <article class="scroll-hero-panel" data-scroll-panel>
+          <p class="eyebrow">02 / AGENT</p>
+          <h2><span class="zh">把 Prompt、工具和流程编排成 Agent。</span><span class="en">Orchestrate prompts, tools, and workflows into agents.</span></h2>
+          <p><span class="zh">企业诊断、世界杯预测和第三方智能体接入，都会作为真实产品案例被拆解、复刻和升级。</span><span class="en">Diagnosis, World Cup prediction, and third-party agent access become real product cases to study, rebuild, and improve.</span></p>
+        </article>
+
+        <article class="scroll-hero-panel" data-scroll-panel>
+          <p class="eyebrow">03 / DEPLOY</p>
+          <h2><span class="zh">部署不是“发链接”，而是让系统稳定运行。</span><span class="en">Deployment is not just a link. It is reliable operation.</span></h2>
+          <p><span class="zh">训练构建、环境变量、接口、日志、回滚、评估和上线验收，让 AI 应用能被真实用户使用。</span><span class="en">Learn builds, env vars, APIs, logs, rollback, evaluation, and launch checks so AI apps can serve real users.</span></p>
+        </article>
+
+        <article class="scroll-hero-panel" data-scroll-panel>
+          <p class="eyebrow">04 / START</p>
+          <h2><span class="zh">从课程进入，从交付毕业。</span><span class="en">Enter through lessons. Graduate through delivery.</span></h2>
+          <p><span class="zh">从业务意图、上下文工程、工具权限、Agent 工作流、评估审计到部署交付，训练学员把企业需求转成可验证的 AI 应用。</span><span class="en">Train intent framing, context engineering, tool access, agent workflow, evaluation, audit, and deployment for verifiable AI applications.</span></p>
+          <div class="hero-actions">
+            <a class="cta-primary" href="/learn"><span class="zh">开始学习 FDE 路径</span><span class="en">Start the FDE Path</span></a>
+            <a class="cta-secondary" href="/agents"><span class="zh">进入智能体中心</span><span class="en">Open Agent Hub</span></a>
+            <button class="cta-secondary join-btn"><span class="zh">加入我们</span><span class="en">Join Us</span></button>
           </div>
-        ))}
-      </div>
-    </div>
-    <div class="hero-console" aria-label="FDE delivery flow">
-      <div class="console-top"><span></span><span></span><span></span><b>LIVE TRAINING OPS</b></div>
-      <div class="terminal-line">intent -&gt; context -&gt; ontology -&gt; tools</div>
-      <div class="terminal-line active">branch -&gt; eval -&gt; review -&gt; deploy -&gt; audit</div>
-      <div class="ops-rail">
-        {weekPath.slice(0, 6).map(([week, zh, en]) => (
-          <div><b>{week}</b><span class="zh">{zh}</span><span class="en">{en}</span></div>
-        ))}
+          <div class="stat-row">
+            {stats.map(([value, zh, en]) => (
+              <div>
+                <strong>{value}</strong>
+                <span class="zh">{zh}</span>
+                <span class="en">{en}</span>
+              </div>
+            ))}
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -292,6 +320,56 @@ const allianceMemberCount = allianceMembers.length;
   </style>
 
   <script>
+    const scrollHero = document.querySelector("[data-scroll-video-hero]");
+    const scrollVideo = document.querySelector("[data-scroll-video]");
+    const scrollPanels = Array.from(document.querySelectorAll("[data-scroll-panel]"));
+    const scrollProgress = document.querySelector("[data-scroll-progress]");
+    let scrollFrame = 0;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+    const updateScrollHero = () => {
+      scrollFrame = 0;
+      if (!(scrollHero instanceof HTMLElement) || !(scrollVideo instanceof HTMLVideoElement)) return;
+
+      const scrollRange = Math.max(1, scrollHero.offsetHeight - window.innerHeight);
+      const rect = scrollHero.getBoundingClientRect();
+      const progress = clamp(-rect.top / scrollRange, 0, 1);
+      const duration = Number.isFinite(scrollVideo.duration) ? scrollVideo.duration : 0;
+
+      if (duration > 0) {
+        const targetTime = Math.min(duration - 0.04, Math.max(0, progress * duration));
+        if (Math.abs(scrollVideo.currentTime - targetTime) > 0.035) {
+          scrollVideo.currentTime = targetTime;
+        }
+      }
+
+      if (scrollProgress instanceof HTMLElement) {
+        scrollProgress.style.transform = `scaleX(${progress})`;
+      }
+
+      if (scrollPanels.length > 0) {
+        const activeIndex = Math.min(scrollPanels.length - 1, Math.floor(progress * scrollPanels.length));
+        scrollPanels.forEach((panel, index) => {
+          panel.classList.toggle("active", index === activeIndex);
+        });
+      }
+    };
+
+    const requestScrollHeroUpdate = () => {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(updateScrollHero);
+    };
+
+    if (scrollVideo instanceof HTMLVideoElement) {
+      scrollVideo.pause();
+      scrollVideo.addEventListener("loadedmetadata", updateScrollHero);
+    }
+
+    window.addEventListener("scroll", requestScrollHeroUpdate, { passive: true });
+    window.addEventListener("resize", requestScrollHeroUpdate);
+    updateScrollHero();
+
     const track = document.querySelector("[data-alliance-track]");
     if (track instanceof HTMLElement) {
       const count = Number(track.dataset.memberCount || 0);
