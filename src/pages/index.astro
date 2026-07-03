@@ -50,6 +50,7 @@ const allianceMemberCount = allianceMembers.length;
       <div class="hero-actions">
         <a class="cta-primary" href="/learn"><span class="zh">开始学习 FDE 路径</span><span class="en">Start the FDE Path</span></a>
         <a class="cta-secondary" href="/agents"><span class="zh">进入智能体中心</span><span class="en">Open Agent Hub</span></a>
+        <button class="cta-secondary join-btn"><span class="zh">加入我们</span><span class="en">Join Us</span></button>
       </div>
       <div class="stat-row">
         {stats.map(([value, zh, en]) => (
@@ -205,6 +206,85 @@ const allianceMemberCount = allianceMembers.length;
     </div>
   </section>
 
+  <div class="join-bottom-actions" style="text-align: center; margin-bottom: 120px;">
+    <button class="cta-secondary join-btn"><span class="zh">加入我们</span><span class="en">Join Us</span></button>
+  </div>
+
+  <div id="join-modal" class="join-modal-overlay">
+    <div class="join-modal-content">
+      <button class="join-modal-close">&times;</button>
+      <h3><span class="zh">扫码加入联盟交流群</span><span class="en">Scan to join FDE Alliance</span></h3>
+      <img src="/assets/join-qr.png" alt="Join Us QR Code" class="join-qr-img" />
+    </div>
+  </div>
+
+  <style>
+    .join-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .join-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .join-modal-content {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid #334155;
+      text-align: center;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      max-width: 90vw;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .join-modal-overlay.active .join-modal-content {
+      transform: scale(1);
+    }
+    .join-modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: #f8fafc;
+      font-size: 1.25rem;
+    }
+    .join-qr-img {
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      display: block;
+      margin: 0 auto;
+    }
+    .join-modal-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .join-modal-close:hover {
+      color: #f8fafc;
+    }
+  </style>
+
   <script>
     const track = document.querySelector("[data-alliance-track]");
     if (track instanceof HTMLElement) {
@@ -218,5 +298,27 @@ const allianceMemberCount = allianceMembers.length;
       const secondLoop = sourceItems.map((item) => item.cloneNode(true));
       track.replaceChildren(...firstLoop, ...secondLoop);
     }
+
+    // Modal Logic
+    const joinBtns = document.querySelectorAll('.join-btn');
+    const modal = document.getElementById('join-modal');
+    const closeBtn = document.querySelector('.join-modal-close');
+
+    joinBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal?.classList.add('active');
+      });
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      modal?.classList.remove('active');
+    });
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
   </script>
 </SiteLayout>
