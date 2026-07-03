@@ -23,13 +23,13 @@ const agents = [
     bodyEn: "Combines Elo, recent form, expert inputs, and LLM explanations for match prediction and scenario analysis.",
   },
   {
-    mark: "NEXT",
-    href: "/learn/agent-workflows",
-    title: "更多行业智能体",
-    titleEn: "More Industry Agents",
-    status: "PLANNED",
-    body: "后续会继续接入跨境电商、文旅运营、数据审计、招生咨询等可体验智能体。",
-    bodyEn: "More agents will cover commerce, tourism operations, data audit, admissions, and other practical workflows.",
+    mark: "API",
+    href: "#third-party-agents",
+    title: "第三方智能体独立接入",
+    titleEn: "Independent Third-Party Agent Access",
+    status: "OPEN",
+    body: "支持外部团队把已上线的 Agent 接入 FDE FAN，保留独立入口、品牌说明、体验链接和案例拆解。",
+    bodyEn: "External teams can plug live agents into FDE FAN with standalone entries, brand context, demo links, and case breakdowns.",
   },
 ];
 ---
@@ -46,8 +46,8 @@ const agents = [
     eyebrow="AGENTS"
     title="智能体中心"
     titleEn="Agent Hub"
-    description="这里集中放置可直接体验的 Agent。它们不是课程资料，而是能和用户对话、推理、生成结果的产品化智能体。"
-    descriptionEn="This hub collects productized agents that users can actually run, chat with, reason through, and use for outputs."
+    description="这里集中放置可直接体验的 Agent，也支持第三方智能体以独立入口接入。它们不是课程资料，而是能和用户对话、推理、生成结果的产品化智能体。"
+    descriptionEn="This hub collects productized agents users can run directly, and supports independent third-party agent entries. These are not course notes, but live agents that chat, reason, and generate outputs."
   >
     <section class="content-grid">
       {agents.map((agent) => (
@@ -64,6 +64,14 @@ const agents = [
           </p>
         </a>
       ))}
+    </section>
+
+    <section class="insight-lesson" id="third-party-agents">
+      <p class="eyebrow">THIRD-PARTY ACCESS</p>
+      <p>
+        <span class="zh">FDE FAN 可以接入外部团队、企业或个人开发者的智能体：每个 Agent 保留独立访问入口、品牌归属、能力说明、适用场景、体验链接和课程案例拆解。这样智能体既能作为真实工具被使用，也能成为 FDE 学员学习“如何把 AI 工具交付成产品”的案例。</span>
+        <span class="en">FDE FAN can host agents from external teams, companies, and independent builders. Each agent keeps its own entry point, ownership, capability brief, use cases, demo link, and course-style breakdown, so it works both as a real tool and as a learning case for FDE delivery.</span>
+      </p>
     </section>
 
     <section class="insight-lesson">
