@@ -39,6 +39,7 @@ const allianceMemberCount = allianceMembers.length;
       <video
         class="scroll-video-bg"
         src="/assets/fde-fan-hero-scroll.mp4"
+        poster="/assets/fde-fan-hero-poster.jpg"
         muted
         playsinline
         preload="auto"
@@ -362,8 +363,21 @@ const allianceMemberCount = allianceMembers.length;
     };
 
     if (scrollVideo instanceof HTMLVideoElement) {
+      scrollVideo.muted = true;
       scrollVideo.pause();
+      scrollVideo.load();
       scrollVideo.addEventListener("loadedmetadata", updateScrollHero);
+      const warmup = scrollVideo.play();
+      if (warmup) {
+        warmup
+          .then(() => {
+            scrollVideo.pause();
+            updateScrollHero();
+          })
+          .catch(() => {
+            updateScrollHero();
+          });
+      }
     }
 
     window.addEventListener("scroll", requestScrollHeroUpdate, { passive: true });
