@@ -318,21 +318,16 @@ select {
 .scroll-video-bg {
   z-index: 0;
   object-fit: cover;
-  opacity: 0.76;
-  filter: saturate(1.15) contrast(1.08);
+  opacity: 1;
+  filter: none;
 }
 
 .scroll-video-shade {
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 74% 24%, rgba(69, 244, 255, 0.2), transparent 34%),
-    linear-gradient(90deg, rgba(5, 7, 13, 0.92) 0%, rgba(5, 7, 13, 0.72) 44%, rgba(5, 7, 13, 0.2) 100%),
-    linear-gradient(180deg, rgba(5, 7, 13, 0.18), rgba(5, 7, 13, 0.88));
+  display: none;
 }
 
 .scroll-video-hero .grid-mask {
-  z-index: 2;
+  display: none;
 }
 
 .scroll-progress {
@@ -358,22 +353,22 @@ select {
 .scroll-hero-copy {
   position: relative;
   z-index: 3;
-  min-height: min(640px, calc(100vh - 8rem));
+  min-height: calc(100vh - 8rem);
   max-width: 72rem;
 }
 
 .scroll-hero-panel {
   position: absolute;
-  inset: 50% auto auto 0;
+  inset: auto auto clamp(3.5rem, 8vh, 6rem) 0;
   width: min(64rem, 100%);
-  transform: translateY(-44%) translateY(28px);
+  transform: translateY(28px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 420ms ease, transform 420ms ease;
 }
 
 .scroll-hero-panel.active {
-  transform: translateY(-44%);
+  transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
@@ -386,21 +381,23 @@ select {
   line-height: 0.94;
   letter-spacing: 0;
   text-shadow:
-    0 0 34px rgba(69, 244, 255, 0.25),
-    0 0 90px rgba(255, 79, 216, 0.18);
+    0 2px 18px rgba(0, 0, 0, 0.72),
+    0 0 34px rgba(69, 244, 255, 0.22);
 }
 
 .scroll-hero-panel p:not(.eyebrow):not(.scroll-hint) {
   max-width: 50rem;
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(255, 255, 255, 0.9);
   font-size: clamp(1.02rem, 1.5vw, 1.3rem);
   line-height: 1.85;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
 }
 
 .scroll-hint {
   margin-top: 1.4rem;
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.86);
   font-size: 1rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.82);
 }
 
 .home-hero {
@@ -1611,23 +1608,16 @@ select {
     padding: 2rem 1rem;
   }
 
-  .scroll-video-shade {
-    background:
-      radial-gradient(circle at 60% 16%, rgba(69, 244, 255, 0.2), transparent 34%),
-      linear-gradient(90deg, rgba(5, 7, 13, 0.94) 0%, rgba(5, 7, 13, 0.68) 100%),
-      linear-gradient(180deg, rgba(5, 7, 13, 0.16), rgba(5, 7, 13, 0.9));
-  }
-
   .scroll-hero-copy {
     min-height: calc(100vh - 7rem);
   }
 
   .scroll-hero-panel {
-    transform: translateY(-48%) translateY(22px);
+    transform: translateY(22px);
   }
 
   .scroll-hero-panel.active {
-    transform: translateY(-48%);
+    transform: translateY(0);
   }
 
   .scroll-progress {
