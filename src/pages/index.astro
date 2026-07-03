@@ -38,13 +38,19 @@ const allianceMemberCount = allianceMembers.length;
     <div class="scroll-video-sticky">
       <video
         class="scroll-video-bg"
-        src="/assets/fde-fan-hero-scroll.mp4"
         poster="/assets/fde-fan-hero-poster.jpg"
         muted
         playsinline
         preload="auto"
         data-scroll-video
-      ></video>
+      >
+        <source src="/assets/fde-fan-hero-scroll-mobile.mp4" type="video/mp4" media="(max-width: 767px) and (orientation: portrait)" />
+        <source src="/assets/fde-fan-hero-scroll.mp4" type="video/mp4" />
+      </video>
+      <picture class="scroll-video-poster" aria-hidden="true">
+        <source srcset="/assets/fde-fan-hero-poster-mobile.jpg" media="(max-width: 767px) and (orientation: portrait)" />
+        <img src="/assets/fde-fan-hero-poster.jpg" alt="" />
+      </picture>
       <div class="scroll-video-shade"></div>
       <div class="grid-mask"></div>
       <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
@@ -363,6 +369,8 @@ const allianceMemberCount = allianceMembers.length;
     };
 
     if (scrollVideo instanceof HTMLVideoElement) {
+      const useMobilePoster = window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
+      scrollVideo.poster = useMobilePoster ? "/assets/fde-fan-hero-poster-mobile.jpg" : "/assets/fde-fan-hero-poster.jpg";
       scrollVideo.muted = true;
       scrollVideo.pause();
       scrollVideo.load();

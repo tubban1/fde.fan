@@ -308,6 +308,8 @@ select {
 }
 
 .scroll-video-bg,
+.scroll-video-poster,
+.scroll-video-poster img,
 .scroll-video-shade {
   position: absolute;
   inset: 0;
@@ -316,10 +318,19 @@ select {
 }
 
 .scroll-video-bg {
-  z-index: 0;
+  z-index: 1;
   object-fit: cover;
   opacity: 1;
   filter: none;
+}
+
+.scroll-video-poster {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.scroll-video-poster img {
+  object-fit: cover;
 }
 
 .scroll-video-shade {
