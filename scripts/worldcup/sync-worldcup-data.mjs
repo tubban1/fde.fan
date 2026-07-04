@@ -311,12 +311,25 @@ function closestHourlyIndex(times, kickoffIso) {
 }
 
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (error) {
+    const cause = error.cause ? ` cause=${error.cause.code || error.cause.message || String(error.cause)}` : '';
+    throw new Error(`Fetch failed for ${url}: ${error.message || String(error)}${cause}`);
+  }
   if (!response.ok) {
     const text = await response.text().catch(() => '');
     throw new Error(`HTTP ${response.status} ${response.statusText} for ${url}: ${text.slice(0, 300)}`);
   }
   return response.json();
+}
+
+function serializeError(error) {
+  return {
+    message: error.message || String(error),
+    cause: error.cause ? (error.cause.code || error.cause.message || String(error.cause)) : null,
+  };
 }
 
 async function fetchWeatherSnapshots(pool) {
@@ -695,22 +708,38 @@ async function main() {
         console.log(`[${item.key}] fetched=${result.fetched} inserted=${result.inserted} updated=${result.updated}`);
       }
 
-      const weatherResult = await fetchWeatherSnapshots(pool);
-      payload.recordsFetched.weather = weatherResult.fetched;
-      payload.recordsUpserted.weather = {
-        inserted: weatherResult.inserted,
-        updated: weatherResult.updated,
-      };
-      console.log(`[weather] fetched=${weatherResult.fetched} inserted=${weatherResult.inserted} updated=${weatherResult.updated}`);
+      try {
+        const weatherResult = await fetchWeatherSnapshots(pool);
+        payload.recordsFetched.weather = weatherResult.fetched;
+        payload.recordsUpserted.weather = {
+          inserted: weatherResult.inserted,
+          updated: weatherResult.updated,
+        };
+        console.log(`[weather] fetched=${weatherResult.fetched} inserted=${weatherResult.inserted} updated=${weatherResult.updated}`);
+      } catch (error) {
+        const serialized = serializeError(error);
+        payload.recordsFetched.weather = 0;
+        payload.recordsUpserted.weather = { inserted: 0, updated: 0, error: serialized.message, cause: serialized.cause };
+        payload.logText += `\n[weather warning]\n${error.stack || serialized.message}`;
+        console.warn(`[weather] skipped error=${serialized.message}`);
+      }
 
-      const oddsResult = await fetchOddsSnapshots(pool);
-      payload.recordsFetched.odds = oddsResult.fetched;
-      payload.recordsUpserted.odds = {
-        inserted: oddsResult.inserted,
-        updated: oddsResult.updated,
-        skipped: oddsResult.skipped || false,
-      };
-      console.log(`[odds] fetched=${oddsResult.fetched} inserted=${oddsResult.inserted} updated=${oddsResult.updated}${oddsResult.skipped ? ' skipped=true' : ''}`);
+      try {
+        const oddsResult = await fetchOddsSnapshots(pool);
+        payload.recordsFetched.odds = oddsResult.fetched;
+        payload.recordsUpserted.odds = {
+          inserted: oddsResult.inserted,
+          updated: oddsResult.updated,
+          skipped: oddsResult.skipped || false,
+        };
+        console.log(`[odds] fetched=${oddsResult.fetched} inserted=${oddsResult.inserted} updated=${oddsResult.updated}${oddsResult.skipped ? ' skipped=true' : ''}`);
+      } catch (error) {
+        const serialized = serializeError(error);
+        payload.recordsFetched.odds = 0;
+        payload.recordsUpserted.odds = { inserted: 0, updated: 0, error: serialized.message, cause: serialized.cause };
+        payload.logText += `\n[odds warning]\n${error.stack || serialized.message}`;
+        console.warn(`[odds] skipped error=${serialized.message}`);
+      }
 
       await finishRun(pool, runId, 'success', payload);
     });
