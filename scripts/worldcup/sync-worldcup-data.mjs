@@ -311,9 +311,15 @@ function closestHourlyIndex(times, kickoffIso) {
 }
 
 async function fetchJson(url, options = {}) {
+  const timeoutMs = options.timeoutMs || Number(process.env.WORLDCUP_FETCH_TIMEOUT_MS || 15000);
+  const fetchOptions = { ...options };
+  delete fetchOptions.timeoutMs;
+  if (!fetchOptions.signal) {
+    fetchOptions.signal = AbortSignal.timeout(timeoutMs);
+  }
   let response;
   try {
-    response = await fetch(url, options);
+    response = await fetch(url, fetchOptions);
   } catch (error) {
     const cause = error.cause ? ` cause=${error.cause.code || error.cause.message || String(error.cause)}` : '';
     throw new Error(`Fetch failed for ${url}: ${error.message || String(error)}${cause}`);
@@ -357,6 +363,7 @@ async function fetchWeatherSnapshots(pool) {
   let inserted = 0;
   let updated = 0;
   const snapshotTime = new Date().toISOString();
+  console.log(`[weather] candidates=${matches.rows.length}`);
 
   for (const match of matches.rows) {
     const params = new URLSearchParams({
@@ -375,7 +382,9 @@ async function fetchWeatherSnapshots(pool) {
       timezone: 'UTC',
       forecast_days: '16',
     });
-    const data = await fetchJson(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
+    const data = await fetchJson(`https://api.open-meteo.com/v1/forecast?${params.toString()}`, {
+      timeoutMs: Number(process.env.WEATHER_FETCH_TIMEOUT_MS || 8000),
+    });
     const index = closestHourlyIndex(data.hourly?.time, match.kickoff_utc);
     if (index < 0) continue;
 
@@ -518,7 +527,9 @@ async function fetchOddsSnapshots(pool) {
       dateFormat: 'iso',
       bookmakers,
     });
-    const events = await fetchJson(`https://api.the-odds-api.com/v4/sports/${sportKey}/odds/?${params.toString()}`);
+    const events = await fetchJson(`https://api.the-odds-api.com/v4/sports/${sportKey}/odds/?${params.toString()}`, {
+      timeoutMs: Number(process.env.ODDS_FETCH_TIMEOUT_MS || 20000),
+    });
     fetched += events.length;
 
     for (const event of events) {
