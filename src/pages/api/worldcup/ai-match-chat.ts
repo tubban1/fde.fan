@@ -185,19 +185,19 @@ export const POST: APIRoute = async ({ request }) => {
                         m.away_team_id,
                         ht.name_zh AS home_name_zh,
                         at.name_zh AS away_name_zh,
-                        m.home_score,
-                        m.away_score,
+                        m.home_score_90,
+                        m.away_score_90,
                         CASE
-                            WHEN m.home_score > m.away_score THEN m.home_team_id
-                            WHEN m.away_score > m.home_score THEN m.away_team_id
+                            WHEN m.home_score_90 > m.away_score_90 THEN m.home_team_id
+                            WHEN m.away_score_90 > m.home_score_90 THEN m.away_team_id
                             ELSE 'draw'
                         END AS result_side
                     FROM worldcup_matches m
                     LEFT JOIN worldcup_teams ht ON ht.id = m.home_team_id
                     LEFT JOIN worldcup_teams at ON at.id = m.away_team_id
                     WHERE m.status = 'finished'
-                      AND m.home_score IS NOT NULL
-                      AND m.away_score IS NOT NULL
+                      AND m.home_score_90 IS NOT NULL
+                      AND m.away_score_90 IS NOT NULL
                       AND (
                         m.home_team_id IN ($1, $2)
                         OR m.away_team_id IN ($1, $2)

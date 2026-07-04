@@ -189,19 +189,19 @@ async function getContext(pool, matchId) {
       m.away_team_id,
       ht.name_zh as home_name_zh,
       at.name_zh as away_name_zh,
-      m.home_score,
-      m.away_score,
+      m.home_score_90,
+      m.away_score_90,
       case
-        when m.home_score > m.away_score then m.home_team_id
-        when m.away_score > m.home_score then m.away_team_id
+        when m.home_score_90 > m.away_score_90 then m.home_team_id
+        when m.away_score_90 > m.home_score_90 then m.away_team_id
         else 'draw'
       end as result_side
     from worldcup_matches m
     left join worldcup_teams ht on ht.id = m.home_team_id
     left join worldcup_teams at on at.id = m.away_team_id
     where m.status = 'finished'
-      and m.home_score is not null
-      and m.away_score is not null
+      and m.home_score_90 is not null
+      and m.away_score_90 is not null
       and (
         m.home_team_id in ($1, $2)
         or m.away_team_id in ($1, $2)

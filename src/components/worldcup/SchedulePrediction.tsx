@@ -299,7 +299,6 @@ export default function SchedulePrediction() {
     const [reasoningMatch, setReasoningMatch] = useState<Prediction | null>(null);
     const [shareStates, setShareStates] = useState<Record<string, ShareState>>({});
     const [simulationMatch, setSimulationMatch] = useState<Prediction | null>(null);
-    const [simulationMode, setSimulationMode] = useState<'ai' | 'manual'>('ai');
 
     useEffect(() => {
         const fetchPredictions = async () => {
@@ -789,23 +788,11 @@ export default function SchedulePrediction() {
                                     type="button"
                                     onClick={() => {
                                         setSimulationMatch(match);
-                                        setSimulationMode('ai');
                                     }}
                                     className="rounded-lg border border-indigo-400/25 bg-indigo-500/10 px-3 py-2 text-xs font-black text-indigo-100 transition hover:bg-indigo-500/20"
                                 >
                                     <span className="zh">询问 AI</span>
                                     <span className="en">Ask AI</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setSimulationMatch(match);
-                                        setSimulationMode('manual');
-                                    }}
-                                    className="rounded-lg border border-slate-600 bg-slate-800/70 px-3 py-2 text-xs font-black text-slate-100 transition hover:bg-slate-700"
-                                >
-                                    <span className="zh">推演实验室</span>
-                                    <span className="en">Lab</span>
                                 </button>
                             </div>
                         </div>
@@ -968,7 +955,7 @@ export default function SchedulePrediction() {
                     match={simulationMatch}
                     homeMeta={getTeamMeta(simulationMatch.home_team_id)}
                     awayMeta={getTeamMeta(simulationMatch.away_team_id)}
-                    mode={simulationMode}
+                    mode="ai"
                 />
             )}
         </div>
