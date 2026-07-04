@@ -752,6 +752,23 @@ async function main() {
         console.warn(`[odds] skipped error=${serialized.message}`);
       }
 
+      try {
+        const scoreResult = await execFileAsync(process.execPath, ['scripts/worldcup/generate-score-analyses.mjs'], {
+          cwd: process.cwd(),
+          maxBuffer: 1024 * 1024 * 20,
+        });
+        payload.recordsFetched.score_analysis = null;
+        payload.recordsUpserted.score_analysis = { status: 'completed' };
+        payload.logText += `\n[score analysis]\n${scoreResult.stdout || ''}`;
+        if (scoreResult.stdout) process.stdout.write(scoreResult.stdout);
+        if (scoreResult.stderr) process.stderr.write(scoreResult.stderr);
+      } catch (error) {
+        const serialized = serializeError(error);
+        payload.recordsUpserted.score_analysis = { status: 'skipped', error: serialized.message, cause: serialized.cause };
+        payload.logText += `\n[score analysis warning]\n${error.stack || serialized.message}`;
+        console.warn(`[score-analysis] skipped error=${serialized.message}`);
+      }
+
       await finishRun(pool, runId, 'success', payload);
     });
 

@@ -175,6 +175,21 @@ create table if not exists worldcup_weather_snapshots (
   created_at timestamptz not null default now()
 );
 
+create table if not exists worldcup_score_analyses (
+  match_id text primary key references worldcup_matches(id),
+  status text not null,
+  model text,
+  predicted_score text,
+  score_probabilities jsonb not null default '[]'::jsonb,
+  summary_zh text,
+  reasoning_md text,
+  basis jsonb not null default '{}'::jsonb,
+  input_fingerprint text,
+  error_message text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists worldcup_availability_reports (
   id text primary key,
   match_id text references worldcup_matches(id),

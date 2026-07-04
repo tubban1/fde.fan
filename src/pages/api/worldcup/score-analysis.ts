@@ -196,6 +196,7 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json().catch(() => ({}));
     const matchId = body.match_id;
     const baseline = body.baseline || null;
+    const shouldGenerate = body.generate === true;
 
     if (!matchId) {
         return new Response(JSON.stringify({ error: 'Missing match_id' }), { status: 400 });
@@ -224,6 +225,13 @@ export const POST: APIRoute = async ({ request }) => {
                 source: 'cache',
                 analysis: cached.rows[0],
             }), { headers: { 'Content-Type': 'application/json' } });
+        }
+
+        if (!shouldGenerate) {
+            return new Response(JSON.stringify({
+                source: 'unavailable',
+                reason: 'analysis_not_cached',
+            }), { status: 409, headers: { 'Content-Type': 'application/json' } });
         }
 
         const context = await getContext(client, matchId);
