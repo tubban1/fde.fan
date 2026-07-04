@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import SimulationModal from './SimulationModal';
 import WorldCupLoader from './WorldCupLoader';
 
 interface Prediction {
@@ -48,6 +47,32 @@ interface PredictionData {
     predictions_count: number;
     skipped_count: number;
 }
+
+interface ScoreProbability {
+    score: string;
+    probability: number;
+    label_zh?: string;
+}
+
+interface ScoreAnalysis {
+    match_id?: string;
+    status: string;
+    model?: string;
+    predicted_score?: string;
+    score_probabilities?: ScoreProbability[];
+    summary_zh?: string;
+    reasoning_md?: string;
+    basis?: { main_factors?: string[]; data_quality?: string };
+    updated_at?: string;
+}
+
+type ScoreAnalysisState = Record<string, {
+    loading?: boolean;
+    error?: string;
+    unavailable?: string;
+    source?: string;
+    analysis?: ScoreAnalysis;
+}>;
 
 const TEAM_METADATA: Record<string, { zh: string, en: string, flag: string }> = {
     "canada": { zh: "加拿大", en: "Canada", flag: "🇨🇦" },
@@ -161,6 +186,34 @@ const getWeatherSummary = (weather?: WeatherSnapshot | null) => {
     return parts.length ? parts.join(' · ') : null;
 };
 
+const isDataCompleteForScoreAnalysis = (match: Prediction) => {
+    const hasWeather = Boolean(match.weather);
+    const hasCompleteOdds = Boolean(match.odds?.some((odds) =>
+        typeof odds.home_odds === 'number' &&
+        typeof odds.draw_odds === 'number' &&
+        typeof odds.away_odds === 'number'
+    ));
+    return hasWeather && hasCompleteOdds;
+};
+
+const renderReasoningMarkdown = (text?: string) => {
+    if (!text) return null;
+    return text.split(/\n+/).map((line, index) => {
+        const trimmed = line.trim();
+        if (!trimmed) return null;
+        if (trimmed.startsWith('###')) {
+            return <h4 key={index} className="mt-4 text-sm font-black text-white">{trimmed.replace(/^#+\s*/, '')}</h4>;
+        }
+        if (trimmed.startsWith('##')) {
+            return <h3 key={index} className="mt-5 text-base font-black text-white">{trimmed.replace(/^#+\s*/, '')}</h3>;
+        }
+        if (trimmed.startsWith('-') || trimmed.startsWith('•')) {
+            return <li key={index} className="ml-5 list-disc text-sm leading-6 text-slate-300">{trimmed.replace(/^[-•]\s*/, '')}</li>;
+        }
+        return <p key={index} className="text-sm leading-6 text-slate-300">{trimmed.replace(/\*\*/g, '')}</p>;
+    });
+};
+
 const mockData: PredictionData = {
     predictions: [
         { match_id: "match-86", home_team_id: "argentina", away_team_id: "cape-verde", prob_home_win: 0.92, prob_draw: 0.06, prob_away_win: 0.02, manual_features_applied: true },
@@ -213,8 +266,8 @@ export default function SchedulePrediction() {
     const [data, setData] = useState<PredictionData | null>(null);
     const [loading, setLoading] = useState(true);
     const [isMock, setIsMock] = useState(false);
-    const [simulateMatch, setSimulateMatch] = useState<any>(null);
-    const [simulationMode, setSimulationMode] = useState<'ai' | 'manual'>('manual');
+    const [scoreAnalyses, setScoreAnalyses] = useState<ScoreAnalysisState>({});
+    const [reasoningMatch, setReasoningMatch] = useState<Prediction | null>(null);
 
     useEffect(() => {
         const fetchPredictions = async () => {
@@ -237,6 +290,53 @@ export default function SchedulePrediction() {
 
         fetchPredictions();
     }, []);
+
+    useEffect(() => {
+        if (!data || isMock) return;
+        for (const match of data.predictions) {
+            if (!isDataCompleteForScoreAnalysis(match)) continue;
+            if (scoreAnalyses[match.match_id]) continue;
+
+            setScoreAnalyses(prev => ({
+                ...prev,
+                [match.match_id]: { loading: true }
+            }));
+
+            fetch('/api/worldcup/score-analysis', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    match_id: match.match_id,
+                    baseline: {
+                        home_win: match.prob_home_win,
+                        draw: match.prob_draw,
+                        away_win: match.prob_away_win,
+                    }
+                })
+            })
+                .then(async (res) => {
+                    const json = await res.json().catch(() => ({}));
+                    if (res.status === 409) {
+                        setScoreAnalyses(prev => ({
+                            ...prev,
+                            [match.match_id]: { loading: false, unavailable: json.reason || 'data_incomplete' }
+                        }));
+                        return;
+                    }
+                    if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+                    setScoreAnalyses(prev => ({
+                        ...prev,
+                        [match.match_id]: { loading: false, source: json.source, analysis: json.analysis }
+                    }));
+                })
+                .catch((err) => {
+                    setScoreAnalyses(prev => ({
+                        ...prev,
+                        [match.match_id]: { loading: false, error: err.message || 'score analysis failed' }
+                    }));
+                });
+        }
+    }, [data, isMock, scoreAnalyses]);
 
     if (loading) {
         return <WorldCupLoader />;
@@ -302,6 +402,7 @@ export default function SchedulePrediction() {
                 {data.predictions.map((match: Prediction) => {
                     const isHomeFav = match.prob_home_win > match.prob_away_win && match.prob_home_win > match.prob_draw;
                     const isAwayFav = match.prob_away_win > match.prob_home_win && match.prob_away_win > match.prob_draw;
+                    const scoreState = scoreAnalyses[match.match_id];
                     
                     return (
                         <div key={match.match_id} className="group relative bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-5 md:p-6 hover:bg-slate-800/60 hover:border-slate-600 transition-all duration-300 shadow-xl overflow-hidden">
@@ -355,8 +456,40 @@ export default function SchedulePrediction() {
                                 </div>
                             </div>
 
-                            {(match.weather || (match.odds && match.odds.length > 0)) && (
-                                <div className="relative z-10 mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-300">
+                            {(scoreState || match.weather || (match.odds && match.odds.length > 0)) && (
+                                <div className="relative z-10 mt-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-300">
+                                    {scoreState?.loading && (
+                                        <span className="inline-flex items-center gap-1 rounded-full border border-violet-400/20 bg-violet-500/10 px-2.5 py-1 text-violet-200">
+                                            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-300"></span>
+                                            <span className="zh">Gemini 比分推理中</span>
+                                            <span className="en">Gemini score analysis</span>
+                                        </span>
+                                    )}
+                                    {scoreState?.analysis && (
+                                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1 text-emerald-200">
+                                            <span className="zh">比分 {scoreState.analysis.predicted_score}</span>
+                                            <span className="en">Score {scoreState.analysis.predicted_score}</span>
+                                            {scoreState.analysis.score_probabilities?.[0]?.probability != null && (
+                                                <span className="text-emerald-100/70">
+                                                    {(scoreState.analysis.score_probabilities[0].probability * 100).toFixed(1)}%
+                                                </span>
+                                            )}
+                                            <button
+                                                type="button"
+                                                onClick={() => setReasoningMatch(match)}
+                                                className="rounded-full border border-emerald-300/20 px-1.5 py-0.5 text-[10px] text-emerald-100 transition hover:bg-emerald-300/10"
+                                            >
+                                                <span className="zh">依据</span>
+                                                <span className="en">Why</span>
+                                            </button>
+                                        </span>
+                                    )}
+                                    {scoreState?.error && (
+                                        <span className="inline-flex rounded-full border border-rose-400/20 bg-rose-500/10 px-2.5 py-1 text-rose-200">
+                                            <span className="zh">比分分析暂不可用</span>
+                                            <span className="en">Score analysis unavailable</span>
+                                        </span>
+                                    )}
                                     {match.weather && getWeatherSummary(match.weather) && (
                                         <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/20 bg-sky-500/10 px-2.5 py-1 text-sky-200">
                                             <span>☁️</span>
@@ -389,24 +522,6 @@ export default function SchedulePrediction() {
                                     ))}
                                 </div>
                             )}
-                            
-                            <div className="relative z-30 mt-4 grid grid-cols-2 gap-2 md:absolute md:top-2 md:right-2 md:mt-0 md:flex md:opacity-0 md:group-hover:opacity-100 md:transition-opacity">
-                            <button 
-                                type="button"
-                                onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('ai'); }}
-                                className="inline-flex min-h-10 items-center justify-center gap-1 rounded-md border border-indigo-400/30 bg-indigo-600/90 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 backdrop-blur-md transition-colors hover:bg-indigo-500 md:min-h-9 md:px-4"
-                            >
-                                <span>✨</span>
-                                <span>Ask AI</span>
-                            </button>
-                            <button 
-                                type="button"
-                                onClick={(e) => { e.stopPropagation(); setSimulateMatch(match); setSimulationMode('manual'); }}
-                                className="inline-flex min-h-10 items-center justify-center gap-1 rounded-md bg-slate-700/80 px-3 py-2 text-xs font-bold text-white shadow-lg backdrop-blur-md transition-colors hover:bg-slate-600 md:min-h-9 md:px-4"
-                            >
-                                🧪 <span className="zh">推演实验室</span><span className="en">Simulate</span>
-                            </button>
-                        </div>
                         </div>
                     );
                 })}
@@ -429,15 +544,92 @@ export default function SchedulePrediction() {
                     </div>
                 )}
             </div>
-            
-            <SimulationModal 
-                isOpen={!!simulateMatch} 
-                onClose={() => setSimulateMatch(null)} 
-                match={simulateMatch} 
-                homeMeta={simulateMatch ? getTeamMeta(simulateMatch.home_team_id) : {}} 
-                awayMeta={simulateMatch ? getTeamMeta(simulateMatch.away_team_id) : {}} 
-                mode={simulationMode}
-            />
+
+            {reasoningMatch && scoreAnalyses[reasoningMatch.match_id]?.analysis && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setReasoningMatch(null)}>
+                    <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-700 bg-slate-950 p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <div className="mb-4 flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
+                            <div>
+                                <h3 className="text-xl font-black text-white">
+                                    <span className="zh">比分推理依据</span>
+                                    <span className="en">Score Reasoning</span>
+                                </h3>
+                                <p className="mt-1 text-sm text-slate-400">
+                                    {getTeamMeta(reasoningMatch.home_team_id).zh} vs {getTeamMeta(reasoningMatch.away_team_id).zh}
+                                </p>
+                            </div>
+                            <button type="button" onClick={() => setReasoningMatch(null)} className="rounded-full border border-slate-700 px-3 py-1 text-sm text-slate-300 hover:bg-slate-800">
+                                <span className="zh">关闭</span>
+                                <span className="en">Close</span>
+                            </button>
+                        </div>
+
+                        {(() => {
+                            const analysis = scoreAnalyses[reasoningMatch.match_id].analysis!;
+                            return (
+                                <div className="space-y-5">
+                                    <div className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 p-4">
+                                        <div className="text-sm font-bold text-emerald-200">
+                                            <span className="zh">推荐比分</span>
+                                            <span className="en">Predicted Score</span>
+                                        </div>
+                                        <div className="mt-2 text-3xl font-black text-white">{analysis.predicted_score}</div>
+                                        <p className="mt-2 text-sm leading-6 text-emerald-100/80">{analysis.summary_zh}</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="mb-2 text-sm font-bold text-slate-200">
+                                            <span className="zh">比分概率</span>
+                                            <span className="en">Score Probabilities</span>
+                                        </h4>
+                                        <div className="grid gap-2 sm:grid-cols-2">
+                                            {analysis.score_probabilities?.map((item) => (
+                                                <div key={item.score} className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-2 text-sm">
+                                                    <span className="font-bold text-white">{item.score}</span>
+                                                    <span className="text-slate-300">{item.label_zh}</span>
+                                                    <span className="font-bold text-emerald-300">{(item.probability * 100).toFixed(1)}%</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="grid gap-3 md:grid-cols-2">
+                                        <div className="rounded-xl border border-sky-400/20 bg-sky-500/10 p-4">
+                                            <h4 className="text-sm font-bold text-sky-200">
+                                                <span className="zh">天气数据</span>
+                                                <span className="en">Weather</span>
+                                            </h4>
+                                            <p className="mt-2 text-sm text-slate-200">{getWeatherSummary(reasoningMatch.weather) || '暂无'}</p>
+                                        </div>
+                                        <div className="rounded-xl border border-amber-400/20 bg-amber-500/10 p-4">
+                                            <h4 className="text-sm font-bold text-amber-200">
+                                                <span className="zh">赔率数据</span>
+                                                <span className="en">Odds</span>
+                                            </h4>
+                                            <div className="mt-2 space-y-1 text-sm text-slate-200">
+                                                {reasoningMatch.odds?.slice(0, 6).map((odds) => (
+                                                    <div key={`${odds.bookmaker_key}-${odds.last_update}`} className="flex justify-between gap-3">
+                                                        <span>{getBookmakerLabel(odds.bookmaker_key, odds.bookmaker_title)} · {getMarketLabel(odds.market_key, odds.market_title).zh}</span>
+                                                        <span className="text-amber-100">{odds.home_odds?.toFixed(2)}/{odds.draw_odds?.toFixed(2)}/{odds.away_odds?.toFixed(2)}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                        <h4 className="mb-3 text-sm font-bold text-slate-200">
+                                            <span className="zh">Gemini 推理过程</span>
+                                            <span className="en">Gemini Reasoning</span>
+                                        </h4>
+                                        <div className="space-y-1">{renderReasoningMarkdown(analysis.reasoning_md)}</div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
