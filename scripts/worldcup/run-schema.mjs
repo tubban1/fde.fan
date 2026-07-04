@@ -136,6 +136,45 @@ create table if not exists worldcup_odds_snapshots (
   created_at timestamptz not null default now()
 );
 
+create table if not exists worldcup_market_odds_snapshots (
+  id text primary key,
+  match_id text references worldcup_matches(id),
+  provider_event_id text,
+  bookmaker_key text,
+  bookmaker_title text,
+  market_key text not null,
+  market_title text,
+  home_odds double precision,
+  draw_odds double precision,
+  away_odds double precision,
+  handicap_line double precision,
+  total_line double precision,
+  last_update timestamptz,
+  snapshot_time timestamptz not null,
+  source_id text references worldcup_sources(id),
+  raw_data jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists worldcup_weather_snapshots (
+  id text primary key,
+  match_id text references worldcup_matches(id),
+  venue_id text references worldcup_venues(id),
+  forecast_time timestamptz,
+  snapshot_time timestamptz not null,
+  temperature_c double precision,
+  apparent_temperature_c double precision,
+  humidity_pct double precision,
+  precipitation_probability_pct double precision,
+  precipitation_mm double precision,
+  wind_speed_kmh double precision,
+  wind_gusts_kmh double precision,
+  weather_code integer,
+  source_id text references worldcup_sources(id),
+  raw_data jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists worldcup_availability_reports (
   id text primary key,
   match_id text references worldcup_matches(id),

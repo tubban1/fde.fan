@@ -43,7 +43,13 @@ Optional:
 WORLDCUP_SYNC_INTERVAL_MINUTES=30
 WORLDCUP_SYNC_UNTIL=2026-07-20T00:00:00Z
 ADMIN_ACCESS_TOKEN=your-admin-token
+ODDS_API=your-the-odds-api-key
+THE_ODDS_SPORT_KEYS=soccer_fifa_world_cup
+THE_ODDS_MARKETS=h2h
+THE_ODDS_REGIONS=us,uk,eu
 ```
+
+`ODDS_API` belongs in the HuggingFace data worker Space only. Do not put it in Vercel or any `PUBLIC_*` frontend environment variable.
 
 ## Data Sources
 

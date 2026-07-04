@@ -10,6 +10,31 @@ interface Prediction {
     prob_draw: number;
     prob_away_win: number;
     manual_features_applied?: boolean;
+    odds?: OddsSnapshot[];
+    weather?: WeatherSnapshot | null;
+}
+
+interface OddsSnapshot {
+    bookmaker_key?: string | null;
+    bookmaker_title?: string | null;
+    market_key?: string | null;
+    market_title?: string | null;
+    home_odds?: number | null;
+    draw_odds?: number | null;
+    away_odds?: number | null;
+    last_update?: string | null;
+}
+
+interface WeatherSnapshot {
+    forecast_time?: string | null;
+    temperature_c?: number | null;
+    apparent_temperature_c?: number | null;
+    humidity_pct?: number | null;
+    precipitation_probability_pct?: number | null;
+    precipitation_mm?: number | null;
+    wind_speed_kmh?: number | null;
+    wind_gusts_kmh?: number | null;
+    weather_code?: number | null;
 }
 
 interface SkippedMatch {
@@ -57,6 +82,46 @@ const getTeamMeta = (id: string) => {
     if (meta) return meta;
     const title = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     return { zh: title, en: title, flag: "🏳️" };
+};
+
+const MARKET_LABELS: Record<string, { zh: string; en: string }> = {
+    h2h: { zh: '胜平负', en: '1X2' },
+    spreads: { zh: '让球', en: 'Handicap' },
+    totals: { zh: '大小球', en: 'Totals' },
+    outrights: { zh: '冠军/晋级', en: 'Outrights' },
+};
+
+const BOOKMAKER_LABELS: Record<string, string> = {
+    pinnacle: 'Pinnacle',
+    bet365: 'Bet365',
+    williamhill: 'William Hill',
+    unibet: 'Unibet',
+    betfair: 'Betfair',
+    matchbook: 'Matchbook',
+    draftkings: 'DraftKings',
+    fanduel: 'FanDuel',
+    betmgm: 'BetMGM',
+    caesars: 'Caesars',
+};
+
+const getMarketLabel = (key?: string | null, title?: string | null) => {
+    const label = key ? MARKET_LABELS[key] : null;
+    if (label) return label;
+    return { zh: title || key || '盘口', en: title || key || 'Market' };
+};
+
+const getBookmakerLabel = (key?: string | null, title?: string | null) => {
+    if (key && BOOKMAKER_LABELS[key]) return BOOKMAKER_LABELS[key];
+    return title || key || 'Bookmaker';
+};
+
+const getWeatherSummary = (weather?: WeatherSnapshot | null) => {
+    if (!weather) return null;
+    const parts = [];
+    if (typeof weather.temperature_c === 'number') parts.push(`${weather.temperature_c.toFixed(0)}°C`);
+    if (typeof weather.precipitation_probability_pct === 'number') parts.push(`降雨 ${weather.precipitation_probability_pct.toFixed(0)}%`);
+    if (typeof weather.wind_speed_kmh === 'number') parts.push(`风 ${weather.wind_speed_kmh.toFixed(0)}km/h`);
+    return parts.length ? parts.join(' · ') : null;
 };
 
 const mockData: PredictionData = {
@@ -252,6 +317,41 @@ export default function SchedulePrediction() {
                                     <span className="zh">客胜</span><span className="en">Away</span> {(match.prob_away_win * 100).toFixed(1)}%
                                 </div>
                             </div>
+
+                            {(match.weather || (match.odds && match.odds.length > 0)) && (
+                                <div className="relative z-10 mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-300">
+                                    {match.weather && getWeatherSummary(match.weather) && (
+                                        <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/20 bg-sky-500/10 px-2.5 py-1 text-sky-200">
+                                            <span>☁️</span>
+                                            <span className="zh">{getWeatherSummary(match.weather)}</span>
+                                            <span className="en">{getWeatherSummary(match.weather)}</span>
+                                        </span>
+                                    )}
+                                    {match.odds && match.odds.length > 0 && (
+                                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/20 bg-amber-500/10 px-2.5 py-1 text-amber-200">
+                                            <span>📈</span>
+                                            <span className="zh">
+                                                {getMarketLabel(match.odds[0].market_key, match.odds[0].market_title).zh}
+                                                {' · '}
+                                                {match.odds.length} 家赔率
+                                            </span>
+                                            <span className="en">
+                                                {getMarketLabel(match.odds[0].market_key, match.odds[0].market_title).en}
+                                                {' · '}
+                                                {match.odds.length} books
+                                            </span>
+                                        </span>
+                                    )}
+                                    {match.odds?.slice(0, 2).map((odds) => (
+                                        <span key={`${match.match_id}-${odds.bookmaker_key}`} className="hidden rounded-full border border-slate-600/50 bg-slate-800/70 px-2.5 py-1 text-slate-400 md:inline-flex">
+                                            {getBookmakerLabel(odds.bookmaker_key, odds.bookmaker_title)}
+                                            {typeof odds.home_odds === 'number' && typeof odds.draw_odds === 'number' && typeof odds.away_odds === 'number'
+                                                ? ` ${odds.home_odds.toFixed(2)}/${odds.draw_odds.toFixed(2)}/${odds.away_odds.toFixed(2)}`
+                                                : ''}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                             
                             <div className="relative z-30 mt-4 grid grid-cols-2 gap-2 md:absolute md:top-2 md:right-2 md:mt-0 md:flex md:opacity-0 md:group-hover:opacity-100 md:transition-opacity">
                             <button 
