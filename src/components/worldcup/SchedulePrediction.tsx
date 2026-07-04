@@ -746,54 +746,73 @@ export default function SchedulePrediction() {
                                 </div>
                             </div>
 
-                            {scoreState && (
-                                <div className="relative z-10 mt-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-300">
-                                    {scoreState?.loading && (
-                                        <span className="inline-flex items-center gap-1 rounded-full border border-violet-400/20 bg-violet-500/10 px-2.5 py-1 text-violet-200">
-                                            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-300"></span>
-                                            <span className="zh">比分推理准备中</span>
-                                            <span className="en">Score analysis loading</span>
-                                        </span>
-                                    )}
-                                    {scoreState?.analysis && (
-                                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1 text-emerald-200">
-                                            <span className="zh">比分 {scoreState.analysis.predicted_score}</span>
-                                            <span className="en">Score {scoreState.analysis.predicted_score}</span>
-                                            {scoreState.analysis.score_probabilities?.[0]?.probability != null && (
-                                                <span className="text-emerald-100/70">
-                                                    {(scoreState.analysis.score_probabilities[0].probability * 100).toFixed(1)}%
-                                                </span>
-                                            )}
-                                            <button
-                                                type="button"
-                                                onClick={() => setReasoningMatch(match)}
-                                                className="rounded-full border border-emerald-300/20 px-1.5 py-0.5 text-[10px] text-emerald-100 transition hover:bg-emerald-300/10"
-                                            >
-                                                <span className="zh">依据</span>
-                                                <span className="en">Why</span>
-                                            </button>
-                                        </span>
-                                    )}
-                                    {scoreState?.error && (
-                                        <span className="inline-flex rounded-full border border-rose-400/20 bg-rose-500/10 px-2.5 py-1 text-rose-200">
-                                            <span className="zh">比分分析暂不可用</span>
-                                            <span className="en">Score analysis unavailable</span>
-                                        </span>
-                                    )}
-                                </div>
-                            )}
+                            <div className="relative z-10 mt-5 rounded-xl border border-slate-700/70 bg-slate-950/45 p-3 shadow-inner">
+                                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                    <div className="min-w-0">
+                                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
+                                            <span className="zh">比分推理</span>
+                                            <span className="en">Score Insight</span>
+                                        </div>
+                                        {scoreState?.loading ? (
+                                            <div className="mt-2 flex items-center gap-2 text-sm font-bold text-violet-200">
+                                                <span className="h-2 w-2 animate-pulse rounded-full bg-violet-300"></span>
+                                                <span className="zh">正在读取完整数据...</span>
+                                                <span className="en">Loading full context...</span>
+                                            </div>
+                                        ) : scoreState?.analysis ? (
+                                            <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-1">
+                                                <div className="text-2xl font-black text-white">
+                                                    {scoreState.analysis.predicted_score}
+                                                </div>
+                                                {scoreState.analysis.score_probabilities?.[0]?.probability != null && (
+                                                    <div className="pb-1 text-xs font-bold text-emerald-300">
+                                                        <span className="zh">最高比分概率</span>
+                                                        <span className="en">Top score</span>
+                                                        {' '}
+                                                        {(scoreState.analysis.score_probabilities[0].probability * 100).toFixed(1)}%
+                                                    </div>
+                                                )}
+                                                {scoreState.analysis.summary_zh && (
+                                                    <div className="w-full truncate text-xs text-slate-400 md:max-w-md">
+                                                        {scoreState.analysis.summary_zh}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ) : scoreState?.error ? (
+                                            <div className="mt-2 text-sm font-bold text-rose-200">
+                                                <span className="zh">比分分析暂不可用</span>
+                                                <span className="en">Score analysis unavailable</span>
+                                            </div>
+                                        ) : (
+                                            <div className="mt-2 text-sm font-bold text-slate-400">
+                                                <span className="zh">等待天气和赔率数据完整后生成</span>
+                                                <span className="en">Waiting for complete data</span>
+                                            </div>
+                                        )}
+                                    </div>
 
-                            <div className="relative z-10 mt-4 flex flex-wrap justify-end gap-2">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setSimulationMatch(match);
-                                    }}
-                                    className="rounded-lg border border-indigo-400/25 bg-indigo-500/10 px-3 py-2 text-xs font-black text-indigo-100 transition hover:bg-indigo-500/20"
-                                >
-                                    <span className="zh">询问 AI</span>
-                                    <span className="en">Ask AI</span>
-                                </button>
+                                    <div className="flex shrink-0 gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => scoreState?.analysis && setReasoningMatch(match)}
+                                            disabled={!scoreState?.analysis}
+                                            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-emerald-400/25 bg-emerald-500/10 px-3 text-xs font-black text-emerald-100 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                                        >
+                                            <span className="zh">看依据</span>
+                                            <span className="en">Why</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setSimulationMatch(match);
+                                            }}
+                                            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-indigo-400/30 bg-indigo-500 px-3 text-xs font-black text-white shadow-lg shadow-indigo-950/30 transition hover:bg-indigo-400"
+                                        >
+                                            <span className="zh">询问 AI</span>
+                                            <span className="en">Ask AI</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     );
