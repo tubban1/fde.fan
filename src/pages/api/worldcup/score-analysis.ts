@@ -36,7 +36,7 @@ const extractJson = (text: string) => {
     const raw = fenced?.[1] || text;
     const start = raw.indexOf('{');
     const end = raw.lastIndexOf('}');
-    if (start < 0 || end < start) throw new Error('Gemini response did not include JSON');
+    if (start < 0 || end < start) throw new Error('score analysis response did not include JSON');
     return JSON.parse(raw.slice(start, end + 1));
 };
 
@@ -64,7 +64,7 @@ const callGemini = async (systemPrompt: string, userPrompt: string) => {
 
     if (!response.ok) {
         const raw = await response.text().catch(() => '');
-        throw new Error(raw || `Gemini request failed: ${response.status}`);
+        throw new Error(raw || `score analysis request failed: ${response.status}`);
     }
 
     const data = await response.json();
@@ -152,12 +152,44 @@ const getContext = async (client: any, matchId: string) => {
         ORDER BY bookmaker_title
     `, [matchId]);
 
+    const tournamentResultsRes = await client.query(`
+        SELECT
+            m.id,
+            m.stage,
+            m.round,
+            m.kickoff_utc,
+            m.home_team_id,
+            m.away_team_id,
+            ht.name_zh AS home_name_zh,
+            at.name_zh AS away_name_zh,
+            m.home_score,
+            m.away_score,
+            CASE
+              WHEN m.home_score > m.away_score THEN m.home_team_id
+              WHEN m.away_score > m.home_score THEN m.away_team_id
+              ELSE 'draw'
+            END AS result_side
+        FROM worldcup_matches m
+        LEFT JOIN worldcup_teams ht ON ht.id = m.home_team_id
+        LEFT JOIN worldcup_teams at ON at.id = m.away_team_id
+        WHERE m.status = 'finished'
+          AND m.home_score IS NOT NULL
+          AND m.away_score IS NOT NULL
+          AND (
+            m.home_team_id IN ($1, $2)
+            OR m.away_team_id IN ($1, $2)
+          )
+        ORDER BY m.kickoff_utc DESC
+        LIMIT 12
+    `, [match.home_team_id, match.away_team_id]);
+
     return {
         match,
         rankings: rankingsRes.rows,
         form: formRes.rows,
         weather: weatherRes.rows[0] || null,
         odds: oddsRes.rows,
+        tournament_results: tournamentResultsRes.rows,
     };
 };
 
@@ -252,9 +284,12 @@ export const POST: APIRoute = async ({ request }) => {
         const systemPrompt = `你是世界杯预测分析师。你必须基于给定的结构化数据，输出比分概率，而不是泛泛聊天。
 要求：
 - 使用中文。
-- 结合 Elo/FIFA 排名、近 10 场状态、胜平负概率、天气、赔率盘口。
+- 结合 Elo/FIFA 排名、近 10 场状态、本届已完赛表现、胜平负概率、天气、赔率盘口。
 - 不要声称掌握未提供的首发或伤病。
+- 如果本届已完赛数据与长期实力数据矛盾，要明确说明哪一项权重更高以及原因。
+- 盘口只作为市场共识补充，不要机械等同于最终概率。
 - 给出 5 个最可能比分及概率，概率总和不必为 100%，但每个概率必须合理。
+- 推理要比一句话更充分，必须包含主要证据、反向风险和比分路径。
 - 输出必须是一个 JSON 对象，不要 markdown，不要额外文字。
 JSON schema:
 {
@@ -263,9 +298,9 @@ JSON schema:
     {"score": "2-1", "probability": 0.14, "label_zh": "主队小胜"}
   ],
   "summary_zh": "一句话结论",
-  "reasoning_md": "Markdown 格式的推理依据，包含：模型基础、盘口信号、天气影响、风险因素",
+  "reasoning_md": "Markdown 格式的推理依据，建议包含：结论、模型基础、本届比赛表现、盘口信号、天气影响、比分路径、风险因素。",
   "basis": {
-    "main_factors": ["Elo优势", "市场赔率", "天气"],
+    "main_factors": ["Elo/FIFA差距", "本届比赛表现", "市场赔率", "天气"],
     "data_quality": "complete"
   }
 }`;
@@ -275,6 +310,7 @@ JSON schema:
             baseline,
             rankings: context.rankings,
             recent_form: context.form,
+            tournament_results: context.tournament_results,
             weather: context.weather,
             odds: context.odds,
         }, null, 2);
@@ -296,7 +332,7 @@ JSON schema:
         await saveAnalysis(client, matchId, analysis);
 
         return new Response(JSON.stringify({
-            source: 'gemini',
+            source: 'generated',
             analysis,
         }), { headers: { 'Content-Type': 'application/json' } });
     } catch (error: any) {

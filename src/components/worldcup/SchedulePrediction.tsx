@@ -74,6 +74,13 @@ type ScoreAnalysisState = Record<string, {
     analysis?: ScoreAnalysis;
 }>;
 
+interface ShareState {
+    loading?: boolean;
+    imageLoading?: boolean;
+    url?: string;
+    error?: string;
+}
+
 const TEAM_METADATA: Record<string, { zh: string, en: string, flag: string }> = {
     "canada": { zh: "加拿大", en: "Canada", flag: "🇨🇦" },
     "mexico": { zh: "墨西哥", en: "Mexico", flag: "🇲🇽" },
@@ -214,6 +221,27 @@ const renderReasoningMarkdown = (text?: string) => {
     });
 };
 
+const stripMarkdown = (text?: string) => {
+    if (!text) return '';
+    return text
+        .replace(/```[\s\S]*?```/g, '')
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/^\s*[-*•]\s+/gm, '')
+        .replace(/\*\*/g, '')
+        .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+        .replace(/\s+/g, ' ')
+        .trim();
+};
+
+const loadCanvasImage = (src: string) =>
+    new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.crossOrigin = 'anonymous';
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error('image load failed'));
+        image.src = src;
+    });
+
 const mockData: PredictionData = {
     predictions: [
         { match_id: "match-86", home_team_id: "argentina", away_team_id: "cape-verde", prob_home_win: 0.92, prob_draw: 0.06, prob_away_win: 0.02, manual_features_applied: true },
@@ -268,6 +296,7 @@ export default function SchedulePrediction() {
     const [isMock, setIsMock] = useState(false);
     const [scoreAnalyses, setScoreAnalyses] = useState<ScoreAnalysisState>({});
     const [reasoningMatch, setReasoningMatch] = useState<Prediction | null>(null);
+    const [shareStates, setShareStates] = useState<Record<string, ShareState>>({});
 
     useEffect(() => {
         const fetchPredictions = async () => {
@@ -338,6 +367,263 @@ export default function SchedulePrediction() {
         }
     }, [data, isMock, scoreAnalyses]);
 
+    const saveScoreShare = async (match: Prediction, analysis: ScoreAnalysis) => {
+        const existing = shareStates[match.match_id]?.url;
+        if (existing) return existing;
+
+        setShareStates(prev => ({
+            ...prev,
+            [match.match_id]: { ...prev[match.match_id], loading: true, error: undefined }
+        }));
+
+        try {
+            const home = getTeamMeta(match.home_team_id);
+            const away = getTeamMeta(match.away_team_id);
+            const response = await fetch('/api/worldcup/share-analysis', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    match_id: match.match_id,
+                    title: `${home.zh} vs ${away.zh} 比分预测`,
+                    home_team: home,
+                    away_team: away,
+                    question: '比分预测与推理依据',
+                    answer: analysis.reasoning_md || analysis.summary_zh || `${analysis.predicted_score || ''}`,
+                    parsed_data: {
+                        predicted_score: analysis.predicted_score,
+                        score_probabilities: analysis.score_probabilities || [],
+                        summary_zh: analysis.summary_zh,
+                        basis: analysis.basis || {},
+                        weather: match.weather || null,
+                        odds: match.odds || [],
+                    },
+                    features: {
+                        weather: match.weather || null,
+                        odds: match.odds || [],
+                    },
+                    baseline: {
+                        home: match.prob_home_win,
+                        draw: match.prob_draw,
+                        away: match.prob_away_win,
+                    },
+                    adjusted: {
+                        home: match.prob_home_win,
+                        draw: match.prob_draw,
+                        away: match.prob_away_win,
+                    },
+                    delta: {},
+                }),
+            });
+
+            const json = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(json.error || '生成分享链接失败');
+            const url = new URL(json.url, window.location.origin).toString();
+            setShareStates(prev => ({
+                ...prev,
+                [match.match_id]: { ...prev[match.match_id], loading: false, url }
+            }));
+            return url;
+        } catch (error: any) {
+            setShareStates(prev => ({
+                ...prev,
+                [match.match_id]: { ...prev[match.match_id], loading: false, error: error.message || '生成分享链接失败' }
+            }));
+            throw error;
+        }
+    };
+
+    const drawWrappedText = (
+        ctx: CanvasRenderingContext2D,
+        text: string,
+        x: number,
+        y: number,
+        maxWidth: number,
+        lineHeight: number,
+        maxLines: number
+    ) => {
+        const chars = text.split('');
+        let line = '';
+        let lines = 0;
+        for (const char of chars) {
+            const test = line + char;
+            if (ctx.measureText(test).width > maxWidth && line) {
+                ctx.fillText(line, x, y);
+                y += lineHeight;
+                lines += 1;
+                line = char;
+                if (lines >= maxLines - 1) break;
+            } else {
+                line = test;
+            }
+        }
+        if (line && lines < maxLines) {
+            const suffix = chars.join('').length > line.length && lines >= maxLines - 1 ? '…' : '';
+            ctx.fillText(line + suffix, x, y);
+        }
+        return y + lineHeight;
+    };
+
+    const downloadScoreShareImage = async (match: Prediction, analysis: ScoreAnalysis) => {
+        setShareStates(prev => ({
+            ...prev,
+            [match.match_id]: { ...prev[match.match_id], imageLoading: true, error: undefined }
+        }));
+
+        try {
+            const shareUrl = await saveScoreShare(match, analysis);
+            const canvas = document.createElement('canvas');
+            canvas.width = 1200;
+            canvas.height = 1500;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) throw new Error('无法创建图片画布');
+
+            const home = getTeamMeta(match.home_team_id);
+            const away = getTeamMeta(match.away_team_id);
+            const factors = analysis.basis?.main_factors?.slice(0, 3) || [];
+            const topScores = analysis.score_probabilities?.slice(0, 3) || [];
+            const weatherText = getWeatherSummary(match.weather) || '暂无天气快照';
+            const firstOdds = match.odds?.[0];
+            const oddsText = firstOdds
+                ? `${getBookmakerLabel(firstOdds.bookmaker_key, firstOdds.bookmaker_title)} · ${getMarketLabel(firstOdds.market_key, firstOdds.market_title).zh} ${firstOdds.home_odds?.toFixed(2)}/${firstOdds.draw_odds?.toFixed(2)}/${firstOdds.away_odds?.toFixed(2)}`
+                : '暂无赔率快照';
+            const reasoning = stripMarkdown(analysis.reasoning_md || analysis.summary_zh).slice(0, 310);
+
+            ctx.fillStyle = '#0B0F19';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const gradient = ctx.createRadialGradient(1040, 120, 80, 1040, 120, 420);
+            gradient.addColorStop(0, '#4338ca66');
+            gradient.addColorStop(1, '#0B0F1900');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const bottomGlow = ctx.createRadialGradient(90, 1410, 40, 90, 1410, 320);
+            bottomGlow.addColorStop(0, '#0ea5e944');
+            bottomGlow.addColorStop(1, '#0B0F1900');
+            ctx.fillStyle = bottomGlow;
+            ctx.fillRect(0, 1050, 520, 450);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 44px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('FDE FAN World Cup AI', 72, 92);
+            ctx.fillStyle = '#a5b4fc';
+            ctx.font = '800 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('比分预测卡 · 扫码查看完整依据', 72, 132);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 58px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText(`${home.zh} vs ${away.zh}`, 72, 238);
+            ctx.fillStyle = '#c7d2fe';
+            ctx.font = '800 34px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText(`推荐比分 ${analysis.predicted_score || '-'}`, 72, 308);
+
+            ctx.strokeStyle = '#818cf855';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(72, 370, 1056, 270);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 40px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText(`${home.flag} ${home.zh}`, 120, 455);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '900 32px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('VS', 570, 455);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 40px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText(`${away.zh} ${away.flag}`, 690, 455);
+
+            const barX = 120;
+            const barY = 535;
+            const barW = 960;
+            const barH = 28;
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(barX, barY, barW * match.prob_home_win, barH);
+            ctx.fillStyle = '#64748b';
+            ctx.fillRect(barX + barW * match.prob_home_win, barY, barW * match.prob_draw, barH);
+            ctx.fillStyle = '#f43f5e';
+            ctx.fillRect(barX + barW * (match.prob_home_win + match.prob_draw), barY, barW * match.prob_away_win, barH);
+            ctx.font = '800 25px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillStyle = '#6ee7b7';
+            ctx.fillText(`主胜 ${(match.prob_home_win * 100).toFixed(1)}%`, 120, 610);
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillText(`平局 ${(match.prob_draw * 100).toFixed(1)}%`, 495, 610);
+            ctx.fillStyle = '#fda4af';
+            ctx.fillText(`客胜 ${(match.prob_away_win * 100).toFixed(1)}%`, 835, 610);
+
+            ctx.fillStyle = '#c7d2fe';
+            ctx.font = '900 30px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('最可能比分', 72, 720);
+            topScores.forEach((item, index) => {
+                const y = 775 + index * 70;
+                ctx.fillStyle = '#312e8166';
+                ctx.fillRect(72, y - 38, 500, 52);
+                ctx.fillStyle = '#93c5fd';
+                ctx.font = '900 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText(`0${index + 1}`, 104, y);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText(`${item.score} · ${(item.probability * 100).toFixed(1)}%`, 170, y);
+                ctx.fillStyle = '#cbd5e1';
+                ctx.font = '700 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText(item.label_zh || '', 360, y);
+            });
+
+            ctx.fillStyle = '#c7d2fe';
+            ctx.font = '900 30px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('主要依据', 72, 980);
+            factors.forEach((factor, index) => {
+                ctx.fillStyle = '#818cf8';
+                ctx.font = '900 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText(`0${index + 1}`, 108, 1046 + index * 58);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '800 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText(factor, 170, 1046 + index * 58);
+            });
+
+            ctx.fillStyle = '#dbeafe';
+            ctx.font = '700 22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            drawWrappedText(ctx, reasoning, 72, 1220, 680, 34, 4);
+            ctx.fillStyle = '#a5b4fc';
+            ctx.font = '800 21px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText(`天气：${weatherText}`, 72, 1380);
+            ctx.fillText(`盘口：${oddsText}`, 72, 1420);
+
+            try {
+                const qr = await loadCanvasImage(`https://quickchart.io/qr?size=360&margin=3&ecLevel=H&text=${encodeURIComponent(shareUrl)}`);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(830, 1128, 250, 250);
+                ctx.drawImage(qr, 840, 1138, 230, 230);
+            } catch {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(830, 1128, 250, 250);
+                ctx.fillStyle = '#111827';
+                ctx.font = '800 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillText('扫码查看', 900, 1255);
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 30px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('扫码查看完整分析', 820, 1110);
+            ctx.fillStyle = '#a5b4fc';
+            ctx.font = '700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            drawWrappedText(ctx, shareUrl.replace(/^https?:\/\//, ''), 72, 1462, 700, 26, 1);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '900 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+            ctx.fillText('fde.fan', 930, 1440);
+
+            const link = document.createElement('a');
+            link.download = `${match.match_id}-score-analysis.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            setShareStates(prev => ({
+                ...prev,
+                [match.match_id]: { ...prev[match.match_id], imageLoading: false, url: shareUrl }
+            }));
+        } catch (error: any) {
+            setShareStates(prev => ({
+                ...prev,
+                [match.match_id]: { ...prev[match.match_id], imageLoading: false, error: error.message || '生成分享图失败' }
+            }));
+        }
+    };
+
     if (loading) {
         return <WorldCupLoader />;
     }
@@ -401,7 +687,6 @@ export default function SchedulePrediction() {
             <div className="grid gap-4">
                 {data.predictions.map((match: Prediction) => {
                     const isHomeFav = match.prob_home_win > match.prob_away_win && match.prob_home_win > match.prob_draw;
-                    const isAwayFav = match.prob_away_win > match.prob_home_win && match.prob_away_win > match.prob_draw;
                     const scoreState = scoreAnalyses[match.match_id];
                     
                     return (
@@ -456,13 +741,13 @@ export default function SchedulePrediction() {
                                 </div>
                             </div>
 
-                            {(scoreState || match.weather || (match.odds && match.odds.length > 0)) && (
+                            {scoreState && (
                                 <div className="relative z-10 mt-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-300">
                                     {scoreState?.loading && (
                                         <span className="inline-flex items-center gap-1 rounded-full border border-violet-400/20 bg-violet-500/10 px-2.5 py-1 text-violet-200">
                                             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-300"></span>
-                                            <span className="zh">Gemini 比分推理中</span>
-                                            <span className="en">Gemini score analysis</span>
+                                            <span className="zh">比分推理准备中</span>
+                                            <span className="en">Score analysis loading</span>
                                         </span>
                                     )}
                                     {scoreState?.analysis && (
@@ -490,36 +775,6 @@ export default function SchedulePrediction() {
                                             <span className="en">Score analysis unavailable</span>
                                         </span>
                                     )}
-                                    {match.weather && getWeatherSummary(match.weather) && (
-                                        <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/20 bg-sky-500/10 px-2.5 py-1 text-sky-200">
-                                            <span>☁️</span>
-                                            <span className="zh">{getWeatherSummary(match.weather)}</span>
-                                            <span className="en">{getWeatherSummary(match.weather)}</span>
-                                        </span>
-                                    )}
-                                    {match.odds && match.odds.length > 0 && (
-                                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/20 bg-amber-500/10 px-2.5 py-1 text-amber-200">
-                                            <span>📈</span>
-                                            <span className="zh">
-                                                {getMarketLabel(match.odds[0].market_key, match.odds[0].market_title).zh}
-                                                {' · '}
-                                                {match.odds.length} 家赔率
-                                            </span>
-                                            <span className="en">
-                                                {getMarketLabel(match.odds[0].market_key, match.odds[0].market_title).en}
-                                                {' · '}
-                                                {match.odds.length} books
-                                            </span>
-                                        </span>
-                                    )}
-                                    {match.odds?.slice(0, 2).map((odds) => (
-                                        <span key={`${match.match_id}-${odds.bookmaker_key}`} className="hidden rounded-full border border-slate-600/50 bg-slate-800/70 px-2.5 py-1 text-slate-400 md:inline-flex">
-                                            {getBookmakerLabel(odds.bookmaker_key, odds.bookmaker_title)}
-                                            {typeof odds.home_odds === 'number' && typeof odds.draw_odds === 'number' && typeof odds.away_odds === 'number'
-                                                ? ` ${odds.home_odds.toFixed(2)}/${odds.draw_odds.toFixed(2)}/${odds.away_odds.toFixed(2)}`
-                                                : ''}
-                                        </span>
-                                    ))}
                                 </div>
                             )}
                         </div>
@@ -551,7 +806,7 @@ export default function SchedulePrediction() {
                         <div className="mb-4 flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
                             <div>
                                 <h3 className="text-xl font-black text-white">
-                                    <span className="zh">比分推理依据</span>
+                                    <span className="zh">比分预测依据</span>
                                     <span className="en">Score Reasoning</span>
                                 </h3>
                                 <p className="mt-1 text-sm text-slate-400">
@@ -566,6 +821,7 @@ export default function SchedulePrediction() {
 
                         {(() => {
                             const analysis = scoreAnalyses[reasoningMatch.match_id].analysis!;
+                            const shareState = shareStates[reasoningMatch.match_id] || {};
                             return (
                                 <div className="space-y-5">
                                     <div className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 p-4">
@@ -575,6 +831,49 @@ export default function SchedulePrediction() {
                                         </div>
                                         <div className="mt-2 text-3xl font-black text-white">{analysis.predicted_score}</div>
                                         <p className="mt-2 text-sm leading-6 text-emerald-100/80">{analysis.summary_zh}</p>
+                                    </div>
+
+                                    <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-4">
+                                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                            <div>
+                                                <h4 className="text-sm font-black text-indigo-100">
+                                                    <span className="zh">分享这次预测</span>
+                                                    <span className="en">Share This Prediction</span>
+                                                </h4>
+                                                <p className="mt-1 text-xs text-indigo-100/70">
+                                                    <span className="zh">生成可访问链接，或保存带二维码的预测卡图片。</span>
+                                                    <span className="en">Create a public link or save a QR share card.</span>
+                                                </p>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => saveScoreShare(reasoningMatch, analysis)}
+                                                    disabled={shareState.loading}
+                                                    className="rounded-lg border border-indigo-300/25 bg-indigo-400/10 px-3 py-2 text-xs font-black text-indigo-100 transition hover:bg-indigo-300/20 disabled:opacity-60"
+                                                >
+                                                    {shareState.loading ? '生成中...' : '生成链接'}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => downloadScoreShareImage(reasoningMatch, analysis)}
+                                                    disabled={shareState.imageLoading}
+                                                    className="rounded-lg border border-emerald-300/25 bg-emerald-400/10 px-3 py-2 text-xs font-black text-emerald-100 transition hover:bg-emerald-300/20 disabled:opacity-60"
+                                                >
+                                                    {shareState.imageLoading ? '生成图片中...' : '保存分享图'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {shareState.url && (
+                                            <p className="mt-3 break-all rounded-lg bg-slate-950/50 px-3 py-2 text-xs text-indigo-100/80">
+                                                {shareState.url}
+                                            </p>
+                                        )}
+                                        {shareState.error && (
+                                            <p className="mt-3 rounded-lg border border-rose-400/20 bg-rose-500/10 px-3 py-2 text-xs text-rose-100">
+                                                {shareState.error}
+                                            </p>
+                                        )}
                                     </div>
 
                                     <div>
@@ -619,8 +918,8 @@ export default function SchedulePrediction() {
 
                                     <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
                                         <h4 className="mb-3 text-sm font-bold text-slate-200">
-                                            <span className="zh">Gemini 推理过程</span>
-                                            <span className="en">Gemini Reasoning</span>
+                                            <span className="zh">数据推理过程</span>
+                                            <span className="en">Data Reasoning</span>
                                         </h4>
                                         <div className="space-y-1">{renderReasoningMarkdown(analysis.reasoning_md)}</div>
                                     </div>
