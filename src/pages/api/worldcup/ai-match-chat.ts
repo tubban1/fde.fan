@@ -105,6 +105,10 @@ export const POST: APIRoute = async ({ request }) => {
         let awayRecentForm: any[] = [];
         let homeRanking: any[] = [];
         let awayRanking: any[] = [];
+        let weatherSnapshot: any = null;
+        let oddsSnapshots: any[] = [];
+        let scoreAnalysis: any = null;
+        let tournamentResults: any[] = [];
         
         try {
             const matchRes = await client.query(`
@@ -170,7 +174,79 @@ export const POST: APIRoute = async ({ request }) => {
                     if (r.team_id === fullMatchContext.home_team_id) homeRecentForm.push(r);
                     if (r.team_id === fullMatchContext.away_team_id) awayRecentForm.push(r);
                 });
+
+                const tournamentRes = await client.query(`
+                    SELECT
+                        m.id,
+                        m.stage,
+                        m.round,
+                        m.kickoff_utc,
+                        m.home_team_id,
+                        m.away_team_id,
+                        ht.name_zh AS home_name_zh,
+                        at.name_zh AS away_name_zh,
+                        m.home_score,
+                        m.away_score,
+                        CASE
+                            WHEN m.home_score > m.away_score THEN m.home_team_id
+                            WHEN m.away_score > m.home_score THEN m.away_team_id
+                            ELSE 'draw'
+                        END AS result_side
+                    FROM worldcup_matches m
+                    LEFT JOIN worldcup_teams ht ON ht.id = m.home_team_id
+                    LEFT JOIN worldcup_teams at ON at.id = m.away_team_id
+                    WHERE m.status = 'finished'
+                      AND m.home_score IS NOT NULL
+                      AND m.away_score IS NOT NULL
+                      AND (
+                        m.home_team_id IN ($1, $2)
+                        OR m.away_team_id IN ($1, $2)
+                      )
+                    ORDER BY m.kickoff_utc DESC
+                    LIMIT 12
+                `, [fullMatchContext.home_team_id, fullMatchContext.away_team_id]);
+                tournamentResults = tournamentRes.rows;
             }
+
+            const weatherRes = await client.query(`
+                SELECT forecast_time, temperature_c, apparent_temperature_c, humidity_pct,
+                       precipitation_probability_pct, precipitation_mm, wind_speed_kmh, wind_gusts_kmh, weather_code
+                FROM worldcup_weather_snapshots
+                WHERE match_id = $1
+                ORDER BY snapshot_time DESC
+                LIMIT 1
+            `, [match_id]);
+            weatherSnapshot = weatherRes.rows[0] || null;
+
+            const oddsRes = await client.query(`
+                WITH ranked AS (
+                    SELECT bookmaker_key, bookmaker_title, market_key, market_title,
+                           home_odds, draw_odds, away_odds, last_update,
+                           ROW_NUMBER() OVER (
+                             PARTITION BY bookmaker_key, market_key
+                             ORDER BY COALESCE(last_update, snapshot_time) DESC, snapshot_time DESC
+                           ) rn
+                    FROM worldcup_market_odds_snapshots
+                    WHERE match_id = $1
+                      AND market_key = 'h2h'
+                      AND home_odds IS NOT NULL
+                      AND draw_odds IS NOT NULL
+                      AND away_odds IS NOT NULL
+                )
+                SELECT *
+                FROM ranked
+                WHERE rn = 1
+                ORDER BY bookmaker_title
+            `, [match_id]);
+            oddsSnapshots = oddsRes.rows;
+
+            const scoreRes = await client.query(`
+                SELECT predicted_score, score_probabilities, summary_zh, reasoning_md, basis, updated_at
+                FROM worldcup_score_analyses
+                WHERE match_id = $1 AND status = 'success'
+                LIMIT 1
+            `, [match_id]);
+            scoreAnalysis = scoreRes.rows[0] || null;
         } finally {
             await client.end();
         }
@@ -199,6 +275,10 @@ You have access to the complete match data:
   })}
   - Manual Features Source Note: ${fullMatchContext.manual_features_source}
 - Known Data Gaps: ${JSON.stringify(dataGaps)}
+- Latest Weather Snapshot: ${JSON.stringify(weatherSnapshot)}
+- Latest 1X2 Odds Snapshots: ${JSON.stringify(oddsSnapshots)}
+- Cached Score Analysis: ${JSON.stringify(scoreAnalysis)}
+- Current Tournament Finished Results For These Teams: ${JSON.stringify(tournamentResults)}
 - Baseline Probabilities: ${JSON.stringify(baseline)}
 - User's Current Scenario Adjustments: ${JSON.stringify(current_scenario)}
 
@@ -206,9 +286,11 @@ Important distinctions:
 1. "Normal Assumptions" (e.g. injury, weather, lineup changes, odds shifting): These can be simulated using sliding parameters.
 2. "Rule Exceptions" (e.g. forfeit, match cancelled, team disqualified): These CANNOT be simulated via normal parameters. You must flag it as an exception.
 3. "Data Gap": If user asks about missing odds or lineups that are listed in Data Gaps, tell them we are awaiting data.
+4. If cached score analysis exists, use it as the current official score reasoning baseline, but explain any user-specific assumption separately.
+5. Do not mention model vendor names. Say "AI 分析师" or "模型" instead.
 
 OUTPUT FORMAT:
-First, write out your detailed natural language explanation in Chinese. Discuss the model basis (Elo, form, odds), data quality, and your judgment on the scenario.
+First, write out your detailed natural language explanation in Chinese. Discuss the model basis (Elo, form, current tournament results, weather, odds), data quality, and your judgment on the scenario.
 Then, on a NEW LINE at the very end, output EXACTLY one markdown JSON block containing the structure:
 \`\`\`json
 {
@@ -299,8 +381,7 @@ Do not include any other text after the JSON block.`;
     } catch (e: any) {
         return new Response(JSON.stringify({
             error: e.message || 'AI service failed',
-            provider: 'vectorengine',
-            model: getEnv('REASONING_MODEL') || 'gemini-3.5-flash'
+            provider: 'vectorengine'
         }), { status: 502 });
     }
 };

@@ -42,11 +42,45 @@ const away = analysis?.away_team || {};
 const baseline = analysis?.baseline || {};
 const adjusted = analysis?.adjusted || baseline;
 const parsedData = analysis?.parsed_data || {};
+const features = analysis?.features || {};
+const scoreProbabilities = parsedData.score_probabilities || parsedData.analysis?.score_probabilities || [];
+const predictedScore = parsedData.predicted_score || parsedData.analysis?.predicted_score || "";
+const basis = parsedData.basis || parsedData.analysis?.basis || {};
+const weather = parsedData.weather || features.weather || parsedData.match_context?.weather || null;
+const odds = parsedData.odds || features.odds || parsedData.match_context?.odds || [];
 const createdAt = analysis?.created_at ? new Date(analysis.created_at).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) : "";
 const title = analysis?.title || "世界杯预测分析 | FDE FAN";
 const description = analysis?.answer ? analysis.answer.replace(/\s+/g, " ").slice(0, 110) : "FDE FAN 世界杯预测分析分享页。";
 
 const percent = (value: unknown) => `${(Number(value || 0) * 100).toFixed(1)}%`;
+const marketLabels: Record<string, string> = {
+  h2h: "胜平负",
+  spreads: "让球",
+  totals: "大小球",
+  outrights: "冠军/晋级",
+};
+const bookmakerLabels: Record<string, string> = {
+  pinnacle: "Pinnacle",
+  bet365: "Bet365",
+  williamhill: "William Hill",
+  unibet: "Unibet",
+  betfair: "Betfair",
+  matchbook: "Matchbook",
+  draftkings: "DraftKings",
+  fanduel: "FanDuel",
+  betmgm: "BetMGM",
+  caesars: "Caesars",
+};
+const bookmakerName = (item: any) => item?.bookmaker_title || bookmakerLabels[item?.bookmaker_key] || item?.bookmaker_key || "赔率源";
+const marketName = (item: any) => item?.market_title || marketLabels[item?.market_key] || item?.market_key || "盘口";
+const weatherSummary = weather
+  ? [
+      typeof weather.temperature_c === "number" ? `${weather.temperature_c.toFixed(0)}°C` : "",
+      typeof weather.precipitation_probability_pct === "number" ? `降雨 ${weather.precipitation_probability_pct.toFixed(0)}%` : "",
+      typeof weather.wind_speed_kmh === "number" ? `风速 ${weather.wind_speed_kmh.toFixed(0)}km/h` : "",
+      typeof weather.humidity_pct === "number" ? `湿度 ${weather.humidity_pct.toFixed(0)}%` : "",
+    ].filter(Boolean).join(" · ")
+  : "";
 const markdownLines = String(analysis?.answer || "").split(/\r?\n/);
 const answerBlocks = markdownLines.map((line: string) => {
   const trimmed = line.trim();
@@ -110,6 +144,25 @@ const answerBlocks = markdownLines.map((line: string) => {
               </div>
             </div>
 
+            {(predictedScore || scoreProbabilities.length > 0) && (
+              <div class="mt-8 rounded-xl border border-emerald-400/20 bg-emerald-500/10 p-5">
+                <div class="text-xs font-black uppercase tracking-widest text-emerald-300">比分预测</div>
+                {predictedScore && <div class="mt-3 text-4xl font-black text-white">{predictedScore}</div>}
+                {parsedData.summary_zh && <p class="mt-3 text-slate-200">{parsedData.summary_zh}</p>}
+                {scoreProbabilities.length > 0 && (
+                  <div class="mt-5 grid gap-2 md:grid-cols-2">
+                    {scoreProbabilities.map((item: any) => (
+                      <div class="flex items-center justify-between rounded-lg border border-emerald-300/10 bg-black/20 px-3 py-2 text-sm">
+                        <span class="font-black text-white">{item.score}</span>
+                        <span class="text-slate-300">{item.label_zh}</span>
+                        <span class="font-black text-emerald-300">{percent(item.probability)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             {analysis.question && (
               <div class="mt-8 rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-5">
                 <div class="text-xs font-black uppercase tracking-widest text-indigo-300">用户问题</div>
@@ -132,16 +185,73 @@ const answerBlocks = markdownLines.map((line: string) => {
               </div>
             </div>
 
-            {(parsedData.scenario_judgement || parsedData.data_quality || parsedData.model_basis?.length) && (
+            {(basis.main_factors?.length || parsedData.scenario_judgement || parsedData.data_quality || parsedData.model_basis?.length) && (
               <div class="mt-8 rounded-xl border border-white/10 bg-black/20 p-5">
                 <div class="text-xs font-black uppercase tracking-widest text-slate-400">数据依据</div>
                 <div class="mt-3 flex flex-wrap gap-2">
+                  {basis.data_quality && <span class="rounded bg-emerald-500/20 px-3 py-1 text-sm font-bold text-emerald-200">数据质量：{basis.data_quality}</span>}
+                  {basis.main_factors?.map((factor: string) => <span class="rounded bg-white/10 px-3 py-1 text-sm text-slate-200">{factor}</span>)}
                   {parsedData.scenario_judgement && <span class="rounded bg-indigo-500/20 px-3 py-1 text-sm font-bold text-indigo-200">{parsedData.scenario_judgement}</span>}
                   {parsedData.data_quality && <span class="rounded bg-emerald-500/20 px-3 py-1 text-sm font-bold text-emerald-200">数据质量：{parsedData.data_quality}</span>}
                   {parsedData.model_basis?.map((basis: string) => <span class="rounded bg-white/10 px-3 py-1 text-sm text-slate-200">{basis}</span>)}
                 </div>
               </div>
             )}
+
+            <div class="mt-8 grid gap-4 md:grid-cols-2">
+              <div class="rounded-xl border border-sky-400/20 bg-sky-500/10 p-5">
+                <div class="text-xs font-black uppercase tracking-widest text-sky-300">天气快照</div>
+                {weather ? (
+                  <div class="mt-3 space-y-2 text-sm text-slate-200">
+                    <p class="text-lg font-black text-white">{weatherSummary || "已记录天气数据"}</p>
+                    {weather.forecast_time && <p>预报时间：{new Date(weather.forecast_time).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}</p>}
+                    {typeof weather.apparent_temperature_c === "number" && <p>体感温度：{weather.apparent_temperature_c.toFixed(1)}°C</p>}
+                    {typeof weather.precipitation_mm === "number" && <p>降水量：{weather.precipitation_mm.toFixed(1)}mm</p>}
+                    {typeof weather.wind_gusts_kmh === "number" && <p>阵风：{weather.wind_gusts_kmh.toFixed(0)}km/h</p>}
+                  </div>
+                ) : (
+                  <p class="mt-3 text-sm text-slate-400">暂无天气快照。</p>
+                )}
+              </div>
+
+              <div class="rounded-xl border border-amber-400/20 bg-amber-500/10 p-5">
+                <div class="text-xs font-black uppercase tracking-widest text-amber-300">赔率快照</div>
+                {odds.length > 0 ? (
+                  <div class="mt-3 max-h-72 space-y-2 overflow-y-auto pr-1 text-sm">
+                    {odds.map((item: any) => (
+                      <div class="rounded-lg border border-amber-300/10 bg-black/20 p-3">
+                        <div class="flex justify-between gap-3 font-bold text-white">
+                          <span>{bookmakerName(item)} · {marketName(item)}</span>
+                          {item.last_update && <span class="text-xs text-amber-100/60">{new Date(item.last_update).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}</span>}
+                        </div>
+                        <div class="mt-2 grid grid-cols-3 gap-2 text-xs font-black">
+                          <span class="text-emerald-300">主胜 {Number(item.home_odds || 0).toFixed(2)}</span>
+                          <span class="text-center text-slate-200">平局 {Number(item.draw_odds || 0).toFixed(2)}</span>
+                          <span class="text-right text-rose-300">客胜 {Number(item.away_odds || 0).toFixed(2)}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="mt-3 text-sm text-slate-400">暂无赔率快照。</p>
+                )}
+              </div>
+            </div>
+
+            <details class="mt-8 rounded-xl border border-slate-700 bg-slate-950/70 p-5">
+              <summary class="cursor-pointer text-sm font-black text-slate-200">查看完整结构化数据</summary>
+              <pre class="mt-4 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-black/30 p-4 text-xs leading-5 text-slate-300">{JSON.stringify({
+                match_id: analysis.match_id,
+                home_team: home,
+                away_team: away,
+                question: analysis.question,
+                parsed_data: parsedData,
+                features,
+                baseline,
+                adjusted,
+                delta: analysis.delta || {},
+              }, null, 2)}</pre>
+            </details>
           </article>
         </>
       )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import WorldCupLoader from './WorldCupLoader';
+import SimulationModal from './SimulationModal';
 
 interface Prediction {
     match_id: string;
@@ -297,6 +298,8 @@ export default function SchedulePrediction() {
     const [scoreAnalyses, setScoreAnalyses] = useState<ScoreAnalysisState>({});
     const [reasoningMatch, setReasoningMatch] = useState<Prediction | null>(null);
     const [shareStates, setShareStates] = useState<Record<string, ShareState>>({});
+    const [simulationMatch, setSimulationMatch] = useState<Prediction | null>(null);
+    const [simulationMode, setSimulationMode] = useState<'ai' | 'manual'>('ai');
 
     useEffect(() => {
         const fetchPredictions = async () => {
@@ -390,12 +393,15 @@ export default function SchedulePrediction() {
                     question: '比分预测与推理依据',
                     answer: analysis.reasoning_md || analysis.summary_zh || `${analysis.predicted_score || ''}`,
                     parsed_data: {
+                        analysis,
                         predicted_score: analysis.predicted_score,
                         score_probabilities: analysis.score_probabilities || [],
                         summary_zh: analysis.summary_zh,
+                        reasoning_md: analysis.reasoning_md,
                         basis: analysis.basis || {},
                         weather: match.weather || null,
                         odds: match.odds || [],
+                        match,
                     },
                     features: {
                         weather: match.weather || null,
@@ -777,6 +783,31 @@ export default function SchedulePrediction() {
                                     )}
                                 </div>
                             )}
+
+                            <div className="relative z-10 mt-4 flex flex-wrap justify-end gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSimulationMatch(match);
+                                        setSimulationMode('ai');
+                                    }}
+                                    className="rounded-lg border border-indigo-400/25 bg-indigo-500/10 px-3 py-2 text-xs font-black text-indigo-100 transition hover:bg-indigo-500/20"
+                                >
+                                    <span className="zh">询问 AI</span>
+                                    <span className="en">Ask AI</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSimulationMatch(match);
+                                        setSimulationMode('manual');
+                                    }}
+                                    className="rounded-lg border border-slate-600 bg-slate-800/70 px-3 py-2 text-xs font-black text-slate-100 transition hover:bg-slate-700"
+                                >
+                                    <span className="zh">推演实验室</span>
+                                    <span className="en">Lab</span>
+                                </button>
+                            </div>
                         </div>
                     );
                 })}
@@ -928,6 +959,17 @@ export default function SchedulePrediction() {
                         })()}
                     </div>
                 </div>
+            )}
+
+            {simulationMatch && (
+                <SimulationModal
+                    isOpen={Boolean(simulationMatch)}
+                    onClose={() => setSimulationMatch(null)}
+                    match={simulationMatch}
+                    homeMeta={getTeamMeta(simulationMatch.home_team_id)}
+                    awayMeta={getTeamMeta(simulationMatch.away_team_id)}
+                    mode={simulationMode}
+                />
             )}
         </div>
     );

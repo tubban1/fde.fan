@@ -214,8 +214,22 @@ export default function SimulationModal({ isOpen, onClose, match, homeMeta, away
                     away_team: awayMeta,
                     question: aiPrompt,
                     answer: aiAnswer,
-                    parsed_data: aiParsedData || {},
-                    features,
+                    parsed_data: {
+                        ...(aiParsedData || {}),
+                        ai_answer: aiAnswer,
+                        match_context: {
+                            match,
+                            odds: match.odds || [],
+                            weather: match.weather || null,
+                            manual_features_applied: match.manual_features_applied || false,
+                        },
+                    },
+                    features: {
+                        ...features,
+                        match,
+                        odds: match.odds || [],
+                        weather: match.weather || null,
+                    },
                     baseline,
                     adjusted,
                     delta
