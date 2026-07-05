@@ -1714,6 +1714,93 @@ select {
   line-height: 1.65;
 }
 
+@property --runner-x {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+
+.camp-runner {
+  pointer-events: none;
+  position: fixed;
+  right: clamp(1rem, 5vw, 4rem);
+  bottom: clamp(0.65rem, 2.4vw, 1.2rem);
+  z-index: 80;
+  width: clamp(220px, 27vw, 420px);
+  height: clamp(140px, 18vw, 270px);
+  color: rgba(225, 246, 255, 0.82);
+  opacity: 0.92;
+  mix-blend-mode: screen;
+}
+
+.camp-runner::before {
+  content: "";
+  position: absolute;
+  right: -26px;
+  bottom: 2px;
+  width: min(118%, 390px);
+  height: 1px;
+  background: radial-gradient(rgba(225, 246, 255, 0.72), rgba(69, 244, 255, 0.2), transparent 72%);
+}
+
+.camp-runner-optical {
+  --stripe-px: 6px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(100%, 410px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: transparent;
+  filter: drop-shadow(0 0 18px rgba(69, 244, 255, 0.22));
+  mask-image: url("https://raw.githubusercontent.com/cbolson/assets/refs/heads/main/codepen/optical/man-running.png");
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/cbolson/assets/refs/heads/main/codepen/optical/man-running.png");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  animation: camp-runner-scroll 1ms linear both;
+  animation-timeline: scroll();
+}
+
+.camp-runner-optical::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    rgba(239, 250, 255, 0.96) 0 34%,
+    rgba(122, 225, 255, 0.5) 34% 45%,
+    transparent 45% 100%
+  );
+  background-position-x: var(--runner-x);
+  background-repeat: repeat;
+  background-size: var(--stripe-px) 100%;
+}
+
+@keyframes camp-runner-scroll {
+  from {
+    --runner-x: 0%;
+  }
+  to {
+    --runner-x: 100%;
+  }
+}
+
+@supports not (animation-timeline: scroll()) {
+  .camp-runner-optical {
+    animation: camp-runner-scroll 900ms steps(16) infinite;
+  }
+}
+
+@supports not (mask-image: url("")) {
+  @supports not (-webkit-mask-image: url("")) {
+    .camp-runner {
+      display: none;
+    }
+  }
+}
+
 @media (max-width: 960px) {
   .site-header {
     grid-template-columns: auto 1fr auto;
@@ -1805,6 +1892,12 @@ select {
 
   .schedule-table small {
     grid-column: 2;
+  }
+
+  .camp-runner {
+    right: 0.75rem;
+    width: clamp(150px, 32vw, 240px);
+    height: clamp(92px, 20vw, 150px);
   }
 }
 
@@ -1900,5 +1993,11 @@ select {
   .flywheel-ring::before,
   .flywheel-core {
     display: none;
+  }
+
+  .camp-runner {
+    width: 132px;
+    height: 82px;
+    opacity: 0.78;
   }
 }
