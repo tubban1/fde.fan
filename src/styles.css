@@ -515,6 +515,14 @@ select {
   transform: translateY(-2px);
 }
 
+.cta-primary:disabled,
+.cta-secondary:disabled,
+.copy-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+  transform: none;
+}
+
 .stat-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

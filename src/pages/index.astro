@@ -138,7 +138,7 @@ const allianceMemberCount = allianceMembers.length;
       <div class="section-heading">
         <p class="eyebrow">APPLY</p>
         <h2><span class="zh">提交 FDE Future Camp 报名信息</span><span class="en">Apply for FDE Future Camp</span></h2>
-        <p><span class="zh">填写后会自动生成一封报名邮件，请确认并发送。我们收到后会联系你补充时间、年龄段、语言和项目方向。</span><span class="en">After submission, your email client will open a prepared application email. Send it and we will follow up on schedule, age group, language, and project track.</span></p>
+        <p><span class="zh">填写后会直接保存到报名数据库。邮箱不是必填项，我们会优先通过你留下的微信、WhatsApp 或电话联系。</span><span class="en">Your application is saved directly to our database. Email is optional; we will use your preferred contact method first.</span></p>
         <a class="cta-secondary" href="/future-camp"><span class="zh">查看夏令营详细介绍</span><span class="en">View Camp Details</span></a>
       </div>
       <form class="camp-apply-form" data-camp-form>
@@ -151,8 +151,8 @@ const allianceMemberCount = allianceMembers.length;
           <input name="ageGrade" required />
         </label>
         <label>
-          <span class="zh">家长或联系人邮箱</span><span class="en">Parent or Contact Email</span>
-          <input name="email" type="email" required autocomplete="email" />
+          <span class="zh">家长或联系人邮箱（选填）</span><span class="en">Parent or Contact Email (Optional)</span>
+          <input name="email" type="email" autocomplete="email" />
         </label>
         <label>
           <span class="zh">微信 / WhatsApp / 电话</span><span class="en">WeChat / WhatsApp / Phone</span>
@@ -173,8 +173,8 @@ const allianceMemberCount = allianceMembers.length;
         </label>
         <button class="cta-primary" type="submit"><span class="zh">提交报名信息</span><span class="en">Submit Application</span></button>
         <p class="camp-form-note" data-camp-form-note>
-          <span class="zh">当前表单会生成邮件发送到 info@fde.fan。</span>
-          <span class="en">This form creates an email to info@fde.fan.</span>
+          <span class="zh">提交后会保存到 FDE FAN 报名数据库。</span>
+          <span class="en">Submission will be saved to the FDE FAN application database.</span>
         </p>
       </form>
     </div>
@@ -283,28 +283,43 @@ const allianceMemberCount = allianceMembers.length;
 
     const campForm = document.querySelector("[data-camp-form]");
     const campFormNote = document.querySelector("[data-camp-form-note]");
-    campForm?.addEventListener("submit", (event) => {
+    campForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!(campForm instanceof HTMLFormElement)) return;
 
       const formData = new FormData(campForm);
-      const field = (name: string) => String(formData.get(name) || "").trim();
-      const subject = `FDE Future Camp 报名 - ${field("studentName") || "New Applicant"}`;
-      const body = [
-        "FDE Future Camp 报名信息",
-        "",
-        `学生姓名: ${field("studentName")}`,
-        `年龄 / 年级: ${field("ageGrade")}`,
-        `联系人邮箱: ${field("email")}`,
-        `微信 / WhatsApp / 电话: ${field("contact")}`,
-        `感兴趣方向: ${field("track")}`,
-        "",
-        "补充说明:",
-        field("notes") || "无",
-      ].join("\n");
+      const payload = Object.fromEntries(formData.entries());
+      const submitButton = campForm.querySelector("button[type='submit']");
 
-      window.location.href = `mailto:info@fde.fan?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      campFormNote?.classList.add("active");
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+      }
+
+      try {
+        const response = await fetch("/api/future-camp/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result?.ok !== true) {
+          throw new Error(result?.message || "提交失败，请稍后重试。");
+        }
+        campForm.reset();
+        if (campFormNote instanceof HTMLElement) {
+          campFormNote.textContent = "报名信息已保存，我们会尽快联系你。";
+          campFormNote.classList.add("active");
+        }
+      } catch (error) {
+        if (campFormNote instanceof HTMLElement) {
+          campFormNote.textContent = error instanceof Error ? error.message : "提交失败，请稍后重试。";
+          campFormNote.classList.remove("active");
+        }
+      } finally {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+        }
+      }
     });
   </script>
 </SiteLayout>
