@@ -563,6 +563,10 @@ select {
   font-size: 0.8rem;
 }
 
+.camp-stats {
+  max-width: 58rem;
+}
+
 .hero-console {
   min-height: 480px;
   padding: 1rem;
@@ -767,6 +771,16 @@ select {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.camp-level-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.camp-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 .track-card,
 .doc-card,
 .metric-card,
@@ -848,6 +862,43 @@ select {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.78rem;
   background: rgba(255, 255, 255, 0.045);
+}
+
+.schedule-table {
+  display: grid;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.025)),
+    rgba(7, 12, 24, 0.72);
+}
+
+.schedule-table div {
+  display: grid;
+  grid-template-columns: 150px minmax(160px, 0.42fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  min-height: 74px;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.schedule-table div:last-child {
+  border-bottom: 0;
+}
+
+.schedule-table strong {
+  color: var(--cyan);
+  font-size: 0.92rem;
+}
+
+.schedule-table span {
+  color: white;
+  font-weight: 900;
+}
+
+.schedule-table small {
+  color: rgba(255, 255, 255, 0.64);
+  line-height: 1.6;
 }
 
 .matrix-grid {
@@ -1722,6 +1773,8 @@ select {
 
   .track-grid,
   .content-grid,
+  .camp-level-grid,
+  .camp-info-grid,
   .outcome-grid,
   .level-grid,
   .loop-grid,
@@ -1744,6 +1797,14 @@ select {
 
   .sidebar-group {
     min-width: 0;
+  }
+
+  .schedule-table div {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+
+  .schedule-table small {
+    grid-column: 2;
   }
 }
 
@@ -1797,6 +1858,8 @@ select {
   .ops-rail,
   .track-grid,
   .content-grid,
+  .camp-level-grid,
+  .camp-info-grid,
   .outcome-grid,
   .level-grid,
   .loop-grid,
@@ -1809,6 +1872,15 @@ select {
   .stack-lanes,
   .workshop-steps {
     grid-template-columns: 1fr;
+  }
+
+  .schedule-table div {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .schedule-table small {
+    grid-column: auto;
   }
 
   .workshop-steps div:not(:last-child)::after {
