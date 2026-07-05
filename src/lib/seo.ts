@@ -10,7 +10,7 @@ export const organizationJsonLd = {
   name: SITE_NAME,
   alternateName: ["FDE FAN Academy", "AI-FDE Academy"],
   url: SITE_URL,
-  logo: absoluteUrl("/assets/fde-logo-mark.png"),
+  logo: absoluteUrl("/icon-512.png"),
   sameAs: ["https://github.com/tubban1/fde.fan"],
 };
 

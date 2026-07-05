@@ -41,7 +41,11 @@ const schema = { "@context": "https://schema.org", "@graph": schemaGraph };
     <meta name="msvalidate.01" content="343901C6618F38686BA8C541B0B27646" />
     <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow,max-image-preview:large"} />
     {keywords && <meta name="keywords" content={keywords} />}
-    <link rel="icon" type="image/png" href="/assets/fde-favicon-source.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#05070d" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE_NAME} />
