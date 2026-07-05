@@ -8,6 +8,7 @@ export const prerender = true;
 const staticRoutes = [
   "/",
   "/roadmap",
+  "/future-camp",
   "/learn",
   "/agents",
   "/learn/what-is-fde",

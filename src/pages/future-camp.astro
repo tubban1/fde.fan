@@ -1,0 +1,74 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { breadcrumbJsonLd } from "../lib/seo";
+
+const modules = [
+  ["01", "AI 工具协作", "用 Codex、Claude Code、Cursor、Antigravity 把想法拆成可执行任务。"],
+  ["02", "Prompt 到作品", "从需求、素材、风格和验收标准出发，生成页面、内容和交互原型。"],
+  ["03", "Agent 入门", "理解智能体如何提问、调用工具、保存状态、生成结果和请求人工确认。"],
+  ["04", "部署与展示", "把作品发布成可访问链接，准备 README、演示脚本和最终路演。"],
+];
+---
+
+<SiteLayout
+  title="FDE Future Camp | 全球AI未来工程师夏令营详细介绍"
+  description="FDE Future Camp 全球AI未来工程师夏令营详细介绍：面向青少年和未来工程师的 AI 创造训练，覆盖 AI 工具协作、Prompt 到作品、Agent 入门、部署与展示。"
+  jsonLd={breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "FDE Future Camp", path: "/future-camp" },
+  ])}
+>
+  <section class="doc-hero">
+    <p class="eyebrow">FDE FUTURE CAMP</p>
+    <h1><span class="zh">全球AI未来工程师夏令营</span><span class="en">Global AI Future Engineer Camp</span></h1>
+    <p>
+      <span class="zh">这不是传统编程课，而是一套面向 AI 时代的创造训练：学生学习如何提出问题、指挥 AI 工具、验证结果，并把作品部署成真实可展示的链接。</span>
+      <span class="en">This is not a traditional coding class. It is a creation camp for the AI era: students learn to frame problems, direct AI tools, verify outputs, and deploy real projects.</span>
+    </p>
+    <div class="hero-actions">
+      <a class="cta-primary" href="/#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
+      <a class="cta-secondary" href="/learn"><span class="zh">查看 FDE 学习站</span><span class="en">Explore FDE Academy</span></a>
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">WHO IT IS FOR</p>
+      <h2><span class="zh">适合谁参加？</span><span class="en">Who should join?</span></h2>
+      <p><span class="zh">适合对 AI、编程、设计、商业、科学探索、智能体或未来职业感兴趣的学生。无需一开始就是程序员，但需要愿意动手、表达想法、持续迭代作品。</span><span class="en">For students interested in AI, coding, design, business, science exploration, agents, or future careers. They do not need to start as programmers, but they should be willing to build, explain, and iterate.</span></p>
+    </div>
+    <div class="content-grid">
+      <div class="doc-card"><span class="tag">BEGINNER</span><h2>AI 创造入门</h2><p>从好奇心出发，学习如何把问题变成 AI 可执行任务。</p></div>
+      <div class="doc-card"><span class="tag">BUILDER</span><h2>作品导向训练</h2><p>每个阶段都围绕一个可展示作品，而不是只听概念。</p></div>
+      <div class="doc-card"><span class="tag">GLOBAL</span><h2>中英文表达</h2><p>训练学员用中文和英文解释自己的作品、方法和复盘。</p></div>
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">MODULES</p>
+      <h2><span class="zh">核心训练模块</span><span class="en">Core Modules</span></h2>
+    </div>
+    <div class="timeline compact">
+      {modules.map(([mark, title, body]) => (
+        <a href="/#camp-apply">
+          <strong>{mark}</strong>
+          <span>{title}</span>
+          <small>{body}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">OUTCOMES</p>
+      <h2><span class="zh">结营可见成果</span><span class="en">Visible Outcomes</span></h2>
+      <p><span class="zh">结营时，学员应能展示一个 AI 作品链接、一份 README、一段演示脚本、一份测试清单和一次复盘说明。我们重视作品背后的思考过程，而不只看结果是否“炫”。</span><span class="en">By the end, students should present an AI project link, README, demo script, test checklist, and retrospective. We value the thinking process behind the project, not just visual polish.</span></p>
+    </div>
+    <a class="diagnosis-banner" href="/#camp-apply">
+      <span>fde.fan/#camp-apply</span>
+      <strong><span class="zh">报名 FDE Future Camp</span><span class="en">Apply for FDE Future Camp</span></strong>
+    </a>
+  </section>
+</SiteLayout>

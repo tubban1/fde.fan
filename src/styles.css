@@ -665,6 +665,75 @@ select {
   line-height: 1.85;
 }
 
+.camp-apply-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);
+  gap: clamp(1.2rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.camp-apply-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.95rem;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    rgba(7, 12, 24, 0.74);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  backdrop-filter: blur(14px);
+}
+
+.camp-apply-form label {
+  display: grid;
+  gap: 0.42rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.camp-apply-form label.full,
+.camp-apply-form button,
+.camp-form-note {
+  grid-column: 1 / -1;
+}
+
+.camp-apply-form input,
+.camp-apply-form select,
+.camp-apply-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  padding: 0.85rem;
+  outline: none;
+}
+
+.camp-apply-form input:focus,
+.camp-apply-form select:focus,
+.camp-apply-form textarea:focus {
+  border-color: rgba(69, 244, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(69, 244, 255, 0.12);
+}
+
+.camp-apply-form textarea {
+  resize: vertical;
+}
+
+.camp-apply-form option {
+  color: #05070d;
+}
+
+.camp-form-note {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.9rem;
+}
+
+.camp-form-note.active {
+  color: var(--lime);
+}
+
 .doc-hero p:not(.eyebrow) {
   width: 100%;
   max-width: none;
@@ -1602,6 +1671,7 @@ select {
 
   .home-hero,
   .scroll-video-sticky,
+  .camp-apply-grid,
   .boundary-panel,
   .doc-hero,
   .doc-layout,
@@ -1703,6 +1773,7 @@ select {
 
   .hero-actions,
   .diagnosis-banner,
+  .camp-apply-form,
   .case-tools,
   .project-row {
     grid-template-columns: 1fr;
@@ -1714,6 +1785,7 @@ select {
   }
 
   .stat-row,
+  .camp-apply-form,
   .ops-rail,
   .track-grid,
   .content-grid,
