@@ -155,4 +155,35 @@ const outcomes = [
   <div class="camp-runner" aria-hidden="true">
     <div class="camp-runner-optical"></div>
   </div>
+
+  <script>
+    const runner = document.querySelector<HTMLElement>(".camp-runner");
+    const runnerOptical = document.querySelector<HTMLElement>(".camp-runner-optical");
+
+    if (runner && runnerOptical) {
+      let ticking = false;
+
+      const updateRunner = () => {
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        const leftOffset = Number.parseFloat(getComputedStyle(runner).left) || 0;
+        const maxTravel = Math.max(0, window.innerWidth - runner.getBoundingClientRect().width - leftOffset * 2);
+
+        runner.style.setProperty("--runner-travel", `${maxTravel * progress}px`);
+        runnerOptical.style.setProperty("--runner-x", `${window.scrollY * 0.72}px`);
+        ticking = false;
+      };
+
+      const requestRunnerUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateRunner);
+      };
+
+      updateRunner();
+      window.addEventListener("scroll", requestRunnerUpdate, { passive: true });
+      window.addEventListener("resize", requestRunnerUpdate);
+      window.addEventListener("pageshow", requestRunnerUpdate);
+    }
+  </script>
 </SiteLayout>

@@ -1715,12 +1715,13 @@ select {
 }
 
 @property --runner-x {
-  syntax: "<percentage>";
+  syntax: "<length>";
   inherits: true;
-  initial-value: 0%;
+  initial-value: 0px;
 }
 
 .camp-runner {
+  --runner-travel: 0px;
   pointer-events: none;
   position: fixed;
   left: clamp(1rem, 5vw, 4rem);
@@ -1731,8 +1732,8 @@ select {
   color: rgba(225, 246, 255, 0.82);
   opacity: 0.92;
   mix-blend-mode: screen;
-  animation: camp-runner-travel 1ms linear both;
-  animation-timeline: scroll();
+  transform: translateX(var(--runner-travel));
+  transition: transform 70ms linear;
 }
 
 .camp-runner::before {
@@ -1761,8 +1762,6 @@ select {
   -webkit-mask-image: url("https://raw.githubusercontent.com/cbolson/assets/refs/heads/main/codepen/optical/man-running.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
-  animation: camp-runner-scroll 1ms linear both;
-  animation-timeline: scroll();
 }
 
 .camp-runner-optical::after {
@@ -1778,34 +1777,6 @@ select {
   background-position-x: var(--runner-x);
   background-repeat: repeat;
   background-size: var(--stripe-px) 100%;
-}
-
-@keyframes camp-runner-scroll {
-  from {
-    --runner-x: 0%;
-  }
-  to {
-    --runner-x: 100%;
-  }
-}
-
-@keyframes camp-runner-travel {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(100vw - 100% - clamp(2rem, 10vw, 8rem)));
-  }
-}
-
-@supports not (animation-timeline: scroll()) {
-  .camp-runner {
-    animation: none;
-  }
-
-  .camp-runner-optical {
-    animation: camp-runner-scroll 900ms steps(16) infinite;
-  }
 }
 
 @supports not (mask-image: url("")) {
