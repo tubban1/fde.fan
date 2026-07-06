@@ -1723,7 +1723,7 @@ select {
 .camp-runner {
   pointer-events: none;
   position: fixed;
-  right: clamp(1rem, 5vw, 4rem);
+  left: clamp(1rem, 5vw, 4rem);
   bottom: clamp(0.65rem, 2.4vw, 1.2rem);
   z-index: 80;
   width: clamp(220px, 27vw, 420px);
@@ -1731,12 +1731,14 @@ select {
   color: rgba(225, 246, 255, 0.82);
   opacity: 0.92;
   mix-blend-mode: screen;
+  animation: camp-runner-travel 1ms linear both;
+  animation-timeline: scroll();
 }
 
 .camp-runner::before {
   content: "";
   position: absolute;
-  right: -26px;
+  left: -26px;
   bottom: 2px;
   width: min(118%, 390px);
   height: 1px;
@@ -1787,7 +1789,20 @@ select {
   }
 }
 
+@keyframes camp-runner-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100vw - 100% - clamp(2rem, 10vw, 8rem)));
+  }
+}
+
 @supports not (animation-timeline: scroll()) {
+  .camp-runner {
+    animation: none;
+  }
+
   .camp-runner-optical {
     animation: camp-runner-scroll 900ms steps(16) infinite;
   }
@@ -1895,7 +1910,7 @@ select {
   }
 
   .camp-runner {
-    right: 0.75rem;
+    left: 0.75rem;
     width: clamp(150px, 32vw, 240px);
     height: clamp(92px, 20vw, 150px);
   }
