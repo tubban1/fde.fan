@@ -3,9 +3,13 @@ import SiteLayout from "../layouts/SiteLayout.astro";
 import { breadcrumbJsonLd } from "../lib/seo";
 
 const modules = [
-  ["Week 1", "AI Foundations", "认识 ChatGPT、Claude、Gemini、Perplexity、NotebookLM，以及 AI 图片、视频、网页、音乐和办公工具。", "Learn core AI tools and create mini projects with text, image, video, web, music, and office workflows."],
-  ["Week 2", "FDE Thinking", "进入客户、需求、产品、Agent、Workflow、Prompt、MCP、多 Agent 和 Demo 的项目思维。", "Move into customer needs, product thinking, agents, workflow, prompt design, MCP, multi-agent systems, and demo building."],
-  ["Week 3", "Project Sprint", "以小组为单位完成旅行、教育、宠物、医疗、跨境、餐厅等真实主题项目，并进行 Demo Day。", "Build a real project in teams across travel, education, pets, healthcare, cross-border commerce, restaurants, and more, then present on Demo Day."],
+  ["3 Days", "AI Explorer Sprint", "用 3 天完成 AI 工具入门、Prompt 到作品、AI 图片/视频/网页 Mini Project 和一次英文 Demo。", "A three-day sprint covering AI tools, prompt-to-artifact work, image/video/web mini projects, and one English demo."],
+  ["10 Days", "FDE Project Camp", "用 10 天完成真实项目：需求拆解、网页 Demo、Agent 工作流、英文 Presentation 和最终 Demo Day。", "A ten-day project camp for requirement breakdown, web demo, agent workflow, English presentation, and final Demo Day."],
+];
+
+const tracks = [
+  ["3 天体验营", "3-Day Explorer Sprint", "适合第一次系统接触 AI 的学生。目标是快速建立 AI 创作信心，完成 2-3 个可展示作品，并理解 FDE 项目协作是什么。", "For students meeting AI systematically for the first time. The goal is to build confidence, produce 2-3 showable artifacts, and understand FDE-style collaboration."],
+  ["10 天项目营", "10-Day FDE Project Camp", "适合想做出完整作品集的学生。目标是完成一个真实主题项目，包括页面、Agent 流程、素材、测试清单、英文演示和复盘。", "For students who want a stronger portfolio. The goal is to complete one real project with a page, agent flow, assets, checklist, English demo, and retrospective."],
 ];
 
 const levels = [
@@ -49,10 +53,10 @@ const outcomes = [
       <span class="en">A summer camp combining AI, Forward Deployed Engineering, international English, and project delivery. One cohort, four growth levels, and students aged 13-22 collaborating in real projects like future AI teams.</span>
     </p>
     <div class="stat-row camp-stats">
-      <div><strong>¥7,980</strong><span><span class="zh">营期价格</span><span class="en">Program Fee</span></span></div>
-      <div><strong>7/13-7/31</strong><span><span class="zh">2026 暑期营</span><span class="en">2026 Summer Camp</span></span></div>
+      <div><strong>3 Days</strong><span><span class="zh">AI 体验营</span><span class="en">AI Explorer Sprint</span></span></div>
+      <div><strong>10 Days</strong><span><span class="zh">FDE 项目营</span><span class="en">FDE Project Camp</span></span></div>
       <div><strong>13-22</strong><span><span class="zh">初一至大学生</span><span class="en">Grade 7 to University</span></span></div>
-      <div><strong>90h</strong><span><span class="zh">3 周 15 天</span><span class="en">3 Weeks / 15 Days</span></span></div>
+      <div><strong>UA5201314fyh</strong><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
     </div>
     <div class="hero-actions">
       <a class="cta-primary" href="/#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
@@ -80,20 +84,36 @@ const outcomes = [
   <section class="section-wrap">
     <div class="section-heading">
       <p class="eyebrow">PROGRAM FORMAT</p>
-      <h2><span class="zh">唯一班型：FDE AI Future Camp</span><span class="en">The only track: FDE AI Future Camp</span></h2>
-      <p><span class="zh">20-30 人小班，3 周、15 个教学日、90 小时。每天 6 小时，上午学习 AI 与项目方法，下午进入 Workshop、项目开发、导师 Review 和 Daily Demo。</span><span class="en">A 20-30 student cohort with 3 weeks, 15 teaching days, and 90 hours. Each day includes AI skills, workshops, project building, mentor review, and daily demos.</span></p>
+      <h2><span class="zh">两种课程长度：3 天入门，10 天完成项目。</span><span class="en">Two formats: 3 days to start, 10 days to ship.</span></h2>
+      <p><span class="zh">课程从原来的长周期集中营调整为更容易安排的 3 天体验营和 10 天项目营。每天仍然围绕 AI 工具、项目 Workshop、导师 Review、Daily Demo 和 Project English 展开。</span><span class="en">The camp is now offered as a more flexible 3-day sprint and 10-day project camp. Each day still centers on AI tools, project workshops, mentor review, daily demos, and Project English.</span></p>
     </div>
     <div class="camp-info-grid">
       <div class="doc-card"><span class="tag">AGE</span><h2>13-22</h2><p><span class="zh">初一到大学生均可参加，入营后根据能力进入 L1-L4 成长等级。</span><span class="en">For grade 7 through university students, mapped into L1-L4 growth levels by capability.</span></p></div>
-      <div class="doc-card"><span class="tag">TIME</span><h2>09:00-17:00</h2><p><span class="zh">上午 09:00-12:00，下午 14:00-17:00，中间保留午休和项目消化时间。</span><span class="en">Morning 09:00-12:00 and afternoon 14:00-17:00, with time to rest and absorb project work.</span></p></div>
-      <div class="doc-card"><span class="tag">PRICE</span><h2>¥7,980</h2><p><span class="zh">2026 年 7 月 13 日至 7 月 31 日，三周项目实战训练。</span><span class="en">July 13 to July 31, 2026: three weeks of project-based AI training.</span></p></div>
+      <div class="doc-card"><span class="tag">DAILY</span><h2>09:00-17:00</h2><p><span class="zh">建议按全天制安排：上午 09:00-12:00，下午 14:00-17:00，也可根据营地/学校档期微调。</span><span class="en">Designed as a full-day format: 09:00-12:00 and 14:00-17:00, adjustable by venue or school schedule.</span></p></div>
+      <div class="doc-card"><span class="tag">CONTACT</span><h2>UA5201314fyh</h2><p><span class="zh">添加微信咨询 3 天与 10 天课程费用、开营时间、名额和适合等级。</span><span class="en">Add WeChat to ask about fees, dates, seats, and the right level for each student.</span></p></div>
     </div>
   </section>
 
   <section class="section-wrap band">
     <div class="section-heading">
-      <p class="eyebrow">3-WEEK PATH</p>
-      <h2><span class="zh">三周课程：从 AI 作品到团队项目。</span><span class="en">Three weeks: from AI artifacts to team projects.</span></h2>
+      <p class="eyebrow">COURSE OPTIONS</p>
+      <h2><span class="zh">3 天是启动，10 天是交付。</span><span class="en">Three days starts the engine. Ten days ships the project.</span></h2>
+    </div>
+    <div class="content-grid">
+      {tracks.map(([zhTitle, enTitle, zhBody, enBody]) => (
+        <div class="doc-card">
+          <span class="tag">TRACK</span>
+          <h2><span class="zh">{zhTitle}</span><span class="en">{enTitle}</span></h2>
+          <p><span class="zh">{zhBody}</span><span class="en">{enBody}</span></p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">LEARNING PATH</p>
+      <h2><span class="zh">课程路径：先做作品，再做项目。</span><span class="en">Learning path: artifacts first, projects next.</span></h2>
     </div>
     <div class="timeline compact">
       {modules.map(([mark, title, zhBody, enBody]) => (
@@ -110,7 +130,7 @@ const outcomes = [
     <div class="section-heading">
       <p class="eyebrow">PROJECT ENGLISH</p>
       <h2><span class="zh">每天都有英语，但不是传统英语课。</span><span class="en">Daily English, but not a traditional English class.</span></h2>
-      <p><span class="zh">英语环节围绕项目展开：Morning Briefing 讨论 Today's Mission，下午 Project Review 用英语介绍自己的 Demo，第三周每人完成 5 分钟英文 Presentation。</span><span class="en">English is embedded in project work: Morning Briefing discusses Today's Mission, afternoon Project Review explains demos in English, and each student delivers a five-minute presentation in Week 3.</span></p>
+      <p><span class="zh">英语环节围绕项目展开：Morning Briefing 讨论 Today's Mission，下午 Project Review 用英语介绍自己的 Demo。3 天营完成一次短 Demo，10 天营完成 5 分钟英文 Presentation。</span><span class="en">English is embedded in project work: Morning Briefing discusses Today's Mission, and afternoon Project Review explains demos in English. The 3-day sprint ends with a short demo; the 10-day camp ends with a five-minute presentation.</span></p>
     </div>
     <div class="schedule-table">
       {schedule.map(([time, title, body]) => (
@@ -126,7 +146,7 @@ const outcomes = [
   <section class="section-wrap band">
     <div class="section-heading">
       <p class="eyebrow">OUTCOMES</p>
-      <h2><span class="zh">三周以后，孩子能拿得出什么？</span><span class="en">What students can show after three weeks.</span></h2>
+      <h2><span class="zh">课程结束后，孩子能拿得出什么？</span><span class="en">What students can show after the camp.</span></h2>
       <p><span class="zh">家长不需要只看到“学过哪些工具”，而要看到孩子能独立完成 AI 作品、参与真实 AI 项目、理解未来岗位的工作方式，并用英语讲清楚自己的作品。</span><span class="en">Parents should not only see a tool list. They should see students complete AI artifacts, join a real AI project, understand future work patterns, and explain their work in English.</span></p>
     </div>
     <div class="content-grid">
@@ -147,7 +167,7 @@ const outcomes = [
       <p><span class="zh">例如一个旅行社 Agent 项目：大学生负责 Agent 架构，高中生负责网页和交互，初中生负责海报和素材，英语好的学生负责 Presentation。老师不讲四套课，而是用一个项目，让不同能力的人完成不同难度的任务。</span><span class="en">For example, in a Travel Agent project, university students may design the agent architecture, high school students build the web experience, younger students create visuals, and strong English speakers lead the presentation. One project, different responsibilities, shared delivery.</span></p>
     </div>
     <a class="diagnosis-banner" href="/#camp-apply">
-      <span>fde.fan/#camp-apply</span>
+      <span>WeChat: UA5201314fyh</span>
       <strong><span class="zh">报名 FDE Future Camp</span><span class="en">Apply for FDE Future Camp</span></strong>
     </a>
   </section>
