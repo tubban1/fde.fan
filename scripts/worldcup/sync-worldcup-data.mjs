@@ -8,6 +8,7 @@ import { withDb } from '../gaokao/lib/db.mjs';
 loadLocalEnv();
 
 const execFileAsync = promisify(execFile);
+const sourceCache = new Map();
 
 const IMPORT_FILES = [
   { key: 'sources', table: 'worldcup_sources', file: 'data/worldcup/import/001_sources.csv' },
@@ -189,6 +190,16 @@ async function ensureEnrichmentTables(pool) {
 }
 
 async function startRun(pool) {
+  await pool.query(`
+    update worldcup_ingestion_runs
+    set status = 'failed',
+        finished_at = now(),
+        error_message = coalesce(error_message, 'stale running job exceeded timeout'),
+        log_text = coalesce(log_text, '') || E'\n[daemon]\nstale running job marked failed before new run'
+    where status = 'running'
+      and started_at < now() - interval '90 minutes'
+  `);
+
   const id = `worldcup-sync-${new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14)}-${Math.random().toString(36).slice(2, 8)}`;
   await pool.query(
     `insert into worldcup_ingestion_runs (id, job_name, status) values ($1, $2, $3)`,
@@ -225,11 +236,17 @@ async function ensureSource(pool, rowObj) {
   if (!sourceName) return null;
   const sourceUrl = rowObj.source_url || null;
   const fetchedAt = rowObj.fetched_at || null;
+  const cacheKey = `${sourceName}::${sourceUrl || ''}`;
+  if (sourceCache.has(cacheKey)) return sourceCache.get(cacheKey);
+
   const existing = await pool.query(
     `select id from worldcup_sources where source_name = $1 and coalesce(source_url, '') = coalesce($2, '') limit 1`,
     [sourceName, sourceUrl],
   );
-  if (existing.rows[0]?.id) return existing.rows[0].id;
+  if (existing.rows[0]?.id) {
+    sourceCache.set(cacheKey, existing.rows[0].id);
+    return existing.rows[0].id;
+  }
 
   const sourceId = `auto-${sourceName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   const result = await pool.query(
@@ -242,6 +259,7 @@ async function ensureSource(pool, rowObj) {
      returning id`,
     [sourceId, sourceName, sourceUrl, fetchedAt],
   );
+  sourceCache.set(cacheKey, result.rows[0].id);
   return result.rows[0].id;
 }
 
@@ -638,8 +656,10 @@ async function upsertRows(pool, item) {
   const rows = rowsFromCsv(item.file);
   let inserted = 0;
   let updated = 0;
+  let processed = 0;
 
   for (const row of rows) {
+    processed += 1;
     const rowObj = normalizeRow(item.key, row);
     let finalRow = { ...rowObj };
 
@@ -671,6 +691,10 @@ async function upsertRows(pool, item) {
     const result = await pool.query(buildUpsertQuery(item.key, item.table, columns), Object.values(finalRow));
     if (result.rows[0]?.inserted) inserted += 1;
     else updated += 1;
+
+    if (rows.length >= 200 && processed % 100 === 0) {
+      console.log(`[${item.key}] progress=${processed}/${rows.length}`);
+    }
   }
 
   return { fetched: rows.length, inserted, updated };
@@ -701,6 +725,8 @@ async function main() {
     const fetchResult = await execFileAsync(process.execPath, ['scripts/worldcup/fetch_real_worldcup_data.mjs'], {
       cwd: process.cwd(),
       maxBuffer: 1024 * 1024 * 20,
+      timeout: Number(process.env.WORLDCUP_FETCHER_TIMEOUT_MS || 180000),
+      killSignal: 'SIGTERM',
     });
     payload.logText += fetchResult.stdout || '';
     if (fetchResult.stderr) payload.logText += `\n[stderr]\n${fetchResult.stderr}`;
@@ -756,6 +782,8 @@ async function main() {
         const scoreResult = await execFileAsync(process.execPath, ['scripts/worldcup/generate-score-analyses.mjs'], {
           cwd: process.cwd(),
           maxBuffer: 1024 * 1024 * 20,
+          timeout: Number(process.env.WORLDCUP_SCORE_ANALYSIS_TIMEOUT_MS || 300000),
+          killSignal: 'SIGTERM',
         });
         payload.recordsFetched.score_analysis = null;
         payload.recordsUpserted.score_analysis = { status: 'completed' };

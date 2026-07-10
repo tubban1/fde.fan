@@ -11,6 +11,7 @@ const intervalMinutes = Number(process.env.WORLDCUP_SYNC_INTERVAL_MINUTES || 30)
 const stopAt = new Date(process.env.WORLDCUP_SYNC_UNTIL || '2026-07-20T00:00:00Z');
 const intervalMs = Math.max(5, intervalMinutes) * 60 * 1000;
 const port = Number(process.env.PORT || 7860);
+const runTimeoutMs = Number(process.env.WORLDCUP_SYNC_RUN_TIMEOUT_MS || 10 * 60 * 1000);
 const health = {
   status: 'starting',
   started_at: new Date().toISOString(),
@@ -50,6 +51,8 @@ async function runOnce() {
     const result = await execFileAsync(process.execPath, ['scripts/worldcup/sync-worldcup-data.mjs'], {
       cwd: process.cwd(),
       maxBuffer: 1024 * 1024 * 20,
+      timeout: runTimeoutMs,
+      killSignal: 'SIGTERM',
     });
     if (result.stdout) process.stdout.write(result.stdout);
     if (result.stderr) process.stderr.write(result.stderr);
