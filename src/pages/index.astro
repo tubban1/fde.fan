@@ -34,67 +34,28 @@ const allianceMemberCount = allianceMembers.length;
 ---
 
 <SiteLayout title="FDE Future Camp | 全球AI未来工程师夏令营" description="FDE Future Camp 是面向全球青少年和未来工程师的 AI 夏令营，训练学员用 AI 工具完成创意、应用、智能体、部署和作品展示。">
-  <section class="scroll-video-hero" data-scroll-video-hero>
-    <div class="scroll-video-sticky">
-      <video
-        class="scroll-video-bg"
-        poster="/assets/fde-fan-hero-poster.jpg"
-        muted
-        playsinline
-        preload="auto"
-        data-scroll-video
-      >
-        <source src="/assets/fde-fan-hero-scroll-mobile.mp4" type="video/mp4" media="(max-width: 767px) and (orientation: portrait)" />
-        <source src="/assets/fde-fan-hero-scroll.mp4" type="video/mp4" />
-      </video>
-      <picture class="scroll-video-poster" aria-hidden="true">
-        <source srcset="/assets/fde-fan-hero-poster-mobile.jpg" media="(max-width: 767px) and (orientation: portrait)" />
-        <img src="/assets/fde-fan-hero-poster.jpg" alt="" />
-      </picture>
-      <div class="scroll-video-shade"></div>
-      <div class="grid-mask"></div>
-      <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
-      <div class="scroll-hero-copy">
-        <article class="scroll-hero-panel active" data-scroll-panel>
-          <p class="eyebrow">FDE FUTURE CAMP</p>
-          <h1 class="hero-title">AI FUTURE</h1>
-          <p class="hero-subtitle">
-            <span class="zh">全球AI未来工程师夏令营</span>
-            <span class="en">Global AI Future Engineer Camp</span>
-          </p>
-          <p class="scroll-hint">
-            <span class="zh">向下滑动，进入一场面向未来工程师的 AI 创造训练。</span>
-            <span class="en">Scroll into an AI creation camp for future engineers.</span>
-          </p>
-        </article>
-
-        <article class="scroll-hero-panel" data-scroll-panel>
-          <p class="eyebrow">01 / CREATE</p>
-          <h2><span class="zh">不是听 AI 课，而是做出 AI 作品。</span><span class="en">Not just learning AI. Building with AI.</span></h2>
-          <p><span class="zh">学员用 Codex、Claude Code、Cursor、Antigravity 等 AI 工具，把想法变成页面、数据作品、智能体和可分享链接。</span><span class="en">Students use Codex, Claude Code, Cursor, Antigravity, and other AI tools to turn ideas into pages, data projects, agents, and shareable links.</span></p>
-        </article>
-
-        <article class="scroll-hero-panel" data-scroll-panel>
-          <p class="eyebrow">02 / ENGINEER</p>
-          <h2><span class="zh">像未来工程师一样组织问题。</span><span class="en">Think like a future engineer.</span></h2>
-          <p><span class="zh">从需求拆解、Prompt 设计、界面生成、Agent 工作流到测试复盘，训练“提出问题、指挥 AI、验证结果”的完整能力。</span><span class="en">From requirement framing and prompt design to UI generation, agent workflows, tests, and review, students learn to ask, direct, and verify.</span></p>
-        </article>
-
-        <article class="scroll-hero-panel" data-scroll-panel>
-          <p class="eyebrow">03 / SHOWCASE</p>
-          <h2><span class="zh">每个作品都要能演示、能复盘、能分享。</span><span class="en">Every project must be demoed, reviewed, and shared.</span></h2>
-          <p><span class="zh">夏令营重视最终展示：作品链接、演示脚本、README、测试清单和结营路演，让学习成果真实可见。</span><span class="en">The camp ends with visible outcomes: project links, demo scripts, README files, checklists, and a final showcase.</span></p>
-        </article>
-
-        <article class="scroll-hero-panel" data-scroll-panel>
-          <p class="eyebrow">04 / APPLY</p>
-          <h2><span class="zh">加入 FDE Future Camp。</span><span class="en">Join FDE Future Camp.</span></h2>
-          <p><span class="zh">面向希望用 AI 创造真实作品的学生、家庭和教育伙伴开放报名。适合对编程、设计、商业、科学探索或智能体感兴趣的学习者。</span><span class="en">Open to students, families, and education partners who want to create real AI projects across coding, design, business, science, and agents.</span></p>
-          <div class="hero-actions">
-            <a class="cta-primary" href="#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
-            <a class="cta-secondary" href="/future-camp"><span class="zh">查看详细介绍</span><span class="en">View Details</span></a>
-          </div>
-        </article>
+  <section class="future-camp-hero">
+    <img class="future-camp-hero-bg" src="/assets/hero2.png" alt="" />
+    <div class="future-camp-hero-glass" aria-hidden="true"></div>
+    <div class="future-camp-hero-copy">
+      <p class="eyebrow">FDE AI FUTURE CAMP</p>
+      <h1>
+        <span class="zh">沿着 AI 路径，走向未来工程师。</span>
+        <span class="en">Follow the AI path into future engineering.</span>
+      </h1>
+      <p class="future-camp-hero-lead">
+        <span class="zh">13-22 岁学生在同一个真实项目里完成学习、实践、认证、项目、展示与未来职业启蒙。</span>
+        <span class="en">Students aged 13-22 move through learning, practice, certification, projects, showcase, and future career discovery in one real project camp.</span>
+      </p>
+      <div class="future-camp-hero-stats" aria-label="FDE Future Camp highlights">
+        <span>7/13-7/31</span>
+        <span>¥7,980</span>
+        <span>90h</span>
+        <span>20-30</span>
+      </div>
+      <div class="hero-actions">
+        <a class="cta-primary" href="#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
+        <a class="cta-secondary" href="/future-camp"><span class="zh">查看详细介绍</span><span class="en">View Details</span></a>
       </div>
     </div>
   </section>
@@ -215,71 +176,6 @@ const allianceMemberCount = allianceMembers.length;
   </section>
 
   <script>
-    const scrollHero = document.querySelector("[data-scroll-video-hero]");
-    const scrollVideo = document.querySelector("[data-scroll-video]");
-    const scrollPanels = Array.from(document.querySelectorAll("[data-scroll-panel]"));
-    const scrollProgress = document.querySelector("[data-scroll-progress]");
-    let scrollFrame = 0;
-
-    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
-    const updateScrollHero = () => {
-      scrollFrame = 0;
-      if (!(scrollHero instanceof HTMLElement) || !(scrollVideo instanceof HTMLVideoElement)) return;
-
-      const scrollRange = Math.max(1, scrollHero.offsetHeight - window.innerHeight);
-      const rect = scrollHero.getBoundingClientRect();
-      const progress = clamp(-rect.top / scrollRange, 0, 1);
-      const duration = Number.isFinite(scrollVideo.duration) ? scrollVideo.duration : 0;
-
-      if (duration > 0) {
-        const targetTime = Math.min(duration - 0.04, Math.max(0, progress * duration));
-        if (Math.abs(scrollVideo.currentTime - targetTime) > 0.035) {
-          scrollVideo.currentTime = targetTime;
-        }
-      }
-
-      if (scrollProgress instanceof HTMLElement) {
-        scrollProgress.style.transform = `scaleX(${progress})`;
-      }
-
-      if (scrollPanels.length > 0) {
-        const activeIndex = Math.min(scrollPanels.length - 1, Math.floor(progress * scrollPanels.length));
-        scrollPanels.forEach((panel, index) => {
-          panel.classList.toggle("active", index === activeIndex);
-        });
-      }
-    };
-
-    const requestScrollHeroUpdate = () => {
-      if (scrollFrame) return;
-      scrollFrame = window.requestAnimationFrame(updateScrollHero);
-    };
-
-    if (scrollVideo instanceof HTMLVideoElement) {
-      const useMobilePoster = window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
-      scrollVideo.poster = useMobilePoster ? "/assets/fde-fan-hero-poster-mobile.jpg" : "/assets/fde-fan-hero-poster.jpg";
-      scrollVideo.muted = true;
-      scrollVideo.pause();
-      scrollVideo.load();
-      scrollVideo.addEventListener("loadedmetadata", updateScrollHero);
-      const warmup = scrollVideo.play();
-      if (warmup) {
-        warmup
-          .then(() => {
-            scrollVideo.pause();
-            updateScrollHero();
-          })
-          .catch(() => {
-            updateScrollHero();
-          });
-      }
-    }
-
-    window.addEventListener("scroll", requestScrollHeroUpdate, { passive: true });
-    window.addEventListener("resize", requestScrollHeroUpdate);
-    updateScrollHero();
-
     const track = document.querySelector("[data-alliance-track]");
     if (track instanceof HTMLElement) {
       const count = Number(track.dataset.memberCount || 0);
