@@ -67,6 +67,54 @@ interface ScoreAnalysis {
     updated_at?: string;
 }
 
+interface HistoryMatch {
+    match_id: string;
+    stage?: string;
+    round?: string;
+    kickoff_utc?: string;
+    home_team_id: string;
+    away_team_id: string;
+    home_team?: { id: string; zh?: string; en?: string };
+    away_team?: { id: string; zh?: string; en?: string };
+    actual: {
+        score_90: string;
+        home_score_90: number;
+        away_score_90: number;
+        home_score_extra?: number | null;
+        away_score_extra?: number | null;
+        home_penalties?: number | null;
+        away_penalties?: number | null;
+        winner_team_id?: string | null;
+        outcome: 'home' | 'draw' | 'away' | 'unknown';
+    };
+    prediction: {
+        available: boolean;
+        predicted_score?: string | null;
+        outcome: 'home' | 'draw' | 'away' | 'unknown';
+        score_probabilities?: ScoreProbability[];
+        summary_zh?: string | null;
+        reasoning_md?: string | null;
+        basis?: { main_factors?: string[]; data_quality?: string };
+        updated_at?: string | null;
+    };
+    comparison: {
+        outcome_hit: boolean | null;
+        exact_score_hit: boolean | null;
+    };
+}
+
+interface HistoryData {
+    matches: HistoryMatch[];
+    summary: {
+        total_finished: number;
+        predicted_count: number;
+        outcome_hits: number;
+        exact_score_hits: number;
+        outcome_accuracy: number | null;
+        exact_score_accuracy: number | null;
+    };
+}
+
 type ScoreAnalysisState = Record<string, {
     loading?: boolean;
     error?: string;
@@ -152,6 +200,13 @@ const getTeamMeta = (id: string) => {
     if (meta) return meta;
     const title = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     return { zh: title, en: title, flag: "🏳️" };
+};
+
+const getOutcomeLabel = (outcome?: string) => {
+    if (outcome === 'home') return '主胜';
+    if (outcome === 'away') return '客胜';
+    if (outcome === 'draw') return '平局';
+    return '未知';
 };
 
 const MARKET_LABELS: Record<string, { zh: string; en: string }> = {
@@ -299,6 +354,11 @@ export default function SchedulePrediction() {
     const [reasoningMatch, setReasoningMatch] = useState<Prediction | null>(null);
     const [shareStates, setShareStates] = useState<Record<string, ShareState>>({});
     const [simulationMatch, setSimulationMatch] = useState<Prediction | null>(null);
+    const [historyData, setHistoryData] = useState<HistoryData | null>(null);
+    const [historyLoading, setHistoryLoading] = useState(false);
+    const [historyError, setHistoryError] = useState('');
+    const [historyOpen, setHistoryOpen] = useState(true);
+    const [historyDetail, setHistoryDetail] = useState<HistoryMatch | null>(null);
 
     useEffect(() => {
         const fetchPredictions = async () => {
@@ -368,6 +428,22 @@ export default function SchedulePrediction() {
                 });
         }
     }, [data, isMock, scoreAnalyses]);
+
+    useEffect(() => {
+        if (isMock) return;
+        setHistoryLoading(true);
+        fetch('/api/worldcup/history?limit=32')
+            .then(async (res) => {
+                const json = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+                setHistoryData(json);
+                setHistoryError('');
+            })
+            .catch((error) => {
+                setHistoryError(error.message || 'history load failed');
+            })
+            .finally(() => setHistoryLoading(false));
+    }, [isMock]);
 
     const saveScoreShare = async (match: Prediction, analysis: ScoreAnalysis) => {
         const existing = shareStates[match.match_id]?.url;
@@ -837,6 +913,115 @@ export default function SchedulePrediction() {
                 )}
             </div>
 
+            <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-950/50 p-4 shadow-xl md:p-5">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <div className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-500">
+                            <span className="zh">预测复盘</span>
+                            <span className="en">Prediction History</span>
+                        </div>
+                        <h3 className="mt-1 text-xl font-black text-white">
+                            <span className="zh">历史记录与真实赛果对比</span>
+                            <span className="en">History vs Actual Results</span>
+                        </h3>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={() => setHistoryOpen(prev => !prev)}
+                        className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-700 bg-slate-900 px-3 text-xs font-black text-slate-200 transition hover:bg-slate-800"
+                    >
+                        {historyOpen ? '收起历史' : '展开历史'}
+                    </button>
+                </div>
+
+                {historyOpen && (
+                    <div className="mt-5">
+                        {historyLoading && (
+                            <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-5 text-sm font-bold text-slate-400">
+                                正在加载历史复盘...
+                            </div>
+                        )}
+                        {historyError && (
+                            <div className="rounded-xl border border-rose-400/20 bg-rose-500/10 p-5 text-sm font-bold text-rose-200">
+                                历史记录暂不可用：{historyError}
+                            </div>
+                        )}
+                        {historyData && (
+                            <>
+                                <div className="grid gap-3 md:grid-cols-4">
+                                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                        <div className="text-2xl font-black text-white">{historyData.summary.total_finished}</div>
+                                        <div className="mt-1 text-xs font-bold text-slate-500">已完赛</div>
+                                    </div>
+                                    <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                        <div className="text-2xl font-black text-white">{historyData.summary.predicted_count}</div>
+                                        <div className="mt-1 text-xs font-bold text-slate-500">有预测缓存</div>
+                                    </div>
+                                    <div className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 p-4">
+                                        <div className="text-2xl font-black text-emerald-200">
+                                            {historyData.summary.outcome_accuracy == null ? '-' : `${(historyData.summary.outcome_accuracy * 100).toFixed(1)}%`}
+                                        </div>
+                                        <div className="mt-1 text-xs font-bold text-emerald-200/70">胜平负方向命中</div>
+                                    </div>
+                                    <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-4">
+                                        <div className="text-2xl font-black text-indigo-200">
+                                            {historyData.summary.exact_score_accuracy == null ? '-' : `${(historyData.summary.exact_score_accuracy * 100).toFixed(1)}%`}
+                                        </div>
+                                        <div className="mt-1 text-xs font-bold text-indigo-200/70">比分完全命中</div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4 grid gap-3">
+                                    {historyData.matches.map((item) => {
+                                        const home = getTeamMeta(item.home_team_id);
+                                        const away = getTeamMeta(item.away_team_id);
+                                        const outcomeHit = item.comparison.outcome_hit;
+                                        const exactHit = item.comparison.exact_score_hit;
+                                        return (
+                                            <button
+                                                key={item.match_id}
+                                                type="button"
+                                                onClick={() => setHistoryDetail(item)}
+                                                className="group rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-left transition hover:border-slate-600 hover:bg-slate-800/70"
+                                            >
+                                                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                                    <div className="min-w-0">
+                                                        <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                                                            {item.stage || item.round || item.match_id}
+                                                        </div>
+                                                        <div className="mt-1 flex flex-wrap items-center gap-2 text-lg font-black text-white">
+                                                            <span>{home.flag} {home.zh}</span>
+                                                            <span className="text-slate-600">vs</span>
+                                                            <span>{away.zh} {away.flag}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-3 gap-2 text-center md:min-w-[360px]">
+                                                        <div className="rounded-lg bg-slate-950/60 px-3 py-2">
+                                                            <div className="text-[10px] font-black uppercase tracking-wider text-slate-500">预测比分</div>
+                                                            <div className="mt-1 text-lg font-black text-indigo-200">{item.prediction.predicted_score || '-'}</div>
+                                                        </div>
+                                                        <div className="rounded-lg bg-slate-950/60 px-3 py-2">
+                                                            <div className="text-[10px] font-black uppercase tracking-wider text-slate-500">真实比分</div>
+                                                            <div className="mt-1 text-lg font-black text-white">{item.actual.score_90}</div>
+                                                        </div>
+                                                        <div className={`rounded-lg px-3 py-2 ${exactHit ? 'bg-emerald-500/15 text-emerald-200' : outcomeHit ? 'bg-blue-500/15 text-blue-200' : outcomeHit === false ? 'bg-rose-500/15 text-rose-200' : 'bg-slate-950/60 text-slate-400'}`}>
+                                                            <div className="text-[10px] font-black uppercase tracking-wider opacity-70">结果</div>
+                                                            <div className="mt-1 text-sm font-black">
+                                                                {exactHit ? '比分命中' : outcomeHit ? '方向命中' : outcomeHit === false ? '未命中' : '无预测'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
+            </div>
+
             {reasoningMatch && scoreAnalyses[reasoningMatch.match_id]?.analysis && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setReasoningMatch(null)}>
                     <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-700 bg-slate-950 p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -963,6 +1148,98 @@ export default function SchedulePrediction() {
                                 </div>
                             );
                         })()}
+                    </div>
+                </div>
+            )}
+
+            {historyDetail && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setHistoryDetail(null)}>
+                    <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-700 bg-slate-950 p-5 shadow-2xl" onClick={(event) => event.stopPropagation()}>
+                        <div className="mb-4 flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
+                            <div>
+                                <h3 className="text-xl font-black text-white">历史复盘详情</h3>
+                                <p className="mt-1 text-sm text-slate-400">
+                                    {getTeamMeta(historyDetail.home_team_id).zh} vs {getTeamMeta(historyDetail.away_team_id).zh}
+                                </p>
+                            </div>
+                            <button type="button" onClick={() => setHistoryDetail(null)} className="rounded-full border border-slate-700 px-3 py-1 text-sm text-slate-300 hover:bg-slate-800">
+                                关闭
+                            </button>
+                        </div>
+
+                        <div className="grid gap-3 md:grid-cols-3">
+                            <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-4">
+                                <div className="text-xs font-black uppercase tracking-wider text-indigo-200/70">预测比分</div>
+                                <div className="mt-2 text-3xl font-black text-white">{historyDetail.prediction.predicted_score || '-'}</div>
+                                <div className="mt-2 text-xs font-bold text-indigo-100/70">
+                                    预测方向：{getOutcomeLabel(historyDetail.prediction.outcome)}
+                                </div>
+                            </div>
+                            <div className="rounded-xl border border-slate-700 bg-slate-900/70 p-4">
+                                <div className="text-xs font-black uppercase tracking-wider text-slate-500">真实比分</div>
+                                <div className="mt-2 text-3xl font-black text-white">{historyDetail.actual.score_90}</div>
+                                <div className="mt-2 text-xs font-bold text-slate-400">
+                                    真实结果：{getOutcomeLabel(historyDetail.actual.outcome)}
+                                </div>
+                            </div>
+                            <div className={`rounded-xl border p-4 ${historyDetail.comparison.exact_score_hit ? 'border-emerald-400/25 bg-emerald-500/10' : historyDetail.comparison.outcome_hit ? 'border-blue-400/25 bg-blue-500/10' : historyDetail.comparison.outcome_hit === false ? 'border-rose-400/25 bg-rose-500/10' : 'border-slate-700 bg-slate-900/70'}`}>
+                                <div className="text-xs font-black uppercase tracking-wider opacity-70">复盘结论</div>
+                                <div className="mt-2 text-2xl font-black text-white">
+                                    {historyDetail.comparison.exact_score_hit ? '比分命中' : historyDetail.comparison.outcome_hit ? '方向命中' : historyDetail.comparison.outcome_hit === false ? '未命中' : '无预测'}
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-slate-300">
+                                    {historyDetail.comparison.exact_score_hit
+                                        ? '预测比分与 90 分钟比分完全一致。'
+                                        : historyDetail.comparison.outcome_hit
+                                            ? '胜平负方向正确，但具体比分不同。'
+                                            : historyDetail.comparison.outcome_hit === false
+                                                ? '胜平负方向与真实结果不一致。'
+                                                : '这场比赛没有可复盘的比分预测。'}
+                                </div>
+                            </div>
+                        </div>
+
+                        {historyDetail.prediction.score_probabilities && historyDetail.prediction.score_probabilities.length > 0 && (
+                            <div className="mt-5">
+                                <h4 className="mb-2 text-sm font-bold text-slate-200">当时比分概率</h4>
+                                <div className="grid gap-2 sm:grid-cols-2">
+                                    {historyDetail.prediction.score_probabilities.map((item) => (
+                                        <div key={item.score} className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm ${item.score === historyDetail.actual.score_90 ? 'border-emerald-400/30 bg-emerald-500/10' : 'border-slate-800 bg-slate-900/80'}`}>
+                                            <span className="font-bold text-white">{item.score}</span>
+                                            <span className="text-slate-300">{item.label_zh}</span>
+                                            <span className="font-bold text-emerald-300">{(item.probability * 100).toFixed(1)}%</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {historyDetail.prediction.summary_zh && (
+                            <div className="mt-5 rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                <h4 className="mb-2 text-sm font-bold text-slate-200">预测摘要</h4>
+                                <p className="text-sm leading-6 text-slate-300">{historyDetail.prediction.summary_zh}</p>
+                            </div>
+                        )}
+
+                        {historyDetail.prediction.basis?.main_factors && historyDetail.prediction.basis.main_factors.length > 0 && (
+                            <div className="mt-5 rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                <h4 className="mb-2 text-sm font-bold text-slate-200">主要依据</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {historyDetail.prediction.basis.main_factors.map((factor) => (
+                                        <span key={factor} className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-xs font-bold text-indigo-100">
+                                            {factor}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {historyDetail.prediction.reasoning_md && (
+                            <div className="mt-5 rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                                <h4 className="mb-3 text-sm font-bold text-slate-200">当时推理过程</h4>
+                                <div className="space-y-1">{renderReasoningMarkdown(historyDetail.prediction.reasoning_md)}</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
