@@ -6,6 +6,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const POLL_INTERVAL_MS = 3000;
 const POLL_RETRY_INTERVAL_MS = 6000;
 const MAX_PROFILE_POLLS = 8;
+const CHINA_MOBILE_REGEX = /^1[3-9]\d{9}$/;
 
 const isTransientAxiosNetworkError = (err) => {
   return axios.isAxiosError(err) && !err.response && (
@@ -340,9 +341,40 @@ export default function DiagnosisPage() {
     return `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
   };
 
-  const handleDownloadReportPdf = () => {
+  const requestExportPhone = () => {
+    const savedPhone = localStorage.getItem('fde_diagnosis_export_phone') || '';
+    const rawPhone = window.prompt('导出 PDF 前，请先输入手机号：', savedPhone);
+    if (rawPhone === null) return '';
+
+    const phone = rawPhone.replace(/\D/g, '');
+    if (!CHINA_MOBILE_REGEX.test(phone)) {
+      triggerToast('请输入有效的 11 位手机号后再导出 PDF');
+      return '';
+    }
+
+    localStorage.setItem('fde_diagnosis_export_phone', phone);
+    return phone;
+  };
+
+  const handleDownloadReportPdf = async () => {
     if (!report) {
       triggerToast('请先生成诊断报告');
+      return;
+    }
+
+    const exportPhone = requestExportPhone();
+    if (!exportPhone) return;
+
+    try {
+      await axios.post('/api/diagnosis/export-lead', {
+        sessionId,
+        email,
+        password,
+        phone: exportPhone
+      });
+    } catch (err) {
+      console.error('Save export phone failed:', err);
+      triggerToast(err.response?.data?.error || '手机号保存失败，请稍后重试');
       return;
     }
 
@@ -388,7 +420,7 @@ export default function DiagnosisPage() {
         </head>
         <body>
           <h1>企业 AI 增长转型诊断报告</h1>
-          <div class="meta">生成时间：${escapeHtml(new Date().toLocaleString())}</div>
+          <div class="meta">生成时间：${escapeHtml(new Date().toLocaleString())} ｜ 联系手机号：${escapeHtml(exportPhone)}</div>
           <section class="summary">
             <div><span class="score">${escapeHtml(report.maturityScore)}</span>转型成熟度评分</div>
             <p>${escapeHtml(report.summary)}</p>
