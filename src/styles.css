@@ -677,6 +677,22 @@ select {
   line-height: 1.85;
 }
 
+.image-showcase {
+  margin-top: 2rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-showcase img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
 .camp-apply-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);

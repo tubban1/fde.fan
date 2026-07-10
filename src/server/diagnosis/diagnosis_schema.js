@@ -1,9 +1,12 @@
 import { isPostgresMode, query } from './db.js';
+import { initDiagnosisTables } from './diagnosis_init.js';
 
 let ensuredDiagnosisRuntimeSchema = false;
 
 export async function ensureDiagnosisRuntimeSchema() {
   if (ensuredDiagnosisRuntimeSchema) return;
+
+  await initDiagnosisTables();
 
   if (isPostgresMode) {
     await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN NOT NULL DEFAULT FALSE`);

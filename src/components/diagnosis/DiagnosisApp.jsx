@@ -37,6 +37,9 @@ export default function DiagnosisPage() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
   const [themeMode, setThemeMode] = useState('light');
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [autoSpeak, setAutoSpeak] = useState(false);
 
   // Header login states
   const [email, setEmail] = useState('');
@@ -47,6 +50,10 @@ export default function DiagnosisPage() {
 
   const messagesEndRef = useRef(null);
   const isComposingRef = useRef(false);
+  const recognitionRef = useRef(null);
+  const recognitionBaseTextRef = useRef('');
+  const audioPlayerRef = useRef(null);
+  const audioUrlRef = useRef('');
 
   // 1. 初始化登录与历史会话状态
   useEffect(() => {
@@ -141,6 +148,14 @@ export default function DiagnosisPage() {
     };
   }, [profileStatus, sessionId, email, password]);
 
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.stop();
+      recognitionRef.current = null;
+      stopAudioPlayback();
+    };
+  }, []);
+
   // 登录/验证邮箱
   const handleVerifyEmail = async (emailToVerify, passwordToVerify) => {
     if (!emailToVerify || !EMAIL_REGEX.test(emailToVerify)) {
@@ -162,7 +177,8 @@ export default function DiagnosisPage() {
         localStorage.setItem('fde_diagnosis_password', passwordToVerify);
         localStorage.setItem('fde_diagnosis_verified', 'true');
         triggerToast(response.data.isNewUser ? '注册成功：当前无需邮箱验证码，诊断历史会保存到该邮箱账号。' : '验证成功：诊断历史会保存到该邮箱账号。');
-        await loadDiagnosisHistory(emailToVerify, passwordToVerify, true);
+        setIsCheckingEmail(false);
+        loadDiagnosisHistory(emailToVerify, passwordToVerify, true);
       }
     } catch (err) {
       console.error(err);
@@ -195,6 +211,121 @@ export default function DiagnosisPage() {
     setTimeout(() => {
       setShowToast(false);
     }, 4000);
+  };
+
+  const stopAudioPlayback = () => {
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause();
+      audioPlayerRef.current = null;
+    }
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current);
+      audioUrlRef.current = '';
+    }
+    setIsSpeaking(false);
+  };
+
+  const speakText = async (text) => {
+    const content = String(text || '').trim();
+    if (!content) return;
+
+    stopAudioPlayback();
+    setIsSpeaking(true);
+    try {
+      const response = await fetch('/api/diagnosis/speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || '语音合成失败');
+      }
+
+      const blob = await response.blob();
+      const audioUrl = URL.createObjectURL(blob);
+      const audio = new Audio(audioUrl);
+      audioUrlRef.current = audioUrl;
+      audioPlayerRef.current = audio;
+      audio.onended = stopAudioPlayback;
+      audio.onerror = () => {
+        stopAudioPlayback();
+        triggerToast('语音播放失败，请稍后重试');
+      };
+      await audio.play();
+    } catch (err) {
+      console.error('Text to speech failed:', err);
+      stopAudioPlayback();
+      triggerToast(err.message || '语音合成失败，请稍后重试');
+    }
+  };
+
+  const handleToggleRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      return;
+    }
+
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Recognition) {
+      triggerToast('当前浏览器不支持 Web Speech API。请使用 Chrome 或 Edge，并确认页面为 HTTPS 或 localhost。');
+      return;
+    }
+
+    try {
+      const recognition = new Recognition();
+      recognition.lang = 'zh-CN';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognitionBaseTextRef.current = inputText.trim();
+
+      recognition.onresult = (event) => {
+        let finalText = '';
+        let interimText = '';
+
+        for (let i = 0; i < event.results.length; i++) {
+          const transcript = event.results[i][0]?.transcript || '';
+          if (event.results[i].isFinal) {
+            finalText += transcript;
+          } else {
+            interimText += transcript;
+          }
+        }
+
+        const spokenText = `${finalText}${interimText}`.trim();
+        const baseText = recognitionBaseTextRef.current;
+        setInputText(baseText && spokenText ? `${baseText}\n${spokenText}` : (spokenText || baseText));
+      };
+
+      recognition.onend = () => {
+        setIsRecording(false);
+        recognitionRef.current = null;
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Web Speech recognition error:', event.error);
+        setIsRecording(false);
+        recognitionRef.current = null;
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+          triggerToast('无法使用麦克风，请允许浏览器语音识别权限。');
+        } else if (event.error === 'no-speech') {
+          triggerToast('没有识别到声音，请再试一次。');
+        } else {
+          triggerToast('浏览器语音识别失败，请稍后重试。');
+        }
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+      setIsRecording(true);
+      triggerToast('正在语音识别，讲完后点停止');
+    } catch (err) {
+      console.error('Start speech recognition failed:', err);
+      setIsRecording(false);
+      recognitionRef.current = null;
+      triggerToast('无法启动浏览器语音识别，请检查权限或换 Chrome / Edge。');
+    }
   };
 
   const escapeHtml = (value) => String(value || '')
@@ -550,6 +681,10 @@ export default function DiagnosisPage() {
             });
           });
         }
+      }
+
+      if (autoSpeak && accumulatedReply.trim()) {
+        speakText(accumulatedReply);
       }
     } catch (err) {
       console.error(err);
@@ -934,6 +1069,18 @@ export default function DiagnosisPage() {
                           {msg.sender === 'agent' ? 'AI 增长转型顾问' : '您'}
                         </div>
                         <div className="bubble-text">{msg.content}</div>
+                        {msg.sender === 'agent' && msg.content?.trim() && (
+                          <button
+                            type="button"
+                            className="btn-speak-message"
+                            onClick={() => speakText(msg.content)}
+                            disabled={isSpeaking}
+                            title="朗读这条回复"
+                            aria-label="朗读这条回复"
+                          >
+                            {isSpeaking ? '正在朗读' : '朗读'}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -963,6 +1110,33 @@ export default function DiagnosisPage() {
 
                 {/* 对话底部输入框 */}
                 <form onSubmit={handleSendMessage} className="chat-input-wrapper">
+                  <div className="voice-status-row">
+                    <button
+                      type="button"
+                      className={`btn-voice-tool ${isRecording ? 'recording' : ''}`}
+                      onClick={handleToggleRecording}
+                      disabled={isChatLoading || isReportLoading}
+                      title={isRecording ? '停止语音识别' : '语音输入'}
+                      aria-label={isRecording ? '停止语音识别' : '语音输入'}
+                    >
+                      {isRecording ? '■' : '🎙'}
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn-auto-speak ${autoSpeak ? 'active' : ''}`}
+                      onClick={() => setAutoSpeak(prev => !prev)}
+                      title="自动朗读 AI 回复"
+                      aria-label="自动朗读 AI 回复"
+                    >
+                      {autoSpeak ? '自动朗读开' : '自动朗读关'}
+                    </button>
+                    {(isRecording || isSpeaking) && (
+                      <span className="voice-inline-status">
+                        {isRecording && '正在识别...'}
+                        {isSpeaking && '正在播放...'}
+                      </span>
+                    )}
+                  </div>
                   <textarea
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
@@ -2013,6 +2187,7 @@ export default function DiagnosisPage() {
           display: flex;
           flex-direction: column;
           gap: 4px;
+          align-items: flex-start;
         }
 
         .bubble-meta {
@@ -2023,6 +2198,10 @@ export default function DiagnosisPage() {
 
         .message-bubble-wrapper.user .bubble-meta {
           text-align: right;
+        }
+
+        .message-bubble-wrapper.user .message-bubble-content {
+          align-items: flex-end;
         }
 
         .bubble-text {
@@ -2046,6 +2225,28 @@ export default function DiagnosisPage() {
           border-color: rgba(13, 148, 136, 0.15);
           color: #ffffff;
           border-top-right-radius: 2px;
+        }
+
+        .btn-speak-message {
+          border: 1px solid rgba(45, 212, 191, 0.22);
+          background: rgba(13, 148, 136, 0.08);
+          color: #99f6e4;
+          border-radius: 999px;
+          padding: 4px 10px;
+          font-size: 0.68rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .btn-speak-message:hover:not(:disabled) {
+          background: rgba(13, 148, 136, 0.18);
+          border-color: rgba(45, 212, 191, 0.4);
+        }
+
+        .btn-speak-message:disabled {
+          opacity: 0.55;
+          cursor: not-allowed;
         }
 
         .chat-error-bar {
@@ -2092,6 +2293,69 @@ export default function DiagnosisPage() {
           background: rgba(15, 23, 42, 0.3);
           position: relative;
           display: block;
+        }
+
+        .voice-status-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+          min-height: 30px;
+        }
+
+        .btn-voice-tool,
+        .btn-auto-speak {
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(15, 23, 42, 0.58);
+          color: #cbd5e1;
+          height: 30px;
+          border-radius: 999px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .btn-voice-tool {
+          width: 30px;
+          font-size: 0.9rem;
+        }
+
+        .btn-auto-speak {
+          padding: 0 11px;
+          font-size: 0.68rem;
+          font-weight: 700;
+        }
+
+        .btn-voice-tool:hover:not(:disabled),
+        .btn-auto-speak:hover:not(:disabled),
+        .btn-auto-speak.active {
+          border-color: rgba(45, 212, 191, 0.38);
+          background: rgba(13, 148, 136, 0.14);
+          color: #ccfbf1;
+        }
+
+        .btn-voice-tool.recording {
+          border-color: rgba(248, 113, 113, 0.55);
+          background: rgba(239, 68, 68, 0.15);
+          color: #fecaca;
+          animation: pulse 1.2s infinite;
+        }
+
+        .btn-voice-tool:disabled,
+        .btn-auto-speak:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+        }
+
+        .voice-inline-status {
+          color: #94a3b8;
+          font-size: 0.68rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .chat-textarea {
@@ -3105,6 +3369,33 @@ export default function DiagnosisPage() {
           min-height: 88px;
         }
 
+        .theme-light .btn-speak-message,
+        .theme-light .btn-voice-tool,
+        .theme-light .btn-auto-speak {
+          background: #f8fafc;
+          border-color: rgba(15, 23, 42, 0.12);
+          color: #0f766e;
+        }
+
+        .theme-light .btn-speak-message:hover:not(:disabled),
+        .theme-light .btn-voice-tool:hover:not(:disabled),
+        .theme-light .btn-auto-speak:hover:not(:disabled),
+        .theme-light .btn-auto-speak.active {
+          background: #ecfdf5;
+          border-color: #99f6e4;
+          color: #047857;
+        }
+
+        .theme-light .btn-voice-tool.recording {
+          background: #fef2f2;
+          border-color: #fca5a5;
+          color: #b91c1c;
+        }
+
+        .theme-light .voice-inline-status {
+          color: #64748b;
+        }
+
         @media (max-width: 992px) {
           .app-container.fixed-workbench {
             position: static;
@@ -3271,6 +3562,10 @@ export default function DiagnosisPage() {
           .chat-textarea {
             min-height: 88px;
             font-size: 0.86rem;
+          }
+
+          .voice-status-row {
+            flex-wrap: wrap;
           }
 
           .input-toolbar {

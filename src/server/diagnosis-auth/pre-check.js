@@ -1,6 +1,7 @@
 import { getDatabaseConfigStatus, isPostgresMode, query } from "../diagnosis/db.js";
-import { initDiagnosisTables } from "../diagnosis/diagnosis_init.js";
 import { formatErrorForLog } from "../diagnosis/safe_error.js";
+
+let authTablesPromise = null;
 
 async function ignoreDuplicateColumn(task) {
   try {
@@ -56,6 +57,17 @@ async function runOptionalMigration(label, task) {
 }
 
 async function ensureAuthTables() {
+  if (authTablesPromise) return authTablesPromise;
+
+  authTablesPromise = doEnsureAuthTables().catch((error) => {
+    authTablesPromise = null;
+    throw error;
+  });
+
+  return authTablesPromise;
+}
+
+async function doEnsureAuthTables() {
   if (isPostgresMode) {
     await runMigration('create user_credits', () => ignoreExistingTable(() => query(`
       CREATE TABLE user_credits (
@@ -132,11 +144,6 @@ export default async function handler(req, res) {
     }
 
     await ensureAuthTables();
-    try {
-      await initDiagnosisTables();
-    } catch (error) {
-      console.warn("[Diagnosis Auth] Diagnosis table init skipped during login:", formatErrorForLog(error));
-    }
 
     const rows = await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
     if (rows && rows.length > 0) {
