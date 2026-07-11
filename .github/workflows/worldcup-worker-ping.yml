@@ -1,0 +1,15 @@
+name: World Cup Worker Ping
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake worker and trigger overdue sync
+        run: |
+          curl --fail --show-error --silent --max-time 60 \
+            https://wihaha-fde-worldcup-data-worker.hf.space/healthz

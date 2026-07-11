@@ -12,6 +12,9 @@ const stopAt = new Date(process.env.WORLDCUP_SYNC_UNTIL || '2026-07-20T00:00:00Z
 const intervalMs = Math.max(5, intervalMinutes) * 60 * 1000;
 const port = Number(process.env.PORT || 7860);
 const runTimeoutMs = Number(process.env.WORLDCUP_SYNC_RUN_TIMEOUT_MS || 10 * 60 * 1000);
+let timer = null;
+let runPromise = null;
+
 const health = {
   status: 'starting',
   started_at: new Date().toISOString(),
@@ -23,11 +26,69 @@ const health = {
   stop_at: stopAt.toISOString(),
 };
 
+function isStopped() {
+  return new Date() >= stopAt;
+}
+
+function isDue() {
+  if (health.status !== 'waiting' || !health.next_run_at) return false;
+  return new Date(health.next_run_at).getTime() <= Date.now();
+}
+
+function scheduleNextRun(from = new Date()) {
+  if (timer) clearTimeout(timer);
+  timer = null;
+
+  if (isStopped()) {
+    health.status = 'stopped';
+    health.next_run_at = null;
+    console.log('[worldcup-sync-daemon] stop date reached; no more runs scheduled.');
+    return;
+  }
+
+  const nextAtMs = Math.min(from.getTime() + intervalMs, stopAt.getTime());
+  const waitMs = Math.max(0, nextAtMs - Date.now());
+  health.next_run_at = new Date(nextAtMs).toISOString();
+  console.log(`[worldcup-sync-daemon] next run in ${Math.round(waitMs / 60000)} minutes`);
+
+  timer = setTimeout(() => {
+    triggerRun('timer').catch((error) => {
+      console.error('[worldcup-sync-daemon] timer trigger failed:', error.message || error);
+    });
+  }, waitMs);
+}
+
+async function triggerRun(reason) {
+  if (runPromise) return runPromise;
+
+  if (isStopped()) {
+    health.status = 'stopped';
+    health.next_run_at = null;
+    return null;
+  }
+
+  console.log(`[worldcup-sync-daemon] run triggered by ${reason}`);
+  runPromise = (async () => {
+    await runOnce();
+    scheduleNextRun(new Date());
+  })().finally(() => {
+    runPromise = null;
+  });
+
+  return runPromise;
+}
+
 function startHealthServer() {
   const server = http.createServer((req, res) => {
     if (req.url === '/' || req.url === '/healthz') {
+      const dueTriggered = isDue();
+      if (dueTriggered) {
+        triggerRun('health-request-overdue').catch((error) => {
+          console.error('[worldcup-sync-daemon] overdue health trigger failed:', error.message || error);
+        });
+      }
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
-      res.end(JSON.stringify(health, null, 2));
+      res.end(JSON.stringify({ ...health, due_triggered: dueTriggered }, null, 2));
       return;
     }
     res.writeHead(404, { 'content-type': 'application/json; charset=utf-8' });
@@ -46,6 +107,7 @@ async function runOnce() {
   health.last_run_finished_at = null;
   health.last_run_status = 'running';
   health.last_error = null;
+  health.next_run_at = null;
   console.log(`[worldcup-sync-daemon] sync started at ${startedAt.toISOString()}`);
   try {
     const result = await execFileAsync(process.execPath, ['scripts/worldcup/sync-worldcup-data.mjs'], {
@@ -73,17 +135,6 @@ async function runOnce() {
 
 console.log(`[worldcup-sync-daemon] interval=${intervalMinutes} minutes stop_at=${stopAt.toISOString()}`);
 startHealthServer();
-
-while (new Date() < stopAt) {
-  await runOnce();
-  const now = new Date();
-  if (now >= stopAt) break;
-  const waitMs = Math.min(intervalMs, Math.max(0, stopAt.getTime() - now.getTime()));
-  health.next_run_at = new Date(now.getTime() + waitMs).toISOString();
-  console.log(`[worldcup-sync-daemon] next run in ${Math.round(waitMs / 60000)} minutes`);
-  await new Promise((resolve) => setTimeout(resolve, waitMs));
-}
-
-health.status = 'stopped';
-health.next_run_at = null;
-console.log('[worldcup-sync-daemon] stop date reached; exiting.');
+triggerRun('startup').catch((error) => {
+  console.error('[worldcup-sync-daemon] startup trigger failed:', error.message || error);
+});
