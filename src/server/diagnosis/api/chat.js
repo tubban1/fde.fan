@@ -216,23 +216,26 @@ ${conversationContext}
       });
 
       accumulatedReply = await pipeModelStreamToResponse(modelStream, res);
-      if (extractionPromise) {
-        await extractionPromise;
-      }
       if (hardTimeoutTimer) clearTimeout(hardTimeoutTimer);
       if (accumulatedReply?.trim()) {
         res.end();
         persistAgentMessage(sessionId, accumulatedReply, 'Chat Save Error');
+        if (extractionPromise) {
+          await extractionPromise;
+        }
         return;
       }
       await safeEndWithFallback('');
-      return;
-    } catch (apiErr) {
-      console.error('[Chat Stream API Error]:', formatErrorForLog(apiErr));
       if (extractionPromise) {
         await extractionPromise;
       }
+      return;
+    } catch (apiErr) {
+      console.error('[Chat Stream API Error]:', formatErrorForLog(apiErr));
       await safeEndWithFallback(accumulatedReply);
+      if (extractionPromise) {
+        await extractionPromise;
+      }
       return;
     }
 

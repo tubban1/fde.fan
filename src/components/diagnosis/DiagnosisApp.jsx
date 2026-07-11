@@ -65,7 +65,10 @@ export default function DiagnosisPage() {
     if (storedEmail && storedPassword && storedVerified) {
       setEmail(storedEmail);
       setPassword(storedPassword);
-      handleVerifyEmail(storedEmail, storedPassword);
+      setEmailStatus('verified');
+      window.setTimeout(() => {
+        loadDiagnosisHistory(storedEmail, storedPassword, false);
+      }, 0);
     }
 
   }, []);
@@ -179,7 +182,9 @@ export default function DiagnosisPage() {
         localStorage.setItem('fde_diagnosis_verified', 'true');
         triggerToast(response.data.isNewUser ? '注册成功：当前无需邮箱验证码，诊断历史会保存到该邮箱账号。' : '验证成功：诊断历史会保存到该邮箱账号。');
         setIsCheckingEmail(false);
-        loadDiagnosisHistory(emailToVerify, passwordToVerify, true);
+        window.setTimeout(() => {
+          loadDiagnosisHistory(emailToVerify, passwordToVerify, false);
+        }, 0);
       }
     } catch (err) {
       console.error(err);

@@ -124,6 +124,31 @@ async function doEnsureAuthTables() {
   await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`));
 }
 
+function isMissingAuthTableError(error) {
+  const code = error?.code || '';
+  const message = String(error?.message || '').toLowerCase();
+  return (
+    code === '42P01' ||
+    code === 'ER_NO_SUCH_TABLE' ||
+    message.includes('relation "user_credits" does not exist') ||
+    message.includes("relation 'user_credits' does not exist") ||
+    message.includes("table 'user_credits'") ||
+    message.includes('no such table')
+  );
+}
+
+async function findUserCredits(email) {
+  try {
+    return await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
+  } catch (error) {
+    if (!isMissingAuthTableError(error)) {
+      throw error;
+    }
+    await ensureAuthTables();
+    return await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: "Method Not Allowed" });
@@ -143,9 +168,7 @@ export default async function handler(req, res) {
       });
     }
 
-    await ensureAuthTables();
-
-    const rows = await query("SELECT password, credits FROM user_credits WHERE email = ?", [email]);
+    const rows = await findUserCredits(email);
     if (rows && rows.length > 0) {
       if (rows[0].password !== password) {
         return res.status(401).json({ success: false, error: "密码错误，请重试！" });
