@@ -33,29 +33,29 @@ const allianceMarquee = [...allianceMembers, ...allianceMembers];
 const allianceMemberCount = allianceMembers.length;
 ---
 
-<SiteLayout title="FDE Future Camp | 全球AI未来工程师夏令营" description="FDE Future Camp 是面向全球青少年和未来工程师的 AI 夏令营，训练学员用 AI 工具完成创意、应用、智能体、部署和作品展示。">
+<SiteLayout title="FDE 企业 AI 落地工程师实战营 | FDE Enterprise AI Bootcamp" description="真实项目 × 能力评审 × 就业保障。FDE 企业 AI 应用落地工程师实战营，首期样板班 10 人精品小班，6周真实项目交付。">
   <section class="future-camp-hero">
     <img class="future-camp-hero-bg" src="/assets/hero2.png" alt="" />
     <div class="future-camp-hero-glass" aria-hidden="true"></div>
     <div class="future-camp-hero-copy">
-      <p class="eyebrow">FDE AI FUTURE CAMP</p>
+      <p class="eyebrow">FDE ENTERPRISE BOOTCAMP</p>
       <h1>
-        <span class="zh">沿着 AI 路径，走向未来工程师。</span>
-        <span class="en">Follow the AI path into future engineering.</span>
+        <span class="zh">企业 AI 应用落地工程师实战营</span>
+        <span class="en">Forward Deployed Engineer Bootcamp</span>
       </h1>
       <p class="future-camp-hero-lead">
-        <span class="zh">13-22 岁学生在同一个真实项目里完成学习、实践、认证、项目、展示与未来职业启蒙。</span>
-        <span class="en">Students aged 13-22 move through learning, practice, certification, projects, showcase, and future career discovery in one real project camp.</span>
+        <span class="zh">首期样板班：真实项目 × 能力评审 × 就业保障。仅面向具备一定基础、愿意接受高强度训练与严格考核的申请者。</span>
+        <span class="en">Prototype Cohort: Real Projects × Capability Review × Career Support. Intensive training for dedicated practitioners.</span>
       </p>
-      <div class="future-camp-hero-stats" aria-label="FDE Future Camp highlights">
-        <span>7/13-7/31</span>
-        <span>¥7,980</span>
-        <span>90h</span>
-        <span>20-30</span>
+      <div class="future-camp-hero-stats" aria-label="FDE Bootcamp highlights">
+        <span>10人精品</span>
+        <span>6周实战</span>
+        <span>¥19,800</span>
+        <span>就业保障</span>
       </div>
       <div class="hero-actions">
         <a class="cta-primary" href="#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
-        <a class="cta-secondary" href="/future-camp"><span class="zh">查看详细介绍</span><span class="en">View Details</span></a>
+        <a class="cta-secondary" href="/fde-camp"><span class="zh">查看实战营详情</span><span class="en">View Details</span></a>
       </div>
     </div>
   </section>
@@ -110,44 +110,45 @@ const allianceMemberCount = allianceMembers.length;
     <div class="camp-apply-grid">
       <div class="section-heading">
         <p class="eyebrow">APPLY</p>
-        <h2><span class="zh">提交 FDE Future Camp 报名信息</span><span class="en">Apply for FDE Future Camp</span></h2>
-        <p><span class="zh">填写后会直接保存到报名数据库。邮箱不是必填项，我们会优先通过你留下的微信、WhatsApp 或电话联系。</span><span class="en">Your application is saved directly to our database. Email is optional; we will use your preferred contact method first.</span></p>
-        <a class="cta-secondary" href="/future-camp"><span class="zh">查看夏令营详细介绍</span><span class="en">View Camp Details</span></a>
+        <h2><span class="zh">提交 FDE 实战营首期样板班申请</span><span class="en">Apply for FDE Enterprise Bootcamp</span></h2>
+        <p><span class="zh">第一期是样板工程，我们只招 10 名愿意完成真实项目的学员。提交后，我们会安排面谈评估。</span><span class="en">The prototype cohort is limited to 10 dedicated candidates. We will schedule an interview after submission.</span></p>
+        <a class="cta-secondary" href="/fde-camp"><span class="zh">查看实战营详细介绍</span><span class="en">View Camp Details</span></a>
       </div>
       <form class="camp-apply-form" data-camp-form>
         <label>
-          <span class="zh">学生姓名</span><span class="en">Student Name</span>
+          <span class="zh">姓名</span><span class="en">Name</span>
           <input name="studentName" required autocomplete="name" />
         </label>
         <label>
-          <span class="zh">年龄 / 年级</span><span class="en">Age / Grade</span>
-          <input name="ageGrade" required />
+          <span class="zh">专业学历 / 过往经历</span><span class="en">Background / Experience</span>
+          <input name="ageGrade" placeholder="例如：计算机本科/3年运营经验" required />
         </label>
         <label>
-          <span class="zh">家长或联系人邮箱（选填）</span><span class="en">Parent or Contact Email (Optional)</span>
-          <input name="email" type="email" autocomplete="email" />
+          <span class="zh">联系邮箱</span><span class="en">Email</span>
+          <input name="email" type="email" required autocomplete="email" />
         </label>
         <label>
-          <span class="zh">微信 / WhatsApp / 电话</span><span class="en">WeChat / WhatsApp / Phone</span>
+          <span class="zh">微信 / 电话</span><span class="en">WeChat / Phone</span>
           <input name="contact" required />
         </label>
         <label>
-          <span class="zh">感兴趣方向</span><span class="en">Interested Track</span>
+          <span class="zh">期望岗位方向</span><span class="en">Expected Role</span>
           <select name="track">
-            <option value="AI 应用开发">AI 应用开发 / AI App Building</option>
-            <option value="AI 智能体">AI 智能体 / AI Agents</option>
-            <option value="AI 设计与内容">AI 设计与内容 / AI Design & Content</option>
-            <option value="AI 科学探索">AI 科学探索 / AI Science Exploration</option>
+            <option value="企业AI应用工程师">企业AI应用工程师 / Enterprise AI Engineer</option>
+            <option value="AI产品助理/顾问">AI产品助理/顾问 / AI Product Assistant</option>
+            <option value="跨境电商AI运营">跨境电商AI运营 / Cross-border AI Ops</option>
+            <option value="知识库/工作流工程师">知识库/工作流工程师 / Knowledge Base Engineer</option>
+            <option value="其他">其他 / Other</option>
           </select>
         </label>
         <label class="full">
-          <span class="zh">补充说明</span><span class="en">Notes</span>
-          <textarea name="notes" rows="4" placeholder="学习背景、时间安排、希望完成的作品..."></textarea>
+          <span class="zh">每周可投入时间及AI使用经验</span><span class="en">Time Availability & AI Experience</span>
+          <textarea name="notes" rows="4" placeholder="请简述你每周可用于项目实战的时间，以及过去使用过哪些大模型或工具（如 Dify, Coze 等）。" required></textarea>
         </label>
-        <button class="cta-primary" type="submit"><span class="zh">提交报名信息</span><span class="en">Submit Application</span></button>
+        <button class="cta-primary" type="submit"><span class="zh">提交申请资料</span><span class="en">Submit Application</span></button>
         <p class="camp-form-note" data-camp-form-note>
-          <span class="zh">提交后会保存到 FDE FAN 报名数据库。</span>
-          <span class="en">Submission will be saved to the FDE FAN application database.</span>
+          <span class="zh">提交后会保存到 FDE 报名数据库，我们将会尽快与你联系面谈。</span>
+          <span class="en">Submission will be saved. We will contact you shortly for an interview.</span>
         </p>
       </form>
     </div>

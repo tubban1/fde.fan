@@ -1,0 +1,214 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { breadcrumbJsonLd } from "../lib/seo";
+
+const outcomes = [
+  ["项目经历", "2个真实项目", "高考志愿填报Agent & 跨境电商Agent。"],
+  ["作品集", "可演示作品", "至少一个可以独立演示的Agent应用及解决方案文档。"],
+  ["能力证明", "FDE 结业评审", "通过严格的项目评审与答辩，获得企业认可的能力证明。"],
+  ["就业保障", "持续求职支持", "一对一就业辅导，推荐匹配岗位与模拟面试。"]
+];
+
+const projects = [
+  {
+    title: "高考志愿填报 Agent",
+    desc: "将志愿专家的经验和咨询流程，转化为可以实际使用的高考志愿填报Agent。",
+    points: ["专家需求访谈与流程拆解", "知识库建设与经验结构化", "Agent对话流程与诊断工作流搭建"]
+  },
+  {
+    title: "跨境电商 Agent",
+    desc: "围绕企业在内容生产、商品发布、多语言翻译和客户服务等环节搭建应用。",
+    points: ["跨境电商企业需求调研", "商品与多语言内容生成工作流", "自动化流程搭建与交付"]
+  }
+];
+
+const schedule = [
+  ["第 1 周", "需求调研与项目立项", "业务流程拆解、用户需求分析、第一版求职简历。"],
+  ["第 2 周", "产品方案与Agent原型", "AI解决方案设计、Agent对话流程、第一版Agent原型。"],
+  ["第 3 周", "知识库与核心功能搭建", "知识库清洗与分类、Agent核心流程搭建、核心功能测试。"],
+  ["第 4 周", "真实项目开发与测试", "多场景测试、错误记录、用户反馈收集、工作流调整。"],
+  ["第 5 周", "企业化交付与个人作品集", "操作说明书、项目过程复盘、个人作品集升级。"],
+  ["第 6 周", "项目路演与就业评审", "Agent现场演示、模拟企业面试、简历最终版、综合评分。"]
+];
+---
+
+<SiteLayout
+  title="FDE 企业 AI 落地工程师实战营 | 首期样板班"
+  description="FDE企业AI应用落地工程师实战营，首期样板班只招10人，真实项目 × 能力评审 × 就业保障。"
+  jsonLd={breadcrumbJsonLd([
+    { name: "FDE FAN", path: "/" },
+    { name: "FDE 实战营", path: "/fde-camp" },
+  ])}
+>
+  <section class="doc-hero">
+    <p class="eyebrow">FDE ENTERPRISE BOOTCAMP</p>
+    <h1><span class="zh">企业 AI 应用落地工程师实战营</span><span class="en">FDE Enterprise Bootcamp</span></h1>
+    <p>
+      <span class="zh">真实项目 × 能力评审 × 就业保障。第一期不是体验班，而是一项以真实企业AI项目为载体的样板工程。仅面向具备一定基础、愿意接受高强度训练与严格考核的申请者。首期学费 ¥19,800，成都天府软件园线下实战。</span>
+      <span class="en">Real Projects × Capability Review × Career Support. A prototype engineering cohort based on actual enterprise AI implementations. Intensive 6-week training offline in Chengdu.</span>
+    </p>
+    <div class="stat-row camp-stats">
+      <div><strong>10</strong><span><span class="zh">精品小班人数</span><span class="en">Cohort Size</span></span></div>
+      <div><strong>6周</strong><span><span class="zh">真实项目交付</span><span class="en">Weeks of Delivery</span></span></div>
+      <div><strong>¥19,800</strong><span><span class="zh">首期学费</span><span class="en">Tuition Fee</span></span></div>
+      <div><button class="wechat-link" type="button" data-wechat-modal-open style="color: #0df;">Junhdjeuhg</button><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
+    </div>
+    <div class="hero-actions">
+      <a class="cta-primary" href="/#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">WHAT IS FDE</p>
+      <h2><span class="zh">企业需要的不是“学过AI的人”。</span><span class="en">Enterprises don't just need AI users.</span></h2>
+      <p><span class="zh">FDE (Forward Deployed Engineer) 需要进入企业真实业务场景，理解企业需求，拆解业务流程，设计AI解决方案，搭建Agent、知识库和自动化工作流，并最终推动项目完成测试与交付。企业需要的是能听懂业务、能完成交付的人。</span><span class="en">Forward Deployed Engineers enter real business scenarios, tear down processes, design AI solutions, build Agents and workflows, and drive projects to delivery.</span></p>
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">REAL PROJECTS</p>
+      <h2><span class="zh">第一期真实项目：拒绝模拟题。</span><span class="en">Real projects, no simulations.</span></h2>
+      <p><span class="zh">学员将直接参与两个正在推进的真实AI项目，完成从需求访谈、产品设计到交付测试的全流程。</span><span class="en">Participants will directly engage in two ongoing real AI projects, completing the full cycle from requirement interviews to delivery.</span></p>
+    </div>
+    <div class="content-grid">
+      {projects.map((proj) => (
+        <div class="doc-card">
+          <span class="tag">PROJECT</span>
+          <h2><span class="zh">{proj.title}</span><span class="en">{proj.title}</span></h2>
+          <p><span class="zh">{proj.desc}</span></p>
+          <ul>
+            {proj.points.map((pt) => <li><span class="zh">{pt}</span></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">6-WEEK TIMELINE</p>
+      <h2><span class="zh">六周全职实战：完全围绕真实项目推进。</span><span class="en">6-week sprint focused on delivery.</span></h2>
+    </div>
+    <div class="schedule-table">
+      {schedule.map(([time, title, body]) => (
+        <div>
+          <strong>{time}</strong>
+          <span>{title}</span>
+          <small>{body}</small>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-wrap">
+    <div class="section-heading">
+      <p class="eyebrow">EVALUATION SYSTEM</p>
+      <h2><span class="zh">100分制严格评分与结业评审</span><span class="en">Strict 100-point evaluation system.</span></h2>
+      <p><span class="zh">六周结束后，每名学员都需要参加结业评审。80分及以上通过结业评审并进入 FDE 就业保障计划；80分以下需继续参加重点模块复训和答辩。</span><span class="en">Participants scoring 80+ enter the FDE Career Support program; others continue training until they meet the bar.</span></p>
+    </div>
+    
+    <div class="echarts-container" id="scoringChart" style="width: 100%; height: 400px; margin: 2rem 0;"></div>
+    
+  </section>
+
+  <section class="section-wrap band">
+    <div class="section-heading">
+      <p class="eyebrow">DELIVERABLES</p>
+      <h2><span class="zh">你将获得什么？不止是一份简历。</span><span class="en">What you get: more than a resume.</span></h2>
+      <p><span class="zh">只有你真正参与过、能够讲清楚、能够接受企业追问的内容，才会被写入简历和作品集。我们将安排专人持续跟踪合作企业的岗位信息，为你提供一对一的求职辅导。</span><span class="en">Only what you have truly built and can defend under enterprise scrutiny makes it to your portfolio.</span></p>
+    </div>
+    <div class="content-grid">
+      {outcomes.map(([zhTitle, enTitle, zhBody]) => (
+        <div class="doc-card">
+          <span class="tag">DELIVERABLE</span>
+          <h2><span class="zh">{zhTitle}</span><span class="en">{enTitle}</span></h2>
+          <p><span class="zh">{zhBody}</span></p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="wechat-modal" data-wechat-modal hidden>
+    <button class="wechat-modal-backdrop" type="button" data-wechat-modal-close aria-label="Close WeChat QR modal"></button>
+    <section class="wechat-modal-card" role="dialog" aria-modal="true" aria-labelledby="wechat-modal-title">
+      <button class="wechat-modal-close" type="button" data-wechat-modal-close aria-label="Close">×</button>
+      <p class="eyebrow">CONTACT</p>
+      <h2 id="wechat-modal-title"><span class="zh">面谈申请咨询微信</span><span class="en">Interview Contact</span></h2>
+      <div class="wechat-qr-frame">
+        <img src="/assets/wechat-consult-junhdjeuhg.png" alt="WeChat QR code" />
+      </div>
+      <strong>FDE 实战营招生办</strong>
+      <p><span class="zh">扫码咨询报名门槛、课程安排与一对一面谈事宜。</span><span class="en">Scan to ask about prerequisites, schedule, and interview details.</span></p>
+    </section>
+  </div>
+
+  <script is:inline type="module">
+    import * as echarts from 'https://esm.sh/echarts@5.5.0';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const chartDom = document.getElementById('scoringChart');
+      if (chartDom) {
+        const myChart = echarts.init(chartDom);
+        const option = {
+          tooltip: { trigger: 'item' },
+          legend: { top: 'bottom', textStyle: { color: '#888' } },
+          series: [
+            {
+              name: '评分占比 (分)',
+              type: 'pie',
+              radius: ['40%', '70%'],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: '#111',
+                borderWidth: 2
+              },
+              label: { show: false, position: 'center' },
+              emphasis: {
+                label: { show: true, fontSize: 18, fontWeight: 'bold', color: '#fff' }
+              },
+              labelLine: { show: false },
+              data: [
+                { value: 25, name: 'Agent及工作流搭建 (25分)' },
+                { value: 20, name: '需求理解与业务拆解 (20分)' },
+                { value: 20, name: '真实项目完成质量 (20分)' },
+                { value: 15, name: '沟通汇报与项目表达 (15分)' },
+                { value: 10, name: '简历、作品集与项目证明 (10分)' },
+                { value: 10, name: '出勤、协作与职业态度 (10分)' }
+              ]
+            }
+          ]
+        };
+        myChart.setOption(option);
+        
+        window.addEventListener('resize', () => {
+          myChart.resize();
+        });
+      }
+    });
+
+    const wechatModal = document.querySelector<HTMLElement>("[data-wechat-modal]");
+    const wechatOpenButtons = document.querySelectorAll("[data-wechat-modal-open]");
+    const wechatCloseButtons = document.querySelectorAll("[data-wechat-modal-close]");
+
+    const openWechatModal = () => {
+      if (!wechatModal) return;
+      wechatModal.hidden = false;
+      document.documentElement.classList.add("modal-open");
+    };
+
+    const closeWechatModal = () => {
+      if (!wechatModal) return;
+      wechatModal.hidden = true;
+      document.documentElement.classList.remove("modal-open");
+    };
+
+    wechatOpenButtons.forEach((button) => button.addEventListener("click", openWechatModal));
+    wechatCloseButtons.forEach((button) => button.addEventListener("click", closeWechatModal));
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeWechatModal();
+    });
+  </script>
+</SiteLayout>
