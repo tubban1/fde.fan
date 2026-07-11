@@ -40,7 +40,7 @@ const schedule = [
     { name: "FDE 实战营", path: "/fde-camp" },
   ])}
 >
-  <section class="doc-hero">
+  <section class="doc-hero camp-page-hero">
     <p class="eyebrow">FDE ENTERPRISE BOOTCAMP</p>
     <h1><span class="zh">企业 AI 应用落地工程师实战营</span><span class="en">FDE Enterprise Bootcamp</span></h1>
     <p>
@@ -51,14 +51,14 @@ const schedule = [
       <div><strong>10</strong><span><span class="zh">精品小班人数</span><span class="en">Cohort Size</span></span></div>
       <div><strong>6周</strong><span><span class="zh">真实项目交付</span><span class="en">Weeks of Delivery</span></span></div>
       <div><strong>¥19,800</strong><span><span class="zh">首期学费</span><span class="en">Tuition Fee</span></span></div>
-      <div><button class="wechat-link" type="button" data-wechat-modal-open style="color: #0df;">Junhdjeuhg</button><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
+      <div><button class="wechat-link" type="button" data-wechat-modal-open>Junhdjeuhg</button><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
     </div>
     <div class="hero-actions">
       <a class="cta-primary" href="/#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
     </div>
   </section>
 
-  <section class="section-wrap band">
+  <section class="section-wrap camp-page-section band">
     <div class="section-heading">
       <p class="eyebrow">WHAT IS FDE</p>
       <h2><span class="zh">企业需要的不是“学过AI的人”。</span><span class="en">Enterprises don't just need AI users.</span></h2>
@@ -66,7 +66,7 @@ const schedule = [
     </div>
   </section>
 
-  <section class="section-wrap">
+  <section class="section-wrap camp-page-section">
     <div class="section-heading">
       <p class="eyebrow">REAL PROJECTS</p>
       <h2><span class="zh">第一期真实项目：拒绝模拟题。</span><span class="en">Real projects, no simulations.</span></h2>
@@ -86,7 +86,7 @@ const schedule = [
     </div>
   </section>
 
-  <section class="section-wrap band">
+  <section class="section-wrap camp-page-section band">
     <div class="section-heading">
       <p class="eyebrow">6-WEEK TIMELINE</p>
       <h2><span class="zh">六周全职实战：完全围绕真实项目推进。</span><span class="en">6-week sprint focused on delivery.</span></h2>
@@ -102,7 +102,7 @@ const schedule = [
     </div>
   </section>
 
-  <section class="section-wrap">
+  <section class="section-wrap camp-page-section">
     <div class="section-heading">
       <p class="eyebrow">EVALUATION SYSTEM</p>
       <h2><span class="zh">100分制严格评分与结业评审</span><span class="en">Strict 100-point evaluation system.</span></h2>
@@ -113,7 +113,7 @@ const schedule = [
     
   </section>
 
-  <section class="section-wrap band">
+  <section class="section-wrap camp-page-section band">
     <div class="section-heading">
       <p class="eyebrow">DELIVERABLES</p>
       <h2><span class="zh">你将获得什么？不止是一份简历。</span><span class="en">What you get: more than a resume.</span></h2>
@@ -143,6 +143,32 @@ const schedule = [
       <p><span class="zh">扫码咨询报名门槛、课程安排与一对一面谈事宜。</span><span class="en">Scan to ask about prerequisites, schedule, and interview details.</span></p>
     </section>
   </div>
+
+  <script is:inline>
+    (() => {
+      const wechatModal = document.querySelector("[data-wechat-modal]");
+      const wechatOpenButtons = document.querySelectorAll("[data-wechat-modal-open]");
+      const wechatCloseButtons = document.querySelectorAll("[data-wechat-modal-close]");
+
+      const openWechatModal = () => {
+        if (!wechatModal) return;
+        wechatModal.hidden = false;
+        document.documentElement.classList.add("modal-open");
+      };
+
+      const closeWechatModal = () => {
+        if (!wechatModal) return;
+        wechatModal.hidden = true;
+        document.documentElement.classList.remove("modal-open");
+      };
+
+      wechatOpenButtons.forEach((button) => button.addEventListener("click", openWechatModal));
+      wechatCloseButtons.forEach((button) => button.addEventListener("click", closeWechatModal));
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeWechatModal();
+      });
+    })();
+  </script>
 
   <script is:inline type="module">
     import * as echarts from 'https://esm.sh/echarts@5.5.0';
@@ -189,26 +215,5 @@ const schedule = [
       }
     });
 
-    const wechatModal = document.querySelector<HTMLElement>("[data-wechat-modal]");
-    const wechatOpenButtons = document.querySelectorAll("[data-wechat-modal-open]");
-    const wechatCloseButtons = document.querySelectorAll("[data-wechat-modal-close]");
-
-    const openWechatModal = () => {
-      if (!wechatModal) return;
-      wechatModal.hidden = false;
-      document.documentElement.classList.add("modal-open");
-    };
-
-    const closeWechatModal = () => {
-      if (!wechatModal) return;
-      wechatModal.hidden = true;
-      document.documentElement.classList.remove("modal-open");
-    };
-
-    wechatOpenButtons.forEach((button) => button.addEventListener("click", openWechatModal));
-    wechatCloseButtons.forEach((button) => button.addEventListener("click", closeWechatModal));
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeWechatModal();
-    });
   </script>
 </SiteLayout>

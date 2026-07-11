@@ -1375,6 +1375,28 @@ select {
   grid-column: 1;
 }
 
+.camp-page-hero,
+.camp-page-section > * {
+  width: min(calc(100% - 2 * clamp(1rem, 5vw, 4rem)), 80rem);
+  max-width: 80rem;
+}
+
+.camp-page-hero {
+  padding-top: 4.8rem;
+}
+
+.camp-page-section > * {
+  margin-inline: auto;
+}
+
+.camp-page-section .section-heading {
+  max-width: 80rem;
+}
+
+.camp-page-section .section-heading p:not(.eyebrow) {
+  max-width: 60rem;
+}
+
 .doc-share {
   display: flex;
   margin-top: 1.3rem;
