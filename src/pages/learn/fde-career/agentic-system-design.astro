@@ -1,0 +1,37 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+import { agentSystemPillars } from "../../../data/fdeCareer";
+---
+
+<SiteLayout title="生产级 Agent 系统设计 | FDE FAN" description="FDE 需要理解生产级 Agent 的编排、结构化输出、上下文优化、护栏、成本控制和系统评估。">
+  <DocShell eyebrow="AGENTIC SYSTEM DESIGN" title="生产级 Agent 系统设计" titleEn="Production Agentic System Design" description="真正可上线的 Agent 不只是会聊天，它需要路由、状态、工具、权限、评估和失败回退。FDE 要能把这些说清楚、画出来、做成最小可验证 Demo。" descriptionEn="A production agent is more than chat. It needs routing, state, tools, access control, evaluation, and fallback. FDEs must explain, diagram, and prototype these pieces.">
+    <h2>五大支柱</h2>
+    <div class="loop-grid compact">
+      {agentSystemPillars.map(([title, body], index) => (
+        <div class="loop-card">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{title}</h3>
+          <p>{body}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>标准架构</h2>
+    <div class="prompt-box">
+      <pre>{`User Request
+  -> Router / Orchestrator
+  -> Specialist Agent
+  -> Tools / Knowledge / Database
+  -> Validator / Human Review
+  -> Final Response / Report / Action`}</pre>
+    </div>
+
+    <h2>FDE 交付要求</h2>
+    <div class="schedule-table">
+      <div><strong>流程图</strong><span>先画后做</span><small>明确路由、工具、状态、人工介入和失败回退。</small></div>
+      <div><strong>结构化输出</strong><span>Schema 优先</span><small>报告、画像、工具调用和评分必须有结构，不能只靠自然语言。</small></div>
+      <div><strong>评估样本</strong><span>上线前验收</span><small>准备正常样本、边界样本、恶意样本和回归样本。</small></div>
+    </div>
+  </DocShell>
+</SiteLayout>

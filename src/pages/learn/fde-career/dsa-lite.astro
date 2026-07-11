@@ -1,0 +1,35 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+import { dsaLitePlan } from "../../../data/fdeCareer";
+---
+
+<SiteLayout title="DSA Lite 技术表达 | FDE FAN" description="FDE FAN 的 DSA Lite 不做刷题站，而是训练技术表达、复杂度意识、边界条件和工程权衡。">
+  <DocShell eyebrow="DSA LITE" title="DSA Lite 技术表达" titleEn="DSA Lite for Technical Communication" description="FDE 不需要把全部时间投入算法竞赛，但需要能在技术讨论中解释复杂度、数据结构、边界条件和方案权衡。" descriptionEn="FDEs do not need to become competitive programmers, but they should explain complexity, data structures, edge cases, and tradeoffs in technical conversations.">
+    <section class="insight-lesson">
+      <p class="eyebrow">BOUNDARY</p>
+      <p>这里的 DSA 是“够用的技术表达训练”：能读懂 AI 生成的代码是否离谱，能和工程师讨论方案，不把课程变成 LeetCode 打卡。</p>
+    </section>
+
+    <h2>建议学习顺序</h2>
+    <div class="schedule-table">
+      {dsaLitePlan.map(([title, body], index) => (
+        <div>
+          <strong>{String(index + 1).padStart(2, "0")}</strong>
+          <span>{title}</span>
+          <small>{body}</small>
+        </div>
+      ))}
+    </div>
+
+    <h2>每题复盘模板</h2>
+    <div class="prompt-box">
+      <pre>{`1. 这题的数据规模是什么？
+2. 暴力解法为什么不够？
+3. 使用了什么数据结构或模式？
+4. 时间复杂度和空间复杂度是什么？
+5. 最容易错的边界条件是什么？
+6. 如果交给 AI 工具生成代码，我要如何验收？`}</pre>
+    </div>
+  </DocShell>
+</SiteLayout>

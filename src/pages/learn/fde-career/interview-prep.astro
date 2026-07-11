@@ -1,0 +1,24 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+---
+
+<SiteLayout title="FDE 职业能力地图 | FDE FAN" description="把 FDE 面试准备转化为职业能力地图：角色认知、项目表达、技术判断、协作沟通和复盘能力。">
+  <DocShell eyebrow="CAREER MAP" title="FDE 职业能力地图" titleEn="FDE Career Capability Map" description="不要把面试准备理解为背答案。FDE 的职业准备，是证明你能进入真实业务、理解上下文、调用工具、交付结果，并把过程讲清楚。" descriptionEn="Do not treat interview prep as memorizing answers. FDE readiness means proving you can enter real business context, use tools, deliver outcomes, and explain the work.">
+    <h2>五个能力面</h2>
+    <div class="loop-grid compact">
+      <div class="loop-card"><span>01</span><h3>Role Fit</h3><p>你为什么适合前线部署工程师：不是只爱技术，而是愿意进入客户现场、面对不完整需求和真实约束。</p></div>
+      <div class="loop-card"><span>02</span><h3>Project Evidence</h3><p>至少准备一个 Agent 项目和一个数据/自动化项目，能讲清需求、方案、工具、测试和结果。</p></div>
+      <div class="loop-card"><span>03</span><h3>Technical Judgment</h3><p>不要求每个技术点都深入到底，但要能判断数据结构、API、状态、权限、失败模式和上线风险。</p></div>
+      <div class="loop-card"><span>04</span><h3>Communication</h3><p>面对模糊问题时先澄清、再建模、再确认边界，而不是急着给答案。</p></div>
+      <div class="loop-card"><span>05</span><h3>Retrospective</h3><p>能承认失败、定位原因、说明下一次如何通过流程、测试或上下文设计避免重复错误。</p></div>
+    </div>
+
+    <h2>准备材料</h2>
+    <div class="schedule-table">
+      <div><strong>一页简历</strong><span>按项目组织</span><small>每个项目写业务问题、AI 工具、交付物、验证方式和你的贡献。</small></div>
+      <div><strong>两个项目故事</strong><span>Agent + 传统数据/自动化</span><small>一个展示 Agent 工作流，一个展示数据处理、自动化或系统化交付能力。</small></div>
+      <div><strong>一套问题清单</strong><span>反问团队</span><small>围绕业务场景、数据边界、上线流程、评估方式和团队协作提问。</small></div>
+    </div>
+  </DocShell>
+</SiteLayout>

@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import DocShell from "../../components/DocShell.astro";
 import { weekPath } from "../../data/site";
+import { careerModules } from "../../data/fdeCareer";
 
 const tutorials = (await getCollection("tutorials")).sort((a, b) => a.data.order - b.data.order);
 const learningTools = [
@@ -88,6 +89,14 @@ const phases = [
     body: "训练 Diagnostic Mindset，再进入跨境电商、文旅和企业诊断案例。",
     bodyEn: "Train the Diagnostic Mindset, then move into commerce, tourism, and enterprise diagnosis cases.",
   },
+  {
+    mark: "CAREER",
+    title: "FDE 职业进阶",
+    titleEn: "FDE Career Track",
+    href: "/learn/fde-career",
+    body: "把公开 FDE 面试准备资料重组为 AI 工具协作开发、Agent 系统设计、技术表达和项目复盘。",
+    bodyEn: "Reframe public FDE preparation into AI-assisted coding, agent system design, technical communication, and project review.",
+  },
 ];
 ---
 
@@ -120,6 +129,17 @@ const phases = [
           <span class="tag">{tool.mark}</span>
           <h2><span class="zh">{tool.title}</span><span class="en">{tool.titleEn}</span></h2>
           <p><span class="zh">{tool.body}</span><span class="en">{tool.bodyEn}</span></p>
+        </a>
+      ))}
+    </section>
+
+    <h2>FDE 职业进阶</h2>
+    <section class="content-grid">
+      {careerModules.slice(1).map((item) => (
+        <a class="doc-card" href={item.href}>
+          <span class="tag">{item.mark}</span>
+          <h2><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h2>
+          <p><span class="zh">{item.summary}</span><span class="en">{item.summaryEn}</span></p>
         </a>
       ))}
     </section>

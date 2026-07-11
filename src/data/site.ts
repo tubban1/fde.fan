@@ -71,6 +71,14 @@ export const learningTracks = [
     summaryEn: "Use AI tools to prepare test samples, compare outputs, inspect tool traces, and produce launch acceptance reports.",
   },
   {
+    href: "/learn/fde-career",
+    mark: "CAREER",
+    zh: "FDE 职业进阶路径",
+    en: "FDE Career Track",
+    summary: "把公开 FDE 面试资料重组为 AI 工具协作开发、生产级 Agent 设计、DSA Lite 和项目复盘训练。",
+    summaryEn: "Reframe public FDE prep notes into AI-assisted coding, production agent design, DSA Lite, and project review practice.",
+  },
+  {
     href: "/learn/consulting",
     mark: "SOFT",
     zh: "Soft Stack",

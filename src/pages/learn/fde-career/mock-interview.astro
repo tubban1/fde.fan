@@ -1,0 +1,28 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+import { mockScenarios } from "../../../data/fdeCareer";
+---
+
+<SiteLayout title="Mock Interview 与项目复盘 | FDE FAN" description="用 30 分钟 App Build、Prompt + Output Review、Agent 失败诊断和 STAR 项目复盘训练 FDE 表达能力。">
+  <DocShell eyebrow="MOCK REVIEW" title="Mock Interview 与项目复盘" titleEn="Mock Interview and Project Review" description="FDE 的高阶评审不是问你背了多少概念，而是看你能否在压力下澄清问题、用 AI 工具推进、解释判断，并诚实复盘。" descriptionEn="Advanced FDE review is not about memorized concepts. It tests whether you clarify under pressure, use AI tools, explain judgment, and review honestly.">
+    <h2>四类模拟场景</h2>
+    <div class="content-grid">
+      {mockScenarios.map(([title, body], index) => (
+        <div class="doc-card">
+          <span class="tag">{String(index + 1).padStart(2, "0")}</span>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>30 分钟结构</h2>
+    <div class="schedule-table">
+      <div><strong>0-5 min</strong><span>澄清与方案</span><small>复述目标、确认边界、拆模块、说明工具选择。</small></div>
+      <div><strong>5-22 min</strong><span>AI 工具协作开发</span><small>分步骤生成、审查、修改、运行，保留关键决策。</small></div>
+      <div><strong>22-27 min</strong><span>验证与风险</span><small>跑构建、补测试、列出未覆盖边界和上线风险。</small></div>
+      <div><strong>27-30 min</strong><span>总结表达</span><small>说明交付物、下一步和如果再做一次会改哪里。</small></div>
+    </div>
+  </DocShell>
+</SiteLayout>

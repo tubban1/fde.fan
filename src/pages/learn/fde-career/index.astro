@@ -1,0 +1,45 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+import { careerModules, googleSourceNotes } from "../../../data/fdeCareer";
+---
+
+<SiteLayout title="FDE Career Track | FDE FAN" description="FDE FAN 职业进阶路径，把公开 FDE 面试资料重组为 AI 工具协作开发、生产级 Agent 系统设计、技术表达和项目复盘训练。">
+  <DocShell eyebrow="FDE CAREER TRACK" title="FDE 职业进阶路径" titleEn="FDE Career Track" description="这一组课程不是刷题营，也不是照搬某家公司面试经验，而是把公开的 FDE 面试准备资料整理成可训练、可交付、可复盘的职业能力路径。" descriptionEn="This track does not copy any company interview process. It turns public FDE preparation notes into trainable career capabilities for delivery, validation, and retrospectives.">
+    <section class="insight-lesson">
+      <p class="eyebrow">POSITIONING</p>
+      <p>
+        <span class="zh">FDE FAN 的核心不是让学员死磕语法，而是训练学员用 Codex、Claude Code、Cursor、Antigravity 等 AI 工具完成真实交付。Google 文件夹里的材料适合转化为“高阶职业进阶”模块：面试只是表层，底层是意图拆解、Agent 系统判断、技术表达和项目复盘。</span>
+        <span class="en">FDE FAN is not about grinding syntax. It trains learners to use AI tools such as Codex, Claude Code, Cursor, and Antigravity for real delivery. The Google folder becomes a higher-level career track: interviews are the surface; intent framing, agent design, technical communication, and retrospectives are the core.</span>
+      </p>
+    </section>
+
+    <h2>模块结构</h2>
+    <section class="content-grid">
+      {careerModules.map((item) => (
+        <a class="doc-card" href={item.href}>
+          <span class="tag">{item.mark}</span>
+          <h2><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h2>
+          <p><span class="zh">{item.summary}</span><span class="en">{item.summaryEn}</span></p>
+        </a>
+      ))}
+    </section>
+
+    <h2>与主课程的关系</h2>
+    <div class="schedule-table">
+      <div><strong>基础课程</strong><span>学会指挥 AI 工具</span><small>理解项目结构、需求拆解、Prompt 到页面、Agent 工作流和部署交付。</small></div>
+      <div><strong>行业课程</strong><span>进入真实业务</span><small>把跨境电商、文旅、企业诊断等场景拆成可交付 Demo、流程和文档。</small></div>
+      <div><strong>职业进阶</strong><span>证明可被信任</span><small>用 Vibe Coding、Agent 系统设计、DSA Lite 和 Mock Review 证明自己能处理模糊需求、错误输出和上线边界。</small></div>
+    </div>
+
+    <h2>参考来源</h2>
+    <div class="resource-list">
+      {googleSourceNotes.map((note) => (
+        <a href="/learn/fde-career/interview-prep">
+          <b>{note}</b>
+          <span>站内内容已按 FDE FAN 的训练目标重新整理，不直接复制原始面试语境。</span>
+        </a>
+      ))}
+    </div>
+  </DocShell>
+</SiteLayout>

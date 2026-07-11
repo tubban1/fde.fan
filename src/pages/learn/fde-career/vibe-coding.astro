@@ -1,0 +1,39 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import DocShell from "../../../components/DocShell.astro";
+import { vibeCompetencies } from "../../../data/fdeCareer";
+---
+
+<SiteLayout title="AI 工具协作开发 Vibe Coding | FDE FAN" description="用 Codex、Claude Code、Cursor、Antigravity 进行意图拆解、模块生成、输出审查、验证和失败诊断。">
+  <DocShell eyebrow="VIBE CODING" title="AI 工具协作开发" titleEn="AI-Assisted Vibe Coding" description="Vibe Coding 不是让 AI 随便写代码，而是 FDE 用清晰意图、边界、策略和验证流程来编排 AI 输出。" descriptionEn="Vibe Coding is not letting AI write randomly. It is the FDE practice of orchestrating AI output with clear intent, boundaries, policies, and validation.">
+    <section class="insight-lesson">
+      <p class="eyebrow">SHIFT</p>
+      <p>你的角色从“逐行实现者”升级为“系统完整性守护者”：写清意图、拆分模块、提供上下文、审查输出、补测试、解释风险。</p>
+    </section>
+
+    <h2>四个核心能力</h2>
+    <div class="loop-grid compact">
+      {vibeCompetencies.map(([title, body], index) => (
+        <div class="loop-card">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{title}</h3>
+          <p>{body}</p>
+        </div>
+      ))}
+    </div>
+
+    <h2>CRISP Prompt 框架</h2>
+    <div class="schedule-table">
+      <div><strong>C</strong><span>Context</span><small>业务背景、用户、现有代码、数据来源、技术栈。</small></div>
+      <div><strong>R</strong><span>Requirements</span><small>必须完成什么、不做什么、接口和状态要求。</small></div>
+      <div><strong>I</strong><span>Interface</span><small>输入、输出、API、组件 props、错误格式和边界条件。</small></div>
+      <div><strong>S</strong><span>Safety</span><small>隐私、权限、日志、成本、人工确认点。</small></div>
+      <div><strong>P</strong><span>Proof</span><small>测试、截图、构建、评估样本和验收清单。</small></div>
+    </div>
+
+    <h2>练习任务</h2>
+    <div class="prompt-box">
+      <p>选择一个真实小需求，例如“旅行社客户咨询表单”。先写 CRISP 任务卡，再让 AI 工具生成页面、接口草案和测试清单。最后只提交你能解释清楚的部分。</p>
+    </div>
+  </DocShell>
+</SiteLayout>

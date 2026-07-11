@@ -1108,6 +1108,10 @@ select {
   font-size: clamp(1.4rem, 3vw, 2.7rem);
 }
 
+.diagnosis-banner a {
+  color: inherit;
+}
+
 .wechat-modal[hidden] {
   display: none;
 }
@@ -1417,6 +1421,25 @@ select {
   display: grid;
   align-self: start;
   gap: 0.7rem;
+  max-height: calc(100svh - 112px);
+  overflow-y: auto;
+  padding-right: 0.2rem;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(69, 244, 255, 0.4) rgba(255, 255, 255, 0.04);
+}
+
+.doc-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.doc-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.doc-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(69, 244, 255, 0.28);
+  border-radius: 999px;
 }
 
 .sidebar-group {
