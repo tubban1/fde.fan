@@ -603,6 +603,88 @@ async function fetchOddsSnapshots(pool) {
   return { fetched, inserted, updated };
 }
 
+async function advanceResolvedBracketMatches(pool) {
+  let homeUpdated = 0;
+  let awayUpdated = 0;
+
+  for (let pass = 0; pass < 8; pass += 1) {
+    const homeResult = await pool.query(`
+      with resolved as (
+        select
+          m.id,
+          case left(m.home_source_rule, 1)
+            when 'W' then src.winner_team_id
+            when 'L' then
+              case
+                when src.winner_team_id = src.home_team_id then src.away_team_id
+                when src.winner_team_id = src.away_team_id then src.home_team_id
+                else null
+              end
+            else null
+          end as resolved_team_id
+        from worldcup_matches m
+        join worldcup_matches src on src.id = m.home_source_match_id
+        where m.home_team_id is null
+          and m.home_source_match_id is not null
+          and src.status = 'finished'
+          and src.winner_team_id is not null
+      ),
+      updated as (
+        update worldcup_matches m
+        set home_team_id = resolved.resolved_team_id,
+            updated_at = now()
+        from resolved
+        where m.id = resolved.id
+          and resolved.resolved_team_id is not null
+        returning m.id
+      )
+      select count(*)::integer as count from updated
+    `);
+
+    const awayResult = await pool.query(`
+      with resolved as (
+        select
+          m.id,
+          case left(m.away_source_rule, 1)
+            when 'W' then src.winner_team_id
+            when 'L' then
+              case
+                when src.winner_team_id = src.home_team_id then src.away_team_id
+                when src.winner_team_id = src.away_team_id then src.home_team_id
+                else null
+              end
+            else null
+          end as resolved_team_id
+        from worldcup_matches m
+        join worldcup_matches src on src.id = m.away_source_match_id
+        where m.away_team_id is null
+          and m.away_source_match_id is not null
+          and src.status = 'finished'
+          and src.winner_team_id is not null
+      ),
+      updated as (
+        update worldcup_matches m
+        set away_team_id = resolved.resolved_team_id,
+            updated_at = now()
+        from resolved
+        where m.id = resolved.id
+          and resolved.resolved_team_id is not null
+        returning m.id
+      )
+      select count(*)::integer as count from updated
+    `);
+
+    const passHomeUpdated = homeResult.rows[0]?.count || 0;
+    const passAwayUpdated = awayResult.rows[0]?.count || 0;
+    homeUpdated += passHomeUpdated;
+    awayUpdated += passAwayUpdated;
+
+    if (passHomeUpdated + passAwayUpdated === 0) break;
+  }
+
+  return { homeUpdated, awayUpdated, updated: homeUpdated + awayUpdated };
+}
+
 function normalizeRow(key, row) {
   const rowObj = { ...row };
   for (const candidate of TABLE_ID_RENAMES[key] || []) {
@@ -744,6 +826,10 @@ async function main() {
         };
         console.log(`[${item.key}] fetched=${result.fetched} inserted=${result.inserted} updated=${result.updated}`);
       }
+
+      const bracketResult = await advanceResolvedBracketMatches(pool);
+      payload.recordsUpserted.bracket_advancement = bracketResult;
+      console.log(`[bracket] home_updated=${bracketResult.homeUpdated} away_updated=${bracketResult.awayUpdated} total=${bracketResult.updated}`);
 
       try {
         const weatherResult = await fetchWeatherSnapshots(pool);

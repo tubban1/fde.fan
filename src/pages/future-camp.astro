@@ -56,7 +56,7 @@ const outcomes = [
       <div><strong>3 Days</strong><span><span class="zh">AI 体验营</span><span class="en">AI Explorer Sprint</span></span></div>
       <div><strong>10 Days</strong><span><span class="zh">FDE 项目营</span><span class="en">FDE Project Camp</span></span></div>
       <div><strong>13-22</strong><span><span class="zh">初一至大学生</span><span class="en">Grade 7 to University</span></span></div>
-      <div><strong>UA5201314fyh</strong><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
+      <div><button class="wechat-link" type="button" data-wechat-modal-open>Junhdjeuhg</button><span><span class="zh">报名咨询微信</span><span class="en">WeChat Contact</span></span></div>
     </div>
     <div class="hero-actions">
       <a class="cta-primary" href="/#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
@@ -90,7 +90,7 @@ const outcomes = [
     <div class="camp-info-grid">
       <div class="doc-card"><span class="tag">AGE</span><h2>13-22</h2><p><span class="zh">初一到大学生均可参加，入营后根据能力进入 L1-L4 成长等级。</span><span class="en">For grade 7 through university students, mapped into L1-L4 growth levels by capability.</span></p></div>
       <div class="doc-card"><span class="tag">DAILY</span><h2>09:00-17:00</h2><p><span class="zh">建议按全天制安排：上午 09:00-12:00，下午 14:00-17:00，也可根据营地/学校档期微调。</span><span class="en">Designed as a full-day format: 09:00-12:00 and 14:00-17:00, adjustable by venue or school schedule.</span></p></div>
-      <div class="doc-card"><span class="tag">CONTACT</span><h2>UA5201314fyh</h2><p><span class="zh">添加微信咨询 3 天与 10 天课程费用、开营时间、名额和适合等级。</span><span class="en">Add WeChat to ask about fees, dates, seats, and the right level for each student.</span></p></div>
+      <div class="doc-card"><span class="tag">CONTACT</span><h2><button class="wechat-heading-button" type="button" data-wechat-modal-open>Junhdjeuhg</button></h2><p><span class="zh">点击微信号查看二维码，咨询 3 天与 10 天课程费用、开营时间、名额和适合等级。</span><span class="en">Tap the WeChat ID to view the QR code and ask about fees, dates, seats, and the right level for each student.</span></p></div>
     </div>
   </section>
 
@@ -166,17 +166,53 @@ const outcomes = [
       <h2><span class="zh">这就是 FDE：在真实项目里承担角色。</span><span class="en">This is FDE: taking roles inside real projects.</span></h2>
       <p><span class="zh">例如一个旅行社 Agent 项目：大学生负责 Agent 架构，高中生负责网页和交互，初中生负责海报和素材，英语好的学生负责 Presentation。老师不讲四套课，而是用一个项目，让不同能力的人完成不同难度的任务。</span><span class="en">For example, in a Travel Agent project, university students may design the agent architecture, high school students build the web experience, younger students create visuals, and strong English speakers lead the presentation. One project, different responsibilities, shared delivery.</span></p>
     </div>
-    <a class="diagnosis-banner" href="/#camp-apply">
-      <span>WeChat: UA5201314fyh</span>
+    <button class="diagnosis-banner wechat-banner-button" type="button" data-wechat-modal-open>
+      <span>WeChat: Junhdjeuhg</span>
       <strong><span class="zh">报名 FDE Future Camp</span><span class="en">Apply for FDE Future Camp</span></strong>
-    </a>
+    </button>
   </section>
 
   <div class="camp-runner" aria-hidden="true">
     <div class="camp-runner-optical"></div>
   </div>
 
+  <div class="wechat-modal" data-wechat-modal hidden>
+    <button class="wechat-modal-backdrop" type="button" data-wechat-modal-close aria-label="Close WeChat QR modal"></button>
+    <section class="wechat-modal-card" role="dialog" aria-modal="true" aria-labelledby="wechat-modal-title">
+      <button class="wechat-modal-close" type="button" data-wechat-modal-close aria-label="Close">×</button>
+      <p class="eyebrow">WECHAT CONTACT</p>
+      <h2 id="wechat-modal-title"><span class="zh">报名咨询微信</span><span class="en">WeChat Enrollment Contact</span></h2>
+      <div class="wechat-qr-frame">
+        <img src="/assets/wechat-consult-junhdjeuhg.png" alt="Junhdjeuhg WeChat QR code" />
+      </div>
+      <strong>Junhdjeuhg</strong>
+      <p><span class="zh">扫码或搜索微信号，咨询课程时间、名额、费用和适合等级。</span><span class="en">Scan or search the WeChat ID to ask about schedule, seats, fees, and student level.</span></p>
+    </section>
+  </div>
+
   <script>
+    const wechatModal = document.querySelector<HTMLElement>("[data-wechat-modal]");
+    const wechatOpenButtons = document.querySelectorAll("[data-wechat-modal-open]");
+    const wechatCloseButtons = document.querySelectorAll("[data-wechat-modal-close]");
+
+    const openWechatModal = () => {
+      if (!wechatModal) return;
+      wechatModal.hidden = false;
+      document.documentElement.classList.add("modal-open");
+    };
+
+    const closeWechatModal = () => {
+      if (!wechatModal) return;
+      wechatModal.hidden = true;
+      document.documentElement.classList.remove("modal-open");
+    };
+
+    wechatOpenButtons.forEach((button) => button.addEventListener("click", openWechatModal));
+    wechatCloseButtons.forEach((button) => button.addEventListener("click", closeWechatModal));
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeWechatModal();
+    });
+
     const runner = document.querySelector<HTMLElement>(".camp-runner");
     const runnerOptical = document.querySelector<HTMLElement>(".camp-runner-optical");
 
