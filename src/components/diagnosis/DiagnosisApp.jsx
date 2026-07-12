@@ -154,8 +154,7 @@ export default function DiagnosisPage() {
 
   useEffect(() => {
     return () => {
-      recognitionRef.current?.stop();
-      recognitionRef.current = null;
+      stopSpeechRecognition();
       stopAudioPlayback();
     };
   }, []);
@@ -267,9 +266,26 @@ export default function DiagnosisPage() {
     }
   };
 
+  const stopSpeechRecognition = () => {
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
+
+    recognition.onresult = null;
+    recognition.onend = null;
+    recognition.onerror = null;
+    recognitionRef.current = null;
+    setIsRecording(false);
+
+    try {
+      recognition.stop();
+    } catch (err) {
+      console.error('Stop speech recognition failed:', err);
+    }
+  };
+
   const handleToggleRecording = () => {
     if (isRecording) {
-      recognitionRef.current?.stop();
+      stopSpeechRecognition();
       return;
     }
 
@@ -649,6 +665,7 @@ export default function DiagnosisPage() {
     if (isChatLoading) return;
 
     const userMsg = inputText.trim();
+    stopSpeechRecognition();
     setInputText('');
     
     // 乐观更新 UI 聊天区
