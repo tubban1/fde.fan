@@ -1,4 +1,5 @@
 import { query } from '../db.js';
+import { formatErrorForLog, isTransientNetworkError } from '../safe_error.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -56,7 +57,10 @@ export default async function handler(req, res) {
       }))
     });
   } catch (error) {
-    console.error('Fetch diagnosis history error:', error);
+    console.error('Fetch diagnosis history error:', formatErrorForLog(error));
+    if (isTransientNetworkError(error)) {
+      return res.status(503).json({ error: '数据库连接暂时不可用，请检查本机网络/DNS 或稍后重试' });
+    }
     return res.status(500).json({ error: '服务器内部错误，无法加载诊断历史' });
   }
 }

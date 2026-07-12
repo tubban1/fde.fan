@@ -75,7 +75,10 @@ export default async function handler(req, res) {
     };
 
     // 触发预留工具层记录日志
-    researchIndustryCases(knownFacts.basicInfo || '未知行业', knownFacts.businessGoal || '未设定目标');
+    researchIndustryCases(
+      knownFacts.businessContext || knownFacts.basicInfo || '未知行业',
+      knownFacts.targetOutcome || knownFacts.businessGoal || '未设定目标'
+    );
 
     const promptUserContent = `
 以下是基于我们之前的访谈，整理出的企业画像事实数据：

@@ -28,6 +28,7 @@ export default function DiagnosisPage() {
   const [profileStatus, setProfileStatus] = useState('idle'); // idle, updating, updated, failed
   const [diagnosisHistory, setDiagnosisHistory] = useState([]);
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
 
   // UI state
   const [inputText, setInputText] = useState('');
@@ -575,6 +576,7 @@ export default function DiagnosisPage() {
   const loadDiagnosisHistory = async (emailToLoad = email, passwordToUse = password, restoreLatest = false) => {
     if (!emailToLoad || !passwordToUse) return;
     setIsHistoryLoading(true);
+    setHistoryError('');
     try {
       const res = await axios.post('/api/diagnosis/history', {
         email: emailToLoad,
@@ -591,7 +593,9 @@ export default function DiagnosisPage() {
       }
     } catch (err) {
       console.error('Failed to load diagnosis history:', err);
-      triggerToast(err.response?.data?.error || '诊断历史加载失败');
+      const message = err.response?.data?.error || '诊断历史加载失败';
+      setHistoryError(message);
+      triggerToast(message);
     } finally {
       setIsHistoryLoading(false);
     }
@@ -814,6 +818,10 @@ export default function DiagnosisPage() {
   // 生成诊断报告
   const handleGenerateReport = async () => {
     if (isReportLoading) return;
+    if (completeness < 50) {
+      triggerToast('需要完成 50% 以上的诊断画像才能生成诊断报告');
+      return;
+    }
     setIsReportLoading(true);
     setErrorMsg('');
     try {
@@ -865,20 +873,23 @@ export default function DiagnosisPage() {
   // 渲染诊断维度的显示卡片
   const renderProfileFields = () => {
     const dimensionMapping = {
-      basicInfo: { label: '企业规模与场景', desc: '行业、团队、老板关心的业务盘子', icon: '🏢' },
-      businessGoal: { label: '增长与降本目标', desc: '增长、降本、提效、少出错', icon: '💰' },
-      currentProcess: { label: '最值得自动化的环节', desc: '重复劳动、卡点、客户等待', icon: '🔄' },
-      dataFoundation: { label: '已有数据资产', desc: '表格、系统、客户记录、知识库', icon: '📊' },
-      techFoundation: { label: '现有工具底座', desc: 'CRM/ERP/飞书/企微/工单等', icon: '🛠️' },
-      orgFoundation: { label: '谁受益谁拍板', desc: '使用人、负责人、预算和试点部门', icon: '👥' },
-      riskConstraints: { label: '不能踩的坑', desc: '隐私、合规、权限、人工复核', icon: '⚠️' },
-      successCriteria: { label: '老板愿意买单的结果', desc: '30/60/90 天可衡量改善', icon: '🏆' }
+      businessContext: { label: '企业背景', desc: '行业、规模、客户类型、团队结构', icon: '🏢', aliases: ['basicInfo'] },
+      targetOutcome: { label: '目标结果', desc: '增长、降本、提效、风控、体验', icon: '🎯', aliases: ['businessGoal'] },
+      priorityScenario: { label: '优先场景', desc: '最想先解决的 AI / Agent 场景', icon: '⚡' },
+      workflowPain: { label: '流程痛点', desc: '当前做法、卡点、重复劳动、影响', icon: '🔄', aliases: ['currentProcess'] },
+      dataReadiness: { label: '数据准备度', desc: '表格、文档、客户记录、知识库、数据质量', icon: '📊', aliases: ['dataFoundation'] },
+      systemReadiness: { label: '系统对接条件', desc: 'CRM/ERP/飞书/企微/网站/API/权限', icon: '🛠️', aliases: ['techFoundation'] },
+      decisionReadiness: { label: '决策与资源', desc: '拍板人、使用人、预算、试点范围、时间窗口', icon: '👥', aliases: ['orgFoundation'] },
+      riskAndMetrics: { label: '风险与验收', desc: '隐私、合规、人工复核、成功指标', icon: '🏆', aliases: ['riskConstraints', 'successCriteria'] }
     };
 
     return Object.keys(dimensionMapping).map((key) => {
-      const isKnown = !!knownFacts[key];
-      const detail = knownFacts[key];
       const meta = dimensionMapping[key];
+      const aliasDetails = (meta.aliases || [])
+        .map((alias) => knownFacts[alias])
+        .filter(Boolean);
+      const detail = knownFacts[key] || aliasDetails.join('；');
+      const isKnown = !!detail;
 
       return (
         <div key={key} className={`profile-item-card ${isKnown ? 'known' : 'unknown'}`}>
@@ -1029,6 +1040,8 @@ export default function DiagnosisPage() {
                 </div>
                 {isHistoryLoading ? (
                   <div className="history-empty">正在加载历史记录...</div>
+                ) : historyError ? (
+                  <div className="history-empty error">{historyError}</div>
                 ) : diagnosisHistory.length > 0 ? (
                   <div className="history-list">
                     {diagnosisHistory.map(item => (
@@ -1117,6 +1130,8 @@ export default function DiagnosisPage() {
                         </div>
                       ))}
                     </div>
+                  ) : historyError ? (
+                    <div className="history-mini-empty error">{historyError}</div>
                   ) : (
                     <div className="history-mini-empty">暂无历史</div>
                   )}
@@ -1160,7 +1175,7 @@ export default function DiagnosisPage() {
                     <h4>企业 AI 增长转型诊断对话</h4>
                     <span className="chat-sub">先判断方向，再用轻问题沉淀可落地路径</span>
                   </div>
-                  {completeness >= 50 && (
+                  {completeness > 0 && (
                     <button 
                       onClick={handleGenerateReport} 
                       className={`btn-action-report pulse-glow ${isReportLoading ? 'loading' : ''}`}
@@ -1495,7 +1510,7 @@ export default function DiagnosisPage() {
       </main>
 
       {/* 精细化设计的样式系统 */}
-      <style jsx global>{`
+      <style>{`
         /* 默认根容器，支持欢迎页自然流动与滚动 */
         .app-container {
           display: flex;
@@ -1779,6 +1794,13 @@ export default function DiagnosisPage() {
           padding: 0.75rem;
           border-radius: 10px;
           background: rgba(255, 255, 255, 0.02);
+        }
+
+        .history-empty.error,
+        .history-mini-empty.error {
+          color: #b45309;
+          background: rgba(245, 158, 11, 0.08);
+          border: 1px solid rgba(245, 158, 11, 0.18);
         }
 
         .goal-btn-item {

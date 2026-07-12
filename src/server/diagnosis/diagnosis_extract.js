@@ -113,22 +113,25 @@ ${conversationContext || '暂无上下文'}
 "${latestUserMessage}"
 
 请对照以下 8 个诊断评估维度，提取并更新 knownFacts 中的对应字段：
-1. basicInfo (企业基本信息：行业、规模、角色、团队结构等描述)
-2. businessGoal (核心业务目标：增长、降本、提效、风控、体验等描述)
-3. currentProcess (当前业务流程：核心业务链路、重复劳动、瓶颈等描述)
-4. dataFoundation (数据资产基础：系统有哪些、数据是否结构化、权限情况等描述)
-5. techFoundation (技术基础设施：CRM/ERP/飞书/企微/知识库等技术设施描述)
-6. orgFoundation (组织与预算：谁使用、谁审批、预算、试点部门等描述)
-7. riskConstraints (安全合规约束：隐私、合规、安全、人工审核要求等描述)
-8. successCriteria (成功度量标准：希望 30/60/90 天看到的结果等描述)
+1. businessContext (企业背景：行业、规模、客户类型、团队结构等描述)
+2. targetOutcome (目标结果：增长、降本、提效、风控、体验等主目标)
+3. priorityScenario (优先场景：最想先解决的 AI/Agent/自动化场景)
+4. workflowPain (流程痛点：当前做法、卡点、重复劳动、影响范围)
+5. dataReadiness (数据准备度：表格、文档、客户记录、知识库、数据质量)
+6. systemReadiness (系统对接条件：CRM/ERP/飞书/企微/网站/API/权限)
+7. decisionReadiness (决策与资源：拍板人、使用人、预算、试点范围、时间窗口)
+8. riskAndMetrics (风险与验收：隐私、合规、人工复核、不可接受结果、成功指标)
 
 【泛化识别原则】：
 - 不要依赖关键词清单。请按语义判断用户表达属于哪类企业事实，并归入最合适的字段。
-- 任何关于目标、动机、优先级、价值判断、经营结果、增长/降本/提效/风控/体验诉求的表达，都应归入 businessGoal；如果包含可验收结果或付费/采纳标准，也应同步归入 successCriteria。
-- 任何关于当前做法、渠道、环节、角色协作、客户触点、人工步骤、重复劳动、卡点或等待的表达，都应归入 currentProcess。
-- 任何关于已有资料、记录、表格、系统、知识、内容、客户数据或可被 AI 使用的信息基础，都应归入 dataFoundation 或 techFoundation。
-- 任何关于决策者、使用者、预算、资源投入、组织意愿、试点范围或推进方式的表达，都应归入 orgFoundation。
-- 任何关于成本、隐私、权限、合规、错误风险、人工复核、不可接受结果或边界条件的表达，都应归入 riskConstraints。
+- 任何关于企业所处行业、客户类型、规模、岗位角色、团队分工的表达，都应归入 businessContext。
+- 任何关于目标、动机、经营结果、增长/降本/提效/风控/体验诉求的表达，都应归入 targetOutcome。
+- 任何关于“先做什么”、最想落地的 Agent/自动化/AI 应用切口、场景优先级的表达，都应归入 priorityScenario。
+- 任何关于当前做法、渠道、环节、角色协作、客户触点、人工步骤、重复劳动、卡点或等待的表达，都应归入 workflowPain。
+- 任何关于已有资料、记录、表格、系统、知识、内容、客户数据或可被 AI 使用的信息基础，都应归入 dataReadiness。
+- 任何关于现有软件系统、接口、API、权限、CRM/ERP/飞书/企微/网站/工单等对接条件，都应归入 systemReadiness。
+- 任何关于决策者、使用者、预算、资源投入、组织意愿、试点范围、时间窗口或推进方式的表达，都应归入 decisionReadiness。
+- 任何关于成本、隐私、权限、合规、错误风险、人工复核、不可接受结果、验收指标或成功标准的表达，都应归入 riskAndMetrics。
 - 对含糊回答、选项回答、泛化回答或否定回答，要结合最近上下文理解其指向；只在用户明确确认、选择、补充或否定时更新事实。
 
 【更新规则】：
@@ -136,21 +139,21 @@ ${conversationContext || '暂无上下文'}
 2. 允许从最近对话上下文中补全用户已明确表达过的信息，但不要把 Agent 的建议、假设或选项当成用户事实，除非用户最新回答明确选择、确认或否定了它。
 3. 不要凭空瞎编或虚构事实。
 4. 保持客观，对于用户本次没有提供新信息的任何字段，必须原封不动地保留原有的已知 facts 描述，严禁清空！
-5. 特别同理心逻辑：如果用户明确在陈述中推翻了先前的方向、目标或表示“没有关注/不关注XX”（例如：“我并不关注降本增效”），你必须相应地把 businessGoal（核心业务目标）修改为“待明确（用户澄清不关注XX）”来否定先前的信息，并且重新列入 missingFields 缺失维度中。
+5. 特别同理心逻辑：如果用户明确在陈述中推翻了先前的方向、目标或表示“没有关注/不关注XX”（例如：“我并不关注降本增效”），你必须相应地把 targetOutcome（目标结果）修改为“待明确（用户澄清不关注XX）”来否定先前的信息，并且重新列入 missingFields 缺失维度中。
 
 请最终输出并且仅输出一个严格合规的 JSON 对象（如使用 markdown 包裹，请确保可以 parse），格式如下：
 {
   "knownFacts": {
-    "basicInfo": "...",
-    "businessGoal": "...",
-    "currentProcess": "...",
-    "dataFoundation": "...",
-    "techFoundation": "...",
-    "orgFoundation": "...",
-    "riskConstraints": "...",
-    "successCriteria": "..."
+    "businessContext": "...",
+    "targetOutcome": "...",
+    "priorityScenario": "...",
+    "workflowPain": "...",
+    "dataReadiness": "...",
+    "systemReadiness": "...",
+    "decisionReadiness": "...",
+    "riskAndMetrics": "..."
   },
-  "missingFields": ["列出当前认为仍然缺失的维度名称，例如 '组织与预算' 等，最多列出 8 个，如果全部收齐则输出空数组"],
+  "missingFields": ["列出当前认为仍然缺失的维度名称，例如 '决策与资源' 等，最多列出 8 个，如果全部收齐则输出空数组"],
   "completeness": 40,
   "status": "collecting_info"
 }`;
@@ -239,27 +242,27 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
       }
     };
 
-    // 1. 企业基本信息 (basicInfo) - 仅限匹配强格式的人数/团队规模
+    // 1. 企业背景 (businessContext) - 仅限匹配强格式的人数/团队规模
     let sizeText = '';
     const sizeMatch = text.match(/(\d+\s*人|\d+\s*员工|\d+\s*成员|\d+\s*团队成员)/i);
     if (sizeMatch) {
       sizeText = `规模约 ${sizeMatch[0]}`;
-      mergeFact('basicInfo', `[初筛线索]: ${sizeText}`);
+      mergeFact('businessContext', `[初筛线索]: ${sizeText}`);
     }
 
-    // 2/3. 业务目标和流程链路等语义信息由模型结合上下文提取，本地不做关键词推断。
+    // 2/3/4. 目标结果、优先场景和流程痛点等语义信息由模型结合上下文提取，本地不做关键词推断。
 
-    // 4. 技术基础设施 (techFoundation) - 移至后台 AI 提取，本地不进行主观/系统匹配以彻底消除否定词跨度误判风险
+    // 6. 系统对接条件 (systemReadiness) - 移至后台 AI 提取，本地不进行主观/系统匹配以彻底消除否定词跨度误判风险
 
-    // 5. 成功度量标准 (successCriteria) - 仅限匹配强格式指标（百分比、时间段）
+    // 8. 风险与验收 (riskAndMetrics) - 仅限匹配强格式指标（百分比、时间段）
     const criteriaMatch = text.match(/(提升\s*\d+%\s*|提高\s*\d+%\s*|降低\s*\d+%\s*|\d+%\s*|\d+\s*(天|个月|周))/i);
     if (criteriaMatch) {
-      mergeFact('successCriteria', `[初筛线索]: 预期指标包含 ${criteriaMatch[0]}`);
+      mergeFact('riskAndMetrics', `[初筛线索]: 预期指标包含 ${criteriaMatch[0]}`);
     }
 
     if (hasNewInfo) {
       let filledCount = 0;
-      const keys = ['basicInfo', 'businessGoal', 'currentProcess', 'dataFoundation', 'techFoundation', 'orgFoundation', 'riskConstraints', 'successCriteria'];
+      const keys = ['businessContext', 'targetOutcome', 'priorityScenario', 'workflowPain', 'dataReadiness', 'systemReadiness', 'decisionReadiness', 'riskAndMetrics'];
       keys.forEach(k => {
         if (nextFacts[k] && !nextFacts[k].includes('待补充') && nextFacts[k] !== '') {
           filledCount++;
@@ -270,14 +273,14 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
 
       const newMissing = [];
       const labels = {
-        basicInfo: '企业基本信息',
-        businessGoal: '核心业务目标',
-        currentProcess: '当前业务流程',
-        dataFoundation: '数据资产基础',
-        techFoundation: '技术基础设施',
-        orgFoundation: '组织与预算',
-        riskConstraints: '安全合规约束',
-        successCriteria: '成功度量标准'
+        businessContext: '企业背景',
+        targetOutcome: '目标结果',
+        priorityScenario: '优先场景',
+        workflowPain: '流程痛点',
+        dataReadiness: '数据准备度',
+        systemReadiness: '系统对接条件',
+        decisionReadiness: '决策与资源',
+        riskAndMetrics: '风险与验收'
       };
       keys.forEach(k => {
         if (!nextFacts[k] || nextFacts[k].includes('待补充') || nextFacts[k] === '') {

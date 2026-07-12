@@ -212,7 +212,7 @@ export default function Header({
         </div>
       )}
 
-      <style jsx global>{`
+      <style>{`
         :root {
           --color-bg-main: #0b1120;
           --color-bg-card: rgba(30, 41, 59, 0.7);
@@ -248,7 +248,7 @@ export default function Header({
           flex-direction: column;
         }
       `}</style>
-      <style jsx>{`
+      <style>{`
         /* Header Styling */
         .site-header {
           background-color: var(--color-bg-card);
