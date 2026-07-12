@@ -1,5 +1,4 @@
 import { query } from '../db.js';
-import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -20,8 +19,6 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
-    await ensureDiagnosisRuntimeSchema();
-
     const sessions = await query(
       `SELECT
          s.id,
@@ -39,7 +36,7 @@ export default async function handler(req, res) {
            LIMIT 1
          ) AS last_user_message
        FROM diagnosis_sessions s
-       WHERE s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
+       WHERE s.email = ?
        ORDER BY s.updated_at DESC, s.created_at DESC
        LIMIT 50`,
       [email]

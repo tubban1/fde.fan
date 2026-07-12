@@ -357,6 +357,66 @@ export default function DiagnosisPage() {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 
+  const renderInlineMarkdown = (value) => {
+    return escapeHtml(value)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  };
+
+  const renderMarkdownHtml = (value) => {
+    const lines = String(value || '').split(/\r?\n/);
+    const blocks = [];
+    let listItems = [];
+    let listType = 'ul';
+
+    const flushList = () => {
+      if (listItems.length > 0) {
+        blocks.push(`<${listType}>${listItems.map(item => `<li>${item}</li>`).join('')}</${listType}>`);
+        listItems = [];
+        listType = 'ul';
+      }
+    };
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line) {
+        flushList();
+        continue;
+      }
+
+      const bullet = line.match(/^[-*]\s+(.+)$/);
+      if (bullet) {
+        if (listType !== 'ul') flushList();
+        listType = 'ul';
+        listItems.push(renderInlineMarkdown(bullet[1]));
+        continue;
+      }
+
+      const ordered = line.match(/^\d+\.\s+(.+)$/);
+      if (ordered) {
+        if (listType !== 'ol') flushList();
+        listType = 'ol';
+        listItems.push(renderInlineMarkdown(ordered[1]));
+        continue;
+      }
+
+      flushList();
+
+      const heading = line.match(/^(#{1,3})\s+(.+)$/);
+      if (heading) {
+        const level = heading[1].length + 2;
+        blocks.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+      } else {
+        blocks.push(`<p>${renderInlineMarkdown(line)}</p>`);
+      }
+    }
+
+    flushList();
+    return blocks.join('');
+  };
+
   const renderPrintList = (items) => {
     if (!Array.isArray(items) || items.length === 0) return '<p class="muted">暂无</p>';
     return `<ul>${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
@@ -1122,7 +1182,10 @@ export default function DiagnosisPage() {
                         <div className="bubble-meta">
                           {msg.sender === 'agent' ? 'AI 增长转型顾问' : '您'}
                         </div>
-                        <div className="bubble-text">{msg.content}</div>
+                        <div
+                          className="bubble-text"
+                          dangerouslySetInnerHTML={{ __html: renderMarkdownHtml(msg.content) }}
+                        />
                         {msg.sender === 'agent' && msg.content?.trim() && (
                           <button
                             type="button"
@@ -2267,7 +2330,51 @@ export default function DiagnosisPage() {
           color: #e2e8f0;
           line-height: 1.5;
           word-break: break-word;
-          white-space: pre-wrap;
+          white-space: normal;
+        }
+
+        .bubble-text p,
+        .bubble-text ul,
+        .bubble-text ol {
+          margin: 0 0 0.55rem 0;
+        }
+
+        .bubble-text p:last-child,
+        .bubble-text ul:last-child,
+        .bubble-text ol:last-child {
+          margin-bottom: 0;
+        }
+
+        .bubble-text ul,
+        .bubble-text ol {
+          padding-left: 1.15rem;
+        }
+
+        .bubble-text li {
+          margin: 0.22rem 0;
+        }
+
+        .bubble-text h3,
+        .bubble-text h4,
+        .bubble-text h5 {
+          margin: 0.65rem 0 0.35rem;
+          font-size: 0.92rem;
+          line-height: 1.35;
+          color: inherit;
+        }
+
+        .bubble-text code {
+          background: rgba(15, 23, 42, 0.55);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 5px;
+          padding: 1px 5px;
+          font-size: 0.8em;
+        }
+
+        .bubble-text a {
+          color: #5eead4;
+          text-decoration: underline;
+          text-underline-offset: 2px;
         }
 
         .message-bubble-wrapper.agent .bubble-text {
