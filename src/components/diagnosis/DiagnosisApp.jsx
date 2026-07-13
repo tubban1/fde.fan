@@ -1164,7 +1164,7 @@ export default function DiagnosisPage() {
                   </div>
                   {diagnosisHistory.length > 0 ? (
                     <div className="history-mini-list">
-                      {diagnosisHistory.slice(0, 6).map(item => (
+                      {diagnosisHistory.map(item => (
                         <div
                           key={item.id}
                           className={`history-mini-item ${item.id === sessionId ? 'active' : ''}`}
@@ -1186,7 +1186,7 @@ export default function DiagnosisPage() {
                   )}
                 </div>
 
-                <div style={{ marginTop: 'auto', paddingTop: '20px' }}>
+                <div className="sidebar-bottom-actions">
                   <button onClick={handleReset} className="btn-reset-session">
                     新的对话
                   </button>
@@ -2001,18 +2001,9 @@ export default function DiagnosisPage() {
           flex-direction: column;
           height: 100%;
           min-height: 0;
-          overflow-y: auto;
+          overflow: hidden;
           overscroll-behavior: contain;
           box-sizing: border-box;
-        }
-
-        .sidebar-card::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .sidebar-card::-webkit-scrollbar-thumb {
-          background: rgba(13, 148, 136, 0.28);
-          border-radius: 999px;
         }
 
         .section-title {
@@ -2125,6 +2116,8 @@ export default function DiagnosisPage() {
           display: flex;
           flex-direction: column;
           gap: 0.65rem;
+          flex: 1 1 auto;
+          min-height: 0;
         }
 
         .history-mini-title {
@@ -2151,9 +2144,25 @@ export default function DiagnosisPage() {
           display: flex;
           flex-direction: column;
           gap: 0.45rem;
-          max-height: 210px;
+          flex: 1 1 auto;
+          min-height: 0;
           overflow-y: auto;
           padding-right: 2px;
+          overscroll-behavior: contain;
+        }
+
+        .history-mini-list::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .history-mini-list::-webkit-scrollbar-thumb {
+          background: rgba(13, 148, 136, 0.28);
+          border-radius: 999px;
+        }
+
+        .sidebar-bottom-actions {
+          flex: 0 0 auto;
+          padding-top: 20px;
         }
 
         .history-mini-item {
