@@ -41,6 +41,9 @@ export default function DiagnosisPage() {
   const [themeMode, setThemeMode] = useState('light');
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isAudioPaused, setIsAudioPaused] = useState(false);
+  const [speakingMessageId, setSpeakingMessageId] = useState(null);
+  const [speechRate, setSpeechRate] = useState(1);
   const [autoSpeak, setAutoSpeak] = useState(false);
 
   // Header login states
@@ -229,14 +232,50 @@ export default function DiagnosisPage() {
       audioUrlRef.current = '';
     }
     setIsSpeaking(false);
+    setIsAudioPaused(false);
+    setSpeakingMessageId(null);
   };
 
-  const speakText = async (text) => {
+  const toggleAudioPause = async () => {
+    const audio = audioPlayerRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setIsAudioPaused(false);
+        setIsSpeaking(true);
+      } catch (err) {
+        console.error('Resume audio failed:', err);
+        triggerToast('继续播放失败，请重试');
+      }
+      return;
+    }
+
+    audio.pause();
+    setIsAudioPaused(true);
+  };
+
+  const handleSpeechRateChange = (rate) => {
+    setSpeechRate(rate);
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.playbackRate = rate;
+    }
+  };
+
+  const speakText = async (text, playbackId = null) => {
     const content = String(text || '').trim();
     if (!content) return;
 
+    if (playbackId && speakingMessageId === playbackId && audioPlayerRef.current) {
+      await toggleAudioPause();
+      return;
+    }
+
     stopAudioPlayback();
     setIsSpeaking(true);
+    setIsAudioPaused(false);
+    setSpeakingMessageId(playbackId);
     try {
       const response = await fetch('/api/diagnosis/speech', {
         method: 'POST',
@@ -252,6 +291,7 @@ export default function DiagnosisPage() {
       const blob = await response.blob();
       const audioUrl = URL.createObjectURL(blob);
       const audio = new Audio(audioUrl);
+      audio.playbackRate = speechRate;
       audioUrlRef.current = audioUrl;
       audioPlayerRef.current = audio;
       audio.onended = stopAudioPlayback;
@@ -260,6 +300,7 @@ export default function DiagnosisPage() {
         triggerToast('语音播放失败，请稍后重试');
       };
       await audio.play();
+      setIsAudioPaused(false);
     } catch (err) {
       console.error('Text to speech failed:', err);
       stopAudioPlayback();
@@ -1205,12 +1246,13 @@ export default function DiagnosisPage() {
                           <button
                             type="button"
                             className="btn-speak-message"
-                            onClick={() => speakText(msg.content)}
-                            disabled={isSpeaking}
-                            title="朗读这条回复"
-                            aria-label="朗读这条回复"
+                            onClick={() => speakText(msg.content, msg.id || `agent_${idx}`)}
+                            title={speakingMessageId === (msg.id || `agent_${idx}`) ? (isAudioPaused ? '继续播放' : '暂停播放') : '朗读这条回复'}
+                            aria-label={speakingMessageId === (msg.id || `agent_${idx}`) ? (isAudioPaused ? '继续播放' : '暂停播放') : '朗读这条回复'}
                           >
-                            {isSpeaking ? '正在朗读' : '朗读'}
+                            {speakingMessageId === (msg.id || `agent_${idx}`)
+                              ? (isAudioPaused ? '继续' : '暂停')
+                              : '朗读'}
                           </button>
                         )}
                       </div>
@@ -1262,10 +1304,45 @@ export default function DiagnosisPage() {
                     >
                       {autoSpeak ? '自动朗读开' : '自动朗读关'}
                     </button>
+                    <select
+                      className="speech-rate-select"
+                      value={speechRate}
+                      onChange={(e) => handleSpeechRateChange(Number(e.target.value))}
+                      title="朗读倍速"
+                      aria-label="朗读倍速"
+                    >
+                      <option value={0.75}>0.75x</option>
+                      <option value={1}>1x</option>
+                      <option value={1.25}>1.25x</option>
+                      <option value={1.5}>1.5x</option>
+                      <option value={2}>2x</option>
+                    </select>
+                    {isSpeaking && (
+                      <>
+                        <button
+                          type="button"
+                          className="btn-audio-control"
+                          onClick={toggleAudioPause}
+                          title={isAudioPaused ? '继续播放' : '暂停播放'}
+                          aria-label={isAudioPaused ? '继续播放' : '暂停播放'}
+                        >
+                          {isAudioPaused ? '继续' : '暂停'}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-audio-control"
+                          onClick={stopAudioPlayback}
+                          title="停止播放"
+                          aria-label="停止播放"
+                        >
+                          停止
+                        </button>
+                      </>
+                    )}
                     {(isRecording || isSpeaking) && (
                       <span className="voice-inline-status">
                         {isRecording && '正在识别...'}
-                        {isSpeaking && '正在播放...'}
+                        {isSpeaking && (isAudioPaused ? '播放已暂停' : `正在播放 ${speechRate}x`)}
                       </span>
                     )}
                   </div>
@@ -2487,7 +2564,9 @@ export default function DiagnosisPage() {
         }
 
         .btn-voice-tool,
-        .btn-auto-speak {
+        .btn-auto-speak,
+        .btn-audio-control,
+        .speech-rate-select {
           border: 1px solid rgba(255, 255, 255, 0.08);
           background: rgba(15, 23, 42, 0.58);
           color: #cbd5e1;
@@ -2512,8 +2591,29 @@ export default function DiagnosisPage() {
           font-weight: 700;
         }
 
+        .btn-audio-control {
+          padding: 0 10px;
+          font-size: 0.68rem;
+          font-weight: 700;
+        }
+
+        .speech-rate-select {
+          padding: 0 24px 0 9px;
+          font-size: 0.68rem;
+          font-weight: 700;
+          outline: none;
+          appearance: none;
+          background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+          background-position: calc(100% - 12px) 12px, calc(100% - 8px) 12px;
+          background-size: 4px 4px, 4px 4px;
+          background-repeat: no-repeat;
+        }
+
         .btn-voice-tool:hover:not(:disabled),
         .btn-auto-speak:hover:not(:disabled),
+        .btn-audio-control:hover:not(:disabled),
+        .speech-rate-select:hover,
+        .speech-rate-select:focus,
         .btn-auto-speak.active {
           border-color: rgba(45, 212, 191, 0.38);
           background: rgba(13, 148, 136, 0.14);
@@ -2528,7 +2628,8 @@ export default function DiagnosisPage() {
         }
 
         .btn-voice-tool:disabled,
-        .btn-auto-speak:disabled {
+        .btn-auto-speak:disabled,
+        .btn-audio-control:disabled {
           opacity: 0.45;
           cursor: not-allowed;
         }
@@ -3554,7 +3655,9 @@ export default function DiagnosisPage() {
 
         .theme-light .btn-speak-message,
         .theme-light .btn-voice-tool,
-        .theme-light .btn-auto-speak {
+        .theme-light .btn-auto-speak,
+        .theme-light .btn-audio-control,
+        .theme-light .speech-rate-select {
           background: #f8fafc;
           border-color: rgba(15, 23, 42, 0.12);
           color: #0f766e;
@@ -3563,6 +3666,9 @@ export default function DiagnosisPage() {
         .theme-light .btn-speak-message:hover:not(:disabled),
         .theme-light .btn-voice-tool:hover:not(:disabled),
         .theme-light .btn-auto-speak:hover:not(:disabled),
+        .theme-light .btn-audio-control:hover:not(:disabled),
+        .theme-light .speech-rate-select:hover,
+        .theme-light .speech-rate-select:focus,
         .theme-light .btn-auto-speak.active {
           background: #ecfdf5;
           border-color: #99f6e4;
