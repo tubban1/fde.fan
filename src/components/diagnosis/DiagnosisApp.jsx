@@ -27,7 +27,7 @@ export default function DiagnosisPage() {
   const [goal, setGoal] = useState('');
   const [completeness, setCompleteness] = useState(0);
   const [knownFacts, setKnownFacts] = useState({});
-  const [missingFields, setMissingFields] = useState([]);
+  const [, setMissingFields] = useState([]);
   const [messages, setMessages] = useState([]);
   const [report, setReport] = useState(null);
   const [isRestoredSession, setIsRestoredSession] = useState(false);
@@ -1186,27 +1186,6 @@ export default function DiagnosisPage() {
                   )}
                 </div>
 
-                <div className="divider"></div>
-
-                {/* 缺失维度提醒 */}
-                <div className="missing-list-block">
-                  <h4>还差这些就能出诊断报告</h4>
-                  {missingFields.length > 0 ? (
-                    <ul className="missing-fields-list">
-                      {missingFields.map((field, idx) => (
-                        <li key={idx}>
-                          <span className="dot-warn">!</span>
-                          <span className="field-name-text">{field.split(' (')[0]}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className="missing-empty-state">
-                      ✨ 诊断信息已经比较清楚，可以生成报告！
-                    </div>
-                  )}
-                </div>
-
                 <div style={{ marginTop: 'auto', paddingTop: '20px' }}>
                   <button onClick={handleReset} className="btn-reset-session">
                     新的对话
@@ -2213,67 +2192,6 @@ export default function DiagnosisPage() {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-        }
-
-        /* 缺失列表 */
-        .missing-list-block h4 {
-          font-size: 0.8rem;
-          color: #94a3b8;
-          margin: 0 0 0.75rem 0;
-          font-weight: 600;
-          letter-spacing: 0.02em;
-        }
-
-        .missing-fields-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          max-height: 200px;
-          overflow-y: auto;
-        }
-
-        .missing-fields-list li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.75rem;
-          color: #64748b;
-          background: rgba(239, 68, 68, 0.02);
-          border: 1px dashed rgba(239, 68, 68, 0.1);
-          padding: 6px 10px;
-          border-radius: 6px;
-        }
-
-        .dot-warn {
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background: rgba(239, 68, 68, 0.15);
-          border: 1px solid rgba(239, 68, 68, 0.3);
-          color: #ef4444;
-          font-size: 0.65rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 800;
-        }
-
-        .field-name-text {
-          flex: 1;
-        }
-
-        .missing-empty-state {
-          font-size: 0.75rem;
-          color: #10b981;
-          background: rgba(16, 185, 129, 0.05);
-          border: 1px solid rgba(16, 185, 129, 0.15);
-          padding: 10px;
-          border-radius: 8px;
-          text-align: center;
-          font-weight: 500;
         }
 
         .btn-reset-session {
@@ -3416,7 +3334,6 @@ export default function DiagnosisPage() {
         .theme-light .goal-desc-txt,
         .theme-light .percent-label,
         .theme-light .state-label,
-        .theme-light .missing-fields-list li,
         .theme-light .card-body-empty,
         .theme-light .bubble-meta {
           color: #64748b;
