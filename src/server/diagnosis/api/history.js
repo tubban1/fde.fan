@@ -37,7 +37,7 @@ export default async function handler(req, res) {
            LIMIT 1
          ) AS last_user_message
        FROM diagnosis_sessions s
-       WHERE s.email = ?
+       WHERE s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
        ORDER BY s.updated_at DESC, s.created_at DESC
        LIMIT 50`,
       [email]

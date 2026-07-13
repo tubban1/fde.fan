@@ -15,6 +15,12 @@ const isTransientAxiosNetworkError = (err) => {
   );
 };
 
+const isMeaningfulProfileDetail = (value) => {
+  const text = String(value || '').trim();
+  if (!text) return false;
+  return !/^(待明确|待补充|未明确|暂无|无|N\/A|NA)/i.test(text);
+};
+
 export default function DiagnosisPage() {
   const [sessionId, setSessionId] = useState(null);
   const [status, setStatus] = useState('welcome'); // welcome, collecting_info, diagnosing, report_ready
@@ -930,7 +936,7 @@ export default function DiagnosisPage() {
         .map((alias) => knownFacts[alias])
         .filter(Boolean);
       const detail = knownFacts[key] || aliasDetails.join('；');
-      const isKnown = !!detail;
+      const isKnown = isMeaningfulProfileDetail(detail);
 
       return (
         <div key={key} className={`profile-item-card ${isKnown ? 'known' : 'unknown'}`}>
@@ -946,6 +952,8 @@ export default function DiagnosisPage() {
           </div>
           {isKnown ? (
             <div className="card-body-text">{detail}</div>
+          ) : detail ? (
+            <div className="card-body-empty">{detail}</div>
           ) : (
             <div className="card-body-empty">顾问访谈中，请在对话中补充...</div>
           )}
@@ -1287,16 +1295,6 @@ export default function DiagnosisPage() {
                   <div className="voice-status-row">
                     <button
                       type="button"
-                      className={`btn-voice-tool ${isRecording ? 'recording' : ''}`}
-                      onClick={handleToggleRecording}
-                      disabled={isChatLoading || isReportLoading}
-                      title={isRecording ? '停止语音识别' : '语音输入'}
-                      aria-label={isRecording ? '停止语音识别' : '语音输入'}
-                    >
-                      {isRecording ? '■' : '🎙'}
-                    </button>
-                    <button
-                      type="button"
                       className={`btn-auto-speak ${autoSpeak ? 'active' : ''}`}
                       onClick={() => setAutoSpeak(prev => !prev)}
                       title="自动朗读 AI 回复"
@@ -1367,6 +1365,16 @@ export default function DiagnosisPage() {
                     }}
                   />
                   <div className="input-toolbar">
+                    <button
+                      type="button"
+                      className={`btn-voice-tool input-voice-button ${isRecording ? 'recording' : ''}`}
+                      onClick={handleToggleRecording}
+                      disabled={isChatLoading || isReportLoading}
+                      title={isRecording ? '停止语音识别' : '语音输入'}
+                      aria-label={isRecording ? '停止语音识别' : '语音输入'}
+                    >
+                      {isRecording ? '■' : '🎙'}
+                    </button>
                     <button 
                       type="submit" 
                       className="btn-send-message"
@@ -2646,7 +2654,7 @@ export default function DiagnosisPage() {
           background: rgba(15, 23, 42, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: 12px;
-          padding: 12px 58px 42px 14px;
+          padding: 12px 98px 42px 14px;
           color: white;
           font-family: inherit;
           font-size: 0.85rem;
@@ -2670,6 +2678,7 @@ export default function DiagnosisPage() {
           display: flex;
           align-items: center;
           justify-content: center;
+          gap: 6px;
           pointer-events: none;
         }
 
@@ -2694,6 +2703,12 @@ export default function DiagnosisPage() {
           align-items: center;
           justify-content: center;
           line-height: 1;
+          pointer-events: auto;
+        }
+
+        .input-voice-button {
+          width: 34px;
+          height: 34px;
           pointer-events: auto;
         }
 

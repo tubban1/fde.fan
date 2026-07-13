@@ -35,7 +35,7 @@ export default async function handler(req, res) {
        LEFT JOIN diagnosis_profiles p ON s.id = p.session_id
        LEFT JOIN diagnosis_reports r ON s.id = r.session_id
        LEFT JOIN diagnosis_messages m ON s.id = m.session_id
-       WHERE s.id = ? AND s.email = ?
+       WHERE s.id = ? AND s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
        ORDER BY m.id ASC`,
       [id, email]
     );

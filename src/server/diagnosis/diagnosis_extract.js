@@ -58,6 +58,12 @@ function formatConversationContext(messages = []) {
     .join('\n\n');
 }
 
+function isMeaningfulProfileDetail(value) {
+  const text = String(value || '').trim();
+  if (!text) return false;
+  return !/^(待明确|待补充|未明确|暂无|无|N\/A|NA)/i.test(text);
+}
+
 async function getRecentMessages(sessionId) {
   const rows = await query(
     `SELECT sender, content FROM diagnosis_messages WHERE session_id = ? ORDER BY id DESC LIMIT 15`,
@@ -264,7 +270,7 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
       let filledCount = 0;
       const keys = ['businessContext', 'targetOutcome', 'priorityScenario', 'workflowPain', 'dataReadiness', 'systemReadiness', 'decisionReadiness', 'riskAndMetrics'];
       keys.forEach(k => {
-        if (nextFacts[k] && !nextFacts[k].includes('待补充') && nextFacts[k] !== '') {
+        if (isMeaningfulProfileDetail(nextFacts[k])) {
           filledCount++;
         }
       });
@@ -283,7 +289,7 @@ export async function extractDiagnosisProfileLocally(sessionId, latestUserMessag
         riskAndMetrics: '风险与验收'
       };
       keys.forEach(k => {
-        if (!nextFacts[k] || nextFacts[k].includes('待补充') || nextFacts[k] === '') {
+        if (!isMeaningfulProfileDetail(nextFacts[k])) {
           newMissing.push(labels[k]);
         }
       });
