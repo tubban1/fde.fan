@@ -11,9 +11,17 @@ export const POST: APIRoute = async ({ request }) => {
             return new Response(JSON.stringify({ error: 'Missing match_id or features' }), { status: 400 });
         }
 
-        // Fetch baseline from the actual API
-        const apiUrl = import.meta.env.PUBLIC_PREDICT_API_URL || 'http://127.0.0.1:8000';
-        const res = await fetch(`${apiUrl}/api/predict`);
+        const apiUrl =
+            import.meta.env.PREDICT_API_URL ||
+            import.meta.env.PUBLIC_PREDICT_API_URL ||
+            process.env.PREDICT_API_URL ||
+            process.env.PUBLIC_PREDICT_API_URL ||
+            'https://wihaha-worldcup-api.hf.space';
+        const normalizedApiUrl = String(apiUrl).trim().replace(/\/+$/, '');
+        if (!/^https?:\/\//i.test(normalizedApiUrl)) {
+            return new Response(JSON.stringify({ error: `Invalid prediction API URL: ${normalizedApiUrl}` }), { status: 500 });
+        }
+        const res = await fetch(`${normalizedApiUrl}/api/predict`, { signal: AbortSignal.timeout(30000) });
         if (!res.ok) {
             return new Response(JSON.stringify({ error: 'Failed to fetch baseline predictions' }), { status: 502 });
         }

@@ -363,10 +363,11 @@ export default function SchedulePrediction() {
     useEffect(() => {
         const fetchPredictions = async () => {
             try {
-                // Fetch from environment variable URL or default to localhost
-                const apiUrl = import.meta.env.PUBLIC_PREDICT_API_URL || 'http://127.0.0.1:8000';
-                const res = await fetch(`${apiUrl}/api/predict`, { signal: AbortSignal.timeout(15000) });
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const res = await fetch('/api/worldcup/predict', { signal: AbortSignal.timeout(30000) });
+                if (!res.ok) {
+                    const errorText = await res.text().catch(() => '');
+                    throw new Error(`HTTP error! status: ${res.status} ${errorText}`);
+                }
                 const json = await res.json();
                 setData(json);
             } catch (err) {
