@@ -1,4 +1,5 @@
 import { query } from '../db.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,11 +16,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const users = await query(
-      `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
-      [email, password]
-    );
-    if (users.length === 0) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
@@ -37,7 +35,7 @@ export default async function handler(req, res) {
        LEFT JOIN diagnosis_messages m ON s.id = m.session_id
        WHERE s.id = ? AND s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
        ORDER BY m.id ASC`,
-      [id, email]
+      [id, auth.email]
     );
 
     if (rows.length === 0) {

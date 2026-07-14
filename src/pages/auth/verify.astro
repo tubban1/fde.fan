@@ -1,0 +1,34 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+const token = Astro.url.searchParams.get("token") || "";
+---
+
+<SiteLayout title="邮箱验证 | FDE FAN" description="完成 FDE FAN 邮箱验证。">
+  <section class="auth-page">
+    <div class="auth-card" data-token={token}>
+      <p class="eyebrow">EMAIL VERIFY</p>
+      <h1>邮箱验证</h1>
+      <p id="verifyStatus">正在验证邮箱，请稍候...</p>
+      <a class="cta-primary" href="/diagnosis">返回诊断 Agent</a>
+    </div>
+  </section>
+  <script is:inline>
+    const card = document.querySelector(".auth-card");
+    const statusEl = document.getElementById("verifyStatus");
+    const token = card?.dataset.token || "";
+    async function verify() {
+      if (!token) {
+        statusEl.textContent = "验证链接无效：缺少 token。";
+        return;
+      }
+      try {
+        const res = await fetch(`/api/diagnosis-auth/verify-email?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+        statusEl.textContent = data.success ? "邮箱验证成功，现在可以返回登录。" : (data.error || "邮箱验证失败。");
+      } catch (error) {
+        statusEl.textContent = "邮箱验证失败，请稍后重试。";
+      }
+    }
+    verify();
+  </script>
+</SiteLayout>

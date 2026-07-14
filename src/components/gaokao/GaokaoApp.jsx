@@ -139,20 +139,26 @@ export default function GaokaoApp() {
   };
 
   const verifyEmail = async () => {
-    if (!EMAIL_REGEX.test(email)) return showToast('请输入有效邮箱');
+    const normalizedEmail = String(email || '').trim().toLowerCase();
+    if (!EMAIL_REGEX.test(normalizedEmail)) return showToast('请输入有效邮箱');
     if (!password) return showToast('请输入密码');
     setIsCheckingEmail(true);
     try {
-      const res = await axios.post('/api/diagnosis-auth/pre-check', { email, password });
+      const res = await axios.post('/api/diagnosis-auth/pre-check', { email: normalizedEmail, password });
       if (res.data?.success) {
+        setEmail(normalizedEmail);
         setEmailStatus('verified');
-        localStorage.setItem('fde_gaokao_email', email);
+        localStorage.setItem('fde_gaokao_email', normalizedEmail);
         localStorage.setItem('fde_gaokao_password', password);
         localStorage.setItem('fde_gaokao_verified', 'true');
         showToast(res.data.isNewUser ? '账号已创建，可以开始填报访谈' : '登录成功');
+      } else if (res.data?.requiresVerification) {
+        showToast(res.data.error || '请先完成邮箱验证');
       }
     } catch (err) {
-      showToast(err.response?.data?.error || '登录失败');
+      const serverError = err.response?.data;
+      const detail = serverError?.detail ? `：${serverError.detail}` : '';
+      showToast(`${serverError?.error || '登录失败'}${detail}`);
     } finally {
       setIsCheckingEmail(false);
     }

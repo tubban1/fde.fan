@@ -1,4 +1,5 @@
 import { isPostgresMode, query } from '../db.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 const CHINA_MOBILE_REGEX = /^1[3-9]\d{9}$/;
 
@@ -88,15 +89,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const users = await query(
-      `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
-      [email, password]
-    );
-    if (users.length === 0) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
-    await insertExportLead(sessionId, email, normalizedPhone);
+    await insertExportLead(sessionId, auth.email, normalizedPhone);
 
     return res.status(200).json({ success: true });
   } catch (error) {

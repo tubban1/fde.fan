@@ -7,5 +7,8 @@ export default defineConfig({
   site: "https://www.fde.fan",
   output: "server",
   adapter: vercel(),
+  markdown: {
+    syntaxHighlight: false,
+  },
   integrations: [mdx(), react()],
 });

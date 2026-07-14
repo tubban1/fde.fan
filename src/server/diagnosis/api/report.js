@@ -2,6 +2,7 @@ import { query } from '../db.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { generateText } from '../text_model_provider.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -18,11 +19,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const users = await query(
-      `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
-      [email, password]
-    );
-    if (users.length === 0) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
@@ -31,7 +29,7 @@ export default async function handler(req, res) {
     // 1. 获取当前会话状态，检查完整度是否达标
     const sessions = await query(
       `SELECT completeness, status FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`,
-      [sessionId, email]
+      [sessionId, auth.email]
     );
 
     if (sessions.length === 0) {

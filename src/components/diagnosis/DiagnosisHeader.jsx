@@ -94,7 +94,10 @@ export default function Header({
                     {isCheckingEmail ? '登录中...' : '登录 / 注册'}
                   </button>
                 </div>
-                <div className="auth-helper">首次使用会自动注册；当前不发送邮箱验证码，请使用真实邮箱并保存密码。</div>
+                <div className="auth-helper">
+                  首次使用会自动注册并发送邮箱验证链接；验证后即可登录。
+                  <a href="/auth/forgot-password">忘记密码？</a>
+                </div>
               </div>
             )}
             </div>
@@ -363,6 +366,13 @@ export default function Header({
 	          line-height: 1.35;
 	          text-align: right;
 	          max-width: 520px;
+	        }
+
+	        .auth-helper a {
+	          display: inline-block;
+	          margin-left: 0.5rem;
+	          color: var(--color-primary);
+	          font-weight: 700;
 	        }
 
 	        .auth-helper.success {

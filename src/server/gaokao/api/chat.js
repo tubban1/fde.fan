@@ -2,6 +2,7 @@ import { query } from '../../diagnosis/db.js';
 import { extractStreamTextFromJson, streamText } from '../../diagnosis/text_model_provider.js';
 import { initGaokaoTables } from '../gaokao_init.js';
 import { extractAndSaveProfile, extractFactsLocally, loadProfile, saveProfile } from '../gaokao_profile.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 function extractTextFromSseData(data) {
   const payload = data.trim();
@@ -62,12 +63,12 @@ export default async function handler(req, res) {
 
   try {
     await initGaokaoTables();
-    const users = await query(`SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`, [email, password]);
-    if (!users.length) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       res.write('登录状态无效，请重新登录。');
       return res.end();
     }
-    const sessions = await query(`SELECT id FROM gaokao_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, email]);
+    const sessions = await query(`SELECT id FROM gaokao_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, auth.email]);
     if (!sessions.length) {
       res.write('没有找到这个高考志愿会话，请刷新重试。');
       return res.end();

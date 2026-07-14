@@ -2,6 +2,7 @@ import { isPostgresMode, query } from '../../diagnosis/db.js';
 import { initGaokaoTables } from '../gaokao_init.js';
 import { calculateCompleteness, loadProfile } from '../gaokao_profile.js';
 import { generateRecommendationReport } from '../gaokao_recommend.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: '方法不允许' });
@@ -11,10 +12,10 @@ export default async function handler(req, res) {
 
   try {
     await initGaokaoTables();
-    const users = await query(`SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`, [email, password]);
-    if (!users.length) return res.status(401).json({ error: '登录状态无效，请重新登录' });
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) return res.status(401).json({ error: '登录状态无效，请重新登录' });
 
-    const sessions = await query(`SELECT id FROM gaokao_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, email]);
+    const sessions = await query(`SELECT id FROM gaokao_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, auth.email]);
     if (!sessions.length) return res.status(404).json({ error: '该会话不存在' });
 
     const { knownFacts, missingFields } = await loadProfile(sessionId);

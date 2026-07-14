@@ -1,5 +1,6 @@
 import { query } from '../db.js';
 import { formatErrorForLog, isTransientNetworkError } from '../safe_error.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,11 +13,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const users = await query(
-      `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
-      [email, password]
-    );
-    if (users.length === 0) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
@@ -40,7 +38,7 @@ export default async function handler(req, res) {
        WHERE s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
        ORDER BY s.updated_at DESC, s.created_at DESC
        LIMIT 50`,
-      [email]
+      [auth.email]
     );
 
     return res.status(200).json({

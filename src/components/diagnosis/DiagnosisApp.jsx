@@ -77,7 +77,7 @@ export default function DiagnosisPage() {
       setPassword(storedPassword);
       setEmailStatus('verified');
       window.setTimeout(() => {
-        loadDiagnosisHistory(storedEmail, storedPassword, false);
+        loadDiagnosisHistory(storedEmail, storedPassword, true);
       }, 0);
     }
 
@@ -171,7 +171,8 @@ export default function DiagnosisPage() {
 
   // 登录/验证邮箱
   const handleVerifyEmail = async (emailToVerify, passwordToVerify) => {
-    if (!emailToVerify || !EMAIL_REGEX.test(emailToVerify)) {
+    const normalizedEmail = String(emailToVerify || '').trim().toLowerCase();
+    if (!normalizedEmail || !EMAIL_REGEX.test(normalizedEmail)) {
       triggerToast('请输入有效的电子邮箱！');
       return;
     }
@@ -182,22 +183,27 @@ export default function DiagnosisPage() {
     setIsCheckingEmail(true);
     setErrorMsg('');
     try {
-      const response = await axios.post('/api/diagnosis-auth/pre-check', { email: emailToVerify, password: passwordToVerify });
+      const response = await axios.post('/api/diagnosis-auth/pre-check', { email: normalizedEmail, password: passwordToVerify });
       if (response.data?.success) {
         setEmailStatus('verified');
         setCredits(response.data.credits);
-        localStorage.setItem('fde_diagnosis_email', emailToVerify);
+        setEmail(normalizedEmail);
+        localStorage.setItem('fde_diagnosis_email', normalizedEmail);
         localStorage.setItem('fde_diagnosis_password', passwordToVerify);
         localStorage.setItem('fde_diagnosis_verified', 'true');
-        triggerToast(response.data.isNewUser ? '注册成功：当前无需邮箱验证码，诊断历史会保存到该邮箱账号。' : '验证成功：诊断历史会保存到该邮箱账号。');
+        triggerToast(response.data.isNewUser ? '注册成功：诊断历史会保存到该邮箱账号。' : '验证成功：诊断历史会保存到该邮箱账号。');
         setIsCheckingEmail(false);
         window.setTimeout(() => {
-          loadDiagnosisHistory(emailToVerify, passwordToVerify, false);
+          loadDiagnosisHistory(normalizedEmail, passwordToVerify, true);
         }, 0);
+      } else if (response.data?.requiresVerification) {
+        triggerToast(response.data.error || '请先完成邮箱验证。');
       }
     } catch (err) {
       console.error(err);
-      triggerToast(err.response?.data?.error || '登录失败，请检查配置或网络');
+      const serverError = err.response?.data;
+      const detail = serverError?.detail ? `：${serverError.detail}` : '';
+      triggerToast(`${serverError?.error || '登录失败，请检查配置或网络'}${detail}`);
     } finally {
       setIsCheckingEmail(false);
     }

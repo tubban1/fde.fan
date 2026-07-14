@@ -3,6 +3,7 @@ import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diag
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
+import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 function persistAgentMessage(sessionId, content, label) {
   query(
@@ -114,18 +115,15 @@ export default async function handler(req, res) {
 
   try {
     // 1. 获取当前会话状态，判断是否存在
-    const users = await query(
-      `SELECT email FROM user_credits WHERE email = ? AND password = ? LIMIT 1`,
-      [email, password]
-    );
-    if (users.length === 0) {
+    const auth = await authenticateUser(email, password);
+    if (!auth.ok) {
       res.write("登录状态无效，请重新登录。");
       return res.end();
     }
 
     await ensureDiagnosisRuntimeSchema();
 
-    const sessions = await query(`SELECT * FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, email]);
+    const sessions = await query(`SELECT * FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`, [sessionId, auth.email]);
     if (sessions.length === 0) {
       res.write("抱歉，未能找到该诊断会话。请刷新重试。");
       return res.end();
