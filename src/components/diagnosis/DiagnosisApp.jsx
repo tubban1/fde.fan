@@ -200,8 +200,12 @@ export default function DiagnosisPage() {
         triggerToast(response.data.error || '请先完成邮箱验证。');
       }
     } catch (err) {
-      console.error(err);
       const serverError = err.response?.data;
+      if (serverError?.requiresVerification) {
+        triggerToast(serverError.error || '请先完成邮箱验证。');
+        return;
+      }
+      console.error(err);
       const detail = serverError?.detail ? `：${serverError.detail}` : '';
       triggerToast(`${serverError?.error || '登录失败，请检查配置或网络'}${detail}`);
     } finally {

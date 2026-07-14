@@ -157,6 +157,10 @@ export default function GaokaoApp() {
       }
     } catch (err) {
       const serverError = err.response?.data;
+      if (serverError?.requiresVerification) {
+        showToast(serverError.error || '请先完成邮箱验证');
+        return;
+      }
       const detail = serverError?.detail ? `：${serverError.detail}` : '';
       showToast(`${serverError?.error || '登录失败'}${detail}`);
     } finally {
