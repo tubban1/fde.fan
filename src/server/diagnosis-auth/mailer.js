@@ -103,12 +103,11 @@ function buildHtmlEmail({ title, preheader, bodyHtml, actionUrl, actionLabel }) 
 
 export function getMailConfigStatus() {
   const missing = [];
-  const authUser = getEnv('ALIYUN_SMTP_AUTH_USER', getEnv('ALIYUN_SMTP_USER'));
-  const fromAddress = getEnv('ALIYUN_SMTP_FROM_ADDRESS', getEnv('ALIYUN_SMTP_USER'));
-  if (!authUser) missing.push('ALIYUN_SMTP_AUTH_USER or ALIYUN_SMTP_USER');
-  if (authUser && !authUser.includes('@')) missing.push('ALIYUN_SMTP_AUTH_USER must be a full email address');
-  if (!fromAddress) missing.push('ALIYUN_SMTP_FROM_ADDRESS or ALIYUN_SMTP_USER');
-  if (!getEnv('ALIYUN_SMTP_PASSWORD')) missing.push('ALIYUN_SMTP_PASSWORD');
+  const username = getEnv('EMAIL_USERNAME');
+  if (!getEnv('EMAIL_HOST')) missing.push('EMAIL_HOST');
+  if (!username) missing.push('EMAIL_USERNAME');
+  if (username && !username.includes('@')) missing.push('EMAIL_USERNAME must be a full email address');
+  if (!getEnv('EMAIL_PASSWORD')) missing.push('EMAIL_PASSWORD');
   if (!getEnv('PUBLIC_SITE_URL') && !getEnv('APP_BASE_URL')) missing.push('PUBLIC_SITE_URL or APP_BASE_URL');
   return { configured: missing.length === 0, missing };
 }
@@ -121,20 +120,20 @@ export function getBaseUrl(req) {
   return host ? `${proto}://${host}` : 'https://www.fde.fan';
 }
 
-export async function sendAliyunMail({ to, subject, html, text }) {
-  const host = getEnv('ALIYUN_SMTP_HOST', 'smtp.qiye.aliyun.com');
-  const port = Number(getEnv('ALIYUN_SMTP_PORT', '465'));
-  const secure = getEnv('ALIYUN_SMTP_SECURE', 'true') !== 'false';
-  const authUsername = getEnv('ALIYUN_SMTP_AUTH_USER', getEnv('ALIYUN_SMTP_USER'));
-  const fromAddress = getEnv('ALIYUN_SMTP_FROM_ADDRESS', getEnv('ALIYUN_SMTP_USER'));
-  const password = getEnv('ALIYUN_SMTP_PASSWORD');
-  const fromName = getEnv('ALIYUN_SMTP_FROM_NAME', 'FDE FAN');
-  const replyTo = getEnv('ALIYUN_SMTP_REPLY_TO', fromAddress);
-  const timeout = Number(getEnv('ALIYUN_SMTP_TIMEOUT_MS', '10000'));
+export async function sendSmtpMail({ to, subject, html, text }) {
+  const host = getEnv('EMAIL_HOST', 'smtp.exmail.qq.com');
+  const port = Number(getEnv('EMAIL_PORT', '465'));
+  const secure = getEnv('EMAIL_SECURE', port === 465 ? 'true' : 'false') !== 'false';
+  const authUsername = getEnv('EMAIL_USERNAME');
+  const fromAddress = getEnv('EMAIL_FROM_ADDRESS', authUsername);
+  const password = getEnv('EMAIL_PASSWORD');
+  const fromName = getEnv('EMAIL_FROM_NAME', 'FDE FAN');
+  const replyTo = getEnv('EMAIL_REPLY_TO', fromAddress);
+  const timeout = Number(getEnv('EMAIL_TIMEOUT_MS', '10000'));
   const recipient = normalizeAddress(to);
 
   if (!authUsername || !authUsername.includes('@') || !fromAddress || !password || !recipient) {
-    throw new Error('Aliyun SMTP credentials or recipient are missing');
+    throw new Error('SMTP credentials or recipient are missing');
   }
 
   const boundary = `fde_${email.randomBytes(12).toString('hex')}`;
@@ -165,7 +164,7 @@ export async function sendAliyunMail({ to, subject, html, text }) {
   let socket = await connectSmtp({ host, port, secure, timeout });
   try {
     await readResponse(socket);
-    await command(socket, `EHLO ${getEnv('ALIYUN_SMTP_EHLO_DOMAIN', 'fde.fan')}`);
+    await command(socket, `EHLO ${getEnv('EMAIL_EHLO_DOMAIN', 'fde.fan')}`);
     await command(socket, 'AUTH LOGIN', /^334/);
     await command(socket, Buffer.from(authUsername).toString('base64'), /^334/, 'AUTH_USERNAME');
     await command(socket, Buffer.from(password).toString('base64'), /^235/, 'AUTH_PASSWORD');
@@ -193,7 +192,7 @@ export async function sendVerificationEmail({ req, to, token }) {
     actionUrl: url,
     actionLabel: '验证邮箱',
   });
-  await sendAliyunMail({
+  await sendSmtpMail({
     to,
     subject: '验证你的 FDE FAN 邮箱',
     html,
@@ -211,7 +210,7 @@ export async function sendPasswordResetEmail({ req, to, token }) {
     actionUrl: url,
     actionLabel: '重置密码',
   });
-  await sendAliyunMail({
+  await sendSmtpMail({
     to,
     subject: '重置你的 FDE FAN 密码',
     html,
