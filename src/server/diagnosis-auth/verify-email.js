@@ -1,6 +1,5 @@
 import { query } from "../diagnosis/db.js";
 import { formatErrorForLog } from "../diagnosis/safe_error.js";
-import { ensureAuthTables } from "./pre-check.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET" && req.method !== "POST") {
@@ -13,7 +12,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    await ensureAuthTables();
     const rows = await query(
       "SELECT email, verification_expires_at FROM user_credits WHERE verification_token = ? LIMIT 1",
       [token]

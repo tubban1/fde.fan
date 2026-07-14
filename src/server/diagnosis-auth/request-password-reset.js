@@ -1,6 +1,6 @@
 import { query } from "../diagnosis/db.js";
 import { formatErrorForLog } from "../diagnosis/safe_error.js";
-import { ensureAuthTables, generateToken, tokenExpiresAt } from "./pre-check.js";
+import { generateToken, tokenExpiresAt } from "./pre-check.js";
 import { getMailConfigStatus, sendPasswordResetEmail } from "./mailer.js";
 import { normalizeEmail } from "./auth-utils.js";
 
@@ -17,7 +17,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    await ensureAuthTables();
     const mailStatus = getMailConfigStatus();
     if (!mailStatus.configured) {
       return res.status(503).json({ success: false, error: `邮件服务未配置：缺少 ${mailStatus.missing.join(", ")}` });

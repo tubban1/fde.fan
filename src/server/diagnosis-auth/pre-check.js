@@ -257,7 +257,7 @@ async function createVerificationAndSend(req, email) {
 
 function verificationErrorMessage(mailResult, prefix = "账号尚未完成邮箱验证") {
   if (mailResult.sent) {
-    return `${prefix}，已发送验证邮件，请先查收邮箱。`;
+    return `${prefix}，验证邮件已发送；如收件箱中未找到，请检查垃圾邮件或垃圾信箱。`;
   }
   if (mailResult.missing?.length) {
     return `${prefix}，但邮件服务未配置：缺少 ${mailResult.missing.join(", ")}`;
@@ -288,8 +288,6 @@ export default async function handler(req, res) {
       });
     }
 
-    await ensureAuthTables();
-
     const rows = await findUserCredits(email);
     if (rows && rows.length > 0) {
       if (!verifyPassword(password, rows[0].password)) {
@@ -318,10 +316,6 @@ export default async function handler(req, res) {
     }
 
     await query("INSERT INTO user_credits (email, password, credits, email_verified) VALUES (?, ?, ?, ?)", [email, hashPassword(password), 30, false]);
-    await runOptionalMigration('insert welcome credit transaction', () => query(
-      "INSERT INTO credit_transactions (email, type, amount, balance_after, description) VALUES (?, ?, ?, ?, ?)",
-      [email, "gift", 30, 30, "FDE FAN Diagnosis welcome quota"]
-    ));
     const mailResult = await createVerificationAndSend(req, email);
 
     return res.status(202).json({

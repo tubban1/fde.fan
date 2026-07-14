@@ -1,6 +1,5 @@
 import { query } from "../diagnosis/db.js";
 import { formatErrorForLog } from "../diagnosis/safe_error.js";
-import { ensureAuthTables } from "./pre-check.js";
 import { hashPassword } from "./auth-utils.js";
 
 export default async function handler(req, res) {
@@ -18,7 +17,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    await ensureAuthTables();
     const rows = await query(
       "SELECT email, reset_expires_at FROM user_credits WHERE reset_token = ? LIMIT 1",
       [token]

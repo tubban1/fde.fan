@@ -1,14 +1,11 @@
 import { query } from "../diagnosis/db.js";
 import { hashPassword, isHashedPassword, normalizeEmail, verifyPassword } from "./auth-utils.js";
-import { ensureAuthTables } from "./pre-check.js";
 
 export async function authenticateUser(email, password) {
   const normalizedEmail = normalizeEmail(email);
   if (!normalizedEmail || !password) {
     return { ok: false, email: normalizedEmail, reason: "missing" };
   }
-
-  await ensureAuthTables();
 
   const rows = await query(
     "SELECT email, password, credits, email_verified FROM user_credits WHERE email = ? OR LOWER(email) = ? LIMIT 1",

@@ -12,6 +12,8 @@ export default function Header({
   isCheckingEmail, 
   onVerifyEmail, 
   onLogout,
+  notice,
+  onDismissNotice,
   themeMode = 'light',
   onToggleTheme
 }) {
@@ -21,7 +23,8 @@ export default function Header({
   return (
     <>
       <header className="site-header">
-        <div className="header-container">
+        <div className="header-shell">
+          <div className="header-container">
           <a className="logo-section" href="/" aria-label="返回 FDE FAN 首页">
             <img src="/assets/fde-logo-mark.png" alt="FDE FAN Diagnosis Logo" className="logo-img" />
             <div>
@@ -30,12 +33,20 @@ export default function Header({
             </div>
           </a>
 
-          <div className="user-section">
-            <a href="https://github.com/tubban1/fde-diagnosis-agent" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 12px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid var(--color-border)', color: 'var(--color-text-main)', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none' }} className="github-link">
+          <div className="header-utilities">
+            <a href="https://github.com/tubban1/fde-diagnosis-agent" target="_blank" rel="noopener noreferrer" className="github-link">
               <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
               GitHub Open Source
               <img src="https://img.shields.io/github/stars/tubban1/fde-diagnosis-agent?style=social" alt="GitHub stars" style={{ marginLeft: '4px', height: '16px' }} />
             </a>
+            {onToggleTheme && (
+              <button type="button" onClick={onToggleTheme} className="theme-toggle-btn desktop-theme-toggle" aria-label="切换亮色或暗色模式">
+                {themeMode === 'light' ? '🌙 暗色' : '☀️ 亮色'}
+              </button>
+            )}
+          </div>
+
+          <div className="user-section">
             <button
               type="button"
               className="mobile-menu-trigger"
@@ -51,7 +62,7 @@ export default function Header({
               <button
                 type="button"
                 onClick={onToggleTheme}
-                className="theme-toggle-btn"
+                className="theme-toggle-btn mobile-theme-toggle"
                 aria-label="切换亮色或暗色模式"
               >
                 {themeMode === 'light' ? '🌙 暗色' : '☀️ 亮色'}
@@ -102,6 +113,15 @@ export default function Header({
             )}
             </div>
           </div>
+          </div>
+
+          {notice?.message && (
+            <div className={`header-notice header-notice-${notice.type || 'info'}`} role={notice.type === 'error' ? 'alert' : 'status'}>
+              <span className="header-notice-dot" aria-hidden="true" />
+              <span className="header-notice-message">{notice.message}</span>
+              <button type="button" className="header-notice-close" onClick={onDismissNotice} aria-label="关闭提示">×</button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -259,17 +279,25 @@ export default function Header({
           position: sticky;
           top: 0;
           z-index: 50;
+          display: block;
+          min-height: 0;
+          padding: 0;
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
         }
 
-        .header-container {
+        .header-shell {
           max-width: 1400px;
           margin: 0 auto;
           padding: 1rem 1.5rem;
+          position: relative;
+        }
+
+        .header-container {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 0.9rem;
         }
 
         .logo-section {
@@ -311,12 +339,91 @@ export default function Header({
         }
 
 	        /* User Authentication Styling */
-	        .user-section {
+	        .header-utilities {
 	          display: flex;
 	          align-items: center;
+	          gap: 0.5rem;
+	          flex-shrink: 0;
+	        }
+
+	        .user-section {
+	          display: flex;
+	          align-items: flex-start;
 	          gap: 0.75rem;
 	          min-width: 0;
 	          position: relative;
+	          justify-content: flex-start;
+	          flex: 0 1 auto;
+	        }
+
+	        .github-link {
+	          display: inline-flex;
+	          align-items: center;
+	          gap: 0.45rem;
+	          height: 40px;
+	          box-sizing: border-box;
+	          padding: 0 0.7rem;
+	          border-radius: 8px;
+	          background: rgba(255, 255, 255, 0.06);
+	          border: 1px solid var(--color-border);
+	          color: var(--color-text-main);
+	          font-size: 0.75rem;
+	          font-weight: 700;
+	          text-decoration: none;
+	          white-space: nowrap;
+	        }
+
+	        .header-notice {
+	          display: grid;
+	          grid-template-columns: auto minmax(0, 1fr) auto;
+	          align-items: center;
+	          gap: 0.65rem;
+	          margin-top: 0.75rem;
+	          padding: 0.65rem 0.8rem;
+	          border: 1px solid rgba(45, 212, 191, 0.3);
+	          border-radius: 8px;
+	          background: rgba(13, 148, 136, 0.1);
+	          color: var(--color-text-main);
+	          font-size: 0.78rem;
+	          line-height: 1.45;
+	        }
+
+	        .header-notice-success {
+	          border-color: rgba(16, 185, 129, 0.35);
+	          background: rgba(16, 185, 129, 0.1);
+	        }
+
+	        .header-notice-error {
+	          border-color: rgba(239, 68, 68, 0.38);
+	          background: rgba(239, 68, 68, 0.1);
+	        }
+
+	        .header-notice-dot {
+	          width: 8px;
+	          height: 8px;
+	          border-radius: 50%;
+	          background: #2dd4bf;
+	        }
+
+	        .header-notice-success .header-notice-dot { background: #10b981; }
+	        .header-notice-error .header-notice-dot { background: #ef4444; }
+
+	        .header-notice-message {
+	          min-width: 0;
+	          overflow-wrap: anywhere;
+	        }
+
+	        .header-notice-close {
+	          width: 28px;
+	          height: 28px;
+	          padding: 0;
+	          border: 0;
+	          border-radius: 6px;
+	          background: transparent;
+	          color: currentColor;
+	          font-size: 1.1rem;
+	          cursor: pointer;
+	          opacity: 0.65;
 	        }
 
 	        .header-actions {
@@ -344,11 +451,17 @@ export default function Header({
 	          background: rgba(255, 255, 255, 0.06);
 	          color: var(--color-text-main);
 	          border-radius: 999px;
-	          padding: 0.45rem 0.75rem;
+	          height: 40px;
+	          box-sizing: border-box;
+	          padding: 0 0.75rem;
 	          font-size: 0.78rem;
 	          font-weight: 700;
 	          cursor: pointer;
 	          white-space: nowrap;
+	        }
+
+	        .mobile-theme-toggle {
+	          display: none;
 	        }
 
 	        .login-stack,
@@ -383,6 +496,20 @@ export default function Header({
 	          background-color: rgba(255, 255, 255, 0.86);
 	          border-bottom-color: rgba(15, 23, 42, 0.08);
 	          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+	        }
+
+	        .theme-light .github-link {
+	          background: #ffffff;
+	          color: #0f172a;
+	          border-color: rgba(15, 23, 42, 0.12);
+	        }
+
+	        .theme-light .header-notice {
+	          color: #134e4a;
+	        }
+
+	        .theme-light .header-notice-error {
+	          color: #991b1b;
 	        }
 
 	        .theme-light .theme-toggle-btn,
@@ -445,6 +572,8 @@ export default function Header({
           color: var(--color-text-main);
           font-size: 0.85rem;
           width: 220px;
+          height: 40px;
+          box-sizing: border-box;
           transition: all 0.3s ease;
         }
 
@@ -461,6 +590,8 @@ export default function Header({
           padding: 0.5rem 1rem;
           font-weight: 600;
           font-size: 0.85rem;
+          height: 40px;
+          box-sizing: border-box;
           cursor: pointer;
           transition: all 0.2s ease;
         }
@@ -531,11 +662,14 @@ export default function Header({
 	        }
 
 	        @media (max-width: 920px) {
+	          .header-shell {
+	            padding: 0.85rem 1rem;
+	          }
+
 	          .header-container {
 	            align-items: center;
 	            flex-direction: row;
 	            gap: 0.75rem;
-	            padding: 0.85rem 1rem;
 	          }
 
 	          .logo-section {
@@ -563,6 +697,15 @@ export default function Header({
 	          .user-section {
 	            margin-left: auto;
 	            flex-shrink: 0;
+	            position: static;
+	          }
+
+	          .header-utilities {
+	            display: none;
+	          }
+
+	          .mobile-theme-toggle {
+	            display: block;
 	          }
 
 	          .mobile-menu-trigger {
@@ -644,7 +787,7 @@ export default function Header({
 	            font-size: 0.68rem;
 	          }
 
-	          .header-container {
+	          .header-shell {
 	            padding: 0.7rem 0.85rem;
 	          }
 

@@ -44,6 +44,7 @@ export default function DiagnosisPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
+  const [headerNotice, setHeaderNotice] = useState(null);
   const [themeMode, setThemeMode] = useState('light');
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -173,15 +174,16 @@ export default function DiagnosisPage() {
   const handleVerifyEmail = async (emailToVerify, passwordToVerify) => {
     const normalizedEmail = String(emailToVerify || '').trim().toLowerCase();
     if (!normalizedEmail || !EMAIL_REGEX.test(normalizedEmail)) {
-      triggerToast('请输入有效的电子邮箱！');
+      setHeaderNotice({ type: 'error', message: '请输入有效的电子邮箱。' });
       return;
     }
     if (!passwordToVerify) {
-      triggerToast('请输入密码！');
+      setHeaderNotice({ type: 'error', message: '请输入密码。' });
       return;
     }
     setIsCheckingEmail(true);
     setErrorMsg('');
+    setHeaderNotice({ type: 'info', message: '正在验证账号，请稍候…' });
     try {
       const response = await axios.post('/api/diagnosis-auth/pre-check', { email: normalizedEmail, password: passwordToVerify });
       if (response.data?.success) {
@@ -191,23 +193,31 @@ export default function DiagnosisPage() {
         localStorage.setItem('fde_diagnosis_email', normalizedEmail);
         localStorage.setItem('fde_diagnosis_password', passwordToVerify);
         localStorage.setItem('fde_diagnosis_verified', 'true');
-        triggerToast(response.data.isNewUser ? '注册成功：诊断历史会保存到该邮箱账号。' : '验证成功：诊断历史会保存到该邮箱账号。');
+        setHeaderNotice({
+          type: 'success',
+          message: response.data.isNewUser
+            ? '注册成功，诊断历史会保存到该邮箱账号。'
+            : '登录成功，诊断历史已关联到该邮箱账号。',
+        });
         setIsCheckingEmail(false);
         window.setTimeout(() => {
           loadDiagnosisHistory(normalizedEmail, passwordToVerify, true);
         }, 0);
       } else if (response.data?.requiresVerification) {
-        triggerToast(response.data.error || '请先完成邮箱验证。');
+        setHeaderNotice({ type: 'info', message: response.data.error || '请先完成邮箱验证。' });
       }
     } catch (err) {
       const serverError = err.response?.data;
       if (serverError?.requiresVerification) {
-        triggerToast(serverError.error || '请先完成邮箱验证。');
+        setHeaderNotice({ type: 'info', message: serverError.error || '请先完成邮箱验证。' });
         return;
       }
       console.error(err);
       const detail = serverError?.detail ? `：${serverError.detail}` : '';
-      triggerToast(`${serverError?.error || '登录失败，请检查配置或网络'}${detail}`);
+      setHeaderNotice({
+        type: 'error',
+        message: `${serverError?.error || '登录失败，请检查配置或网络'}${detail}`,
+      });
     } finally {
       setIsCheckingEmail(false);
     }
@@ -228,6 +238,7 @@ export default function DiagnosisPage() {
     setKnownFacts({});
     setMissingFields([]);
     setReport(null);
+    setHeaderNotice({ type: 'info', message: '已退出账号。' });
   };
 
   const triggerToast = (msg) => {
@@ -1008,6 +1019,8 @@ export default function DiagnosisPage() {
         isCheckingEmail={isCheckingEmail}
         onVerifyEmail={handleVerifyEmail}
         onLogout={handleLogout}
+        notice={headerNotice}
+        onDismissNotice={() => setHeaderNotice(null)}
         themeMode={themeMode}
         onToggleTheme={() => setThemeMode(prev => prev === 'light' ? 'dark' : 'light')}
       />
