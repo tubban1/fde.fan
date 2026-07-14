@@ -85,10 +85,12 @@ ${JSON.stringify(knownFacts, null, 2)}
 请基于上述已确定的企业事实数据，进行深度诊断，输出一份专业的“企业 AI 增长转型诊断报告”。
 你必须输出并且仅输出一个合法的 JSON 对象，不要包含其他解释性文字或 markdown 块。如果你使用了 \`\`\`json \`\`\` 包装，请确保它内容是合法的且可被解析的 JSON。
 
+内容数量要求：opportunityMap 给出 3 到 5 项；recommendedAgents 给出 2 到 4 项，每个智能体至少包含 3 个模拟场景，其中必须包含信息不足和人工确认场景。
+
 输出的 JSON 格式必须是：
 {
   "summary": "针对该企业转型现状、瓶颈的全局评估和成熟度分析摘要（中文，150-200字）",
-  "maturityScore": 55, // 0 到 100 的整数，表示 AI 转型成熟度评分。评分标准：10-30(起步期，信息化不足)，31-60(探索期，单点尝试)，61-80(应用期，流程融入)，81-100(智能期，全链路AI协同)。
+  "maturityScore": 55,
   "painPoints": [
     "提炼出企业核心业务流程中的 2-3 个核心痛点描述"
   ],
@@ -99,13 +101,26 @@ ${JSON.stringify(knownFacts, null, 2)}
       "complexity": "落地复杂度（高/中/低）",
       "priority": "优先级（P0/P1/P2）"
     }
-    // 给出 3 到 5 个最值得落地的 AI 应用场景
   ],
   "recommendedAgents": [
     {
+      "id": "英文短横线标识，例如 sales-followup-agent，同一报告内唯一",
       "name": "智能体/Agent名称",
+      "businessProblem": "该智能体优先解决的具体业务问题",
+      "targetUser": "第一版的主要使用角色",
+      "recommendationReason": "为什么它适合作为当前企业的优先实施项",
       "description": "该智能体在工作流中扮演的角色、输入、处理逻辑与输出",
-      "integration": "需要与现有系统（如 CRM、飞书、数据库等）如何集成对接"
+      "integration": "正式实施时需要如何集成；同时说明模拟 Demo 不连接真实系统",
+      "inputs": ["第一版需要的 2-4 项输入"],
+      "workflow": ["按执行顺序给出 4-6 个工作步骤"],
+      "outputs": ["第一版产生的 2-4 项输出"],
+      "mockScenarios": [
+        {
+          "name": "模拟场景名称",
+          "input": "使用合成数据描述模拟输入",
+          "expectedResult": "该场景期望展示的结果"
+        }
+      ]
     }
   ],
   "roadmap30_60_90": {
@@ -158,7 +173,23 @@ ${JSON.stringify(knownFacts, null, 2)}
         maturityScore: 50,
         painPoints: ["流程流转效率有待优化"],
         opportunityMap: [{ title: "工作流自动化", value: "中", complexity: "中", priority: "P1" }],
-        recommendedAgents: [{ name: "通用效率 Agent", description: "辅助进行流程整合", integration: "飞书集成" }],
+        recommendedAgents: [{
+          id: "workflow-efficiency-agent",
+          name: "通用效率 Agent",
+          businessProblem: "重复业务信息需要人工整理和流转",
+          targetUser: "一线业务人员",
+          recommendationReason: "适合先用低风险模拟流程验证提效价值",
+          description: "辅助进行流程整合并生成结构化建议",
+          integration: "模拟 Demo 不连接真实系统，正式实施后再评估飞书集成",
+          inputs: ["模拟业务记录", "模拟处理规则"],
+          workflow: ["读取模拟资料", "识别关键信息", "生成处理建议", "等待人工确认"],
+          outputs: ["结构化分析", "下一步建议"],
+          mockScenarios: [
+            { name: "标准流程", input: "完整模拟资料", expectedResult: "生成结构化处理建议" },
+            { name: "信息不足", input: "缺少关键字段的模拟资料", expectedResult: "提示需要补充的信息" },
+            { name: "人工确认", input: "模拟提交业务操作", expectedResult: "确认后仅模拟执行" }
+          ]
+        }],
         roadmap30_60_90: { day30: "梳理系统 API", day60: "灰度上线", day90: "全面推广" },
         risks: ["合规与数据安全"],
         dataRequirements: ["历史流程日志文档"],

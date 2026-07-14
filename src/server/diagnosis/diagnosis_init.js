@@ -70,6 +70,33 @@ export async function initDiagnosisTables() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS diagnosis_agent_demos (
+        id VARCHAR(64) PRIMARY KEY,
+        session_id VARCHAR(64) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        agent_key VARCHAR(128) NOT NULL,
+        agent_name VARCHAR(255) NOT NULL,
+        spec JSON,
+        current_version INT DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE (session_id, agent_key)
+      )
+    `);
+
+    await query(`
+      CREATE TABLE IF NOT EXISTS diagnosis_agent_demo_versions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        demo_id VARCHAR(64) NOT NULL,
+        version INT NOT NULL,
+        html LONGTEXT NOT NULL,
+        change_request TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (demo_id, version)
+      )
+    `);
     initialized = true;
   } catch (error) {
     console.error('Failed to initialize diagnosis tables:', error);

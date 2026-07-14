@@ -915,6 +915,18 @@ export default function DiagnosisPage() {
     }
   };
 
+  const handleOpenAgentDemo = (agentIndex) => {
+    if (!sessionId || emailStatus !== 'verified') {
+      triggerToast('请先登录并打开一份已生成的诊断报告');
+      return;
+    }
+    const params = new URLSearchParams({
+      sessionId: String(sessionId),
+      agentIndex: String(agentIndex)
+    });
+    window.location.assign(`/agent-demo?${params.toString()}`);
+  };
+
   // 重置/重新诊断
   const handleReset = () => {
     if (window.confirm('您确定要重置当前诊断并开启一份新诊断吗？历史记录将不再在此显示。')) {
@@ -1507,9 +1519,28 @@ export default function DiagnosisPage() {
                             <div className="agents-grid-container">
                               {report.recommendedAgents?.map((agent, i) => (
                                 <div key={i} className="agent-rec-card">
-                                  <h5>{agent.name}</h5>
+                                  <div className="agent-rec-heading">
+                                    <h5>{agent.name}</h5>
+                                    <span>模拟原型</span>
+                                  </div>
+                                  {(agent.businessProblem || agent.targetUser) && (
+                                    <div className="agent-rec-meta">
+                                      {agent.targetUser && <span>使用者：{agent.targetUser}</span>}
+                                      {agent.businessProblem && <span>解决：{agent.businessProblem}</span>}
+                                    </div>
+                                  )}
+                                  {agent.recommendationReason && (
+                                    <p className="agent-reason-para"><strong>推荐理由：</strong>{agent.recommendationReason}</p>
+                                  )}
                                   <p className="agent-desc-para"><strong>核心功能：</strong>{agent.description}</p>
                                   <p className="agent-integ-para"><strong>系统对接：</strong>{agent.integration}</p>
+                                  <button
+                                    type="button"
+                                    className="btn-create-agent-demo"
+                                    onClick={() => handleOpenAgentDemo(i)}
+                                  >
+                                    创建 / 打开模拟 Demo
+                                  </button>
                                 </div>
                               ))}
                             </div>
@@ -3060,22 +3091,68 @@ export default function DiagnosisPage() {
         }
 
         .agent-rec-card h5 {
-          margin: 0 0 6px 0;
+          margin: 0;
           font-size: 0.8rem;
           color: #2dd4bf;
           font-weight: 700;
         }
 
-        .agent-desc-para, .agent-integ-para {
+        .agent-rec-heading {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          margin-bottom: 8px;
+        }
+
+        .agent-rec-heading > span {
+          flex: 0 0 auto;
+          padding: 2px 6px;
+          border: 1px solid rgba(45, 212, 191, 0.2);
+          color: #5eead4;
+          font-size: 0.62rem;
+          font-weight: 700;
+        }
+
+        .agent-rec-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          margin-bottom: 7px;
+          color: #cbd5e1;
+          font-size: 0.68rem;
+          line-height: 1.4;
+        }
+
+        .agent-reason-para, .agent-desc-para, .agent-integ-para {
           margin: 0 0 4px 0;
           font-size: 0.72rem;
           color: #94a3b8;
           line-height: 1.4;
         }
 
-        .agent-desc-para strong, .agent-integ-para strong {
+        .agent-reason-para strong, .agent-desc-para strong, .agent-integ-para strong {
           color: #e2e8f0;
           font-weight: 600;
+        }
+
+        .btn-create-agent-demo {
+          width: 100%;
+          margin-top: 9px;
+          border: 1px solid rgba(45, 212, 191, 0.35);
+          background: #0f766e;
+          color: #ffffff;
+          min-height: 34px;
+          padding: 7px 10px;
+          font-size: 0.72rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-create-agent-demo:hover {
+          background: #0d9488;
+          border-color: #2dd4bf;
         }
 
         /* 路线图时间轴 */
@@ -3361,6 +3438,15 @@ export default function DiagnosisPage() {
         .theme-light .agent-integ-para,
         .theme-light .opp-title {
           color: #0f172a;
+        }
+
+        .theme-light .agent-rec-heading > span {
+          color: #0f766e;
+          border-color: rgba(15, 118, 110, 0.25);
+        }
+
+        .theme-light .agent-rec-meta {
+          color: #475569;
         }
 
         .theme-light .goal-desc-txt,

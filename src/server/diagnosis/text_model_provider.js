@@ -13,7 +13,7 @@ function normalizeTask(task) {
 }
 
 function isPromptModelTask(taskKey) {
-  return taskKey === 'EXTRACTION' || taskKey === 'REPORT';
+  return taskKey === 'EXTRACTION' || taskKey === 'REPORT' || taskKey === 'AGENT_DEMO';
 }
 
 function getTextProvider(task) {
