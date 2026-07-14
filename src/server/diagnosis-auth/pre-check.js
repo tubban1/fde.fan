@@ -160,7 +160,6 @@ async function doEnsureAuthTables() {
     await runMigration('backfill legacy verified users', () => query(`UPDATE user_credits SET email_verified = TRUE WHERE email_verified IS NULL`));
     await runMigration('backfill user_credits.password', () => query(`UPDATE user_credits SET password = '12345688' WHERE password IS NULL`));
     await runMigration('backfill user_credits.credits', () => query(`UPDATE user_credits SET credits = 0 WHERE credits IS NULL`));
-    await runOptionalMigration('normalize and hash user_credits rows', migrateStoredAuthRows);
     return;
   }
 
@@ -194,7 +193,6 @@ async function doEnsureAuthTables() {
   await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN reset_token VARCHAR(255) NULL`));
   await ignoreDuplicateColumn(() => query(`ALTER TABLE user_credits ADD COLUMN reset_expires_at TIMESTAMP NULL`));
   await query(`UPDATE user_credits SET email_verified = TRUE WHERE email_verified IS NULL`);
-  await runOptionalMigration('normalize and hash user_credits rows', migrateStoredAuthRows);
 }
 
 export function isMissingAuthTableError(error) {

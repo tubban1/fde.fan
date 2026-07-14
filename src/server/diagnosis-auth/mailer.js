@@ -3,7 +3,7 @@ import tls from 'node:tls';
 import email from 'node:crypto';
 
 function getEnv(name, fallback = '') {
-  return process.env[name] || fallback;
+  return String(process.env[name] || fallback).trim();
 }
 
 function encodeHeader(value) {
@@ -45,11 +45,12 @@ function readResponse(socket) {
   });
 }
 
-async function command(socket, line, expected = /^[23]/) {
+async function command(socket, line, expected = /^[23]/, displayName = '') {
   socket.write(`${line}\r\n`);
   const response = await readResponse(socket);
   if (!expected.test(response)) {
-    throw new Error(`SMTP command failed: ${line.split(' ')[0]} -> ${response.slice(0, 300)}`);
+    const commandName = displayName || line.split(' ')[0];
+    throw new Error(`SMTP command failed: ${commandName} -> ${response.slice(0, 300)}`);
   }
   return response;
 }
@@ -102,7 +103,11 @@ function buildHtmlEmail({ title, preheader, bodyHtml, actionUrl, actionLabel }) 
 
 export function getMailConfigStatus() {
   const missing = [];
-  if (!getEnv('ALIYUN_SMTP_USER')) missing.push('ALIYUN_SMTP_USER');
+  const authUser = getEnv('ALIYUN_SMTP_AUTH_USER', getEnv('ALIYUN_SMTP_USER'));
+  const fromAddress = getEnv('ALIYUN_SMTP_FROM_ADDRESS', getEnv('ALIYUN_SMTP_USER'));
+  if (!authUser) missing.push('ALIYUN_SMTP_AUTH_USER or ALIYUN_SMTP_USER');
+  if (authUser && !authUser.includes('@')) missing.push('ALIYUN_SMTP_AUTH_USER must be a full email address');
+  if (!fromAddress) missing.push('ALIYUN_SMTP_FROM_ADDRESS or ALIYUN_SMTP_USER');
   if (!getEnv('ALIYUN_SMTP_PASSWORD')) missing.push('ALIYUN_SMTP_PASSWORD');
   if (!getEnv('PUBLIC_SITE_URL') && !getEnv('APP_BASE_URL')) missing.push('PUBLIC_SITE_URL or APP_BASE_URL');
   return { configured: missing.length === 0, missing };
@@ -120,24 +125,25 @@ export async function sendAliyunMail({ to, subject, html, text }) {
   const host = getEnv('ALIYUN_SMTP_HOST', 'smtp.qiye.aliyun.com');
   const port = Number(getEnv('ALIYUN_SMTP_PORT', '465'));
   const secure = getEnv('ALIYUN_SMTP_SECURE', 'true') !== 'false';
-  const username = getEnv('ALIYUN_SMTP_USER');
+  const authUsername = getEnv('ALIYUN_SMTP_AUTH_USER', getEnv('ALIYUN_SMTP_USER'));
+  const fromAddress = getEnv('ALIYUN_SMTP_FROM_ADDRESS', getEnv('ALIYUN_SMTP_USER'));
   const password = getEnv('ALIYUN_SMTP_PASSWORD');
   const fromName = getEnv('ALIYUN_SMTP_FROM_NAME', 'FDE FAN');
-  const replyTo = getEnv('ALIYUN_SMTP_REPLY_TO', username);
+  const replyTo = getEnv('ALIYUN_SMTP_REPLY_TO', fromAddress);
   const timeout = Number(getEnv('ALIYUN_SMTP_TIMEOUT_MS', '10000'));
   const recipient = normalizeAddress(to);
 
-  if (!username || !password || !recipient) {
+  if (!authUsername || !authUsername.includes('@') || !fromAddress || !password || !recipient) {
     throw new Error('Aliyun SMTP credentials or recipient are missing');
   }
 
   const boundary = `fde_${email.randomBytes(12).toString('hex')}`;
   const message = [
     `Subject: ${encodeHeader(subject)}`,
-    `From: ${encodeHeader(fromName)} <${username}>`,
+    `From: ${encodeHeader(fromName)} <${fromAddress}>`,
     `To: <${recipient}>`,
     `Reply-To: ${replyTo}`,
-    `Message-ID: ${createMessageId(username)}`,
+    `Message-ID: ${createMessageId(fromAddress)}`,
     `Date: ${smtpDate()}`,
     `MIME-Version: 1.0`,
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
@@ -161,9 +167,9 @@ export async function sendAliyunMail({ to, subject, html, text }) {
     await readResponse(socket);
     await command(socket, `EHLO ${getEnv('ALIYUN_SMTP_EHLO_DOMAIN', 'fde.fan')}`);
     await command(socket, 'AUTH LOGIN', /^334/);
-    await command(socket, Buffer.from(username).toString('base64'), /^334/);
-    await command(socket, Buffer.from(password).toString('base64'), /^235/);
-    await command(socket, `MAIL FROM:<${username}>`);
+    await command(socket, Buffer.from(authUsername).toString('base64'), /^334/, 'AUTH_USERNAME');
+    await command(socket, Buffer.from(password).toString('base64'), /^235/, 'AUTH_PASSWORD');
+    await command(socket, `MAIL FROM:<${fromAddress}>`);
     await command(socket, `RCPT TO:<${recipient}>`);
     await command(socket, 'DATA', /^354/);
     socket.write(`${message}\r\n.\r\n`);
