@@ -1,6 +1,7 @@
 import { query } from '../db.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { formatDiagnosisGoalPrompt, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { generateText } from '../text_model_provider.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
 
     // 1. 获取当前会话状态，检查完整度是否达标
     const sessions = await query(
-      `SELECT completeness, status FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`,
+      `SELECT completeness, status, diagnosis_goal FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`,
       [sessionId, auth.email]
     );
 
@@ -37,6 +38,8 @@ export default async function handler(req, res) {
     }
 
     const currentSession = sessions[0];
+    const goalDefinition = getDiagnosisGoalDefinition(currentSession.diagnosis_goal);
+    const goalPrompt = formatDiagnosisGoalPrompt(currentSession.diagnosis_goal);
     if (currentSession.completeness < 50) {
       // 仅限非生产环境（NODE_ENV !== 'production'）下配合 force: true 参数用于开发调试
       const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -82,10 +85,19 @@ export default async function handler(req, res) {
 以下是基于我们之前的访谈，整理出的企业画像事实数据：
 ${JSON.stringify(knownFacts, null, 2)}
 
-请基于上述已确定的企业事实数据，进行深度诊断，输出一份专业的“企业 AI 增长转型诊断报告”。
+本次诊断入口与目标约束：
+${goalPrompt}
+
+请基于上述已确定的企业事实数据，进行深度诊断，输出一份专业的“企业 AI 转型诊断报告”。
 你必须输出并且仅输出一个合法的 JSON 对象，不要包含其他解释性文字或 markdown 块。如果你使用了 \`\`\`json \`\`\` 包装，请确保它内容是合法的且可被解析的 JSON。
 
 内容数量要求：opportunityMap 给出 3 到 5 项；recommendedAgents 给出 2 到 4 项，每个智能体至少包含 3 个模拟场景，其中必须包含信息不足和人工确认场景。
+
+方向一致性要求：
+1. 报告必须明确说明本次入口方向是【${goalDefinition?.label || '历史会话未记录'}】，并把用户在访谈中确认的具体 targetOutcome 与该方向结合。
+2. summary、机会排序、推荐智能体和 30/60/90 天路线图必须优先服务该方向，不得生成一份与入口无关的通用 AI 清单。
+3. 如果用户在后续访谈中明确改变了方向，以用户最新确认的 targetOutcome 为准，并在 summary 中说明调整后的主线。
+4. 对综合转型诊断，必须比较增长、降本增效、AI 试点和组织准备度，最终给出一条主线目标和一个首期试点，而不是四个方向平均用力。
 
 输出的 JSON 格式必须是：
 {
@@ -140,7 +152,7 @@ ${JSON.stringify(knownFacts, null, 2)}
 }
 `;
 
-    const systemPrompt = `你是一位资深的企业 AI 增长转型诊断专家、顶级 IT 咨询顾问和 AI 架构师。你需要根据用户提供的企业基本信息、当前流程痛点以及技术/数据底座，输出高水准、切实可行的企业 AI 增长转型诊断报告。请确保返回的内容详实、落地且格式为严格的 JSON。`;
+    const systemPrompt = `你是一位资深的企业 AI 转型诊断专家、顶级 IT 咨询顾问和 AI 架构师。你需要根据用户提供的企业基本信息、入口方向、当前流程痛点以及技术/数据底座，输出高水准、切实可行的企业 AI 转型诊断报告。请确保返回的内容详实、落地且格式为严格的 JSON。`;
 
     const rawContent = await generateText({
       systemPrompt,
@@ -234,7 +246,7 @@ ${JSON.stringify(knownFacts, null, 2)}
     );
 
     // 5. 插入一条系统提示消息到消息表，通知用户报告已经出炉
-    const reportNotifyText = `🎉 您的企业 AI 增长转型诊断报告已经生成完毕！您可以通过右侧的“诊断报告”面板查看多维度分析与 30/60/90 天落地路线图。如果后续还有任何补充信息，也欢迎继续发送，您可以随时重新生成最新的报告。`;
+    const reportNotifyText = `🎉 您的企业 AI 转型诊断报告已经生成完毕！报告已结合【${goalDefinition?.label || '当前确认方向'}】整理机会优先级与 30/60/90 天落地路线图。如果后续还有任何补充信息，也欢迎继续发送，您可以随时重新生成最新的报告。`;
     await query(
       `INSERT INTO diagnosis_messages (session_id, sender, content) VALUES (?, ?, ?)`,
       [sessionId, 'agent', reportNotifyText]

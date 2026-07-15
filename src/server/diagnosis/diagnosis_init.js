@@ -13,6 +13,7 @@ export async function initDiagnosisTables() {
         status VARCHAR(50) DEFAULT 'collecting_info',
         completeness INT DEFAULT 0,
         profile_status VARCHAR(32) DEFAULT 'idle',
+        diagnosis_goal VARCHAR(32) NULL,
         is_hidden BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -21,6 +22,7 @@ export async function initDiagnosisTables() {
 
     if (isPostgresMode) {
       await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS profile_status VARCHAR(32) DEFAULT 'idle';`);
+      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS diagnosis_goal VARCHAR(32) NULL;`);
       await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN DEFAULT FALSE;`);
     } else {
       try {
@@ -31,6 +33,12 @@ export async function initDiagnosisTables() {
 
       try {
         await query(`ALTER TABLE diagnosis_sessions ADD COLUMN is_hidden BOOLEAN DEFAULT FALSE;`);
+      } catch (e) {
+        // 忽略已存在列的报错
+      }
+
+      try {
+        await query(`ALTER TABLE diagnosis_sessions ADD COLUMN diagnosis_goal VARCHAR(32) NULL;`);
       } catch (e) {
         // 忽略已存在列的报错
       }

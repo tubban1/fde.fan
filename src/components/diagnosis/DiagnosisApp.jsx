@@ -549,7 +549,7 @@ export default function DiagnosisPage() {
       <html>
         <head>
           <meta charset="utf-8" />
-          <title>企业 AI 增长转型诊断报告</title>
+          <title>企业 AI 转型诊断报告</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color: #111827; margin: 0; padding: 36px; line-height: 1.65; }
             h1 { font-size: 26px; margin: 0 0 6px; }
@@ -569,7 +569,7 @@ export default function DiagnosisPage() {
           </style>
         </head>
         <body>
-          <h1>企业 AI 增长转型诊断报告</h1>
+          <h1>企业 AI 转型诊断报告</h1>
           <div class="meta">生成时间：${escapeHtml(new Date().toLocaleString())} ｜ 联系手机号：${escapeHtml(exportPhone)}</div>
           <section class="summary">
             <div><span class="score">${escapeHtml(report.maturityScore)}</span>转型成熟度评分</div>
@@ -727,6 +727,7 @@ export default function DiagnosisPage() {
         setReport(rep || null);
         setIsRestoredSession(true); // 已恢复历史会话
         setProfileStatus(session.profileStatus || 'idle');
+        setGoal(session.goalLabel || '');
         localStorage.setItem('diagnosis_session_id', session.id);
         if (rep) {
           setActiveTab('report');
@@ -763,7 +764,7 @@ export default function DiagnosisPage() {
         goal: selectedGoal
       });
       if (res.data?.success) {
-        const { sessionId: newSid, welcomeText, completeness: newComp, knownFacts: facts, missingFields: missing, status: newStatus } = res.data;
+        const { sessionId: newSid, welcomeText, completeness: newComp, knownFacts: facts, missingFields: missing, status: newStatus, goalLabel } = res.data;
         setSessionId(newSid);
         setStatus(newStatus);
         setCompleteness(newComp);
@@ -771,6 +772,7 @@ export default function DiagnosisPage() {
         setMissingFields(missing || []);
         setMessages([{ sender: 'agent', content: welcomeText, created_at: new Date().toISOString() }]);
         setReport(null);
+        setGoal(goalLabel || selectedGoal.split(' (')[0]);
         setActiveTab('profile');
         localStorage.setItem('diagnosis_session_id', newSid);
         loadDiagnosisHistory(email, password, false);
@@ -898,7 +900,7 @@ export default function DiagnosisPage() {
         setReport(res.data.report);
         setStatus('report_ready');
         setActiveTab('report');
-        triggerToast('🎉 您的企业 AI 增长转型诊断报告已成功生成！');
+        triggerToast('🎉 您的企业 AI 转型诊断报告已成功生成！');
         // 重新拉取一次对话历史以更新报告生成的系统提示通知
         const sessionRes = await axios.post('/api/diagnosis/session', { id: sessionId, email, password });
         if (sessionRes.data?.success) {
@@ -945,7 +947,7 @@ export default function DiagnosisPage() {
 
   const goals = [
     '增长转化诊断 (销售/客服/运营 Agent)',
-    '降本提效诊断 (把重复活变成自动化)',
+    '降本增效诊断 (把重复活变成自动化)',
     'AI 试点落地诊断 (30天内见到小成果)',
     '综合转型诊断 (让顾问帮我梳理方向)'
   ];
@@ -1004,10 +1006,12 @@ export default function DiagnosisPage() {
   };
 
   const formatHistoryTitle = (item) => {
+    const directionPrefix = item.goalLabel ? `${item.goalLabel} · ` : '';
     if (item.lastUserMessage) {
-      return item.lastUserMessage.length > 24 ? `${item.lastUserMessage.slice(0, 24)}...` : item.lastUserMessage;
+      const message = item.lastUserMessage.length > 18 ? `${item.lastUserMessage.slice(0, 18)}...` : item.lastUserMessage;
+      return `${directionPrefix}${message}`;
     }
-    return `增长转型诊断 ${new Date(item.createdAt).toLocaleDateString()}`;
+    return `${directionPrefix}企业 AI 诊断 ${new Date(item.createdAt).toLocaleDateString()}`;
   };
 
   const formatHistoryTime = (value) => {
@@ -1182,7 +1186,7 @@ export default function DiagnosisPage() {
                 <div className="state-badge-container">
                   <span className="state-label">当前阶段:</span>
                   <span className={`state-value-tag ${status}`}>
-                    {status === 'collecting_info' && '正在梳理增长与转型线索'}
+                    {status === 'collecting_info' && '正在了解企业与目标'}
                     {status === 'clarifying' && '锁定可落地小切口'}
                     {status === 'researching' && '匹配行业可抄作业案例'}
                     {status === 'diagnosing' && '测算机会优先级'}
@@ -1235,8 +1239,8 @@ export default function DiagnosisPage() {
                 <div className="chat-header">
                   <div className="status-indicator"></div>
                   <div>
-                    <h4>企业 AI 增长转型诊断对话</h4>
-                    <span className="chat-sub">先判断方向，再用轻问题沉淀可落地路径</span>
+                    <h4>企业 AI 转型诊断对话</h4>
+                    <span className="chat-sub">{goal ? `${goal} · ` : ''}先了解企业，再逐步沉淀可落地路径</span>
                   </div>
                   {completeness > 0 && (
                     <button 

@@ -1,4 +1,5 @@
 import { query } from './db.js';
+import { formatDiagnosisGoalPrompt, getDiagnosisGoalDefinition } from './diagnosis_goal.js';
 import { delay, formatErrorForLog, isTransientNetworkError } from './safe_error.js';
 import { generateText } from './text_model_provider.js';
 
@@ -72,7 +73,7 @@ async function getRecentMessages(sessionId) {
   return rows.reverse();
 }
 
-export async function extractDiagnosisProfile(sessionId, latestUserMessage, recentMessages = null) {
+export async function extractDiagnosisProfile(sessionId, latestUserMessage, recentMessages = null, diagnosisGoal = '') {
   console.log(`[Diagnosis Extract] Starting async extraction for session: ${sessionId}`);
   try {
     // 1. 后台静默处理，不需要在首部阻断更新状态
@@ -102,6 +103,8 @@ export async function extractDiagnosisProfile(sessionId, latestUserMessage, rece
       ? recentMessages
       : await getRecentMessages(sessionId);
     const conversationContext = formatConversationContext(contextMessages);
+    const goalDefinition = getDiagnosisGoalDefinition(diagnosisGoal);
+    const goalPrompt = formatDiagnosisGoalPrompt(diagnosisGoal);
 
     // 3. 构建大模型提取 Prompt
     const systemPrompt = `你是一个专业的数据提取 AI。你的任务是结合最近对话上下文和用户最新陈述，提炼出关键的诊断画像事实，并合并更新到原有的已知事实 knownFacts 中。
@@ -111,6 +114,9 @@ ${JSON.stringify(currentFacts, null, 2)}
 
 当前认为缺失的维度 (missingFields)：
 ${JSON.stringify(currentMissing, null, 2)}
+
+本次诊断入口：
+${goalPrompt}
 
 最近对话上下文如下：
 ${conversationContext || '暂无上下文'}
@@ -146,6 +152,8 @@ ${conversationContext || '暂无上下文'}
 3. 不要凭空瞎编或虚构事实。
 4. 保持客观，对于用户本次没有提供新信息的任何字段，必须原封不动地保留原有的已知 facts 描述，严禁清空！
 5. 特别同理心逻辑：如果用户明确在陈述中推翻了先前的方向、目标或表示“没有关注/不关注XX”（例如：“我并不关注降本增效”），你必须相应地把 targetOutcome（目标结果）修改为“待明确（用户澄清不关注XX）”来否定先前的信息，并且重新列入 missingFields 缺失维度中。
+6. 入口方向【${goalDefinition?.label || '历史会话未记录'}】是诊断目标的锚点，但不能仅凭入口选择就把 targetOutcome 判定为已完整。只有用户进一步说明希望改变的具体经营结果、影响或衡量方式后，才把目标结果视为明确。
+7. 企业基本情况优先：在 businessContext 尚未覆盖主营业务/产品、主要客户、规模/团队中的关键信息时，应继续将“企业背景”保留在 missingFields 中。
 
 请最终输出并且仅输出一个严格合规的 JSON 对象（如使用 markdown 包裹，请确保可以 parse），格式如下：
 {
@@ -178,7 +186,10 @@ ${conversationContext || '暂无上下文'}
 
     // 5. 解析并合并写入数据库
     const parsedData = parseModelJsonObject(rawContent);
-    const newKnownFacts = parsedData.knownFacts || {};
+    const newKnownFacts = { ...currentFacts, ...(parsedData.knownFacts || {}) };
+    if (goalDefinition && !newKnownFacts.diagnosisDirection) {
+      newKnownFacts.diagnosisDirection = goalDefinition.label;
+    }
     const newMissingFields = parsedData.missingFields || [];
     const newCompleteness = typeof parsedData.completeness === 'number' ? parsedData.completeness : 0;
     const newStatus = parsedData.status || 'collecting_info';

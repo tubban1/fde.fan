@@ -1,9 +1,23 @@
 import { generateText } from './text_model_provider.js';
+import {
+  AGENT_DEMO_LIBRARY_REGISTRY,
+  resolveAgentDemoLibraries,
+  selectAgentDemoLibraryIds,
+  withAgentDemoLibraries
+} from './agent_demo_libraries.js';
+
+export { AGENT_DEMO_LIBRARY_REGISTRY, selectAgentDemoLibraryIds, withAgentDemoLibraries };
 
 export const MAX_AGENT_DEMO_HTML_BYTES = 420000;
 export const MAX_AGENT_DEMO_REVISION_CHARS = 1200;
 
-const CSP_CONTENT = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; form-action 'none'; base-uri 'none'";
+const buildCspContent = (libraries) => {
+  const sourceMapUrls = libraries.flatMap(library => [library.src, library.fallbackSrc]
+    .filter(Boolean)
+    .map(sourceUrl => `${sourceUrl}.map`));
+  const connectSources = sourceMapUrls.length ? sourceMapUrls.join(' ') : "'none'";
+  return `default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://tubban1.oss-cn-beijing.aliyuncs.com; style-src 'unsafe-inline'; img-src data: blob:; connect-src ${connectSources}; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; form-action 'none'; base-uri 'none'`;
+};
 
 const FORBIDDEN_HTML_PATTERNS = [
   { pattern: /<(?:script|img|iframe|audio|video|source)[^>]+\bsrc\s*=\s*["']\s*(?:https?:)?\/\//i, reason: '不允许引用外部资源' },
@@ -22,6 +36,7 @@ const FORBIDDEN_HTML_PATTERNS = [
   { pattern: /\b(?:window\s*\.\s*)?location\s*(?:[.[]|=)/i, reason: '不允许页面跳转' },
   { pattern: /\b(?:window\s*\.\s*)?(?:parent|top|opener)\b\s*[.[]/i, reason: '不允许访问宿主页面' },
   { pattern: /\bpostMessage\s*\(/i, reason: '不允许向宿主页面发送消息' },
+  { pattern: /createElement\s*\(\s*["']script["']\s*\)/i, reason: '不允许动态加载脚本' },
   { pattern: /\b(?:localStorage|sessionStorage|indexedDB)\b/i, reason: '不允许持久化浏览器数据' },
   { pattern: /\bdocument\s*\.\s*cookie\b/i, reason: '不允许访问 Cookie' },
   { pattern: /\bwhile\s*\(\s*true\s*\)/i, reason: '不允许无限循环' },
@@ -108,23 +123,43 @@ export function validateAgentDemoHtml(html) {
   return true;
 }
 
-export function secureAgentDemoHtml(rawHtml) {
-  let html = String(rawHtml || '')
+export function stripAgentDemoPlatformShell(rawHtml) {
+  return String(rawHtml || '')
     .replace(/<meta[^>]+http-equiv\s*=\s*["']Content-Security-Policy["'][^>]*>/ig, '')
+    .replace(/<script[^>]+data-fde-library\s*=\s*["'][^"']+["'][^>]*><\/script>/ig, '')
+    .replace(/<div[^>]+id\s*=\s*["']fde-simulation-notice["'][^>]*>[\s\S]*?<\/div>/ig, '')
     .replace(/<base\b[^>]*>/ig, '');
+}
+
+export function secureAgentDemoHtml(rawHtml, libraryIds = null) {
+  let html = stripAgentDemoPlatformShell(rawHtml);
 
   validateAgentDemoHtml(html);
 
-  const securityMeta = `<meta http-equiv="Content-Security-Policy" content="${CSP_CONTENT}">`;
-  html = html.replace(/<head\b([^>]*)>/i, `<head$1>${securityMeta}`);
+  const libraries = resolveAgentDemoLibraries({ libraries: libraryIds || undefined });
+  const securityMeta = `<meta http-equiv="Content-Security-Policy" content="${buildCspContent(libraries)}">`;
+  const libraryScripts = libraries
+    .map(library => {
+      const fallbackAttributes = library.fallbackSrc
+        ? ` data-fde-fallback="${library.fallbackSrc}" onerror="this.onerror=null;this.src=this.dataset.fdeFallback"`
+        : '';
+      return `<script data-fde-library="${library.id}" src="${library.src}" crossorigin="anonymous"${fallbackAttributes}></script>`;
+    })
+    .join('');
+  html = html.replace(/<head\b([^>]*)>/i, `<head$1>${securityMeta}${libraryScripts}`);
 
-  const notice = `<div id="fde-simulation-notice" role="status" style="position:sticky;top:0;z-index:2147483647;box-sizing:border-box;width:100%;padding:8px 14px;background:#fff7ed;border-bottom:1px solid #fed7aa;color:#9a3412;font:600 12px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-align:center">模拟智能体 Demo · 使用合成数据，不会调用外部服务或执行真实业务操作</div>`;
+  const notice = `<div id="fde-simulation-notice" role="status" style="position:sticky;top:0;z-index:2147483647;box-sizing:border-box;width:100%;padding:8px 14px;background:#fff7ed;border-bottom:1px solid #fed7aa;color:#9a3412;font:600 12px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-align:center">模拟智能体 Demo · 使用合成数据，不调用真实业务服务或执行真实业务操作</div>`;
   html = html.replace(/<body\b([^>]*)>/i, `<body$1>${notice}`);
-  validateAgentDemoHtml(html);
+  if (Buffer.byteLength(html, 'utf8') > MAX_AGENT_DEMO_HTML_BYTES) {
+    throw new Error('Demo 内容过大，请缩小生成范围');
+  }
   return html;
 }
 
-function demoPrompt(spec, knownFacts) {
+const buildLibraryPrompt = (libraries) => `平台会在 HTML head 中按顺序预加载以下固定版本依赖，不要自行输出任何外部 script、link 或 CDN 地址：
+${libraries.map(library => `- ${library.label}，全局变量 ${library.global}：${library.usage}`).join('\n')}`;
+
+function demoPrompt(spec, knownFacts, libraries) {
   return `请生成一个可以直接放入 iframe srcDoc 运行的完整单文件 HTML 智能体 Demo。
 
 智能体方案：
@@ -135,18 +170,20 @@ ${JSON.stringify(knownFacts || {}, null, 2)}
 
 硬性要求：
 1. 只输出从 <!doctype html> 到 </html> 的完整代码，不要 Markdown 和解释。
-2. 只用原生 HTML、CSS、JavaScript，所有代码和模拟数据必须内联。
-3. 禁止任何外部 URL、依赖、网络请求、动态 import、eval、WebSocket、浏览器存储、页面跳转、父窗口访问和 postMessage。
-4. 页面是可实际点击操作的业务工具，不是营销落地页。采用清晰、克制、专业的工作台界面，卡片圆角不超过 8px。
-5. 至少提供 3 个可切换的模拟业务场景，每个场景有不同合成数据和结果。
-6. 用户点击运行后，依次展示 3 至 4 个模拟执行步骤，再展示结构化结果；总等待不超过 2 秒。
-7. 至少包含一个信息不足场景和一个需要人工确认的模拟操作；确认后明确提示“模拟执行成功，未写入真实系统”。
-8. 支持重置当前场景，所有按钮和输入必须可用，错误状态要清晰。
-9. 不使用真实企业名、真实人名、手机号、邮箱、订单号或客户资料。
-10. 自适应 360px 到 1440px 宽度，不出现横向溢出。`;
+2. 使用 Vue.createApp 构建交互；所有业务代码、样式和合成模拟数据必须内联。
+3. ${buildLibraryPrompt(libraries)}
+4. 禁止任何其他外部 URL、依赖、网络请求、动态 import、eval、WebSocket、浏览器存储、页面跳转、父窗口访问和 postMessage。
+5. 页面是可重复操作的业务工作台，不是营销落地页。根据业务场景组织工具栏、关键指标、数据列表或表格、任务执行轨迹、结构化结果和人工确认区域；不要把所有内容都做成卡片。
+6. 视觉需丰富但克制：使用中性色背景、清晰层级和至少两种功能色；使用 Lucide 图标；卡片圆角不超过 8px；禁止渐变、装饰光球、超大标题和大面积单一蓝紫色。
+7. 至少提供 3 个可切换的模拟业务场景，每个场景有不同合成数据、指标和结果；需要统计表达时使用平台已提供的图表库，并在切换场景时正确释放和重建图表实例。
+8. 用户点击运行后，展示 3 至 4 个带时间的模拟执行步骤和不同状态，再展示结构化结果；总等待不超过 2 秒。
+9. 至少包含加载、空数据、信息不足、执行失败和需要人工确认的状态；确认后明确提示“模拟执行成功，未写入真实系统”。
+10. 支持重置当前场景，表单、筛选、场景切换、弹窗和操作按钮必须可用，不能只做静态展示。
+11. 不使用真实企业名、真实人名、手机号、邮箱、订单号或客户资料。
+12. 自适应 360px 到 1440px 宽度，文字不得溢出或遮挡，不出现横向滚动。`;
 }
 
-function revisionPrompt(spec, currentHtml, instruction) {
+function revisionPrompt(spec, currentHtml, instruction, libraries) {
   return `请根据用户要求修改一个模拟智能体 Demo，并返回修改后的完整单文件 HTML。
 
 智能体方案：
@@ -156,19 +193,21 @@ ${JSON.stringify(spec, null, 2)}
 ${instruction}
 
 当前 HTML：
-${currentHtml}
+${stripAgentDemoPlatformShell(currentHtml)}
 
 硬性要求：
 1. 只输出从 <!doctype html> 到 </html> 的完整代码，不要 Markdown 和解释。
 2. 保留现有主要功能，只修改用户要求涉及的部分。
-3. 只用内联原生 HTML、CSS、JavaScript和合成模拟数据。
-4. 禁止任何外部 URL、依赖、网络请求、动态 import、eval、WebSocket、浏览器存储、页面跳转、父窗口访问和 postMessage。
-5. 保留至少 3 个场景、模拟执行步骤、信息不足处理、人工确认和重置能力。
-6. 所有真实业务动作必须明确标记为模拟，不得声称已经写入真实系统。
-7. 自适应 360px 到 1440px 宽度。`;
+3. 使用 Vue.createApp 组织交互，并根据修改需要使用平台依赖。
+4. ${buildLibraryPrompt(libraries)}
+5. 禁止任何其他外部 URL、依赖、网络请求、动态 import、eval、WebSocket、浏览器存储、页面跳转、父窗口访问和 postMessage。
+6. 保留至少 3 个场景、模拟执行步骤、加载与失败状态、信息不足处理、人工确认和重置能力。
+7. 保持业务工作台的信息密度和清晰层级，使用 Lucide 图标，卡片圆角不超过 8px，不使用渐变、装饰光球或超大标题。
+8. 所有真实业务动作必须明确标记为模拟，不得声称已经写入真实系统。
+9. 自适应 360px 到 1440px 宽度，文字和控件不得重叠。`;
 }
 
-async function generateAndSecure(userPrompt) {
+async function generateAndSecure(userPrompt, libraryIds) {
   const rawContent = await generateText({
     systemPrompt: '你是一位资深 FDE 原型工程师，擅长把业务诊断转化为安全、可交互、使用合成数据的单页智能体 Demo。',
     userPrompt,
@@ -176,13 +215,20 @@ async function generateAndSecure(userPrompt) {
     timeout: 90000,
     task: 'agent_demo'
   });
-  return secureAgentDemoHtml(extractHtmlDocument(rawContent));
+  return secureAgentDemoHtml(extractHtmlDocument(rawContent), libraryIds);
 }
 
 export function generateInitialAgentDemo(spec, knownFacts) {
-  return generateAndSecure(demoPrompt(spec, knownFacts));
+  const preparedSpec = withAgentDemoLibraries(spec);
+  const libraries = resolveAgentDemoLibraries(preparedSpec);
+  return generateAndSecure(demoPrompt(preparedSpec, knownFacts, libraries), preparedSpec.libraries);
 }
 
 export function reviseAgentDemo(spec, currentHtml, instruction) {
-  return generateAndSecure(revisionPrompt(spec, currentHtml, instruction));
+  const preparedSpec = withAgentDemoLibraries(spec);
+  const libraries = resolveAgentDemoLibraries(preparedSpec);
+  return generateAndSecure(
+    revisionPrompt(preparedSpec, currentHtml, instruction, libraries),
+    preparedSpec.libraries
+  );
 }

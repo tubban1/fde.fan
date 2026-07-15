@@ -10,6 +10,7 @@ export async function ensureDiagnosisRuntimeSchema() {
 
   if (isPostgresMode) {
     await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN NOT NULL DEFAULT FALSE`);
+    await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS diagnosis_goal VARCHAR(32) NULL`);
     await query(`
       CREATE TABLE IF NOT EXISTS diagnosis_export_leads (
         id SERIAL PRIMARY KEY,
@@ -22,6 +23,16 @@ export async function ensureDiagnosisRuntimeSchema() {
   } else {
     try {
       await query(`ALTER TABLE diagnosis_sessions ADD COLUMN is_hidden BOOLEAN DEFAULT FALSE`);
+    } catch (error) {
+      const code = error?.code || '';
+      const message = String(error?.message || '').toLowerCase();
+      if (code !== 'ER_DUP_FIELDNAME' && !message.includes('duplicate column')) {
+        throw error;
+      }
+    }
+
+    try {
+      await query(`ALTER TABLE diagnosis_sessions ADD COLUMN diagnosis_goal VARCHAR(32) NULL`);
     } catch (error) {
       const code = error?.code || '';
       const message = String(error?.message || '').toLowerCase();

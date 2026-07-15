@@ -12,6 +12,7 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
     "diagnosis:test-agent-demo": "node scripts/diagnosis/test-agent-demo-security.mjs",
+    "diagnosis:test-goals": "node scripts/diagnosis/test-diagnosis-goals.mjs",
     "gaokao:schema": "node scripts/gaokao/run-schema.mjs",
     "gaokao:seed-sources": "node scripts/gaokao/seed-sources.mjs",
     "gaokao:import-csv": "node scripts/gaokao/import-csv.mjs",

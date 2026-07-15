@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import {
   ArrowLeft,
+  Blocks,
   History,
   RefreshCw,
   RotateCcw,
@@ -16,6 +17,40 @@ const GENERATION_STAGES = [
   '正在检查安全边界',
   '正在准备预览'
 ];
+
+const REVISION_PRESETS = [
+  {
+    label: '升级数据工作台',
+    instruction: '把当前界面升级为信息更丰富的业务工作台：增加关键指标、业务数据表、筛选工具栏和执行结果详情，使用 Vue 管理交互并使用 Lucide 图标。'
+  },
+  {
+    label: '增加分析图表',
+    instruction: '根据当前智能体最重要的业务指标增加 2 个有意义的分析图表，使用当前已配置的图表库，并让图表随模拟场景切换更新，同时保持移动端清晰可读。'
+  },
+  {
+    label: '强化执行过程',
+    instruction: '丰富智能体执行过程：增加带时间的步骤轨迹、加载和失败状态、工具调用详情、人工确认弹窗以及执行完成后的结构化结果。'
+  }
+];
+
+const LIBRARY_LABELS = {
+  lodash: 'Lodash',
+  dayjs: 'Day.js',
+  vue: 'Vue 3',
+  lucide: 'Lucide',
+  gsap: 'GSAP',
+  animejs: 'Anime.js',
+  three: 'Three.js',
+  fabric: 'Fabric.js',
+  konva: 'Konva.js',
+  phaser: 'Phaser.js',
+  matter: 'Matter.js',
+  howler: 'Howler.js',
+  tone: 'Tone.js',
+  chartjs: 'Chart.js',
+  echarts: 'ECharts',
+  d3: 'D3.js'
+};
 
 const formatTime = (value) => {
   if (!value) return '';
@@ -91,6 +126,12 @@ export default function AgentDemoApp() {
 
   const spec = demo?.spec || {};
   const scenarios = useMemo(() => ensureArray(spec.mockScenarios), [spec.mockScenarios]);
+  const activeLibraries = ensureArray(demo?.activeLibraries);
+
+  const prepareUpgrade = () => {
+    setRevisionInstruction(REVISION_PRESETS[0].instruction);
+    setMobileView('revise');
+  };
 
   const reloadDemo = () => setFrameKey(value => value + 1);
 
@@ -244,6 +285,21 @@ export default function AgentDemoApp() {
               <p>{spec.targetUser || '相关业务人员'}</p>
             </section>
             <section>
+              <h2>原型能力</h2>
+              {activeLibraries.length ? (
+                <div className="library-list">
+                  {activeLibraries.map(libraryId => (
+                    <span key={libraryId}><Blocks size={11} />{LIBRARY_LABELS[libraryId] || libraryId}</span>
+                  ))}
+                </div>
+              ) : (
+                <div className="legacy-library-note">
+                  <p>这是早期版本，可升级为组件化交互工作台。</p>
+                  <button type="button" onClick={prepareUpgrade}>准备升级</button>
+                </div>
+              )}
+            </section>
+            <section>
               <h2>输入</h2>
               <ul>{ensureArray(spec.inputs).map((item, index) => <li key={index}>{item}</li>)}</ul>
             </section>
@@ -273,7 +329,7 @@ export default function AgentDemoApp() {
           <div className="panel-heading preview-heading">
             <div>
               <span>交互预览</span>
-              <small>隔离运行，不访问外部网络</small>
+              <small>仅加载受控静态库，不调用业务接口</small>
             </div>
             <button type="button" onClick={reloadDemo} title="重置预览" aria-label="重置预览">
               <RotateCcw size={15} />
@@ -297,6 +353,18 @@ export default function AgentDemoApp() {
           </div>
           <form className="revision-form" onSubmit={submitRevision}>
             <label htmlFor="revision-instruction">描述希望改变的交互或内容</label>
+            <div className="revision-presets">
+              {REVISION_PRESETS.map(preset => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => setRevisionInstruction(preset.instruction)}
+                  disabled={isRevising || isRestoring}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
             <textarea
               id="revision-instruction"
               value={revisionInstruction}
@@ -429,10 +497,18 @@ const styles = `
   .scenario-list > div { padding-left: 9px; border-left: 2px solid #55a99c; }
   .scenario-list strong { display: block; margin-bottom: 2px; font-size: 11px; }
   .scenario-list p { color: #71807d; font-size: 10px; }
+  .library-list { display: flex; flex-wrap: wrap; gap: 5px; }
+  .library-list span { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; box-sizing: border-box; padding: 4px 7px; border: 1px solid #d7e1df; background: #f6f9f8; color: #47615c; font-size: 9px; font-weight: 700; }
+  .legacy-library-note p { margin-bottom: 7px; color: #71807d; font-size: 10px; }
+  .legacy-library-note button { min-height: 28px; padding: 5px 8px; border: 1px solid #16877a; background: #ffffff; color: #0f766e; font-size: 9px; font-weight: 800; cursor: pointer; }
   .iframe-shell { flex: 1; min-height: 0; padding: 14px; }
   .iframe-shell iframe { width: 100%; height: 100%; display: block; box-sizing: border-box; border: 1px solid #cfd8d7; background: #ffffff; box-shadow: 0 8px 24px rgba(25, 47, 43, 0.08); }
   .revision-form { padding: 14px; border-bottom: 1px solid #e0e6e5; }
   .revision-form label { display: block; margin-bottom: 7px; color: #344743; font-size: 11px; font-weight: 700; }
+  .revision-presets { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+  .revision-presets button { min-height: 28px; padding: 5px 8px; border: 1px solid #cbd7d5; background: #ffffff; color: #47615c; font-size: 9px; font-weight: 700; cursor: pointer; }
+  .revision-presets button:hover { border-color: #16877a; color: #0f766e; }
+  .revision-presets button:disabled { opacity: 0.55; cursor: not-allowed; }
   .revision-form textarea { width: 100%; height: 108px; resize: vertical; box-sizing: border-box; padding: 10px; border: 1px solid #cad5d3; background: #f9fbfa; color: #1c302c; font-size: 12px; line-height: 1.5; outline: none; }
   .revision-form textarea:focus { border-color: #16877a; box-shadow: 0 0 0 2px rgba(22, 135, 122, 0.12); }
   .revision-submit-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }

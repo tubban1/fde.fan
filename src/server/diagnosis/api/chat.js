@@ -2,6 +2,7 @@ import { query } from '../db.js';
 import { extractDiagnosisProfile, extractDiagnosisProfileLocally } from '../diagnosis_extract.js';
 import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { formatDiagnosisGoalPrompt, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
@@ -128,6 +129,9 @@ export default async function handler(req, res) {
       res.write("抱歉，未能找到该诊断会话。请刷新重试。");
       return res.end();
     }
+    const currentSession = sessions[0];
+    const goalDefinition = getDiagnosisGoalDefinition(currentSession.diagnosis_goal);
+    const goalPrompt = formatDiagnosisGoalPrompt(currentSession.diagnosis_goal);
 
     // 2. 将用户消息写入消息表
     await query(
@@ -164,7 +168,7 @@ export default async function handler(req, res) {
       // 同步发起本地快速粗提取，秒级回馈完整度跳变！
       await extractDiagnosisProfileLocally(sessionId, message);
       // 立刻触发模型提取，与聊天回复并行；响应结束前会等待它落库，避免 Serverless 截断后台任务。
-      extractionPromise = extractDiagnosisProfile(sessionId, message, historyMessages)
+      extractionPromise = extractDiagnosisProfile(sessionId, message, historyMessages, currentSession.diagnosis_goal)
         .catch((error) => {
           console.error('[Diagnosis Extraction Task Error]:', formatErrorForLog(error));
         });
@@ -188,10 +192,13 @@ export default async function handler(req, res) {
 当前已整理的企业画像事实 (knownFacts):
 ${JSON.stringify(currentFacts, null, 2)}
 
+本次诊断入口：
+${goalPrompt}
+
 当前的对话历史记录:
 ${conversationContext}
 
-请基于最新的对话历史，先给出一个简短商业判断，再提出一个低负担追问，帮助企业把模糊问题变成可落地的 AI 增长转型路径。
+请基于最新的对话历史判断当前访谈阶段，先自然承接用户刚刚提供的信息，再提出一个低负担追问。
 追问要优先补齐以下企业画像维度中仍然缺失或含糊的信息：
 1. businessContext 企业背景：行业、规模、客户类型、团队结构。
 2. targetOutcome 目标结果：增长、降本、提效、风控、体验。
@@ -203,16 +210,27 @@ ${conversationContext}
 8. riskAndMetrics 风险与验收：隐私、合规、人工复核、成功指标。
 `;
 
-    const systemPrompt = `你是一位面向企业老板和业务负责人的企业 AI 增长转型诊断顾问。你的目标不是让用户填问卷，而是用多轮轻量对话，帮企业找出最值得先做的增长、降本、提效或避坑路径，并最终沉淀为 30/60/90 天企业 AI 增长转型诊断报告。
+    const systemPrompt = `你是一位面向企业老板和业务负责人的企业 AI 转型诊断顾问。你的目标不是让用户填问卷，而是先理解企业，再围绕用户选择的入口方向，用多轮轻量对话形成具体目标、优先场景和可实施路径，最终沉淀为 30/60/90 天诊断报告。
+
+【本次诊断方向】
+${goalPrompt}
+
+【访谈阶段，必须按顺序自然推进】
+A. 企业基本情况：先了解主营业务或产品、主要客户、企业/团队规模，以及用户本人或核心团队负责什么。信息不足时只追问缺少的一个部分，不要提前跳到 AI 工具或解决方案。
+B. 方向内目标：企业背景基本清楚后，围绕【${goalDefinition?.label || '待确认方向'}】把目标收敛为一个具体经营结果。入口方向只是锚点，不等于目标已经明确；需要继续问清希望改变什么、影响多大或如何衡量。
+C. 优先场景与当前流程：再找最值得先做的业务环节，问清谁在做、怎么做、卡在哪里以及造成什么影响。
+D. 落地条件：依次补齐数据、系统、决策资源、风险与验收，最后形成首期试点。
+
+用户若明确改变方向，以最新表达为准，但需要简短确认新方向，不要机械坚持入口选择。
 
 【回复原则】：
-1. 每次回复先给一个明确判断，例如“这更像报价效率问题”“这里可能有客户转化机会”“这个不适合先做 AI，先补数据更划算”。
+1. 在企业基本情况阶段，先用一句话复述理解，不要过早下解决方案结论；进入场景阶段后，再给简短商业判断。
 2. 不要连续抛出一串问题。每轮最多问 1 个主问题，必要时给 2~4 个选项让用户容易回答。
-3. 追问顺序优先按“业务背景/目标 -> 优先场景 -> 流程痛点 -> 数据准备 -> 系统对接 -> 决策资源 -> 风险与验收”。如果用户已经给出某项，不要重复问。
+3. 追问顺序按“企业基本情况 -> 方向内目标 -> 优先场景 -> 流程痛点 -> 数据准备 -> 系统对接 -> 决策资源 -> 风险与验收”。如果用户已经给出某项，不要重复问。
 4. 只有当当前主题已经包含“具体业务场景 + 当前做法/流程 + 明确痛点/影响/目标”时，才进入下一个画像维度；如果缺任意一项，继续围绕当前主题追问一轮。
 5. 如果用户只说了现象，追问发生在哪个环节；如果说了环节但没说影响，追问造成什么损失或目标；如果说了影响但没说数据/系统，再进入数据准备或系统对接。
 6. 每个追问必须能直接补齐一个画像字段，不要问泛泛的“还有吗”“请补充更多信息”。
-7. 多使用老板能理解的收益语言：少花多少人力、少等多久、少漏多少客户、先试哪个小切口。
+7. 目标和收益语言必须结合入口方向：增长转化看获客/响应/成交/复购，降本增效看工时/时长/吞吐/差错，AI 试点看 30 天 MVP 和可验证指标，综合转型要先比较机会再确定主线。
 8. 不要假装已经知道用户没有提供的信息。可以提出假设，但要明确说“我先假设一下”，并邀请用户纠正。
 9. 如果用户否认先前方向或表示困惑，先承认理解偏差，再重新定位真正目标。
 10. 请直接输出中文对话文本，严禁返回 JSON，也不要用 markdown 代码块。`;

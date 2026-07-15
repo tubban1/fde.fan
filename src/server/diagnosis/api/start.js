@@ -1,5 +1,6 @@
 import { query } from '../db.js';
-import { initDiagnosisTables } from '../diagnosis_init.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { buildDiagnosisWelcomeMessage, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import crypto from 'crypto';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
@@ -15,11 +16,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    await initDiagnosisTables();
+    await ensureDiagnosisRuntimeSchema();
 
     const auth = await authenticateUser(email, password);
     if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
+    }
+
+    const goalDefinition = getDiagnosisGoalDefinition(goal);
+    if (!goalDefinition) {
+      return res.status(400).json({ error: '请选择有效的诊断方向' });
     }
 
     // 生成唯一 Session ID
@@ -39,30 +45,17 @@ export default async function handler(req, res) {
 
     // 1. 创建 Session
     await query(
-      `INSERT INTO diagnosis_sessions (id, email, status, completeness) VALUES (?, ?, ?, ?)`,
-      [sessionId, auth.email, 'collecting_info', 0]
+      `INSERT INTO diagnosis_sessions (id, email, status, completeness, diagnosis_goal) VALUES (?, ?, ?, ?, ?)`,
+      [sessionId, auth.email, 'collecting_info', 0, goalDefinition.key]
     );
 
     // 2. 初始化 Profile
     await query(
       `INSERT INTO diagnosis_profiles (session_id, known_facts, missing_fields) VALUES (?, ?, ?)`,
-      [sessionId, JSON.stringify({}), JSON.stringify(missingFields)]
+      [sessionId, JSON.stringify({ diagnosisDirection: goalDefinition.label }), JSON.stringify(missingFields)]
     );
 
-    let welcomeText = `您好，我先不让您填长表。我们先找一件最划算的事：哪里能少花人力、少丢客户，或者用一个小 AI 试点先看到效果。`;
-    if (!goal || goal.includes('不确定') || goal.includes('引导')) {
-      welcomeText += `
-      
-我会像顾问一样先听一个现象，再帮您判断它背后是增长机会、降本空间，还是管理提效路径。
-
-先从最容易说的开始：最近团队每天最耗人、最慢、最容易出错或最影响成交的一件事是什么？`;
-    } else {
-      welcomeText += ` 您选的是【${goal}】。
-      
-我会先帮您找这个方向里最容易落地、最容易让老板觉得“这钱花得值”的小切口。
-
-不用先讲完整背景，先说一个具体场景就行：这件事现在卡在哪里？是人手反复做、客户等太久、数据到处散，还是转化/回款被拖慢？`;
-    }
+    const welcomeText = buildDiagnosisWelcomeMessage(goalDefinition.key);
 
     // 4. 保存问候语到消息表
     await query(
@@ -75,9 +68,11 @@ export default async function handler(req, res) {
       sessionId,
       welcomeText,
       completeness: 0,
-      knownFacts: {},
+      knownFacts: { diagnosisDirection: goalDefinition.label },
       missingFields,
-      status: 'collecting_info'
+      status: 'collecting_info',
+      goal: goalDefinition.key,
+      goalLabel: goalDefinition.label
     });
   } catch (error) {
     console.error('Start diagnosis session error:', error);

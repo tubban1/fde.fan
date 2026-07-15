@@ -1,6 +1,6 @@
 import { query } from '../../db.js';
 import { ensureDiagnosisRuntimeSchema } from '../../diagnosis_schema.js';
-import { MAX_AGENT_DEMO_REVISION_CHARS, reviseAgentDemo } from '../../agent_demo.js';
+import { MAX_AGENT_DEMO_REVISION_CHARS, reviseAgentDemo, withAgentDemoLibraries } from '../../agent_demo.js';
 import { loadOwnedAgentDemo } from '../../agent_demo_store.js';
 import { formatErrorForLog } from '../../safe_error.js';
 import { authenticateUser } from '../../../diagnosis-auth/authenticate.js';
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
     const currentDemo = await loadOwnedAgentDemo(demoId, auth.email);
     if (!currentDemo) return res.status(404).json({ error: 'Demo 不存在或无权访问' });
 
-    const html = await reviseAgentDemo(currentDemo.spec, currentDemo.html, normalizedInstruction);
+    const preparedSpec = withAgentDemoLibraries(currentDemo.spec, normalizedInstruction);
+    const html = await reviseAgentDemo(preparedSpec, currentDemo.html, normalizedInstruction);
     const nextVersion = currentDemo.currentVersion + 1;
     await query(
       `INSERT INTO diagnosis_agent_demo_versions
@@ -32,9 +33,9 @@ export default async function handler(req, res) {
     );
     const updateResult = await query(
       `UPDATE diagnosis_agent_demos
-          SET current_version = ?, updated_at = CURRENT_TIMESTAMP
+          SET current_version = ?, spec = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ? AND email = ? AND current_version = ?`,
-      [nextVersion, demoId, auth.email, currentDemo.currentVersion]
+      [nextVersion, JSON.stringify(preparedSpec), demoId, auth.email, currentDemo.currentVersion]
     );
     const affectedRows = Number(updateResult?.affectedRows ?? updateResult?.rowCount ?? 0);
     if (affectedRows !== 1) {

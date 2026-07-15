@@ -1,4 +1,6 @@
 import { query } from '../db.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
@@ -20,12 +22,13 @@ export default async function handler(req, res) {
     if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
+    await ensureDiagnosisRuntimeSchema();
 
     // 使用 1 次联合 LEFT JOIN 查询，一次性拉取会话、画像、报告和所有的对话消息
     // 这彻底避免了同一个 API 运行周期内多次调用 db.query() 和 db.end() 导致的连接冲突及挂起阻塞
     const rows = await query(
       `SELECT 
-         s.id AS session_id, s.email, s.status, s.completeness, s.profile_status, s.created_at AS session_created_at,
+         s.id AS session_id, s.email, s.status, s.completeness, s.profile_status, s.diagnosis_goal, s.created_at AS session_created_at,
          p.known_facts, p.missing_fields,
          r.summary, r.maturity_score, r.pain_points, r.opportunity_map, r.recommended_agents, r.roadmap_30_60_90, r.risks, r.data_requirements, r.next_actions,
          m.id AS msg_id, m.sender AS msg_sender, m.content AS msg_content, m.created_at AS msg_created_at
@@ -43,6 +46,7 @@ export default async function handler(req, res) {
     }
 
     const firstRow = rows[0];
+    const goalDefinition = getDiagnosisGoalDefinition(firstRow.diagnosis_goal);
 
     // 1. 组装 Session 状态
     const session = {
@@ -51,6 +55,8 @@ export default async function handler(req, res) {
       status: firstRow.status,
       completeness: firstRow.completeness,
       profileStatus: firstRow.profile_status || 'idle',
+      goal: goalDefinition?.key || '',
+      goalLabel: goalDefinition?.label || '',
       createdAt: firstRow.session_created_at
     };
 

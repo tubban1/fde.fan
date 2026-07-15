@@ -1,4 +1,5 @@
 import { query } from './db.js';
+import { secureAgentDemoHtml } from './agent_demo.js';
 
 export function parseJsonValue(value, fallback = null) {
   if (value === null || value === undefined || value === '') return fallback;
@@ -24,6 +25,11 @@ export async function loadOwnedAgentDemo(demoId, email) {
   if (!rows.length) return null;
 
   const row = rows[0];
+  const activeLibraries = [...String(row.html || '').matchAll(/data-fde-library=["']([^"']+)["']/g)]
+    .map(match => match[1]);
+  const runtimeHtml = activeLibraries.length
+    ? secureAgentDemoHtml(row.html, activeLibraries)
+    : row.html || '';
   const versionRows = await query(
     `SELECT version, change_request, created_at
        FROM diagnosis_agent_demo_versions
@@ -39,7 +45,8 @@ export async function loadOwnedAgentDemo(demoId, email) {
     agentName: row.agent_name,
     spec: parseJsonValue(row.spec, {}),
     currentVersion: Number(row.current_version) || 1,
-    html: row.html || '',
+    html: runtimeHtml,
+    activeLibraries,
     currentChangeRequest: row.change_request || '',
     createdAt: row.created_at,
     updatedAt: row.updated_at || row.version_created_at,

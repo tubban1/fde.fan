@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { query } from '../../db.js';
 import { ensureDiagnosisRuntimeSchema } from '../../diagnosis_schema.js';
-import { generateInitialAgentDemo, normalizeRecommendedAgent } from '../../agent_demo.js';
+import { generateInitialAgentDemo, normalizeRecommendedAgent, withAgentDemoLibraries } from '../../agent_demo.js';
 import { findAgentDemoBySource, loadOwnedAgentDemo, normalizeAgentKey, parseJsonValue } from '../../agent_demo_store.js';
 import { formatErrorForLog } from '../../safe_error.js';
 import { authenticateUser } from '../../../diagnosis-auth/authenticate.js';
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, existing: true, demo });
     }
 
-    const spec = normalizeRecommendedAgent(rawAgent, parsedAgentIndex);
+    const spec = withAgentDemoLibraries(normalizeRecommendedAgent(rawAgent, parsedAgentIndex));
     const knownFacts = parseJsonValue(rows[0].known_facts, {});
     const html = await generateInitialAgentDemo(spec, knownFacts);
     const demoId = randomUUID();

@@ -1,6 +1,8 @@
 import { query } from '../db.js';
 import { formatErrorForLog, isTransientNetworkError } from '../safe_error.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
+import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -17,6 +19,7 @@ export default async function handler(req, res) {
     if (!auth.ok) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
+    await ensureDiagnosisRuntimeSchema();
 
     const sessions = await query(
       `SELECT
@@ -24,6 +27,7 @@ export default async function handler(req, res) {
          s.status,
          s.completeness,
          s.profile_status,
+         s.diagnosis_goal,
          s.created_at,
          s.updated_at,
          (SELECT COUNT(*) FROM diagnosis_messages m WHERE m.session_id = s.id) AS message_count,
@@ -43,16 +47,21 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      sessions: sessions.map(item => ({
-        id: item.id,
-        status: item.status,
-        completeness: item.completeness || 0,
-        profileStatus: item.profile_status || 'idle',
-        createdAt: item.created_at,
-        updatedAt: item.updated_at,
-        messageCount: item.message_count || 0,
-        lastUserMessage: item.last_user_message || ''
-      }))
+      sessions: sessions.map(item => {
+        const goalDefinition = getDiagnosisGoalDefinition(item.diagnosis_goal);
+        return {
+          id: item.id,
+          status: item.status,
+          completeness: item.completeness || 0,
+          profileStatus: item.profile_status || 'idle',
+          createdAt: item.created_at,
+          updatedAt: item.updated_at,
+          goal: goalDefinition?.key || '',
+          goalLabel: goalDefinition?.label || '',
+          messageCount: item.message_count || 0,
+          lastUserMessage: item.last_user_message || ''
+        };
+      })
     });
   } catch (error) {
     console.error('Fetch diagnosis history error:', formatErrorForLog(error));
