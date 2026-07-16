@@ -395,14 +395,18 @@ export default function DiagnosisPage() {
       };
 
       recognition.onerror = (event) => {
-        console.error('Web Speech recognition error:', event.error);
         setIsRecording(false);
         recognitionRef.current = null;
         if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
           triggerToast('无法使用麦克风，请允许浏览器语音识别权限。');
         } else if (event.error === 'no-speech') {
           triggerToast('没有识别到声音，请再试一次。');
+        } else if (event.error === 'network') {
+          triggerToast('浏览器语音识别服务暂时无法联网，请检查网络后重试，或先使用文字输入。');
+        } else if (event.error === 'aborted') {
+          // 用户主动停止识别时无需提示错误。
         } else {
+          console.warn('Web Speech recognition unavailable:', event.error);
           triggerToast('浏览器语音识别失败，请稍后重试。');
         }
       };
