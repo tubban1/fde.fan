@@ -35,6 +35,7 @@
     "ai-events:schema": "node scripts/ai-events/run-schema.mjs",
     "ai-events:crawl-city": "node scripts/ai-events/crawl-city.mjs",
     "ai-events:crawl-all": "node scripts/ai-events/crawl-all-cities.mjs",
+    "ai-events:inspect-run": "node scripts/ai-events/inspect-run.mjs",
     "ai-events:test": "node scripts/ai-events/test/run-tests.mjs"
   },
   "dependencies": {

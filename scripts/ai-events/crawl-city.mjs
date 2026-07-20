@@ -492,6 +492,31 @@ function isTransientModelError(error) {
   return /\b429\b|rate limit|too many requests|timeout|temporar|saturated|overload|upstream load|try again later/.test(message);
 }
 
+function summarizeProviderError(message) {
+  const text = String(message || '');
+  const status = text.match(/Provider request failed\s+(\d+)/)?.[1] || '';
+  const jsonText = text.match(/\{[\s\S]*\}$/)?.[0] || '';
+  if (jsonText) {
+    try {
+      const parsed = JSON.parse(jsonText);
+      return {
+        status: status || null,
+        code: parsed.error?.code || null,
+        type: parsed.error?.type || null,
+        message: String(parsed.error?.message || '').slice(0, 240) || text.slice(0, 240),
+      };
+    } catch {
+      // Fall through to compact text below.
+    }
+  }
+  return {
+    status: status || null,
+    code: null,
+    type: null,
+    message: text.slice(0, 240),
+  };
+}
+
 async function processPendingRaw(pool, runId) {
   const { rows } = await pool.query(
     `select *
@@ -520,7 +545,12 @@ async function processPendingRaw(pool, runId) {
       if (await upsertEvent(pool, raw, normalized)) normalizedCount += 1;
     } catch (error) {
       const message = error.message || String(error);
-      modelErrors.push({ raw_id: raw.id, source_url: raw.source_url, error: message.slice(0, 500) });
+      modelErrors.push({
+        raw_id: raw.id,
+        source_url: raw.source_url,
+        error: message.slice(0, 500),
+        summary: summarizeProviderError(message),
+      });
       if (isTransientModelError(error)) {
         modelDeferredCount = rows.length - normalizedCount - modelFailedCount;
         await pool.query(
@@ -631,6 +661,11 @@ await withDb(async pool => {
       model_failed_count: normalization.modelFailedCount,
       model_deferred_count: normalization.modelDeferredCount,
       model_errors: normalization.modelErrors.length,
+      model_error_summaries: normalization.modelErrors.map(error => error.summary).slice(0, 3),
+      source_failure_summaries: sourceFailures.map(error => ({
+        source_type: error.source_type,
+        error: String(error.error || '').slice(0, 240),
+      })).slice(0, 3),
     }, null, 2));
   } catch (error) {
     await pool.query(
