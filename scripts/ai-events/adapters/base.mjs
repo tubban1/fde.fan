@@ -15,8 +15,12 @@ export class EventSourceAdapter {
     const response = await fetch(url, {
       signal: AbortSignal.timeout(timeoutMs),
       headers: {
-        'accept': 'text/html,application/xhtml+xml,application/json',
-        'user-agent': 'fde-fan-ai-events/0.1 (+https://www.fde.fan)',
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
+        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
       },
     });
     if (!response.ok) throw new Error(`Fetch failed ${response.status} ${response.statusText}`);

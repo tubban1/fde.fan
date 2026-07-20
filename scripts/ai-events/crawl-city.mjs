@@ -654,6 +654,7 @@ await withDb(async pool => {
       city: cityDisplayName,
       city_key: cityKey,
       raw_only: rawOnly,
+      model_api_format: providerApiFormat,
       sources_checked: sourcesChecked,
       raw_items_found: rawItemsFound,
       events_normalized: normalization.normalizedCount,
