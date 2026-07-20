@@ -1,0 +1,67 @@
+name: AI Events Crawl
+
+on:
+  schedule:
+    # GitHub schedules run in UTC. This wakes the job hourly; the script gates the real crawl by interval.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      limit_per_source:
+        description: "Maximum candidates per source"
+        required: false
+        default: "12"
+      min_interval_minutes:
+        description: "Skip cities crawled successfully within this many minutes"
+        required: false
+        default: ""
+      force:
+        description: "Force crawl now, ignoring interval"
+        required: false
+        default: "true"
+      raw_only:
+        description: "Set to true to skip model normalization"
+        required: false
+        default: "false"
+
+concurrency:
+  group: ai-events-crawl
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Crawl AI events
+        env:
+          DATA_URL: ${{ secrets.DATA_URL }}
+          DATA_SSL: ${{ secrets.DATA_SSL || 'true' }}
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+          MODEL_API_BASE: ${{ secrets.MODEL_API_BASE }}
+          MODEL_NAME: ${{ secrets.MODEL_NAME }}
+          AI_EVENTS_FETCH_TIMEOUT_MS: "20000"
+          AI_EVENTS_FETCH_CANDIDATE_DETAILS: "1"
+          AI_EVENTS_MIN_INTERVAL_MINUTES: ${{ github.event.inputs.min_interval_minutes || vars.AI_EVENTS_MIN_INTERVAL_MINUTES || '120' }}
+          AI_EVENTS_FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' && '1' || '0' }}
+          AI_EVENTS_RAW_ONLY: ${{ github.event.inputs.raw_only == 'true' && '1' || '0' }}
+        run: |
+          LIMIT_PER_SOURCE="${{ github.event.inputs.limit_per_source || '12' }}"
+          pnpm ai-events:crawl-all -- --limit-per-source="${LIMIT_PER_SOURCE}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"

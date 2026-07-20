@@ -1,0 +1,64 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import AiEventsExplorer from "../components/ai-events/AiEventsExplorer.jsx";
+import { query } from "../server/ai-events/db.js";
+
+export const prerender = false;
+
+let initialEvents: any[] = [];
+
+try {
+  const result = await query(
+    `select
+       e.id, e.title, e.description, e.start_time, e.end_time, e.timezone,
+       e.city, e.venue, e.online_url, e.organizer, e.speakers, e.price,
+       null::timestamptz as registration_deadline,
+       coalesce(e.event_url, e.source_url) as registration_url,
+       e.status, e.confidence_score,
+       json_build_array(json_build_object('source_url', e.source_url, 'last_seen_at', e.updated_at)) as sources
+     from "aiEvents_events" e
+     where e.status = any($1::text[])
+       and e.start_time is not null
+       and e.start_time >= now()
+     order by e.start_time nulls last, e.updated_at desc
+     limit $2`,
+    [["published", "draft"], 100],
+  );
+  initialEvents = result.rows;
+  if (initialEvents.length === 0) {
+    const rawResult = await query(
+      `select
+         r.id, coalesce(r.raw_title, r.source_url) as title,
+         left(r.raw_text, 600) as description,
+         null::timestamptz as start_time,
+         null::timestamptz as end_time,
+         'Asia/Shanghai'::text as timezone,
+         r.city, null::text as venue, null::text as online_url,
+         r.source_type as organizer,
+         array[]::text[] as speakers,
+         null::text as price,
+         r.source_url as registration_url,
+         'raw_pending'::text as status,
+         0::numeric as confidence_score,
+         json_build_array(json_build_object('source_url', r.source_url, 'last_seen_at', r.fetched_at)) as sources
+       from "aiEvents_raw" r
+       where r.processing_status = any('{pending,failed}'::text[])
+         and r.city = '成都'
+         and (r.raw_title ilike '%成都%' or r.raw_title ilike '%Chengdu%')
+       order by r.fetched_at desc
+       limit $1`,
+      [100],
+    );
+    initialEvents = rawResult.rows;
+  }
+} catch (error) {
+  console.warn("[ai-events] failed to load initial events", error);
+}
+---
+
+<SiteLayout
+  title="AI 活动来源雷达 | FDE FAN"
+  description="AI 活动来源图谱、采集结果、去重状态和审核队列的前端测试界面。"
+>
+  <AiEventsExplorer client:load initialEvents={initialEvents} />
+</SiteLayout>

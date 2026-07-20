@@ -31,7 +31,11 @@
     "gaokao:cleanup-invalid-records": "node scripts/gaokao/cleanup-invalid-records.mjs",
     "gaokao:audit-national": "node scripts/gaokao/audit-national-coverage.mjs",
     "worldcup:sync": "node scripts/worldcup/sync-worldcup-data.mjs",
-    "worldcup:sync:daemon": "node scripts/worldcup/worldcup-sync-daemon.mjs"
+    "worldcup:sync:daemon": "node scripts/worldcup/worldcup-sync-daemon.mjs",
+    "ai-events:schema": "node scripts/ai-events/run-schema.mjs",
+    "ai-events:crawl-city": "node scripts/ai-events/crawl-city.mjs",
+    "ai-events:crawl-all": "node scripts/ai-events/crawl-all-cities.mjs",
+    "ai-events:test": "node scripts/ai-events/test/run-tests.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

@@ -3,6 +3,7 @@ export const navItems = [
   { href: "/industries", zh: "行业", en: "Industries" },
   { href: "/cases", zh: "案例", en: "Cases" },
   { href: "/agents", zh: "智能体", en: "Agents" },
+  { href: "/ai-events", zh: "AI 活动", en: "AI Events" },
 ];
 
 export const learningTracks = [
