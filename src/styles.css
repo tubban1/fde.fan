@@ -309,6 +309,7 @@
 }
 
 .ai-event-meta,
+.ai-event-tags,
 .ai-event-sources {
   display: flex;
   flex-wrap: wrap;
@@ -316,6 +317,7 @@
 }
 
 .ai-event-meta span,
+.ai-event-tags button,
 .ai-event-sources a {
   display: inline-flex;
   align-items: center;
@@ -328,6 +330,17 @@
   padding: 0 0.58rem;
   font-size: 0.78rem;
   text-decoration: none;
+}
+
+.ai-event-tags {
+  margin-top: 0.65rem;
+}
+
+.ai-event-tags button {
+  color: #176247;
+  background: #eaf7f1;
+  border-color: #c9eadc;
+  cursor: pointer;
 }
 
 .ai-event-sources {

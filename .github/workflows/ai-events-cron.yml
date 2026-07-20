@@ -57,6 +57,7 @@ jobs:
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_API_BASE: ${{ secrets.MODEL_API_BASE }}
           MODEL_NAME: ${{ secrets.MODEL_NAME }}
+          MODEL_API_FORMAT: ${{ vars.MODEL_API_FORMAT || 'generate_content' }}
           AI_EVENTS_FETCH_TIMEOUT_MS: "20000"
           AI_EVENTS_FETCH_CANDIDATE_DETAILS: "1"
           AI_EVENTS_MIN_INTERVAL_MINUTES: ${{ github.event.inputs.min_interval_minutes || vars.AI_EVENTS_MIN_INTERVAL_MINUTES || '120' }}
@@ -64,4 +65,5 @@ jobs:
           AI_EVENTS_RAW_ONLY: ${{ github.event.inputs.raw_only == 'true' && '1' || '0' }}
         run: |
           LIMIT_PER_SOURCE="${{ github.event.inputs.limit_per_source || '12' }}"
+          pnpm ai-events:schema
           pnpm ai-events:crawl-all -- --limit-per-source="${LIMIT_PER_SOURCE}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"

@@ -22,6 +22,7 @@ const fetchCandidateDetails = process.env.AI_EVENTS_FETCH_CANDIDATE_DETAILS !== 
 const providerModel = process.env.MODEL_NAME || '';
 const providerApiKey = process.env.MODEL_API_KEY || '';
 const providerApiBase = String(process.env.MODEL_API_BASE || '').replace(/\/$/, '');
+const providerApiFormat = String(process.env.MODEL_API_FORMAT || 'generate_content').toLowerCase();
 const modelRetryCount = Number(process.env.MODEL_RETRY_COUNT || 2);
 const modelRetryDelayMs = Number(process.env.MODEL_RETRY_DELAY_MS || 5000);
 
@@ -290,6 +291,73 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function generateContentUrl() {
+  const modelPath = `${encodeURIComponent(providerModel)}:generateContent`;
+  return providerApiBase.endsWith('/models')
+    ? `${providerApiBase}/${modelPath}`
+    : `${providerApiBase}/models/${modelPath}`;
+}
+
+function chatCompletionsUrl() {
+  return `${providerApiBase}/chat/completions`;
+}
+
+function extractModelText(payload) {
+  const chatText = payload?.choices?.[0]?.message?.content || '';
+  if (chatText) return chatText;
+  return payload?.candidates?.[0]?.content?.parts?.filter(part => !part.thought).map(part => part.text || '').join('') || '';
+}
+
+async function requestModelJson(prompt) {
+  if (providerApiFormat === 'chat_completions') {
+    const response = await fetch(chatCompletionsUrl(), {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${providerApiKey}`,
+      },
+      body: JSON.stringify({
+        model: providerModel,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.1,
+        response_format: { type: 'json_object' },
+      }),
+      signal: AbortSignal.timeout(Number(process.env.MODEL_TIMEOUT_MS || 30000)),
+    });
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Provider request failed ${response.status}: ${body.slice(0, 500)}`);
+    }
+    return response.json();
+  }
+
+  const response = await fetch(generateContentUrl(), {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-goog-api-key': providerApiKey,
+    },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseMimeType: 'application/json',
+        temperature: 0.1,
+        topP: 1,
+        thinkingConfig: {
+          includeThoughts: false,
+          thinkingBudget: Number(process.env.MODEL_THINKING_BUDGET || 8192),
+        },
+      },
+    }),
+    signal: AbortSignal.timeout(Number(process.env.MODEL_TIMEOUT_MS || 30000)),
+  });
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Provider request failed ${response.status}: ${body.slice(0, 500)}`);
+  }
+  return response.json();
+}
+
 async function normalizeWithProvider(raw) {
   if (!providerApiKey || !providerApiBase || !providerModel) {
     throw new Error('Missing MODEL_API_KEY, MODEL_API_BASE, or MODEL_NAME.');
@@ -310,6 +378,7 @@ Return ONLY compact JSON, no markdown. Schema:
   "online_url": string|null,
   "organizer": string|null,
   "speakers": string[],
+  "tags": string[],
   "price": string|null,
   "event_url": string|null,
   "confidence_score": number
@@ -317,6 +386,7 @@ Return ONLY compact JSON, no markdown. Schema:
 Rules:
 - Target city is ${cityDisplayName}; accepted aliases are ${cityAliases.join(', ')}. Use "线上" for clearly online events.
 - Keep source/event URL if present.
+- tags should contain 3 to 8 short search/filter labels, such as topic, format, technology, industry, or audience.
 - ISO 8601 timestamps are required when a time is known.
 - If it is not a real event or not AI-related, set is_event/is_ai_related false.
 
@@ -326,24 +396,8 @@ ${JSON.stringify(raw, null, 2).slice(0, 12000)}`;
   let lastError;
   for (let attempt = 0; attempt <= modelRetryCount; attempt += 1) {
     try {
-      const response = await fetch(
-        `${providerApiBase}/models/${encodeURIComponent(providerModel)}:generateContent?key=${encodeURIComponent(providerApiKey)}`,
-        {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            generationConfig: { responseMimeType: 'application/json', temperature: 0.1 },
-          }),
-          signal: AbortSignal.timeout(Number(process.env.MODEL_TIMEOUT_MS || 30000)),
-        },
-      );
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(`Provider request failed ${response.status}: ${body.slice(0, 500)}`);
-      }
-      const payload = await response.json();
-      const text = payload.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('') || '';
+      const payload = await requestModelJson(prompt);
+      const text = extractModelText(payload);
       return extractJson(text);
     } catch (error) {
       lastError = error;
@@ -352,6 +406,14 @@ ${JSON.stringify(raw, null, 2).slice(0, 12000)}`;
     }
   }
   throw lastError;
+}
+
+function normalizeTags(value) {
+  const tags = Array.isArray(value) ? value : String(value || '').split(/[,，、]/);
+  return Array.from(new Set(tags
+    .map(tag => normalizeWhitespace(tag).replace(/^#/, ''))
+    .filter(tag => tag.length >= 2 && tag.length <= 30)))
+    .slice(0, 12);
 }
 
 async function upsertEvent(pool, raw, normalized) {
@@ -370,9 +432,9 @@ async function upsertEvent(pool, raw, normalized) {
   const result = await pool.query(
     `insert into "aiEvents_events"
       (raw_id, city_id, city_key, city, title, description, start_time, end_time, timezone, venue, address, online_url,
-       organizer, speakers, price, source_url, source_url_normalized, event_url, confidence_score,
+       organizer, speakers, tags, price, source_url, source_url_normalized, event_url, confidence_score,
        status, provider_model, normalized_payload)
-     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,'draft',$20,$21::jsonb)
+     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,'draft',$21,$22::jsonb)
      on conflict (source_url_normalized) do update set
        raw_id = excluded.raw_id,
        city_id = excluded.city_id,
@@ -388,6 +450,7 @@ async function upsertEvent(pool, raw, normalized) {
        online_url = excluded.online_url,
        organizer = excluded.organizer,
        speakers = excluded.speakers,
+       tags = excluded.tags,
        price = excluded.price,
        event_url = excluded.event_url,
        confidence_score = excluded.confidence_score,
@@ -410,6 +473,7 @@ async function upsertEvent(pool, raw, normalized) {
       normalized.online_url || null,
       normalized.organizer || null,
       Array.isArray(normalized.speakers) ? normalized.speakers : [],
+      normalizeTags(normalized.tags),
       normalized.price || null,
       raw.source_url,
       normalizeUrl(raw.source_url),

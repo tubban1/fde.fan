@@ -123,6 +123,7 @@ create table if not exists "aiEvents_events" (
   online_url text,
   organizer text,
   speakers text[] not null default '{}',
+  tags text[] not null default '{}',
   price text,
   source_url text not null,
   source_url_normalized text not null,
@@ -139,6 +140,7 @@ create table if not exists "aiEvents_events" (
 alter table "aiEvents_events" add column if not exists city_id uuid references "aiEvents_cities"(id) on delete set null;
 alter table "aiEvents_events" add column if not exists city_key text;
 alter table "aiEvents_events" add column if not exists provider_model text;
+alter table "aiEvents_events" add column if not exists tags text[] not null default '{}';
 
 create index if not exists "aiEvents_cities_active_idx" on "aiEvents_cities" (is_active, country_code, city_key);
 create index if not exists "aiEvents_sources_status_idx" on "aiEvents_sources" (status, city_key, priority desc);
@@ -148,3 +150,4 @@ create index if not exists "aiEvents_raw_city_key_idx" on "aiEvents_raw" (city_k
 create index if not exists "aiEvents_events_time_city_idx" on "aiEvents_events" (start_time, city);
 create index if not exists "aiEvents_events_city_key_idx" on "aiEvents_events" (city_key, status, start_time);
 create index if not exists "aiEvents_events_status_idx" on "aiEvents_events" (status, start_time);
+create index if not exists "aiEvents_events_tags_idx" on "aiEvents_events" using gin (tags);

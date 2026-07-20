@@ -38,7 +38,8 @@ function sourceHost(url) {
 export default function AiEventsExplorer({ initialEvents = [] } = {}) {
   const [events, setEvents] = useState(initialEvents);
   const [query, setQuery] = useState("");
-  const [city, setCity] = useState("成都");
+  const [city, setCity] = useState("");
+  const [tag, setTag] = useState("");
   const [status, setStatus] = useState("published,draft");
   const [loading, setLoading] = useState(initialEvents.length === 0);
   const [error, setError] = useState("");
@@ -49,6 +50,7 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
     const params = new URLSearchParams({ status, limit: "80", include_raw: "1" });
     if (query.trim()) params.set("q", query.trim());
     if (city) params.set("city", city);
+    if (tag.trim()) params.set("tags", tag.trim());
     try {
       const response = await fetch(`/api/ai-events/search?${params.toString()}`);
       const payload = await response.json();
@@ -97,14 +99,8 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
           <Search size={16} />
           <input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索标题、主办方、城市" />
         </label>
-        <select value={city} onChange={event => setCity(event.target.value)}>
-          <option value="">全部城市</option>
-          <option value="成都">成都</option>
-          <option value="上海">上海</option>
-          <option value="北京">北京</option>
-          <option value="线上">线上</option>
-          <option value="Zurich">Zurich</option>
-        </select>
+        <input value={city} onChange={event => setCity(event.target.value)} placeholder="城市或线上" />
+        <input value={tag} onChange={event => setTag(event.target.value)} placeholder="标签，如 大模型、Agent" />
         <select value={status} onChange={event => setStatus(event.target.value)}>
           <option value="published,draft">可用活动</option>
           <option value="published,draft,needs_review">含待审核</option>
@@ -138,6 +134,11 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
                 <span><Ticket size={14} />{event.organizer || "主办方待确认"}</span>
                 <span>{Math.round(Number(event.confidence_score || 0))}%</span>
               </div>
+              {Array.isArray(event.tags) && event.tags.length > 0 && (
+                <div className="ai-event-tags">
+                  {event.tags.map(tagItem => <button type="button" key={tagItem} onClick={() => setTag(tagItem)}>{tagItem}</button>)}
+                </div>
+              )}
               <div className="ai-event-sources">
                 {(event.sources || []).map(source => (
                   <a href={source.source_url?.startsWith("http") ? source.source_url : undefined} target="_blank" rel="noreferrer" key={source.source_url}>
