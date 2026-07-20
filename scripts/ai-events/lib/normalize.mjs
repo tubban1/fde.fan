@@ -44,6 +44,7 @@ export function normalizeUrl(value, baseUrl) {
       'eventOrigin',
       'eventorigin',
       'aff',
+      'qd',
     ];
     for (const key of removable) url.searchParams.delete(key);
     if ((url.protocol === 'https:' && url.port === '443') || (url.protocol === 'http:' && url.port === '80')) {

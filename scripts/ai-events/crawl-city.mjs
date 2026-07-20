@@ -22,6 +22,8 @@ const fetchCandidateDetails = process.env.AI_EVENTS_FETCH_CANDIDATE_DETAILS !== 
 const providerModel = process.env.MODEL_NAME || '';
 const providerApiKey = process.env.MODEL_API_KEY || '';
 const providerApiBase = String(process.env.MODEL_API_BASE || '').replace(/\/$/, '');
+const modelRetryCount = Number(process.env.MODEL_RETRY_COUNT || 2);
+const modelRetryDelayMs = Number(process.env.MODEL_RETRY_DELAY_MS || 5000);
 
 function firstLatinAlias(aliases, fallback) {
   return aliases.find(value => /^[A-Za-z][A-Za-z\s-]*$/.test(String(value || ''))) || fallback;
@@ -284,6 +286,10 @@ function extractJson(text) {
   }
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function normalizeWithProvider(raw) {
   if (!providerApiKey || !providerApiBase || !providerModel) {
     throw new Error('Missing MODEL_API_KEY, MODEL_API_BASE, or MODEL_NAME.');
@@ -317,25 +323,35 @@ Rules:
 Raw item:
 ${JSON.stringify(raw, null, 2).slice(0, 12000)}`;
 
-  const response = await fetch(
-    `${providerApiBase}/models/${encodeURIComponent(providerModel)}:generateContent?key=${encodeURIComponent(providerApiKey)}`,
-    {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: 'application/json', temperature: 0.1 },
-      }),
-      signal: AbortSignal.timeout(Number(process.env.MODEL_TIMEOUT_MS || 30000)),
-    },
-  );
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`Provider request failed ${response.status}: ${body.slice(0, 500)}`);
+  let lastError;
+  for (let attempt = 0; attempt <= modelRetryCount; attempt += 1) {
+    try {
+      const response = await fetch(
+        `${providerApiBase}/models/${encodeURIComponent(providerModel)}:generateContent?key=${encodeURIComponent(providerApiKey)}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: 'application/json', temperature: 0.1 },
+          }),
+          signal: AbortSignal.timeout(Number(process.env.MODEL_TIMEOUT_MS || 30000)),
+        },
+      );
+      if (!response.ok) {
+        const body = await response.text();
+        throw new Error(`Provider request failed ${response.status}: ${body.slice(0, 500)}`);
+      }
+      const payload = await response.json();
+      const text = payload.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('') || '';
+      return extractJson(text);
+    } catch (error) {
+      lastError = error;
+      if (!isTransientModelError(error) || attempt >= modelRetryCount) break;
+      await sleep(modelRetryDelayMs * (attempt + 1));
+    }
   }
-  const payload = await response.json();
-  const text = payload.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('') || '';
-  return extractJson(text);
+  throw lastError;
 }
 
 async function upsertEvent(pool, raw, normalized) {
