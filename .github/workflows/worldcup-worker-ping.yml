@@ -1,8 +1,8 @@
 name: World Cup Worker Ping
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"
+  # The World Cup has ended; keep this workflow manual-only so the Hugging Face
+  # worker is not woken up on a schedule.
   workflow_dispatch:
 
 jobs:
