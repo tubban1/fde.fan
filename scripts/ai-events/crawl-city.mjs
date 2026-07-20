@@ -407,6 +407,11 @@ async function upsertEvent(pool, raw, normalized) {
   return Boolean(result.rows[0]?.id);
 }
 
+function isTransientModelError(error) {
+  const message = String(error?.message || error || '').toLowerCase();
+  return /\b429\b|rate limit|too many requests|timeout|temporar|saturated|overload|upstream load|try again later/.test(message);
+}
+
 async function processPendingRaw(pool, runId) {
   const { rows } = await pool.query(
     `select *
@@ -417,6 +422,9 @@ async function processPendingRaw(pool, runId) {
     [runId],
   );
   let normalizedCount = 0;
+  let modelFailedCount = 0;
+  let modelDeferredCount = 0;
+  const modelErrors = [];
   for (const raw of rows) {
     try {
       const normalized = await normalizeWithProvider({
@@ -431,14 +439,24 @@ async function processPendingRaw(pool, runId) {
       });
       if (await upsertEvent(pool, raw, normalized)) normalizedCount += 1;
     } catch (error) {
+      const message = error.message || String(error);
+      modelErrors.push({ raw_id: raw.id, source_url: raw.source_url, error: message.slice(0, 500) });
+      if (isTransientModelError(error)) {
+        modelDeferredCount = rows.length - normalizedCount - modelFailedCount;
+        await pool.query(
+          `update "aiEvents_raw" set processing_error = $2 where id = $1`,
+          [raw.id, message],
+        );
+        break;
+      }
+      modelFailedCount += 1;
       await pool.query(
         `update "aiEvents_raw" set processing_status = 'failed', processing_error = $2 where id = $1`,
-        [raw.id, error.message || String(error)],
+        [raw.id, message],
       );
-      throw error;
     }
   }
-  return normalizedCount;
+  return { normalizedCount, modelFailedCount, modelDeferredCount, modelErrors };
 }
 
 await withDb(async pool => {
@@ -498,16 +516,42 @@ await withDb(async pool => {
       }
     }
 
-    const eventsNormalized = rawOnly ? 0 : await processPendingRaw(pool, runId);
+    const normalization = rawOnly
+      ? { normalizedCount: 0, modelFailedCount: 0, modelDeferredCount: 0, modelErrors: [] }
+      : await processPendingRaw(pool, runId);
     await pool.query(
       `update "aiEvents_crawl_runs"
        set status = 'succeeded', finished_at = now(), sources_checked = $2,
            raw_items_found = $3, events_normalized = $4,
            raw_summary = raw_summary || $5::jsonb
        where id = $1`,
-      [runId, sourcesChecked, rawItemsFound, eventsNormalized, JSON.stringify({ source_failures: sourceFailures })],
+      [
+        runId,
+        sourcesChecked,
+        rawItemsFound,
+        normalization.normalizedCount,
+        JSON.stringify({
+          source_failures: sourceFailures,
+          model_failed_count: normalization.modelFailedCount,
+          model_deferred_count: normalization.modelDeferredCount,
+          model_errors: normalization.modelErrors,
+        }),
+      ],
     );
-    console.log(JSON.stringify({ ok: true, run_id: runId, city: cityDisplayName, city_key: cityKey, raw_only: rawOnly, sources_checked: sourcesChecked, raw_items_found: rawItemsFound, events_normalized: eventsNormalized, source_failures: sourceFailures.length }, null, 2));
+    console.log(JSON.stringify({
+      ok: true,
+      run_id: runId,
+      city: cityDisplayName,
+      city_key: cityKey,
+      raw_only: rawOnly,
+      sources_checked: sourcesChecked,
+      raw_items_found: rawItemsFound,
+      events_normalized: normalization.normalizedCount,
+      source_failures: sourceFailures.length,
+      model_failed_count: normalization.modelFailedCount,
+      model_deferred_count: normalization.modelDeferredCount,
+      model_errors: normalization.modelErrors.length,
+    }, null, 2));
   } catch (error) {
     await pool.query(
       `update "aiEvents_crawl_runs"
