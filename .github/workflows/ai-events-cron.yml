@@ -66,4 +66,5 @@ jobs:
         run: |
           LIMIT_PER_SOURCE="${{ github.event.inputs.limit_per_source || '12' }}"
           pnpm ai-events:schema
+          pnpm ai-events:cleanup
           pnpm ai-events:crawl-all -- --limit-per-source="${LIMIT_PER_SOURCE}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"

@@ -29,7 +29,7 @@ export const GET: APIRoute = async ({ request }) => {
     }
     if (city) {
       values.push(city);
-      filters.push(`e.city = $${values.length}`);
+      filters.push(`(e.city = $${values.length} or e.city_key = $${values.length})`);
     }
     if (tags.length > 0) {
       values.push(tags);
@@ -64,7 +64,7 @@ export const GET: APIRoute = async ({ request }) => {
         const cityIndex = rawValues.length;
         rawValues.push(`%${city}%`);
         const cityNeedleIndex = rawValues.length;
-        rawFilters.push(`(r.city = $${cityIndex} or r.raw_title ilike $${cityNeedleIndex})`);
+        rawFilters.push(`(r.city = $${cityIndex} or r.city_key = $${cityIndex} or r.raw_title ilike $${cityNeedleIndex})`);
       }
       if (tags.length > 0) {
         rawValues.push(tags.map(tag => `%${tag}%`));

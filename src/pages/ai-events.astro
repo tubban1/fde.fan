@@ -11,7 +11,7 @@ try {
   const result = await query(
     `select
        e.id, e.title, e.description, e.start_time, e.end_time, e.timezone,
-       e.city, e.venue, e.online_url, e.organizer, e.speakers, e.price,
+       e.city, e.venue, e.online_url, e.organizer, e.speakers, e.tags, e.price,
        null::timestamptz as registration_deadline,
        coalesce(e.event_url, e.source_url) as registration_url,
        e.status, e.confidence_score,
@@ -36,6 +36,7 @@ try {
          r.city, null::text as venue, null::text as online_url,
          r.source_type as organizer,
          array[]::text[] as speakers,
+         array[]::text[] as tags,
          null::text as price,
          r.source_url as registration_url,
          'raw_pending'::text as status,
@@ -43,8 +44,6 @@ try {
          json_build_array(json_build_object('source_url', r.source_url, 'last_seen_at', r.fetched_at)) as sources
        from "aiEvents_raw" r
        where r.processing_status = any('{pending,failed}'::text[])
-         and r.city = '成都'
-         and (r.raw_title ilike '%成都%' or r.raw_title ilike '%Chengdu%')
        order by r.fetched_at desc
        limit $1`,
       [100],

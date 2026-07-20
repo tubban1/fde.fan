@@ -362,8 +362,8 @@ async function normalizeWithProvider(raw) {
   if (!providerApiKey || !providerApiBase || !providerModel) {
     throw new Error('Missing MODEL_API_KEY, MODEL_API_BASE, or MODEL_NAME.');
   }
-  const prompt = `You normalize raw event crawl data for a Chinese AI events database.
-Return ONLY compact JSON, no markdown. Schema:
+  const prompt = `你是中文 AI 活动数据库的数据清洗器。请把原始抓取内容归一化为中文字段。
+只返回紧凑 JSON，不要 markdown。Schema:
 {
   "is_event": boolean,
   "is_ai_related": boolean,
@@ -383,14 +383,18 @@ Return ONLY compact JSON, no markdown. Schema:
   "event_url": string|null,
   "confidence_score": number
 }
-Rules:
-- Target city is ${cityDisplayName}; accepted aliases are ${cityAliases.join(', ')}. Use "线上" for clearly online events.
-- Keep source/event URL if present.
-- tags should contain 3 to 8 short search/filter labels, such as topic, format, technology, industry, or audience.
-- ISO 8601 timestamps are required when a time is known.
-- If it is not a real event or not AI-related, set is_event/is_ai_related false.
+规则:
+- 输出语言必须是简体中文。title、description、tags、venue、organizer 尽量翻译成中文；品牌名、人名、产品名可以保留原文。
+- 目标城市是 ${cityDisplayName}；可接受别名是 ${cityAliases.join(', ')}。
+- 如果活动明确是纯线上，city 使用 "线上"。
+- 如果活动不在目标城市/别名，也不是纯线上，请设置 is_event=false。
+- 不要把其他城市写入 city 字段；city 只能是 "${cityDisplayName}" 或 "线上" 或 null。
+- 保留 source/event URL。
+- tags 必须是 3 到 8 个简短中文搜索/过滤标签，例如主题、形式、技术、行业、人群。
+- 时间已知时必须使用 ISO 8601。
+- 如果它不是真实活动，或不是 AI 相关活动，设置 is_event/is_ai_related false。
 
-Raw item:
+原始数据:
 ${JSON.stringify(raw, null, 2).slice(0, 12000)}`;
 
   let lastError;
@@ -416,6 +420,32 @@ function normalizeTags(value) {
     .slice(0, 12);
 }
 
+function isOnlineCity(value) {
+  const text = normalizeWhitespace(value).toLowerCase();
+  return text === '线上' || text === 'online' || text === 'virtual' || text === 'remote';
+}
+
+function isAcceptedCity(value) {
+  const text = normalizeWhitespace(value);
+  if (!text) return true;
+  if (isOnlineCity(text)) return true;
+  const lower = text.toLowerCase();
+  return cityAliases.some(alias => {
+    const normalizedAlias = normalizeWhitespace(alias).toLowerCase();
+    return normalizedAlias && (lower === normalizedAlias || lower.includes(normalizedAlias));
+  });
+}
+
+function eventCityFor(normalized) {
+  return isOnlineCity(normalized.city) ? '线上' : cityDisplayName;
+}
+
+function normalizeConfidence(value) {
+  const score = Number(value || 0);
+  if (!Number.isFinite(score)) return 0;
+  return score <= 1 ? Math.round(score * 100) : Math.round(score);
+}
+
 async function upsertEvent(pool, raw, normalized) {
   const isUseful = normalized.is_event && normalized.is_ai_related && normalized.title && normalized.start_time;
   if (!isUseful) {
@@ -424,6 +454,15 @@ async function upsertEvent(pool, raw, normalized) {
        set processing_status = 'ignored', processing_error = $2
        where id = $1`,
       [raw.id, 'Model classified item as not a dated AI event'],
+    );
+    return false;
+  }
+  if (!isAcceptedCity(normalized.city)) {
+    await pool.query(
+      `update "aiEvents_raw"
+       set processing_status = 'ignored', processing_error = $2
+       where id = $1`,
+      [raw.id, `Model city mismatch: ${normalizeWhitespace(normalized.city)}`],
     );
     return false;
   }
@@ -462,7 +501,7 @@ async function upsertEvent(pool, raw, normalized) {
       raw.id,
       raw.city_id || null,
       raw.city_key || cityKey,
-      normalized.city || raw.city || cityDisplayName,
+      eventCityFor(normalized),
       normalized.title,
       normalized.description || null,
       normalized.start_time || null,
@@ -478,9 +517,9 @@ async function upsertEvent(pool, raw, normalized) {
       raw.source_url,
       normalizeUrl(raw.source_url),
       sourceUrl,
-      Number(normalized.confidence_score || 0),
+      normalizeConfidence(normalized.confidence_score),
       providerModel,
-      JSON.stringify({ ...normalized, city_key: raw.city_key || cityKey }),
+      JSON.stringify({ ...normalized, city: eventCityFor(normalized), city_key: raw.city_key || cityKey }),
     ],
   );
   await pool.query(`update "aiEvents_raw" set processing_status = 'processed', processing_error = null where id = $1`, [raw.id]);
