@@ -101,6 +101,12 @@ export const GET: APIRoute = async ({ request }) => {
 
     return json({ ok: true, data: rows });
   } catch (error: any) {
-    return json({ ok: false, error: "SEARCH_FAILED", message: error.message }, 500);
+    const message = String(error?.message || "");
+    if (/connection string/i.test(message)) {
+      console.warn("[ai-events] data connection is not configured");
+      return json({ ok: false, error: "DATA_UNAVAILABLE", message: "数据服务暂未配置。" }, 503);
+    }
+    console.warn("[ai-events] search failed", message);
+    return json({ ok: false, error: "SEARCH_FAILED", message: "活动数据查询失败。" }, 500);
   }
 };
