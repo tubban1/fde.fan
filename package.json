@@ -40,6 +40,7 @@
     "ai-events:inspect-run": "node scripts/ai-events/inspect-run.mjs",
     "ai-events:cleanup": "node scripts/ai-events/cleanup-events.mjs",
     "ai-events:migrate-sources": "node scripts/ai-events/migrate-sources.mjs",
+    "ai-events:sync-city-sources": "node scripts/ai-events/sync-city-sources.mjs",
     "ai-events:prune-sources": "node scripts/ai-events/prune-sources.mjs",
     "ai-events:test": "node scripts/ai-events/test/run-tests.mjs"
   },

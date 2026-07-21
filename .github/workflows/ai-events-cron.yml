@@ -89,6 +89,7 @@ jobs:
           pnpm ai-events:migrate-sources
           pnpm ai-events:schema
           pnpm ai-events:migrate-sources
+          pnpm ai-events:sync-city-sources
           pnpm ai-events:cleanup
           pnpm ai-events:prune-sources
           pnpm ai-events:crawl-all -- --mode="${RUN_MODE}" --limit-per-source="${LIMIT_PER_SOURCE}" --normalize-limit="${NORMALIZE_LIMIT}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"
