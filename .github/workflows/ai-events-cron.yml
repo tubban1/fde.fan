@@ -92,6 +92,7 @@ jobs:
           pnpm ai-events:sync-city-sources
           pnpm ai-events:cleanup
           pnpm ai-events:prune-sources
+          pnpm ai-events:filter-raw-quality
           if [ "${RUN_MODE}" = "inspect_raw" ]; then
             pnpm ai-events:inspect-raw-quality
             exit 0

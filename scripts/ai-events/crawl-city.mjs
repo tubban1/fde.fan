@@ -2,6 +2,7 @@ import { createAdapter } from './adapters/index.mjs';
 import { loadLocalEnv, withDb } from './lib/db.mjs';
 import { isLikelyEvent, normalizeUrl, normalizeWhitespace, rollYearlessPastDateForward } from './lib/normalize.mjs';
 import { rawContentHash } from './lib/raw-hash.mjs';
+import { classifyIgnorableRaw } from './lib/raw-quality.mjs';
 import { classifySourceUrl } from './lib/source-scope.mjs';
 
 loadLocalEnv();
@@ -660,9 +661,29 @@ async function processPendingRaw(pool, runId, options = {}) {
   let normalizedCount = 0;
   let modelFailedCount = 0;
   let modelDeferredCount = 0;
+  let rawIgnoredCount = 0;
   const modelErrors = [];
   for (const raw of rows) {
     try {
+      const ignorable = classifyIgnorableRaw(raw);
+      if (ignorable.ignore) {
+        rawIgnoredCount += 1;
+        await pool.query(
+          `update "aiEvents_raw"
+           set processing_status = 'ignored',
+               processing_error = $2
+           where id = $1`,
+          [raw.id, `Cheap filter ignored raw: ${ignorable.reason}`],
+        );
+        await pool.query(
+          `update "aiEvents_events"
+           set status = 'archived', updated_at = now()
+           where raw_id = $1
+             and status <> 'archived'`,
+          [raw.id],
+        );
+        continue;
+      }
       const normalized = await normalizeWithProvider({
         city: cityDisplayName,
         city_key: cityKey,
@@ -699,7 +720,7 @@ async function processPendingRaw(pool, runId, options = {}) {
       );
     }
   }
-  return { normalizedCount, modelFailedCount, modelDeferredCount, modelErrors };
+  return { normalizedCount, modelFailedCount, modelDeferredCount, rawIgnoredCount, modelErrors };
 }
 
 await withDb(async pool => {
@@ -791,7 +812,7 @@ await withDb(async pool => {
     }
 
     const normalization = rawOnly
-      ? { normalizedCount: 0, modelFailedCount: 0, modelDeferredCount: 0, modelErrors: [] }
+      ? { normalizedCount: 0, modelFailedCount: 0, modelDeferredCount: 0, rawIgnoredCount: 0, modelErrors: [] }
       : await processPendingRaw(pool, runId, { limit: normalizeLimit });
     await pool.query(
       `update "aiEvents_crawl_runs"
@@ -809,6 +830,7 @@ await withDb(async pool => {
           pages_fetched: pagesFetched,
           model_failed_count: normalization.modelFailedCount,
           model_deferred_count: normalization.modelDeferredCount,
+          raw_ignored_count: normalization.rawIgnoredCount,
           model_errors: normalization.modelErrors,
         }),
       ],
@@ -827,6 +849,7 @@ await withDb(async pool => {
       source_failures: sourceFailures.length,
       model_failed_count: normalization.modelFailedCount,
       model_deferred_count: normalization.modelDeferredCount,
+      raw_ignored_count: normalization.rawIgnoredCount,
       model_errors: normalization.modelErrors.length,
       model_error_summaries: normalization.modelErrors.map(error => error.summary).slice(0, 3),
       source_failure_summaries: sourceFailures.map(error => ({
