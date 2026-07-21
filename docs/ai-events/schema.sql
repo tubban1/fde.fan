@@ -262,6 +262,94 @@ where source_key is null
    or url_template is null
    or url_normalized is null;
 
+with canonical(source_type, source_key, url, url_template, source_scope, relevance_level, fetch_method) as (
+  values
+    ('huodongxing_city', 'huodongxing_city', 'https://www.huodongxing.com/events', 'https://www.huodongxing.com/events?orderby=o&d=t5&tag=AI&city={{city_name}}', 'city_ai', 'strong', 'html_list'),
+    ('eventbrite_city_search', 'eventbrite_city_search', 'https://www.eventbrite.com/', 'https://www.eventbrite.com/d/{{city_slug}}/ai/', 'city_ai', 'strong', 'html_list'),
+    ('luma_city', 'luma_city', 'https://luma.com/', 'https://luma.com/{{city_slug}}', 'city_only', 'city_only', 'html_list'),
+    ('meetup_city_search', 'meetup_city_search', 'https://www.meetup.com/find/', 'https://www.meetup.com/find/?location={{meetup_location}}&source=EVENTS&categoryId=546', 'city_tech', 'weak', 'html_list'),
+    ('segmentfault_events', 'segmentfault_events', 'https://segmentfault.com/events', 'https://segmentfault.com/events?city={{segmentfault_city_id}}', 'city_tech', 'weak', 'html_list'),
+    ('lianpu_city', 'lianpu_city', 'https://lianpu.com/', 'https://lianpu.com/city/{{city_slug}}', 'city_tech', 'weak', 'html_list'),
+    ('volcengine_activities', 'volcengine_activities', 'https://developer.volcengine.com/activities', 'https://developer.volcengine.com/activities', 'ai_global', 'strong', 'html_list'),
+    ('tencent_cloud_salon_list', 'tencent_cloud_salon_list', 'https://cloud.tencent.com/developer/salon/activities', 'https://cloud.tencent.com/developer/salon/activities?topic=2212', 'ai_global', 'strong', 'html_list')
+)
+update "aiEvents_sources" s
+set source_key = canonical.source_key,
+    url = canonical.url,
+    url_normalized = canonical.url,
+    url_template = canonical.url_template,
+    source_scope = canonical.source_scope,
+    relevance_level = canonical.relevance_level,
+    fetch_method = canonical.fetch_method,
+    updated_at = now()
+from canonical
+where s.source_type = canonical.source_type;
+
+with ranked_sources as (
+  select id,
+         first_value(id) over (
+           partition by coalesce(source_key, source_type)
+           order by
+             case when url !~* '(beijing|shanghai|chengdu|geneva|city=|location=|/d/|/city/|\\?q=)' then 0 else 1 end,
+             created_at asc,
+             id asc
+         ) as keeper_id,
+         row_number() over (
+           partition by coalesce(source_key, source_type)
+           order by
+             case when url !~* '(beijing|shanghai|chengdu|geneva|city=|location=|/d/|/city/|\\?q=)' then 0 else 1 end,
+             created_at asc,
+             id asc
+         ) as rank
+  from "aiEvents_sources"
+)
+update "aiEvents_city_sources" cs
+set source_id = ranked_sources.keeper_id,
+    updated_at = now()
+from ranked_sources
+where cs.source_id = ranked_sources.id
+  and ranked_sources.rank > 1;
+
+with ranked_sources as (
+  select id,
+         first_value(id) over (
+           partition by coalesce(source_key, source_type)
+           order by
+             case when url !~* '(beijing|shanghai|chengdu|geneva|city=|location=|/d/|/city/|\\?q=)' then 0 else 1 end,
+             created_at asc,
+             id asc
+         ) as keeper_id,
+         row_number() over (
+           partition by coalesce(source_key, source_type)
+           order by
+             case when url !~* '(beijing|shanghai|chengdu|geneva|city=|location=|/d/|/city/|\\?q=)' then 0 else 1 end,
+             created_at asc,
+             id asc
+         ) as rank
+  from "aiEvents_sources"
+)
+update "aiEvents_raw" r
+set source_id = ranked_sources.keeper_id
+from ranked_sources
+where r.source_id = ranked_sources.id
+  and ranked_sources.rank > 1;
+
+with ranked_sources as (
+  select id,
+         row_number() over (
+           partition by coalesce(source_key, source_type)
+           order by
+             case when url !~* '(beijing|shanghai|chengdu|geneva|city=|location=|/d/|/city/|\\?q=)' then 0 else 1 end,
+             created_at asc,
+             id asc
+         ) as rank
+  from "aiEvents_sources"
+)
+delete from "aiEvents_sources" s
+using ranked_sources
+where s.id = ranked_sources.id
+  and ranked_sources.rank > 1;
+
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key";
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_city_key_url_normalized_key";
 drop index if exists "aiEvents_sources_city_url_idx";

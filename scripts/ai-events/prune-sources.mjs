@@ -36,6 +36,11 @@ const orphanSingleEventSourceWhere = `
   )
 `;
 
+const citySpecificSourceWhere = `
+  lower(url) ~ '(beijing|shanghai|chengdu|geneva|city=|location=|/d/[^/]+/ai|/city/|\\?q=)'
+  or lower(url_normalized) ~ '(beijing|shanghai|chengdu|geneva|city=|location=|/d/[^/]+/ai|/city/|\\?q=)'
+`;
+
 await withDb(async pool => {
   const preview = await pool.query(
     `select cs.id, cs.city_key, s.source_type, cs.source_url, cs.status
@@ -55,6 +60,11 @@ await withDb(async pool => {
     `select count(*)::integer as count
      from "aiEvents_sources" s
      where ${orphanSingleEventSourceWhere}`,
+  );
+  const citySpecificSourceCount = await pool.query(
+    `select count(*)::integer as count
+     from "aiEvents_sources"
+     where ${citySpecificSourceWhere}`,
   );
 
   let changedBindings = 0;
@@ -88,6 +98,7 @@ await withDb(async pool => {
     mode,
     matched_single_event_city_sources: bindingCount.rows[0]?.count || 0,
     matched_orphan_single_event_sources: orphanCount.rows[0]?.count || 0,
+    remaining_city_specific_sources: citySpecificSourceCount.rows[0]?.count || 0,
     changed_city_sources: changedBindings,
     changed_sources: changedSources,
     preview: preview.rows.map(row => ({
