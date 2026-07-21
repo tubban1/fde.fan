@@ -11,7 +11,9 @@ function arg(name, fallback = '') {
 }
 
 const limitPerSource = arg('limit-per-source', process.env.AI_EVENTS_LIMIT_PER_SOURCE || 12);
+const normalizeLimit = arg('normalize-limit', process.env.AI_EVENTS_NORMALIZE_LIMIT || '');
 const maxCities = Number(arg('max-cities', process.env.AI_EVENTS_MAX_CITIES || 0));
+const mode = arg('mode', process.env.AI_EVENTS_RUN_MODE || (process.env.AI_EVENTS_RAW_ONLY === '1' ? 'raw' : 'full'));
 const rawOnly = process.argv.includes('--raw-only') || process.env.AI_EVENTS_RAW_ONLY === '1';
 const forceRun = process.argv.includes('--force') || process.env.AI_EVENTS_FORCE_RUN === '1';
 const minIntervalMinutes = Number(arg('min-interval-minutes', process.env.AI_EVENTS_MIN_INTERVAL_MINUTES || 0));
@@ -57,7 +59,12 @@ function runCity(city) {
     `--city-key=${city.city_key}`,
     `--limit-per-source=${limitPerSource}`,
   ];
-  if (rawOnly) args.push('--raw-only');
+  if (mode === 'normalize') {
+    args.push('--normalize-only');
+    if (normalizeLimit) args.push(`--limit=${normalizeLimit}`);
+  } else if (rawOnly || mode === 'raw') {
+    args.push('--raw-only');
+  }
 
   return new Promise(resolve => {
     const child = spawn(process.execPath, args, {
@@ -93,6 +100,7 @@ await withDb(async pool => {
       step: 'crawl_city_start',
       city_key: city.city_key,
       active_sources: city.active_sources,
+      mode,
     }));
     const result = await runCity(city);
     results.push(result);
@@ -107,6 +115,7 @@ await withDb(async pool => {
   const failed = results.filter(result => result.code !== 0);
   console.log(JSON.stringify({
     ok: failed.length === 0,
+    mode,
     cities_checked: results.length,
     cities_failed: failed.length,
     failed_city_keys: failed.map(result => result.city.city_key),

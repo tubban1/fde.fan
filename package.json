@@ -35,6 +35,8 @@
     "ai-events:schema": "node scripts/ai-events/run-schema.mjs",
     "ai-events:crawl-city": "node scripts/ai-events/crawl-city.mjs",
     "ai-events:crawl-all": "node scripts/ai-events/crawl-all-cities.mjs",
+    "ai-events:crawl-all:raw": "AI_EVENTS_RUN_MODE=raw node scripts/ai-events/crawl-all-cities.mjs",
+    "ai-events:normalize-all": "AI_EVENTS_RUN_MODE=normalize node scripts/ai-events/crawl-all-cities.mjs",
     "ai-events:inspect-run": "node scripts/ai-events/inspect-run.mjs",
     "ai-events:cleanup": "node scripts/ai-events/cleanup-events.mjs",
     "ai-events:test": "node scripts/ai-events/test/run-tests.mjs"

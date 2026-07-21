@@ -12,13 +12,16 @@ function arg(name, fallback = '') {
 
 const requestedCity = arg('city');
 const requestedCityKey = arg('city-key');
+const normalizeRunId = arg('normalize-run-id');
 let cityId = '';
 let cityKey = '';
 let cityEn = '';
 let cityDisplayName = '';
 let cityAliases = [];
 const limitPerSource = Number(arg('limit-per-source', process.env.AI_EVENTS_LIMIT_PER_SOURCE || 20));
+const normalizeLimit = Number(arg('limit', process.env.AI_EVENTS_NORMALIZE_LIMIT || 0));
 const rawOnly = process.argv.includes('--raw-only') || process.env.AI_EVENTS_RAW_ONLY === '1';
+const normalizeOnly = process.argv.includes('--normalize-only') || process.env.AI_EVENTS_NORMALIZE_ONLY === '1';
 const fetchCandidateDetails = process.env.AI_EVENTS_FETCH_CANDIDATE_DETAILS !== '0';
 const providerModel = process.env.MODEL_NAME || '';
 const providerApiKey = process.env.MODEL_API_KEY || '';
@@ -604,14 +607,25 @@ function summarizeProviderError(message) {
   };
 }
 
-async function processPendingRaw(pool, runId) {
+async function processPendingRaw(pool, runId, options = {}) {
+  const values = [];
+  const filters = [`processing_status = 'pending'`];
+  if (runId) {
+    values.push(runId);
+    filters.push(`crawl_run_id = $${values.length}`);
+  }
+  if (options.cityKey) {
+    values.push(options.cityKey);
+    filters.push(`city_key = $${values.length}`);
+  }
+  const limitSql = options.limit > 0 ? `limit ${Math.floor(options.limit)}` : '';
   const { rows } = await pool.query(
     `select *
      from "aiEvents_raw"
-     where crawl_run_id = $1
-       and processing_status = 'pending'
-     order by fetched_at asc`,
-    [runId],
+     where ${filters.join(' and ')}
+     order by fetched_at asc
+     ${limitSql}`,
+    values,
   );
   let normalizedCount = 0;
   let modelFailedCount = 0;
@@ -660,6 +674,22 @@ async function processPendingRaw(pool, runId) {
 
 await withDb(async pool => {
   await loadCity(pool);
+  if (normalizeOnly) {
+    const normalization = await processPendingRaw(pool, normalizeRunId, { cityKey, limit: normalizeLimit });
+    console.log(JSON.stringify({
+      ok: true,
+      normalize_only: true,
+      run_id: normalizeRunId || null,
+      city: cityDisplayName,
+      city_key: cityKey,
+      events_normalized: normalization.normalizedCount,
+      model_failed_count: normalization.modelFailedCount,
+      model_deferred_count: normalization.modelDeferredCount,
+      model_errors: normalization.modelErrors.length,
+      model_error_summaries: normalization.modelErrors.map(error => error.summary).slice(0, 3),
+    }, null, 2));
+    return;
+  }
   const runId = await insertRun(pool, cityId);
   let sourcesChecked = 0;
   let rawItemsFound = 0;
