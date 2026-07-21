@@ -1,6 +1,38 @@
 import * as cheerio from 'cheerio';
 import { isLikelyEvent, normalizeEvent, normalizeUrl, normalizeWhitespace } from '../lib/normalize.mjs';
 
+const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function requestHeaders(url, source = {}) {
+  const parsed = new URL(url);
+  const referer = normalizeWhitespace(source.raw_config?.referer || source.referer || `${parsed.origin}/`);
+  return {
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,image/avif,image/webp,*/*;q=0.7',
+    'accept-language': source.raw_config?.accept_language || 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+    'cache-control': 'no-cache',
+    'pragma': 'no-cache',
+    'priority': 'u=0, i',
+    'referer': referer,
+    'sec-ch-ua': '"Chromium";v="126", "Google Chrome";v="126", "Not=A?Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': referer.startsWith(parsed.origin) ? 'same-origin' : 'cross-site',
+    'sec-fetch-user': '?1',
+    'upgrade-insecure-requests': '1',
+    'user-agent': source.raw_config?.user_agent || process.env.AI_EVENTS_USER_AGENT || DEFAULT_USER_AGENT,
+  };
+}
+
+function retryableStatus(status) {
+  return status === 408 || status === 409 || status === 425 || status === 429 || status >= 500;
+}
+
 export class EventSourceAdapter {
   constructor(source = {}) {
     this.source = source;
@@ -12,21 +44,37 @@ export class EventSourceAdapter {
 
   async fetchDetail(url) {
     const timeoutMs = Number(process.env.AI_EVENTS_FETCH_TIMEOUT_MS || 20000);
-    const response = await fetch(url, {
-      signal: AbortSignal.timeout(timeoutMs),
-      headers: {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
-        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
-        'cache-control': 'no-cache',
-        'pragma': 'no-cache',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-      },
-    });
-    if (!response.ok) throw new Error(`Fetch failed ${response.status} ${response.statusText}`);
-    const contentType = response.headers.get('content-type') || '';
-    const text = await response.text();
-    return { url, contentType, text };
+    const retryCount = Number(this.source.raw_config?.retry_count ?? process.env.AI_EVENTS_FETCH_RETRY_COUNT ?? 2);
+    const retryDelayMs = Number(this.source.raw_config?.retry_delay_ms ?? process.env.AI_EVENTS_FETCH_RETRY_DELAY_MS ?? 1200);
+    let lastError;
+    for (let attempt = 0; attempt <= retryCount; attempt += 1) {
+      try {
+        const response = await fetch(url, {
+          redirect: 'follow',
+          signal: AbortSignal.timeout(timeoutMs),
+          headers: requestHeaders(url, this.source),
+        });
+        const contentType = response.headers.get('content-type') || '';
+        const text = await response.text();
+        if (!response.ok) {
+          const bodyHint = normalizeWhitespace(text).slice(0, 180);
+          const error = new Error(`Fetch failed ${response.status} ${response.statusText} url=${url}${bodyHint ? ` body=${bodyHint}` : ''}`);
+          error.status = response.status;
+          if (retryableStatus(response.status) && attempt < retryCount) {
+            lastError = error;
+            await sleep(retryDelayMs * (attempt + 1));
+            continue;
+          }
+          throw error;
+        }
+        return { url: response.url || url, contentType, text };
+      } catch (error) {
+        lastError = error;
+        if (attempt >= retryCount) break;
+        await sleep(retryDelayMs * (attempt + 1));
+      }
+    }
+    throw lastError;
   }
 
   normalize(raw) {

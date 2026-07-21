@@ -198,10 +198,54 @@ async function removeStaleTemplateBindings(pool) {
   return result.rowCount || 0;
 }
 
+async function duplicateCitySourceBindingCount(pool) {
+  const { rows } = await pool.query(
+    `select coalesce(sum(count - 1), 0)::integer as count
+     from (
+       select count(*)::integer as count
+       from "aiEvents_city_sources" cs
+       join "aiEvents_sources" s on s.id = cs.source_id
+       where cs.status = 'active'
+         and s.status = 'active'
+       group by cs.city_key, s.source_key
+       having count(*) > 1
+     ) duplicates`,
+  );
+  return rows[0]?.count || 0;
+}
+
+async function removeDuplicateCitySourceBindings(pool) {
+  const result = await pool.query(`
+    with ranked_bindings as (
+      select cs.id,
+             row_number() over (
+               partition by cs.city_key, s.source_key
+               order by
+                 case when cs.raw_config->>'generated_from_template' = 'true' then 0 else 1 end,
+                 cs.priority desc,
+                 cs.updated_at desc,
+                 cs.created_at desc,
+                 cs.id asc
+             ) as rank
+      from "aiEvents_city_sources" cs
+      join "aiEvents_sources" s on s.id = cs.source_id
+      where cs.status = 'active'
+        and s.status = 'active'
+    )
+    delete from "aiEvents_city_sources" cs
+    using ranked_bindings
+    where cs.id = ranked_bindings.id
+      and ranked_bindings.rank > 1
+  `);
+  return result.rowCount || 0;
+}
+
 await withDb(async pool => {
   await ensureCitySourcesIndex(pool);
   const staleTemplateBindingsMatched = await staleTemplateBindingCount(pool);
   const staleTemplateBindingsDeleted = dryRun ? 0 : await removeStaleTemplateBindings(pool);
+  const duplicateCitySourceBindingsMatched = await duplicateCitySourceBindingCount(pool);
+  const duplicateCitySourceBindingsDeleted = dryRun ? 0 : await removeDuplicateCitySourceBindings(pool);
   const cities = await loadCities(pool);
   const sources = await loadSources(pool);
   let planned = 0;
@@ -258,6 +302,8 @@ await withDb(async pool => {
     combinations_planned: planned,
     stale_template_bindings_matched: staleTemplateBindingsMatched,
     stale_template_bindings_deleted: staleTemplateBindingsDeleted,
+    duplicate_city_source_bindings_matched: duplicateCitySourceBindingsMatched,
+    duplicate_city_source_bindings_deleted: duplicateCitySourceBindingsDeleted,
     city_sources_inserted: inserted,
     city_sources_existing_touched: existingUpdated,
     skipped_count: skipped.length,
