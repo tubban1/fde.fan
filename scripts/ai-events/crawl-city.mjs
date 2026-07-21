@@ -1,6 +1,7 @@
 import { createAdapter } from './adapters/index.mjs';
 import { loadLocalEnv, withDb } from './lib/db.mjs';
 import { isLikelyEvent, normalizeUrl, normalizeWhitespace, rollYearlessPastDateForward } from './lib/normalize.mjs';
+import { rawContentHash } from './lib/raw-hash.mjs';
 import { classifySourceUrl } from './lib/source-scope.mjs';
 
 loadLocalEnv();
@@ -274,12 +275,21 @@ async function enrichCandidate({ adapter, source, listDetail, candidate }) {
 
 async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, detail, candidate }) {
   const sourceUrl = normalizeUrl(candidate.source_url || candidate.registration_url || source.url, detail.url);
+  const sourceUrlNormalized = normalizeUrl(sourceUrl);
+  const rawTitle = candidate.canonical_title || candidate.title || null;
+  const rawText = rawTextFor(candidate);
+  const rawPayload = { candidate, source, city_key: cityKey, city_aliases: cityAliases, fetched_url: fetchedUrl, source_scope: source.source_scope, relevance_level: source.relevance_level };
+  const rawHash = rawContentHash({
+    source_url_normalized: sourceUrlNormalized,
+    raw_title: rawTitle,
+    raw_text: rawText,
+  });
   const result = await pool.query(
     `insert into "aiEvents_raw"
       (crawl_run_id, source_id, city_id, city_key, city, source_type, source_url, source_url_normalized, fetched_url,
-       content_type, raw_title, raw_text, raw_payload, processing_status)
-     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,'pending')
-     on conflict (source_url_normalized, city) do update set
+       content_type, raw_title, raw_text, raw_payload, raw_hash, processing_status)
+     values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14,'pending')
+     on conflict (source_url_normalized, city_key) do update set
        crawl_run_id = excluded.crawl_run_id,
        source_id = excluded.source_id,
        city_id = excluded.city_id,
@@ -289,8 +299,17 @@ async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, de
        raw_title = excluded.raw_title,
        raw_text = excluded.raw_text,
        raw_payload = excluded.raw_payload,
-       processing_status = 'pending',
-       processing_error = null,
+       raw_hash = excluded.raw_hash,
+       processing_status = case
+         when "aiEvents_raw".raw_hash is null then "aiEvents_raw".processing_status
+         when "aiEvents_raw".raw_hash is distinct from excluded.raw_hash then 'pending'
+         else "aiEvents_raw".processing_status
+       end,
+       processing_error = case
+         when "aiEvents_raw".raw_hash is null then "aiEvents_raw".processing_error
+         when "aiEvents_raw".raw_hash is distinct from excluded.raw_hash then null
+         else "aiEvents_raw".processing_error
+       end,
        fetched_at = now()
      returning id`,
     [
@@ -301,12 +320,13 @@ async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, de
       cityDisplayName,
       source.source_type,
       sourceUrl,
-      normalizeUrl(sourceUrl),
+      sourceUrlNormalized,
       fetchedUrl,
       detail.contentType || null,
-      candidate.canonical_title || candidate.title || null,
-      rawTextFor(candidate),
-      JSON.stringify({ candidate, source, city_key: cityKey, city_aliases: cityAliases, fetched_url: fetchedUrl, source_scope: source.source_scope, relevance_level: source.relevance_level }),
+      rawTitle,
+      rawText,
+      JSON.stringify(rawPayload),
+      rawHash,
     ],
   );
   return result.rows[0].id;

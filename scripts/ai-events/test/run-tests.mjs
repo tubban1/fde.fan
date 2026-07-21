@@ -3,9 +3,11 @@ import { EventbriteAdapter } from '../adapters/eventbrite.mjs';
 import { HuodongxingAdapter } from '../adapters/huodongxing.mjs';
 import { MeetupAdapter } from '../adapters/meetup.mjs';
 import { normalizeCity, normalizeDateTime, normalizeUrl, isAiRelatedEvent, rollYearlessPastDateForward } from '../lib/normalize.mjs';
+import { rawContentHash } from '../lib/raw-hash.mjs';
 import { classifySourceUrl } from '../lib/source-scope.mjs';
 
 assert.equal(normalizeUrl('https://example.com/a/?utm_source=x&recId=1#frag'), 'https://example.com/a');
+assert.equal(rawContentHash({ b: 2, a: 1 }), rawContentHash({ a: 1, b: 2 }));
 assert.equal(normalizeCity('online webinar'), '线上');
 assert.equal(normalizeDateTime('2026年8月1日 19:30'), '2026-08-01T11:30:00.000Z');
 assert.equal(

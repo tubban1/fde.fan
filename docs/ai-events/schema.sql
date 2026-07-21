@@ -459,15 +459,94 @@ create table if not exists "aiEvents_raw" (
   raw_title text,
   raw_text text,
   raw_payload jsonb not null default '{}'::jsonb,
+  raw_hash text,
   processing_status text not null default 'pending' check (processing_status in ('pending', 'processed', 'failed', 'ignored')),
   processing_error text,
   fetched_at timestamptz not null default now(),
   created_at timestamptz not null default now(),
-  unique (source_url_normalized, city)
+  unique (source_url_normalized, city_key)
 );
 
 alter table "aiEvents_raw" add column if not exists city_id uuid references "aiEvents_cities"(id) on delete set null;
 alter table "aiEvents_raw" add column if not exists city_key text;
+alter table "aiEvents_raw" add column if not exists raw_hash text;
+
+update "aiEvents_raw" r
+set city_key = c.city_key,
+    city_id = coalesce(r.city_id, c.id)
+from "aiEvents_cities" c
+where r.city_key is null
+  and (r.city = c.display_name or c.aliases ? r.city);
+
+do $$
+begin
+  if to_regclass('"aiEvents_events"') is not null then
+    execute $sql$
+      with ranked_raw as (
+        select id,
+               first_value(id) over (
+                 partition by source_url_normalized, city_key
+                 order by
+                   case processing_status
+                     when 'processed' then 0
+                     when 'pending' then 1
+                     when 'failed' then 2
+                     else 3
+                   end,
+                   fetched_at desc,
+                   created_at desc,
+                   id asc
+               ) as keeper_id,
+               row_number() over (
+                 partition by source_url_normalized, city_key
+                 order by
+                   case processing_status
+                     when 'processed' then 0
+                     when 'pending' then 1
+                     when 'failed' then 2
+                     else 3
+                   end,
+                   fetched_at desc,
+                   created_at desc,
+                   id asc
+               ) as rank
+        from "aiEvents_raw"
+        where city_key is not null
+      )
+      update "aiEvents_events" e
+      set raw_id = ranked_raw.keeper_id
+      from ranked_raw
+      where e.raw_id = ranked_raw.id
+        and ranked_raw.rank > 1
+    $sql$;
+  end if;
+end $$;
+
+with ranked_raw as (
+  select id,
+         row_number() over (
+           partition by source_url_normalized, city_key
+           order by
+             case processing_status
+               when 'processed' then 0
+               when 'pending' then 1
+               when 'failed' then 2
+               else 3
+             end,
+             fetched_at desc,
+             created_at desc,
+             id asc
+         ) as rank
+  from "aiEvents_raw"
+  where city_key is not null
+)
+delete from "aiEvents_raw" r
+using ranked_raw
+where r.id = ranked_raw.id
+  and ranked_raw.rank > 1;
+
+alter table "aiEvents_raw" drop constraint if exists "aiEvents_raw_source_url_normalized_city_key";
+create unique index if not exists "aiEvents_raw_source_url_city_key_idx" on "aiEvents_raw" (source_url_normalized, city_key);
 
 create table if not exists "aiEvents_events" (
   id uuid primary key default gen_random_uuid(),
