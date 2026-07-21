@@ -68,21 +68,30 @@ async function loadCity(pool) {
 
 async function activeSourcesForCity(pool) {
   const result = await pool.query(
-    `select *
-     from "aiEvents_sources"
-     where city_key = $1
-       and status = 'active'
-       and source_kind <> 'single_event'
-     order by priority desc, source_type, url`,
+    `select s.id as source_id,
+            cs.id as city_source_id,
+            s.source_type,
+            s.fetch_method,
+            cs.source_url as url,
+            cs.priority,
+            s.source_scope,
+            s.relevance_level,
+            coalesce(s.raw_config, '{}'::jsonb) || coalesce(cs.raw_config, '{}'::jsonb) as raw_config
+     from "aiEvents_city_sources" cs
+     join "aiEvents_sources" s on s.id = cs.source_id
+     where cs.city_key = $1
+       and cs.status = 'active'
+       and s.status = 'active'
+     order by cs.priority desc, s.source_type, cs.source_url`,
     [cityKey],
   );
   return result.rows.map(row => ({
-    id: row.id,
+    id: row.source_id,
+    city_source_id: row.city_source_id,
     source_type: row.source_type,
     fetch_method: row.fetch_method,
     url: row.url,
     priority: row.priority,
-    source_kind: row.source_kind || 'recurring_source',
     source_scope: row.source_scope || classifySourceUrl(row.url).source_scope,
     relevance_level: row.relevance_level || classifySourceUrl(row.url).relevance_level,
     raw_config: row.raw_config || {},
@@ -699,6 +708,7 @@ await withDb(async pool => {
     const sources = await activeSourcesForCity(pool);
     for (const source of sources) {
       const sourceId = source.id;
+      const citySourceId = source.city_source_id;
       sourcesChecked += 1;
       try {
         const adapter = createAdapter({
@@ -738,23 +748,23 @@ await withDb(async pool => {
           }
         }
         await pool.query(
-          `update "aiEvents_sources"
+          `update "aiEvents_city_sources"
            set last_success_at = now(), last_checked_at = now(), consecutive_failures = 0, updated_at = now()
            where id = $1`,
-          [sourceId],
+          [citySourceId],
         );
       } catch (sourceError) {
         const message = sourceError.message || String(sourceError);
         sourceFailures.push({ source_type: source.source_type, url: source.url, error: message });
         await pool.query(
-          `update "aiEvents_sources"
+          `update "aiEvents_city_sources"
            set last_checked_at = now(),
                consecutive_failures = consecutive_failures + 1,
                status = case when consecutive_failures + 1 >= 5 then 'needs_review' else status end,
                raw_config = jsonb_set(raw_config, '{last_error}', to_jsonb($2::text), true),
                updated_at = now()
            where id = $1`,
-          [sourceId, message],
+          [citySourceId, message],
         );
       }
     }

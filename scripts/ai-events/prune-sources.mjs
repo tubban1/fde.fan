@@ -14,50 +14,71 @@ if (!['delete', 'archive'].includes(mode)) {
   throw new Error('Invalid prune mode. Use --mode=delete or --mode=archive.');
 }
 
-const singleEventWhere = `
-  source_kind = 'single_event'
-  or source_scope = 'single_event'
-  or lower(url_normalized) ~ 'huodongxing\\.com/event/[0-9]+'
-  or lower(url_normalized) ~ 'eventbrite\\.[^/]+/e/'
-  or lower(url_normalized) ~ 'meetup\\.com/[^/]+/events/[0-9]+'
-  or lower(url_normalized) ~ 'segmentfault\\.com/e/[0-9]+'
+const singleEventUrlWhere = `
+  lower(source_url_normalized) ~ 'huodongxing\\.com/event/[0-9]+'
+  or lower(source_url_normalized) ~ 'eventbrite\\.[^/]+/e/'
+  or lower(source_url_normalized) ~ 'meetup\\.com/[^/]+/events/[0-9]+'
+  or lower(source_url_normalized) ~ 'segmentfault\\.com/e/[0-9]+'
+`;
+
+const orphanSingleEventSourceWhere = `
+  not exists (
+    select 1
+    from "aiEvents_city_sources" cs
+    where cs.source_id = s.id
+  )
+  and (
+    s.source_scope = 'single_event'
+    or lower(s.url_normalized) ~ 'huodongxing\\.com/event/[0-9]+'
+    or lower(s.url_normalized) ~ 'eventbrite\\.[^/]+/e/'
+    or lower(s.url_normalized) ~ 'meetup\\.com/[^/]+/events/[0-9]+'
+    or lower(s.url_normalized) ~ 'segmentfault\\.com/e/[0-9]+'
+  )
 `;
 
 await withDb(async pool => {
   const preview = await pool.query(
-    `select id, city_key, source_type, url, source_kind, source_scope, status
-     from "aiEvents_sources"
-     where ${singleEventWhere}
-     order by city_key, source_type, url
+    `select cs.id, cs.city_key, s.source_type, cs.source_url, cs.status
+     from "aiEvents_city_sources" cs
+     join "aiEvents_sources" s on s.id = cs.source_id
+     where ${singleEventUrlWhere}
+     order by cs.city_key, s.source_type, cs.source_url
      limit 20`,
   );
 
-  const countResult = await pool.query(
+  const bindingCount = await pool.query(
     `select count(*)::integer as count
-     from "aiEvents_sources"
-     where ${singleEventWhere}`,
+     from "aiEvents_city_sources"
+     where ${singleEventUrlWhere}`,
   );
-  const matched = countResult.rows[0]?.count || 0;
+  const orphanCount = await pool.query(
+    `select count(*)::integer as count
+     from "aiEvents_sources" s
+     where ${orphanSingleEventSourceWhere}`,
+  );
 
-  let changed = 0;
-  if (!dryRun && matched > 0) {
+  let changedBindings = 0;
+  let changedSources = 0;
+  if (!dryRun) {
     if (mode === 'archive') {
       const result = await pool.query(
-        `update "aiEvents_sources"
-         set status = 'archived',
-             source_kind = 'single_event',
-             source_scope = 'single_event',
-             relevance_level = 'event',
-             updated_at = now()
-         where ${singleEventWhere}`,
+        `update "aiEvents_city_sources"
+         set status = 'archived', updated_at = now()
+         where ${singleEventUrlWhere}`,
       );
-      changed = result.rowCount || 0;
+      changedBindings = result.rowCount || 0;
     } else {
       const result = await pool.query(
-        `delete from "aiEvents_sources"
-         where ${singleEventWhere}`,
+        `delete from "aiEvents_city_sources"
+         where ${singleEventUrlWhere}`,
       );
-      changed = result.rowCount || 0;
+      changedBindings = result.rowCount || 0;
+
+      const sourceResult = await pool.query(
+        `delete from "aiEvents_sources" s
+         where ${orphanSingleEventSourceWhere}`,
+      );
+      changedSources = sourceResult.rowCount || 0;
     }
   }
 
@@ -65,15 +86,15 @@ await withDb(async pool => {
     ok: true,
     dry_run: dryRun,
     mode,
-    matched_single_event_sources: matched,
-    changed_sources: changed,
+    matched_single_event_city_sources: bindingCount.rows[0]?.count || 0,
+    matched_orphan_single_event_sources: orphanCount.rows[0]?.count || 0,
+    changed_city_sources: changedBindings,
+    changed_sources: changedSources,
     preview: preview.rows.map(row => ({
       city_key: row.city_key,
       source_type: row.source_type,
-      source_kind: row.source_kind,
-      source_scope: row.source_scope,
       status: row.status,
-      url: row.url,
+      source_url: row.source_url,
     })),
   }, null, 2));
 });

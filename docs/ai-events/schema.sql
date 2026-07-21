@@ -16,39 +16,76 @@ create table if not exists "aiEvents_cities" (
 
 create table if not exists "aiEvents_sources" (
   id uuid primary key default gen_random_uuid(),
-  city_id uuid references "aiEvents_cities"(id) on delete set null,
-  city_key text not null,
+  source_key text,
   source_type text not null,
   url text not null,
   url_normalized text not null,
+  url_template text,
   fetch_method text not null default 'html_list',
-  source_kind text not null default 'recurring_source' check (source_kind in ('recurring_source', 'single_event')),
   source_scope text not null default 'unknown' check (source_scope in ('city_ai', 'city_tech', 'city_only', 'ai_global', 'single_event', 'unknown')),
   relevance_level text not null default 'unknown' check (relevance_level in ('strong', 'weak', 'city_only', 'event', 'unknown')),
   status text not null default 'active' check (status in ('active', 'paused', 'needs_review', 'archived')),
-  crawl_frequency_minutes integer not null default 720,
-  priority integer not null default 50,
-  last_success_at timestamptz,
-  last_checked_at timestamptz,
-  consecutive_failures integer not null default 0,
   raw_config jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  unique (city_key, url_normalized)
+  unique (source_key)
 );
 
-alter table "aiEvents_sources" add column if not exists city_id uuid references "aiEvents_cities"(id) on delete set null;
-alter table "aiEvents_sources" add column if not exists city_key text;
-alter table "aiEvents_sources" add column if not exists source_kind text not null default 'recurring_source';
+alter table "aiEvents_sources" add column if not exists source_key text;
+alter table "aiEvents_sources" add column if not exists url_template text;
+alter table "aiEvents_sources" add column if not exists source_type text;
+alter table "aiEvents_sources" add column if not exists url text;
+alter table "aiEvents_sources" add column if not exists url_normalized text;
+alter table "aiEvents_sources" add column if not exists fetch_method text not null default 'html_list';
 alter table "aiEvents_sources" add column if not exists source_scope text not null default 'unknown';
 alter table "aiEvents_sources" add column if not exists relevance_level text not null default 'unknown';
-update "aiEvents_sources" s
-set city_key = c.city_key
-from "aiEvents_cities" c
-where s.city_key is null
-  and s.city_id = c.id;
+alter table "aiEvents_sources" add column if not exists status text not null default 'active';
+alter table "aiEvents_sources" add column if not exists raw_config jsonb not null default '{}'::jsonb;
+alter table "aiEvents_sources" add column if not exists created_at timestamptz not null default now();
+alter table "aiEvents_sources" add column if not exists updated_at timestamptz not null default now();
+
 do $$
 begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'aiEvents_sources' and column_name = 'city_key'
+  ) then
+    execute 'alter table "aiEvents_sources" alter column city_key drop not null';
+  end if;
+
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'aiEvents_sources' and column_name = 'source_kind'
+  ) then
+    execute '
+      update "aiEvents_sources"
+      set source_kind = case
+            when lower(url_normalized) ~ ''huodongxing\.com/event/[0-9]+''
+              or lower(url_normalized) ~ ''eventbrite\.[^/]+/e/''
+              or lower(url_normalized) ~ ''meetup\.com/[^/]+/events/[0-9]+''
+              or lower(url_normalized) ~ ''segmentfault\.com/e/[0-9]+''
+            then ''single_event''
+            else ''recurring_source''
+          end
+    ';
+  end if;
+
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'aiEvents_sources' and column_name = 'city_id'
+  ) and exists (
+    select 1 from information_schema.columns
+    where table_name = 'aiEvents_sources' and column_name = 'city_key'
+  ) then
+    execute '
+      update "aiEvents_sources" s
+      set city_key = c.city_key
+      from "aiEvents_cities" c
+      where s.city_key is null
+        and s.city_id = c.id
+    ';
+  end if;
+
   if exists (
     select 1 from information_schema.columns
     where table_name = 'aiEvents_sources' and column_name = 'city'
@@ -63,20 +100,9 @@ begin
     ';
   end if;
 end $$;
-delete from "aiEvents_sources" where city_key is null;
-alter table "aiEvents_sources" alter column city_key set not null;
-alter table "aiEvents_sources" drop column if exists city;
 
 update "aiEvents_sources"
-set source_kind = case
-      when lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
-        or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
-        or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
-        or lower(url_normalized) ~ 'segmentfault\.com/e/[0-9]+'
-      then 'single_event'
-      else 'recurring_source'
-    end,
-    source_scope = case
+set source_scope = case
       when lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
         or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
         or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
@@ -117,12 +143,146 @@ set source_kind = case
       then 'city_only'
       else relevance_level
     end
-where source_kind = 'recurring_source'
-   or source_scope = 'unknown'
-   or relevance_level = 'unknown';
+where source_scope = 'unknown'
+   or relevance_level = 'unknown'
+   or lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
+   or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
+   or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
+   or lower(url_normalized) ~ 'segmentfault\.com/e/[0-9]+';
+
+create table if not exists "aiEvents_city_sources" (
+  id uuid primary key default gen_random_uuid(),
+  city_id uuid not null references "aiEvents_cities"(id) on delete cascade,
+  city_key text not null,
+  source_id uuid not null references "aiEvents_sources"(id) on delete cascade,
+  source_url text not null,
+  source_url_normalized text not null,
+  status text not null default 'active' check (status in ('active', 'paused', 'needs_review', 'archived')),
+  crawl_frequency_minutes integer not null default 720,
+  priority integer not null default 50,
+  last_success_at timestamptz,
+  last_checked_at timestamptz,
+  consecutive_failures integer not null default 0,
+  raw_config jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (city_key, source_url_normalized)
+);
+
+alter table "aiEvents_city_sources" add column if not exists city_id uuid references "aiEvents_cities"(id) on delete cascade;
+alter table "aiEvents_city_sources" add column if not exists city_key text;
+alter table "aiEvents_city_sources" add column if not exists source_id uuid references "aiEvents_sources"(id) on delete cascade;
+alter table "aiEvents_city_sources" add column if not exists source_url text;
+alter table "aiEvents_city_sources" add column if not exists source_url_normalized text;
+alter table "aiEvents_city_sources" add column if not exists status text not null default 'active';
+alter table "aiEvents_city_sources" add column if not exists crawl_frequency_minutes integer not null default 720;
+alter table "aiEvents_city_sources" add column if not exists priority integer not null default 50;
+alter table "aiEvents_city_sources" add column if not exists last_success_at timestamptz;
+alter table "aiEvents_city_sources" add column if not exists last_checked_at timestamptz;
+alter table "aiEvents_city_sources" add column if not exists consecutive_failures integer not null default 0;
+alter table "aiEvents_city_sources" add column if not exists raw_config jsonb not null default '{}'::jsonb;
+alter table "aiEvents_city_sources" add column if not exists created_at timestamptz not null default now();
+alter table "aiEvents_city_sources" add column if not exists updated_at timestamptz not null default now();
+
+do $$
+begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'aiEvents_sources' and column_name = 'city_key'
+  ) then
+    insert into "aiEvents_sources" (source_key, source_type, url, url_normalized, url_template, fetch_method, source_scope, relevance_level, status, raw_config)
+    select distinct on (legacy.source_type)
+           legacy.source_type,
+           legacy.source_type,
+           legacy.url,
+           legacy.url_normalized,
+           legacy.url,
+           legacy.fetch_method,
+           case when legacy.source_scope = 'single_event' then 'unknown' else legacy.source_scope end,
+           case when legacy.relevance_level = 'event' then 'unknown' else legacy.relevance_level end,
+           'active',
+           '{}'::jsonb
+    from "aiEvents_sources" legacy
+    where legacy.city_key is not null
+      and legacy.source_scope <> 'single_event'
+      and not exists (
+        select 1 from "aiEvents_sources" generic
+        where generic.source_key = legacy.source_type
+      )
+    order by legacy.source_type, legacy.priority desc nulls last, legacy.created_at asc;
+
+    insert into "aiEvents_city_sources"
+      (city_id, city_key, source_id, source_url, source_url_normalized, status,
+       crawl_frequency_minutes, priority, last_success_at, last_checked_at, consecutive_failures, raw_config)
+    select c.id,
+           legacy.city_key,
+           generic.id,
+           legacy.url,
+           legacy.url_normalized,
+           legacy.status,
+           coalesce(legacy.crawl_frequency_minutes, 720),
+           coalesce(legacy.priority, 50),
+           legacy.last_success_at,
+           legacy.last_checked_at,
+           coalesce(legacy.consecutive_failures, 0),
+           legacy.raw_config
+    from "aiEvents_sources" legacy
+    join "aiEvents_cities" c on c.city_key = legacy.city_key
+    join "aiEvents_sources" generic on generic.source_key = legacy.source_type
+    where legacy.city_key is not null
+      and legacy.source_scope <> 'single_event'
+    on conflict (city_key, source_url_normalized) do update set
+      source_id = excluded.source_id,
+      city_id = excluded.city_id,
+      status = excluded.status,
+      crawl_frequency_minutes = excluded.crawl_frequency_minutes,
+      priority = excluded.priority,
+      raw_config = excluded.raw_config,
+      updated_at = now();
+
+    update "aiEvents_raw" r
+    set source_id = cs.source_id
+    from "aiEvents_city_sources" cs
+    join "aiEvents_sources" generic on generic.id = cs.source_id
+    where r.city_key = cs.city_key
+      and r.source_type = generic.source_type;
+
+    delete from "aiEvents_sources"
+    where city_key is not null
+       or source_scope = 'single_event';
+  end if;
+end $$;
+
+update "aiEvents_sources"
+set source_key = coalesce(source_key, source_type),
+    url_template = coalesce(url_template, url),
+    url_normalized = coalesce(url_normalized, url),
+    updated_at = now()
+where source_key is null
+   or url_template is null
+   or url_normalized is null;
 
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key";
-create unique index if not exists "aiEvents_sources_city_url_idx" on "aiEvents_sources" (city_key, url_normalized);
+alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_city_key_url_normalized_key";
+drop index if exists "aiEvents_sources_city_url_idx";
+
+alter table "aiEvents_sources" drop column if exists city;
+alter table "aiEvents_sources" drop column if exists city_id;
+alter table "aiEvents_sources" drop column if exists city_key;
+alter table "aiEvents_sources" drop column if exists source_kind;
+alter table "aiEvents_sources" drop column if exists crawl_frequency_minutes;
+alter table "aiEvents_sources" drop column if exists priority;
+alter table "aiEvents_sources" drop column if exists last_success_at;
+alter table "aiEvents_sources" drop column if exists last_checked_at;
+alter table "aiEvents_sources" drop column if exists consecutive_failures;
+
+alter table "aiEvents_sources" alter column source_key set not null;
+alter table "aiEvents_sources" alter column source_type set not null;
+alter table "aiEvents_sources" alter column url set not null;
+alter table "aiEvents_sources" alter column url_normalized set not null;
+alter table "aiEvents_sources" alter column url_template set not null;
+create unique index if not exists "aiEvents_sources_source_key_idx" on "aiEvents_sources" (source_key);
+create unique index if not exists "aiEvents_city_sources_city_url_idx" on "aiEvents_city_sources" (city_key, source_url_normalized);
 
 create table if not exists "aiEvents_crawl_runs" (
   id uuid primary key default gen_random_uuid(),
@@ -203,9 +363,10 @@ alter table "aiEvents_events" add column if not exists provider_model text;
 alter table "aiEvents_events" add column if not exists tags text[] not null default '{}';
 
 create index if not exists "aiEvents_cities_active_idx" on "aiEvents_cities" (is_active, country_code, city_key);
-create index if not exists "aiEvents_sources_status_idx" on "aiEvents_sources" (status, city_key, priority desc);
-create index if not exists "aiEvents_sources_city_key_idx" on "aiEvents_sources" (city_key, status, priority desc);
-create index if not exists "aiEvents_sources_scope_idx" on "aiEvents_sources" (source_kind, source_scope, relevance_level);
+create index if not exists "aiEvents_sources_status_idx" on "aiEvents_sources" (status, source_type);
+create index if not exists "aiEvents_sources_scope_idx" on "aiEvents_sources" (source_scope, relevance_level);
+create index if not exists "aiEvents_city_sources_status_idx" on "aiEvents_city_sources" (status, city_key, priority desc);
+create index if not exists "aiEvents_city_sources_city_key_idx" on "aiEvents_city_sources" (city_key, status, priority desc);
 create index if not exists "aiEvents_raw_status_idx" on "aiEvents_raw" (processing_status, city, fetched_at desc);
 create index if not exists "aiEvents_raw_city_key_idx" on "aiEvents_raw" (city_key, processing_status, fetched_at desc);
 create index if not exists "aiEvents_events_time_city_idx" on "aiEvents_events" (start_time, city);

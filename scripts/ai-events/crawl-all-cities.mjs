@@ -25,13 +25,15 @@ async function configuredCities(pool) {
   const { rows } = await pool.query(
     `select c.city_key,
             c.display_name,
-            count(s.id)::integer as active_sources,
+            count(cs.id)::integer as active_sources,
             latest.finished_at as last_success_at
      from "aiEvents_cities" c
+     join "aiEvents_city_sources" cs
+       on cs.city_key = c.city_key
+      and cs.status = 'active'
      join "aiEvents_sources" s
-       on s.city_key = c.city_key
+       on s.id = cs.source_id
       and s.status = 'active'
-      and s.source_kind <> 'single_event'
      left join lateral (
        select r.finished_at
        from "aiEvents_crawl_runs" r
