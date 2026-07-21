@@ -446,6 +446,7 @@ async function normalizeWithProvider(raw) {
 }
 规则:
 - 输出语言必须是简体中文。title、description、tags、venue、organizer 尽量翻译成中文；品牌名、人名、产品名可以保留原文。
+- AI、AIGC、Agent、RAG、LLM、MCP、MLOps 等技术词要按中文用户常用表达灵活处理：可保留英文缩写，也可写成“大模型”“智能体”“智能体开发”等自然中文，不要机械翻译成生硬词。
 - 当前抓取日期是 ${crawlDate}。如果原始内容只有“8.14”“8月14日”这类无年份日期，必须推断为当前日期之后最近一次出现的日期，不要使用过去年份。
 - 来源范围 source_scope=${sourceScope}，相关性 relevance_level=${relevanceLevel}。
 - source_scope=city_ai 表示入口已同时按城市和 AI 过滤，但仍需确认它是真实活动。
