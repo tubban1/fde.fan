@@ -312,7 +312,7 @@ async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, de
          else "aiEvents_raw".processing_error
        end,
        fetched_at = now()
-     returning id`,
+     returning id, (xmax = 0) as inserted`,
     [
       runId,
       sourceId,
@@ -330,7 +330,10 @@ async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, de
       rawHash,
     ],
   );
-  return result.rows[0].id;
+  return {
+    id: result.rows[0].id,
+    inserted: Boolean(result.rows[0].inserted),
+  };
 }
 
 function extractJson(text) {
@@ -745,6 +748,8 @@ await withDb(async pool => {
   let sourcesChecked = 0;
   let pagesFetched = 0;
   let rawItemsFound = 0;
+  let rawRowsInserted = 0;
+  let rawRowsUpdated = 0;
   const sourceFailures = [];
   try {
     const sources = await activeSourcesForCity(pool);
@@ -776,7 +781,7 @@ await withDb(async pool => {
             if (candidateUrl && seenCandidateUrls.has(candidateUrl)) continue;
             if (candidateUrl) seenCandidateUrls.add(candidateUrl);
             const enriched = await enrichCandidate({ adapter, source, listDetail: detail, candidate });
-            await upsertRaw(pool, {
+            const rawWrite = await upsertRaw(pool, {
               runId,
               sourceId,
               cityId,
@@ -785,6 +790,8 @@ await withDb(async pool => {
               detail: enriched.detail,
               candidate: enriched.candidate,
             });
+            if (rawWrite.inserted) rawRowsInserted += 1;
+            else rawRowsUpdated += 1;
             sourceCandidateCount += 1;
             rawItemsFound += 1;
           }
@@ -828,6 +835,8 @@ await withDb(async pool => {
         JSON.stringify({
           source_failures: sourceFailures,
           pages_fetched: pagesFetched,
+          raw_rows_inserted: rawRowsInserted,
+          raw_rows_updated: rawRowsUpdated,
           model_failed_count: normalization.modelFailedCount,
           model_deferred_count: normalization.modelDeferredCount,
           raw_ignored_count: normalization.rawIgnoredCount,
@@ -845,6 +854,8 @@ await withDb(async pool => {
       sources_checked: sourcesChecked,
       pages_fetched: pagesFetched,
       raw_items_found: rawItemsFound,
+      raw_rows_inserted: rawRowsInserted,
+      raw_rows_updated: rawRowsUpdated,
       events_normalized: normalization.normalizedCount,
       source_failures: sourceFailures.length,
       model_failed_count: normalization.modelFailedCount,
