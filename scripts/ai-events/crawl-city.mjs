@@ -792,7 +792,7 @@ await withDb(async pool => {
 
     const normalization = rawOnly
       ? { normalizedCount: 0, modelFailedCount: 0, modelDeferredCount: 0, modelErrors: [] }
-      : await processPendingRaw(pool, runId);
+      : await processPendingRaw(pool, runId, { limit: normalizeLimit });
     await pool.query(
       `update "aiEvents_crawl_runs"
        set status = 'succeeded', finished_at = now(), sources_checked = $2,
