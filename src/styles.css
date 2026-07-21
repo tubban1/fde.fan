@@ -27,6 +27,7 @@
 .ai-events-hero,
 .ai-events-stats,
 .ai-events-toolbar,
+.ai-events-popular-tags,
 .ai-events-list,
 .ai-events-batch,
 .ai-events-error {
@@ -72,8 +73,7 @@
   justify-content: flex-end;
 }
 
-.ai-events-actions button,
-.ai-events-toolbar button {
+.ai-events-actions button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -88,8 +88,7 @@
   cursor: pointer;
 }
 
-.ai-events-actions button:disabled,
-.ai-events-toolbar button:disabled {
+.ai-events-actions button:disabled {
   opacity: 0.58;
   cursor: wait;
 }
@@ -156,8 +155,8 @@
 }
 
 .ai-events-toolbar {
-  display: grid;
-  grid-template-columns: minmax(220px, 1.4fr) minmax(150px, 0.7fr) minmax(180px, 0.8fr) 142px 150px auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.65rem;
   align-items: center;
   margin-bottom: 1rem;
@@ -206,11 +205,20 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1 1 170px;
   min-height: 42px;
   border: 1px solid #d8dee8;
   background: #fff;
   border-radius: 7px;
   padding: 0 0.8rem;
+}
+
+.ai-events-toolbar .ai-events-search-control {
+  flex: 2 1 320px;
+}
+
+.ai-events-toolbar .ai-events-tag-control {
+  flex: 1.2 1 220px;
 }
 
 .ai-events-toolbar input,
@@ -224,6 +232,10 @@
   font: inherit;
 }
 
+.ai-events-toolbar > select {
+  flex: 0 1 148px;
+}
+
 .ai-events-toolbar label input {
   width: 100%;
   min-height: auto;
@@ -232,32 +244,46 @@
   outline: 0;
 }
 
-.ai-events-datebar,
+.ai-events-select-control select {
+  width: 100%;
+  min-height: auto;
+  border: 0;
+  padding: 0;
+  outline: 0;
+}
+
+.ai-events-date-range {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1 1 300px;
+}
+
+.ai-events-date-range label {
+  flex: 1 1 130px;
+}
+
+.ai-events-date-range input {
+  width: 100%;
+}
+
+.ai-events-loading-state {
+  min-width: 3.2rem;
+  color: #236a53;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
 .ai-events-popular-tags {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.55rem;
-  margin: -0.25rem 0 1rem;
-}
-
-.ai-events-datebar label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 38px;
-  border: 1px solid #d8dee8;
-  background: #fff;
+  border: 1px solid #d8eee5;
+  background: #f2fbf7;
   border-radius: 7px;
-  padding: 0 0.7rem;
-  color: #526071;
-}
-
-.ai-events-datebar input {
-  border: 0;
-  outline: 0;
-  font: inherit;
-  color: #111827;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
 }
 
 .ai-events-popular-tags > span {
@@ -430,10 +456,23 @@
   }
 
   .ai-events-stats,
-  .ai-events-toolbar,
   .ai-events-live,
   .ai-event-row {
     grid-template-columns: 1fr;
+  }
+
+  .ai-events-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ai-events-date-range {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ai-events-date-range > span {
+    display: none;
   }
 
   .ai-event-register {

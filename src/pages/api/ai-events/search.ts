@@ -35,7 +35,7 @@ export const GET: APIRoute = async ({ request }) => {
     }
     if (q) {
       values.push(`%${q}%`);
-      filters.push(`(e.title ilike $${values.length} or e.description ilike $${values.length} or e.organizer ilike $${values.length} or array_to_string(e.tags, ' ') ilike $${values.length})`);
+      filters.push(`(e.title ilike $${values.length} or e.description ilike $${values.length} or e.organizer ilike $${values.length} or e.city ilike $${values.length} or e.venue ilike $${values.length} or array_to_string(e.tags, ' ') ilike $${values.length})`);
     }
     if (city) {
       values.push(city);
@@ -61,7 +61,46 @@ export const GET: APIRoute = async ({ request }) => {
       values,
     );
 
-    return json({ ok: true, data: result.rows });
+    const facets = await query(
+      `with visible_events as (
+         select *
+         from "aiEvents_events"
+         where status = any($1::text[])
+           and start_time is not null
+           and start_time >= now()
+       ),
+       tag_counts as (
+         select tag, count(*)::integer as tag_count
+         from visible_events, unnest(tags) as tag
+         where tag <> ''
+         group by tag
+         order by tag_count desc, tag
+         limit 30
+       )
+       select json_build_object(
+         'cities', (
+           select coalesce(json_agg(json_build_object(
+             'city_key', c.city_key,
+             'display_name', c.display_name,
+             'event_count', coalesce(city_counts.count, 0)
+           ) order by coalesce(city_counts.count, 0) desc, c.display_name), '[]'::json)
+           from "aiEvents_cities" c
+           left join (
+             select city_key, count(*)::integer as count
+             from visible_events
+             group by city_key
+           ) city_counts on city_counts.city_key = c.city_key
+           where c.is_active = true
+         ),
+         'tags', (
+           select coalesce(json_agg(json_build_object('tag', tag, 'count', tag_count)), '[]'::json)
+           from tag_counts
+         )
+       ) as facets`,
+      [status],
+    );
+
+    return json({ ok: true, data: result.rows, facets: facets.rows[0]?.facets || { cities: [], tags: [] } });
   } catch (error: any) {
     const message = String(error?.message || "");
     if (/connection string/i.test(message)) {
