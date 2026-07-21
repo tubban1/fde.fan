@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "raw = crawl only, normalize = model pending raw, full = crawl and model"
+        description: "raw = crawl only, normalize = model pending raw, full = crawl and model, inspect_raw = list suspicious raw"
         required: false
         default: "raw"
       limit_per_source:
@@ -92,4 +92,8 @@ jobs:
           pnpm ai-events:sync-city-sources
           pnpm ai-events:cleanup
           pnpm ai-events:prune-sources
+          if [ "${RUN_MODE}" = "inspect_raw" ]; then
+            pnpm ai-events:inspect-raw-quality
+            exit 0
+          fi
           pnpm ai-events:crawl-all -- --mode="${RUN_MODE}" --limit-per-source="${LIMIT_PER_SOURCE}" --normalize-limit="${NORMALIZE_LIMIT}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"
