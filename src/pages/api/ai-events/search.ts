@@ -51,55 +51,7 @@ export const GET: APIRoute = async ({ request }) => {
       values,
     );
 
-    let rows = result.rows;
-    if (url.searchParams.get("include_raw") === "1" || rows.length === 0) {
-      const rawValues: any[] = [limit];
-      const rawFilters = [`r.processing_status = any('{pending,failed}'::text[])`];
-      if (q) {
-        rawValues.push(`%${q}%`);
-        rawFilters.push(`(r.raw_title ilike $${rawValues.length} or r.raw_text ilike $${rawValues.length} or r.source_type ilike $${rawValues.length})`);
-      }
-      if (city) {
-        rawValues.push(city);
-        const cityIndex = rawValues.length;
-        rawValues.push(`%${city}%`);
-        const cityNeedleIndex = rawValues.length;
-        rawFilters.push(`(r.city = $${cityIndex} or r.city_key = $${cityIndex} or r.raw_title ilike $${cityNeedleIndex})`);
-      }
-      if (tags.length > 0) {
-        rawValues.push(tags.map(tag => `%${tag}%`));
-        rawFilters.push(`exists (
-          select 1 from unnest($${rawValues.length}::text[]) as tag_pattern
-          where r.raw_title ilike tag_pattern or r.raw_text ilike tag_pattern
-        )`);
-      }
-
-      const rawResult = await query(
-        `select
-           r.id, coalesce(r.raw_title, r.source_url) as title,
-           left(r.raw_text, 600) as description,
-           null::timestamptz as start_time,
-           null::timestamptz as end_time,
-           'Asia/Shanghai'::text as timezone,
-           r.city, null::text as venue, null::text as online_url,
-           r.source_type as organizer,
-           array[]::text[] as speakers,
-           array[]::text[] as tags,
-           null::text as price,
-           r.source_url as registration_url,
-           'raw_pending'::text as status,
-           0::numeric as confidence_score,
-           json_build_array(json_build_object('source_url', r.source_url, 'last_seen_at', r.fetched_at)) as sources
-         from "aiEvents_raw" r
-         where ${rawFilters.join(" and ")}
-         order by r.fetched_at desc
-         limit $1`,
-        rawValues,
-      );
-      rows = [...rows, ...rawResult.rows].slice(0, limit);
-    }
-
-    return json({ ok: true, data: rows });
+    return json({ ok: true, data: result.rows });
   } catch (error: any) {
     const message = String(error?.message || "");
     if (/connection string/i.test(message)) {

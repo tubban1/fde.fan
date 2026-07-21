@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Database, Filter, MapPin, RefreshCw, Search, ShieldCheck, Ticket } from "lucide-react";
+import { CalendarDays, Database, MapPin, RefreshCw, Search, ShieldCheck, Ticket, Users } from "lucide-react";
 
 function formatDate(value) {
   if (!value) return "时间待确认";
@@ -16,7 +16,6 @@ function statusLabel(status) {
     published: "已发布",
     draft: "待发布",
     needs_review: "待审核",
-    raw_pending: "Raw 待处理",
     archived: "已归档",
   };
   return labels[status] || status;
@@ -47,7 +46,7 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
   const loadEvents = async () => {
     setLoading(true);
     setError("");
-    const params = new URLSearchParams({ status, limit: "80", include_raw: "1" });
+    const params = new URLSearchParams({ status, limit: "80" });
     if (query.trim()) params.set("q", query.trim());
     if (city) params.set("city", city);
     if (tag.trim()) params.set("tags", tag.trim());
@@ -71,8 +70,7 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
     const cities = new Set(events.map(event => event.city).filter(Boolean));
     const sourceCount = events.reduce((count, event) => count + (event.sources?.length || 0), 0);
     const reviewCount = events.filter(event => event.status === "needs_review").length;
-    const rawCount = events.filter(event => event.status === "raw_pending").length;
-    return { total: events.length, cities: cities.size, sourceCount, reviewCount, rawCount };
+    return { total: events.length, cities: cities.size, sourceCount, reviewCount };
   }, [events]);
 
   const originalUrlFor = event => event.sources?.[0]?.source_url || event.source_url || event.registration_url || event.online_url || "#";
@@ -82,16 +80,16 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
       <section className="ai-events-hero">
         <div>
           <p className="ai-events-eyebrow">AI EVENTS GRAPH</p>
-          <h1>AI 活动来源雷达</h1>
-          <p>聚合平台、组织、搜索发现和人工审核队列里的 AI 活动。</p>
+          <h1>AI 活动</h1>
+          <p>按城市、标签、时间和来源整理后的 AI 活动数据。</p>
         </div>
       </section>
 
       <section className="ai-events-stats" aria-label="AI events stats">
-        <div><Database size={18} /><strong>{stats.total}</strong><span>活动/Raw</span></div>
+        <div><Database size={18} /><strong>{stats.total}</strong><span>活动</span></div>
         <div><MapPin size={18} /><strong>{stats.cities}</strong><span>城市</span></div>
         <div><ShieldCheck size={18} /><strong>{stats.sourceCount}</strong><span>来源记录</span></div>
-        <div><Filter size={18} /><strong>{stats.rawCount}</strong><span>Raw 待处理</span></div>
+        <div><Users size={18} /><strong>{stats.reviewCount}</strong><span>待审核</span></div>
       </section>
 
       <section className="ai-events-toolbar">
@@ -132,6 +130,8 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
               <div className="ai-event-meta">
                 <span><MapPin size={14} />{event.city || "地点待确认"}{event.venue ? ` · ${event.venue}` : ""}</span>
                 <span><Ticket size={14} />{event.organizer || "主办方待确认"}</span>
+                {event.price && <span>{event.price}</span>}
+                {Array.isArray(event.speakers) && event.speakers.length > 0 && <span>{event.speakers.slice(0, 3).join("、")}</span>}
                 <span>{Math.round(Number(event.confidence_score || 0))}%</span>
               </div>
               {Array.isArray(event.tags) && event.tags.length > 0 && (

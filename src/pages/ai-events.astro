@@ -25,39 +25,14 @@ try {
     [["published", "draft"], 100],
   );
   initialEvents = result.rows;
-  if (initialEvents.length === 0) {
-    const rawResult = await query(
-      `select
-         r.id, coalesce(r.raw_title, r.source_url) as title,
-         left(r.raw_text, 600) as description,
-         null::timestamptz as start_time,
-         null::timestamptz as end_time,
-         'Asia/Shanghai'::text as timezone,
-         r.city, null::text as venue, null::text as online_url,
-         r.source_type as organizer,
-         array[]::text[] as speakers,
-         array[]::text[] as tags,
-         null::text as price,
-         r.source_url as registration_url,
-         'raw_pending'::text as status,
-         0::numeric as confidence_score,
-         json_build_array(json_build_object('source_url', r.source_url, 'last_seen_at', r.fetched_at)) as sources
-       from "aiEvents_raw" r
-       where r.processing_status = any('{pending,failed}'::text[])
-       order by r.fetched_at desc
-       limit $1`,
-      [100],
-    );
-    initialEvents = rawResult.rows;
-  }
 } catch (error) {
   console.warn("[ai-events] failed to load initial events", error);
 }
 ---
 
 <SiteLayout
-  title="AI 活动来源雷达 | FDE FAN"
-  description="AI 活动来源图谱、采集结果、去重状态和审核队列的前端测试界面。"
+  title="AI 活动 | FDE FAN"
+  description="AI 活动数据的前端测试界面。"
 >
   <AiEventsExplorer client:load initialEvents={initialEvents} />
 </SiteLayout>
