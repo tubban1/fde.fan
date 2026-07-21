@@ -177,10 +177,19 @@ function isUsefulCrawlCandidate(candidate, source) {
 async function candidatesForSource({ adapter, source, detail }) {
   const parsedCandidates = (await adapter.parse(detail)).filter(candidate => isUsefulCrawlCandidate(candidate, source));
   if (source.fetch_method !== 'html_detail') {
-    return parsedCandidates.slice(0, limitPerSource);
+    return parsedCandidates;
   }
 
   return [pageFallbackCandidate({ source, detail })];
+}
+
+function candidateLimitForSource(source) {
+  const configured = Number(source.raw_config?.limit_per_source || 0);
+  if (configured > 0) return configured;
+  if (source.source_type === 'huodongxing_city' || String(source.url || '').includes('huodongxing.com')) {
+    return Math.max(limitPerSource, Number(process.env.AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE || 60));
+  }
+  return limitPerSource;
 }
 
 async function enrichCandidate({ adapter, source, listDetail, candidate }) {
@@ -642,21 +651,30 @@ await withDb(async pool => {
           city_en: cityEn,
           organization_name: source.source_type,
         });
-        const detail = await adapter.fetchDetail(source.url);
-        sourcesChecked += 1;
-        const candidates = await candidatesForSource({ adapter, source, detail });
-        for (const candidate of candidates) {
-          const enriched = await enrichCandidate({ adapter, source, listDetail: detail, candidate });
-          await upsertRaw(pool, {
-            runId,
-            sourceId,
-            cityId,
-            source,
-            fetchedUrl: enriched.detail.url || source.url,
-            detail: enriched.detail,
-            candidate: enriched.candidate,
-          });
-          rawItemsFound += 1;
+        const discoveredUrls = Array.from(new Set((await adapter.discoverUrls()).filter(Boolean)));
+        const sourceCandidateLimit = candidateLimitForSource(source);
+        let sourceCandidateCount = 0;
+        for (const discoveredUrl of discoveredUrls) {
+          if (sourceCandidateCount >= sourceCandidateLimit) break;
+          const detail = await adapter.fetchDetail(discoveredUrl);
+          sourcesChecked += 1;
+          const candidates = await candidatesForSource({ adapter, source, detail });
+          if (candidates.length === 0) break;
+          for (const candidate of candidates) {
+            if (sourceCandidateCount >= sourceCandidateLimit) break;
+            const enriched = await enrichCandidate({ adapter, source, listDetail: detail, candidate });
+            await upsertRaw(pool, {
+              runId,
+              sourceId,
+              cityId,
+              source,
+              fetchedUrl: enriched.detail.url || discoveredUrl,
+              detail: enriched.detail,
+              candidate: enriched.candidate,
+            });
+            sourceCandidateCount += 1;
+            rawItemsFound += 1;
+          }
         }
         await pool.query(
           `update "aiEvents_sources"

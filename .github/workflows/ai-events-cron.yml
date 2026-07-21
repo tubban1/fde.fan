@@ -60,6 +60,8 @@ jobs:
           MODEL_API_FORMAT: ${{ vars.MODEL_API_FORMAT || 'generate_content' }}
           AI_EVENTS_FETCH_TIMEOUT_MS: "20000"
           AI_EVENTS_FETCH_CANDIDATE_DETAILS: "1"
+          AI_EVENTS_HUODONGXING_MAX_PAGES: ${{ vars.AI_EVENTS_HUODONGXING_MAX_PAGES || '5' }}
+          AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE || '80' }}
           AI_EVENTS_MIN_INTERVAL_MINUTES: ${{ github.event.inputs.min_interval_minutes || vars.AI_EVENTS_MIN_INTERVAL_MINUTES || '120' }}
           AI_EVENTS_FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' && '1' || '0' }}
           AI_EVENTS_RAW_ONLY: ${{ github.event.inputs.raw_only == 'true' && '1' || '0' }}

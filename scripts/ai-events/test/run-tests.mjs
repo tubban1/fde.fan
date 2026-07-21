@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { EventbriteAdapter } from '../adapters/eventbrite.mjs';
+import { HuodongxingAdapter } from '../adapters/huodongxing.mjs';
 import { MeetupAdapter } from '../adapters/meetup.mjs';
 import { normalizeCity, normalizeDateTime, normalizeUrl, isAiRelatedEvent, rollYearlessPastDateForward } from '../lib/normalize.mjs';
 
@@ -60,5 +61,31 @@ const normalized = meetup.normalize({
 assert.equal(normalized.canonical_title, 'Example City AI builders');
 assert.equal(normalized.city, 'Example City');
 assert.equal(normalized.source_url, 'https://www.meetup.com/example-ai/events/123');
+
+const huodongxing = new HuodongxingAdapter({
+  url: 'https://www.huodongxing.com/events?tag=AI&city=成都',
+  fetch_method: 'html_list',
+  source_type: 'huodongxing_city',
+  city: '成都',
+  raw_config: { max_pages: 2 },
+});
+const huodongxingUrls = await huodongxing.discoverUrls();
+assert.equal(huodongxingUrls.length, 2);
+assert.equal(huodongxingUrls[0], 'https://cd.huodongxing.com/events?tag=AI&city=%E6%88%90%E9%83%BD&orderby=o&d=t5');
+assert.equal(huodongxingUrls[1], 'https://cd.huodongxing.com/events?tag=AI&city=%E6%88%90%E9%83%BD&orderby=o&d=t5&page=2');
+const huodongxingEvents = await huodongxing.parse({
+  url: huodongxingUrls[0],
+  contentType: 'text/html',
+  text: `
+    <div class="search-tab-content-item-mesh">
+      <a class="item-title" href="/event/9869674477200?utm_source=x&qd=1"><span>四川外贸出海第一课｜成都工厂创业者AI跨境实战分享会</span></a>
+      <div class="item-dress"><p>明天 14:00</p><span class="item-dress-pp">四川成都</span></div>
+      <p class="user-name">外贸牛牛</p>
+    </div>
+  `,
+});
+assert.equal(huodongxingEvents.length, 1);
+assert.equal(huodongxingEvents[0].canonical_title, '四川外贸出海第一课｜成都工厂创业者AI跨境实战分享会');
+assert.equal(huodongxingEvents[0].source_url, 'https://cd.huodongxing.com/event/9869674477200');
 
 console.log('AI events v2 tests passed.');
