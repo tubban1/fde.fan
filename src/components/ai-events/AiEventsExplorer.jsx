@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Database, MapPin, RefreshCw, Search, ShieldCheck, Ticket, Users } from "lucide-react";
+import { CalendarDays, Clock, Database, MapPin, RefreshCw, Search, ShieldCheck, Tag, Ticket, Users } from "lucide-react";
 
 function formatDate(value) {
   if (!value) return "时间待确认";
@@ -31,6 +31,19 @@ function sourceHost(url) {
   }
 }
 
+function isoDate(offsetDays = 0) {
+  const date = new Date();
+  date.setDate(date.getDate() + offsetDays);
+  return date.toISOString().slice(0, 10);
+}
+
+function dateParams(range, customFrom, customTo) {
+  if (range === "all") return { includePast: "1", from: "", to: "" };
+  if (range === "custom") return { includePast: customFrom ? "1" : "", from: customFrom, to: customTo };
+  const days = Number(range || 30);
+  return { includePast: "", from: "", to: isoDate(days + 1) };
+}
+
 /**
  * @param {{ initialEvents?: any[] }} props
  */
@@ -39,6 +52,9 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("");
   const [tag, setTag] = useState("");
+  const [timeRange, setTimeRange] = useState("30");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [status, setStatus] = useState("published,draft");
   const [loading, setLoading] = useState(initialEvents.length === 0);
   const [error, setError] = useState("");
@@ -47,9 +63,13 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
     setLoading(true);
     setError("");
     const params = new URLSearchParams({ status, limit: "80" });
+    const dates = dateParams(timeRange, dateFrom, dateTo);
     if (query.trim()) params.set("q", query.trim());
     if (city) params.set("city", city);
     if (tag.trim()) params.set("tags", tag.trim());
+    if (dates.includePast) params.set("include_past", dates.includePast);
+    if (dates.from) params.set("date_from", dates.from);
+    if (dates.to) params.set("date_to", dates.to);
     try {
       const response = await fetch(`/api/ai-events/search?${params.toString()}`);
       const payload = await response.json();
@@ -71,6 +91,18 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
     const sourceCount = events.reduce((count, event) => count + (event.sources?.length || 0), 0);
     const reviewCount = events.filter(event => event.status === "needs_review").length;
     return { total: events.length, cities: cities.size, sourceCount, reviewCount };
+  }, [events]);
+
+  const popularTags = useMemo(() => {
+    const counts = new Map();
+    for (const event of events) {
+      for (const item of event.tags || []) {
+        counts.set(item, (counts.get(item) || 0) + 1);
+      }
+    }
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "zh-CN"))
+      .slice(0, 14);
   }, [events]);
 
   const originalUrlFor = event => event.sources?.[0]?.source_url || event.source_url || event.registration_url || event.online_url || "#";
@@ -97,8 +129,21 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
           <Search size={16} />
           <input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索标题、主办方、城市" />
         </label>
-        <input value={city} onChange={event => setCity(event.target.value)} placeholder="城市或线上" />
-        <input value={tag} onChange={event => setTag(event.target.value)} placeholder="标签，如 大模型、Agent" />
+        <label>
+          <MapPin size={16} />
+          <input value={city} onChange={event => setCity(event.target.value)} placeholder="城市或线上" />
+        </label>
+        <label>
+          <Tag size={16} />
+          <input value={tag} onChange={event => setTag(event.target.value)} placeholder="标签，如 大模型、Agent" />
+        </label>
+        <select value={timeRange} onChange={event => setTimeRange(event.target.value)}>
+          <option value="7">未来 7 天</option>
+          <option value="30">未来 30 天</option>
+          <option value="90">未来 90 天</option>
+          <option value="custom">自定义时间</option>
+          <option value="all">全部时间</option>
+        </select>
         <select value={status} onChange={event => setStatus(event.target.value)}>
           <option value="published,draft">可用活动</option>
           <option value="published,draft,needs_review">含待审核</option>
@@ -111,6 +156,25 @@ export default function AiEventsExplorer({ initialEvents = [] } = {}) {
           {loading ? "刷新中" : "刷新"}
         </button>
       </section>
+
+      {timeRange === "custom" && (
+        <section className="ai-events-datebar" aria-label="时间过滤">
+          <label><Clock size={16} /><input type="date" value={dateFrom} onChange={event => setDateFrom(event.target.value)} /></label>
+          <span>至</span>
+          <label><CalendarDays size={16} /><input type="date" value={dateTo} onChange={event => setDateTo(event.target.value)} /></label>
+        </section>
+      )}
+
+      {popularTags.length > 0 && (
+        <section className="ai-events-popular-tags" aria-label="热门标签">
+          <span>热门标签</span>
+          {popularTags.map(([item, count]) => (
+            <button type="button" key={item} onClick={() => setTag(item)}>
+              {item}<small>{count}</small>
+            </button>
+          ))}
+        </section>
+      )}
 
       {error && <div className="ai-events-error">{error}</div>}
 

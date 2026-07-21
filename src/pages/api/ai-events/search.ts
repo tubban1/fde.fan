@@ -8,6 +8,8 @@ export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url);
     const q = (url.searchParams.get("q") || "").trim();
     const city = (url.searchParams.get("city") || "").trim();
+    const dateFrom = (url.searchParams.get("date_from") || "").trim();
+    const dateTo = (url.searchParams.get("date_to") || "").trim();
     const tags = (url.searchParams.get("tags") || url.searchParams.get("tag") || "")
       .split(",")
       .map(value => value.trim())
@@ -22,6 +24,14 @@ export const GET: APIRoute = async ({ request }) => {
     }
     if (url.searchParams.get("include_past") !== "1") {
       filters.push("e.start_time >= now()");
+    }
+    if (dateFrom) {
+      values.push(dateFrom);
+      filters.push(`e.start_time >= $${values.length}::timestamptz`);
+    }
+    if (dateTo) {
+      values.push(dateTo);
+      filters.push(`e.start_time < $${values.length}::timestamptz`);
     }
     if (q) {
       values.push(`%${q}%`);

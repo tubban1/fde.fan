@@ -157,7 +157,7 @@
 
 .ai-events-toolbar {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) 160px 180px auto;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(150px, 0.7fr) minmax(180px, 0.8fr) 142px 150px auto;
   gap: 0.65rem;
   align-items: center;
   margin-bottom: 1rem;
@@ -230,6 +230,61 @@
   border: 0;
   padding: 0;
   outline: 0;
+}
+
+.ai-events-datebar,
+.ai-events-popular-tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: -0.25rem 0 1rem;
+}
+
+.ai-events-datebar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 38px;
+  border: 1px solid #d8dee8;
+  background: #fff;
+  border-radius: 7px;
+  padding: 0 0.7rem;
+  color: #526071;
+}
+
+.ai-events-datebar input {
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: #111827;
+}
+
+.ai-events-popular-tags > span {
+  color: #526071;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.ai-events-popular-tags button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 30px;
+  border: 1px solid #c9eadc;
+  background: #eaf7f1;
+  color: #176247;
+  border-radius: 999px;
+  padding: 0 0.65rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ai-events-popular-tags small {
+  color: #6b7b8c;
+  font-size: 0.72rem;
 }
 
 .ai-events-error,
