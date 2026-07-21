@@ -1,11 +1,27 @@
 import assert from 'node:assert/strict';
 import { EventbriteAdapter } from '../adapters/eventbrite.mjs';
 import { MeetupAdapter } from '../adapters/meetup.mjs';
-import { normalizeCity, normalizeDateTime, normalizeUrl, isAiRelatedEvent } from '../lib/normalize.mjs';
+import { normalizeCity, normalizeDateTime, normalizeUrl, isAiRelatedEvent, rollYearlessPastDateForward } from '../lib/normalize.mjs';
 
 assert.equal(normalizeUrl('https://example.com/a/?utm_source=x&recId=1#frag'), 'https://example.com/a');
 assert.equal(normalizeCity('online webinar'), '线上');
 assert.equal(normalizeDateTime('2026年8月1日 19:30'), '2026-08-01T11:30:00.000Z');
+assert.equal(
+  rollYearlessPastDateForward(
+    '2025-08-14T00:00:00',
+    '8.14周五AI开放麦 干货分享局 AI Agent共学活动',
+    { now: '2026-07-21T00:00:00Z', timezone: 'Asia/Shanghai' },
+  ),
+  '2026-08-14T00:00:00',
+);
+assert.equal(
+  rollYearlessPastDateForward(
+    '2025-08-14T00:00:00',
+    '2025年8月14日 AI 活动',
+    { now: '2026-07-21T00:00:00Z', timezone: 'Asia/Shanghai' },
+  ),
+  '2025-08-14T00:00:00',
+);
 assert.equal(isAiRelatedEvent({ title: 'AI meetup' }), true);
 assert.equal(isAiRelatedEvent({ title: 'meditation meetup' }), false);
 

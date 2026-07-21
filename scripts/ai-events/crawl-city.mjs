@@ -1,6 +1,6 @@
 import { createAdapter } from './adapters/index.mjs';
 import { loadLocalEnv, withDb } from './lib/db.mjs';
-import { isLikelyEvent, normalizeUrl, normalizeWhitespace } from './lib/normalize.mjs';
+import { isLikelyEvent, normalizeUrl, normalizeWhitespace, rollYearlessPastDateForward } from './lib/normalize.mjs';
 
 loadLocalEnv();
 
@@ -362,6 +362,7 @@ async function normalizeWithProvider(raw) {
   if (!providerApiKey || !providerApiBase || !providerModel) {
     throw new Error('Missing MODEL_API_KEY, MODEL_API_BASE, or MODEL_NAME.');
   }
+  const crawlDate = new Date().toISOString().slice(0, 10);
   const prompt = `你是中文 AI 活动数据库的数据清洗器。请把原始抓取内容归一化为中文字段。
 只返回紧凑 JSON，不要 markdown。Schema:
 {
@@ -385,6 +386,7 @@ async function normalizeWithProvider(raw) {
 }
 规则:
 - 输出语言必须是简体中文。title、description、tags、venue、organizer 尽量翻译成中文；品牌名、人名、产品名可以保留原文。
+- 当前抓取日期是 ${crawlDate}。如果原始内容只有“8.14”“8月14日”这类无年份日期，必须推断为当前日期之后最近一次出现的日期，不要使用过去年份。
 - 目标城市是 ${cityDisplayName}；可接受别名是 ${cityAliases.join(', ')}。
 - 如果活动明确是纯线上，city 使用 "线上"。
 - 如果活动不在目标城市/别名，也不是纯线上，请设置 is_event=false。
@@ -446,7 +448,21 @@ function normalizeConfidence(value) {
   return score <= 1 ? Math.round(score * 100) : Math.round(score);
 }
 
+function normalizeEventDateFields(raw, normalized) {
+  const rawText = normalizeWhitespace([
+    raw.raw_title,
+    raw.raw_text,
+    JSON.stringify(raw.raw_payload || {}),
+  ].filter(Boolean).join('\n'));
+  return {
+    ...normalized,
+    start_time: rollYearlessPastDateForward(normalized.start_time, rawText, { timezone: normalized.timezone || 'Asia/Shanghai' }),
+    end_time: rollYearlessPastDateForward(normalized.end_time, rawText, { timezone: normalized.timezone || 'Asia/Shanghai' }),
+  };
+}
+
 async function upsertEvent(pool, raw, normalized) {
+  normalized = normalizeEventDateFields(raw, normalized);
   const isUseful = normalized.is_event && normalized.is_ai_related && normalized.title && normalized.start_time;
   if (!isUseful) {
     await pool.query(

@@ -1,4 +1,5 @@
 import { loadLocalEnv, withDb } from './lib/db.mjs';
+import { normalizeWhitespace, rollYearlessPastDateForward } from './lib/normalize.mjs';
 
 loadLocalEnv();
 
@@ -7,15 +8,15 @@ function arg(name, fallback = '') {
   return process.argv.find(value => value.startsWith(prefix))?.slice(prefix.length) || fallback;
 }
 
-const mode = arg('mode', 'archive-invalid-city');
+const mode = arg('mode', 'all');
 const dryRun = process.argv.includes('--dry-run');
 
-if (mode !== 'archive-invalid-city') {
+if (!['all', 'archive-invalid-city', 'repair-yearless-dates'].includes(mode)) {
   throw new Error(`Unsupported cleanup mode: ${mode}`);
 }
 
 await withDb(async pool => {
-  const invalid = await pool.query(
+  const invalid = mode === 'repair-yearless-dates' ? { rows: [] } : await pool.query(
     `select e.id, e.raw_id, e.city, e.city_key, e.title
      from "aiEvents_events" e
      join "aiEvents_cities" c on c.city_key = e.city_key
@@ -47,11 +48,61 @@ await withDb(async pool => {
     }
   }
 
+  const repaired = [];
+  if (mode !== 'archive-invalid-city') {
+    const past = await pool.query(
+      `select e.id, e.raw_id, e.start_time, e.end_time, e.timezone, e.normalized_payload,
+              r.raw_title, r.raw_text, r.raw_payload
+       from "aiEvents_events" e
+       left join "aiEvents_raw" r on r.id = e.raw_id
+       where e.status <> 'archived'
+         and e.start_time is not null
+         and e.start_time < now()
+       order by e.updated_at desc
+       limit 500`,
+    );
+
+    for (const row of past.rows) {
+      const rawText = normalizeWhitespace([
+        row.raw_title,
+        row.raw_text,
+        JSON.stringify(row.raw_payload || {}),
+      ].filter(Boolean).join('\n'));
+      const timezone = row.timezone || 'Asia/Shanghai';
+      const nextStart = rollYearlessPastDateForward(row.start_time?.toISOString?.() || row.start_time, rawText, { timezone });
+      const nextEnd = row.end_time
+        ? rollYearlessPastDateForward(row.end_time?.toISOString?.() || row.end_time, rawText, { timezone })
+        : null;
+      const changed = nextStart !== (row.start_time?.toISOString?.() || row.start_time) || (nextEnd && nextEnd !== (row.end_time?.toISOString?.() || row.end_time));
+      if (!changed) continue;
+      repaired.push({ id: row.id, raw_id: row.raw_id, previous_start_time: row.start_time, next_start_time: nextStart });
+      if (!dryRun) {
+        const payload = {
+          ...(row.normalized_payload || {}),
+          start_time: nextStart,
+          ...(nextEnd ? { end_time: nextEnd } : {}),
+          date_repair: 'yearless_past_date_rolled_forward',
+        };
+        await pool.query(
+          `update "aiEvents_events"
+           set start_time = $2::timestamptz,
+               end_time = case when $3::text is null then end_time else $3::timestamptz end,
+               normalized_payload = $4::jsonb,
+               updated_at = now()
+           where id = $1`,
+          [row.id, nextStart, nextEnd, JSON.stringify(payload)],
+        );
+      }
+    }
+  }
+
   console.log(JSON.stringify({
     ok: true,
     dry_run: dryRun,
     mode,
     invalid_city_events: invalid.rows.length,
+    repaired_yearless_date_events: repaired.length,
     rows: invalid.rows.slice(0, 20),
+    repaired_rows: repaired.slice(0, 20),
   }, null, 2));
 });

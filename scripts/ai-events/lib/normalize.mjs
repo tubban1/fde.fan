@@ -98,6 +98,74 @@ export function normalizeDateTime(value, timezone = 'Asia/Shanghai') {
   return null;
 }
 
+function datePartsFromIsoLike(value) {
+  const match = normalizeWhitespace(value).match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+  if (!match) return null;
+  return {
+    year: Number(match[1]),
+    month: Number(match[2]),
+    day: Number(match[3]),
+    hour: Number(match[4] || 0),
+    minute: Number(match[5] || 0),
+    second: Number(match[6] || 0),
+  };
+}
+
+function pad2(value) {
+  return String(value).padStart(2, '0');
+}
+
+function localDateToComparableMs(parts, timezone = 'Asia/Shanghai') {
+  const isoLocal = `${parts.year}-${pad2(parts.month)}-${pad2(parts.day)}T${pad2(parts.hour)}:${pad2(parts.minute)}:${pad2(parts.second)}`;
+  if (timezone === 'Asia/Shanghai') return new Date(`${isoLocal}+08:00`).getTime();
+  return new Date(isoLocal).getTime();
+}
+
+function hasExplicitYearNearDate(text, month, day) {
+  const escapedMonth = String(month);
+  const escapedDay = String(day);
+  const paddedMonth = pad2(month);
+  const paddedDay = pad2(day);
+  const patterns = [
+    new RegExp(`20\\d{2}\\s*[年./-]\\s*0?${escapedMonth}\\s*(?:月|[./-])\\s*0?${escapedDay}`),
+    new RegExp(`0?${escapedMonth}\\s*(?:月|[./-])\\s*0?${escapedDay}\\s*(?:日)?[^\\d]{0,8}20\\d{2}`),
+    new RegExp(`20\\d{2}-${paddedMonth}-${paddedDay}`),
+    new RegExp(`20\\d{2}/${paddedMonth}/${paddedDay}`),
+  ];
+  return patterns.some(pattern => pattern.test(text));
+}
+
+function hasYearlessMonthDay(text, month, day) {
+  const normalized = normalizeWhitespace(text);
+  if (!normalized || hasExplicitYearNearDate(normalized, month, day)) return false;
+  const pattern = /(^|[^\d])(\d{1,2})\s*(?:月|[./-])\s*(\d{1,2})(?:\s*日)?/g;
+  let match;
+  while ((match = pattern.exec(normalized))) {
+    const foundMonth = Number(match[2]);
+    const foundDay = Number(match[3]);
+    if (foundMonth === month && foundDay === day) return true;
+  }
+  return false;
+}
+
+export function rollYearlessPastDateForward(value, rawText, options = {}) {
+  const parts = datePartsFromIsoLike(value);
+  if (!parts) return value;
+  const timezone = options.timezone || 'Asia/Shanghai';
+  const now = options.now ? new Date(options.now).getTime() : Date.now();
+  const originalMs = localDateToComparableMs(parts, timezone);
+  if (!Number.isFinite(originalMs) || originalMs >= now) return value;
+  if (!hasYearlessMonthDay(rawText, parts.month, parts.day)) return value;
+
+  let nextYear = new Date(now).getUTCFullYear();
+  let nextParts = { ...parts, year: nextYear };
+  if (localDateToComparableMs(nextParts, timezone) < now) {
+    nextYear += 1;
+    nextParts = { ...parts, year: nextYear };
+  }
+  return `${nextParts.year}-${pad2(nextParts.month)}-${pad2(nextParts.day)}T${pad2(nextParts.hour)}:${pad2(nextParts.minute)}:${pad2(nextParts.second)}`;
+}
+
 export function normalizeEvent(raw, defaults = {}) {
   const title = normalizeWhitespace(raw.title || raw.name || defaults.title);
   const sourceUrl = normalizeUrl(raw.source_url || raw.sourceUrl || raw.url || defaults.source_url);
