@@ -3,6 +3,7 @@ import { EventbriteAdapter } from '../adapters/eventbrite.mjs';
 import { HuodongxingAdapter } from '../adapters/huodongxing.mjs';
 import { MeetupAdapter } from '../adapters/meetup.mjs';
 import { normalizeCity, normalizeDateTime, normalizeUrl, isAiRelatedEvent, rollYearlessPastDateForward } from '../lib/normalize.mjs';
+import { classifySourceUrl } from '../lib/source-scope.mjs';
 
 assert.equal(normalizeUrl('https://example.com/a/?utm_source=x&recId=1#frag'), 'https://example.com/a');
 assert.equal(normalizeCity('online webinar'), '线上');
@@ -25,6 +26,18 @@ assert.equal(
 );
 assert.equal(isAiRelatedEvent({ title: 'AI meetup' }), true);
 assert.equal(isAiRelatedEvent({ title: 'meditation meetup' }), false);
+assert.deepEqual(classifySourceUrl('https://www.eventbrite.com/d/china--chengdu/ai/'), {
+  source_kind: 'recurring_source',
+  source_scope: 'city_ai',
+  relevance_level: 'strong',
+});
+assert.equal(classifySourceUrl('https://segmentfault.com/events?city=510100').source_scope, 'city_tech');
+assert.equal(classifySourceUrl('https://www.meetup.com/find/?location=cn--Chengdu&source=EVENTS&categoryId=546').source_scope, 'city_tech');
+assert.equal(classifySourceUrl('https://lianpu.com/city/chengdu').source_scope, 'city_tech');
+assert.equal(classifySourceUrl('https://luma.com/chengdu').source_scope, 'city_only');
+assert.equal(classifySourceUrl('https://developer.volcengine.com/activities').source_scope, 'ai_global');
+assert.equal(classifySourceUrl('https://cloud.tencent.com/developer/salon/activities?topic=2212').source_scope, 'ai_global');
+assert.equal(classifySourceUrl('https://www.huodongxing.com/event/9869674477200').source_kind, 'single_event');
 
 const eventbrite = new EventbriteAdapter({
   url: 'https://www.example.com/d/example/ai/',

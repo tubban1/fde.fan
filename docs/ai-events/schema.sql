@@ -22,6 +22,9 @@ create table if not exists "aiEvents_sources" (
   url text not null,
   url_normalized text not null,
   fetch_method text not null default 'html_list',
+  source_kind text not null default 'recurring_source' check (source_kind in ('recurring_source', 'single_event')),
+  source_scope text not null default 'unknown' check (source_scope in ('city_ai', 'city_tech', 'city_only', 'ai_global', 'single_event', 'unknown')),
+  relevance_level text not null default 'unknown' check (relevance_level in ('strong', 'weak', 'city_only', 'event', 'unknown')),
   status text not null default 'active' check (status in ('active', 'paused', 'needs_review', 'archived')),
   crawl_frequency_minutes integer not null default 720,
   priority integer not null default 50,
@@ -36,6 +39,9 @@ create table if not exists "aiEvents_sources" (
 
 alter table "aiEvents_sources" add column if not exists city_id uuid references "aiEvents_cities"(id) on delete set null;
 alter table "aiEvents_sources" add column if not exists city_key text;
+alter table "aiEvents_sources" add column if not exists source_kind text not null default 'recurring_source';
+alter table "aiEvents_sources" add column if not exists source_scope text not null default 'unknown';
+alter table "aiEvents_sources" add column if not exists relevance_level text not null default 'unknown';
 update "aiEvents_sources" s
 set city_key = c.city_key
 from "aiEvents_cities" c
@@ -60,6 +66,60 @@ end $$;
 delete from "aiEvents_sources" where city_key is null;
 alter table "aiEvents_sources" alter column city_key set not null;
 alter table "aiEvents_sources" drop column if exists city;
+
+update "aiEvents_sources"
+set source_kind = case
+      when lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
+        or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
+        or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
+        or lower(url_normalized) ~ 'segmentfault\.com/e/[0-9]+'
+      then 'single_event'
+      else 'recurring_source'
+    end,
+    source_scope = case
+      when lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
+        or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
+        or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
+        or lower(url_normalized) ~ 'segmentfault\.com/e/[0-9]+'
+      then 'single_event'
+      when lower(url_normalized) ~ 'eventbrite\.[^/]+/d/[^/]+/ai/?'
+        or (lower(url_normalized) like '%huodongxing.com/events%' and lower(url_normalized) like '%tag=ai%' and lower(url_normalized) like '%city=%')
+      then 'city_ai'
+      when lower(url_normalized) like '%segmentfault.com/events%'
+        or (lower(url_normalized) like '%meetup.com/find%' and lower(url_normalized) like '%categoryid=546%')
+        or lower(url_normalized) like '%lianpu.com/city/%'
+      then 'city_tech'
+      when lower(url_normalized) ~ 'luma\.com/[^/?#]+/?$'
+        or lower(url_normalized) ~ 'lu\.ma/[^/?#]+/?$'
+      then 'city_only'
+      when lower(url_normalized) like '%developer.volcengine.com/activities%'
+        or lower(url_normalized) like '%cloud.tencent.com/developer/salon/activities%'
+      then 'ai_global'
+      else source_scope
+    end,
+    relevance_level = case
+      when lower(url_normalized) ~ 'huodongxing\.com/event/[0-9]+'
+        or lower(url_normalized) ~ 'eventbrite\.[^/]+/e/'
+        or lower(url_normalized) ~ 'meetup\.com/[^/]+/events/[0-9]+'
+        or lower(url_normalized) ~ 'segmentfault\.com/e/[0-9]+'
+      then 'event'
+      when lower(url_normalized) ~ 'eventbrite\.[^/]+/d/[^/]+/ai/?'
+        or (lower(url_normalized) like '%huodongxing.com/events%' and lower(url_normalized) like '%tag=ai%' and lower(url_normalized) like '%city=%')
+        or lower(url_normalized) like '%developer.volcengine.com/activities%'
+        or lower(url_normalized) like '%cloud.tencent.com/developer/salon/activities%'
+      then 'strong'
+      when lower(url_normalized) like '%segmentfault.com/events%'
+        or (lower(url_normalized) like '%meetup.com/find%' and lower(url_normalized) like '%categoryid=546%')
+        or lower(url_normalized) like '%lianpu.com/city/%'
+      then 'weak'
+      when lower(url_normalized) ~ 'luma\.com/[^/?#]+/?$'
+        or lower(url_normalized) ~ 'lu\.ma/[^/?#]+/?$'
+      then 'city_only'
+      else relevance_level
+    end
+where source_kind = 'recurring_source'
+   or source_scope = 'unknown'
+   or relevance_level = 'unknown';
 
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key";
 create unique index if not exists "aiEvents_sources_city_url_idx" on "aiEvents_sources" (city_key, url_normalized);
@@ -145,6 +205,7 @@ alter table "aiEvents_events" add column if not exists tags text[] not null defa
 create index if not exists "aiEvents_cities_active_idx" on "aiEvents_cities" (is_active, country_code, city_key);
 create index if not exists "aiEvents_sources_status_idx" on "aiEvents_sources" (status, city_key, priority desc);
 create index if not exists "aiEvents_sources_city_key_idx" on "aiEvents_sources" (city_key, status, priority desc);
+create index if not exists "aiEvents_sources_scope_idx" on "aiEvents_sources" (source_kind, source_scope, relevance_level);
 create index if not exists "aiEvents_raw_status_idx" on "aiEvents_raw" (processing_status, city, fetched_at desc);
 create index if not exists "aiEvents_raw_city_key_idx" on "aiEvents_raw" (city_key, processing_status, fetched_at desc);
 create index if not exists "aiEvents_events_time_city_idx" on "aiEvents_events" (start_time, city);

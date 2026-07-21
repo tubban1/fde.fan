@@ -1,6 +1,7 @@
 import { createAdapter } from './adapters/index.mjs';
 import { loadLocalEnv, withDb } from './lib/db.mjs';
 import { isLikelyEvent, normalizeUrl, normalizeWhitespace, rollYearlessPastDateForward } from './lib/normalize.mjs';
+import { classifySourceUrl } from './lib/source-scope.mjs';
 
 loadLocalEnv();
 
@@ -68,6 +69,7 @@ async function activeSourcesForCity(pool) {
      from "aiEvents_sources"
      where city_key = $1
        and status = 'active'
+       and source_kind <> 'single_event'
      order by priority desc, source_type, url`,
     [cityKey],
   );
@@ -77,6 +79,9 @@ async function activeSourcesForCity(pool) {
     fetch_method: row.fetch_method,
     url: row.url,
     priority: row.priority,
+    source_kind: row.source_kind || 'recurring_source',
+    source_scope: row.source_scope || classifySourceUrl(row.url).source_scope,
+    relevance_level: row.relevance_level || classifySourceUrl(row.url).relevance_level,
     raw_config: row.raw_config || {},
   }));
 }
@@ -289,7 +294,7 @@ async function upsertRaw(pool, { runId, sourceId, cityId, source, fetchedUrl, de
       detail.contentType || null,
       candidate.canonical_title || candidate.title || null,
       rawTextFor(candidate),
-      JSON.stringify({ candidate, source, city_key: cityKey, city_aliases: cityAliases, fetched_url: fetchedUrl }),
+      JSON.stringify({ candidate, source, city_key: cityKey, city_aliases: cityAliases, fetched_url: fetchedUrl, source_scope: source.source_scope, relevance_level: source.relevance_level }),
     ],
   );
   return result.rows[0].id;
@@ -384,6 +389,8 @@ async function normalizeWithProvider(raw) {
     throw new Error('Missing MODEL_API_KEY, MODEL_API_BASE, or MODEL_NAME.');
   }
   const crawlDate = new Date().toISOString().slice(0, 10);
+  const sourceScope = raw.source_scope || raw.raw_payload?.source_scope || 'unknown';
+  const relevanceLevel = raw.relevance_level || raw.raw_payload?.relevance_level || 'unknown';
   const prompt = `你是中文 AI 活动数据库的数据清洗器。请把原始抓取内容归一化为中文字段。
 只返回紧凑 JSON，不要 markdown。Schema:
 {
@@ -408,6 +415,10 @@ async function normalizeWithProvider(raw) {
 规则:
 - 输出语言必须是简体中文。title、description、tags、venue、organizer 尽量翻译成中文；品牌名、人名、产品名可以保留原文。
 - 当前抓取日期是 ${crawlDate}。如果原始内容只有“8.14”“8月14日”这类无年份日期，必须推断为当前日期之后最近一次出现的日期，不要使用过去年份。
+- 来源范围 source_scope=${sourceScope}，相关性 relevance_level=${relevanceLevel}。
+- source_scope=city_ai 表示入口已同时按城市和 AI 过滤，但仍需确认它是真实活动。
+- source_scope=city_tech 或 city_only 表示入口不是明确 AI 过滤；必须从标题/正文/主办方中看到 AI、大模型、Agent、AIGC、机器学习、云原生 AI 等明确证据，才能设置 is_ai_related=true。
+- source_scope=ai_global 表示入口是 AI/科技主题但没有城市过滤；必须从内容中确认目标城市、可接受别名或纯线上，否则设置 is_event=false。
 - 目标城市是 ${cityDisplayName}；可接受别名是 ${cityAliases.join(', ')}。
 - 如果活动明确是纯线上，city 使用 "线上"。
 - 如果活动不在目标城市/别名，也不是纯线上，请设置 is_event=false。
@@ -617,6 +628,8 @@ async function processPendingRaw(pool, runId) {
         raw_title: raw.raw_title,
         raw_text: raw.raw_text,
         raw_payload: raw.raw_payload,
+        source_scope: raw.raw_payload?.source_scope,
+        relevance_level: raw.raw_payload?.relevance_level,
       });
       if (await upsertEvent(pool, raw, normalized)) normalizedCount += 1;
     } catch (error) {
