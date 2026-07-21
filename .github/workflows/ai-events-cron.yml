@@ -27,9 +27,9 @@ on:
         required: false
         default: "true"
       raw_only:
-        description: "Legacy: set true to skip model normalization"
+        description: "Legacy compatibility field. Prefer mode=raw."
         required: false
-        default: "true"
+        default: "false"
 
 concurrency:
   group: ai-events-crawl
@@ -80,7 +80,7 @@ jobs:
           AI_EVENTS_MIN_INTERVAL_MINUTES: ${{ github.event.inputs.min_interval_minutes || vars.AI_EVENTS_MIN_INTERVAL_MINUTES || '120' }}
           AI_EVENTS_FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' && '1' || '0' }}
           AI_EVENTS_RUN_MODE: ${{ github.event.inputs.mode || vars.AI_EVENTS_RUN_MODE || 'raw' }}
-          AI_EVENTS_RAW_ONLY: ${{ (github.event.inputs.mode || vars.AI_EVENTS_RUN_MODE || 'raw') == 'raw' && '1' || github.event.inputs.raw_only == 'true' && '1' || '0' }}
+          AI_EVENTS_RAW_ONLY: ${{ (github.event.inputs.mode || vars.AI_EVENTS_RUN_MODE || 'raw') == 'raw' && '1' || '0' }}
           AI_EVENTS_NORMALIZE_LIMIT: ${{ github.event.inputs.normalize_limit || vars.AI_EVENTS_NORMALIZE_LIMIT || '20' }}
         run: |
           LIMIT_PER_SOURCE="${{ github.event.inputs.limit_per_source || '12' }}"
@@ -88,4 +88,5 @@ jobs:
           NORMALIZE_LIMIT="${{ github.event.inputs.normalize_limit || vars.AI_EVENTS_NORMALIZE_LIMIT || '20' }}"
           pnpm ai-events:schema
           pnpm ai-events:cleanup
+          pnpm ai-events:prune-sources
           pnpm ai-events:crawl-all -- --mode="${RUN_MODE}" --limit-per-source="${LIMIT_PER_SOURCE}" --normalize-limit="${NORMALIZE_LIMIT}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"

@@ -692,12 +692,14 @@ await withDb(async pool => {
   }
   const runId = await insertRun(pool, cityId);
   let sourcesChecked = 0;
+  let pagesFetched = 0;
   let rawItemsFound = 0;
   const sourceFailures = [];
   try {
     const sources = await activeSourcesForCity(pool);
     for (const source of sources) {
       const sourceId = source.id;
+      sourcesChecked += 1;
       try {
         const adapter = createAdapter({
           ...source,
@@ -713,7 +715,7 @@ await withDb(async pool => {
         for (const discoveredUrl of discoveredUrls) {
           if (sourceCandidateCount >= sourceCandidateLimit) break;
           const detail = await adapter.fetchDetail(discoveredUrl);
-          sourcesChecked += 1;
+          pagesFetched += 1;
           const candidates = await candidatesForSource({ adapter, source, detail });
           if (candidates.length === 0) break;
           for (const candidate of candidates) {
@@ -742,7 +744,6 @@ await withDb(async pool => {
           [sourceId],
         );
       } catch (sourceError) {
-        sourcesChecked += 1;
         const message = sourceError.message || String(sourceError);
         sourceFailures.push({ source_type: source.source_type, url: source.url, error: message });
         await pool.query(
@@ -774,6 +775,7 @@ await withDb(async pool => {
         normalization.normalizedCount,
         JSON.stringify({
           source_failures: sourceFailures,
+          pages_fetched: pagesFetched,
           model_failed_count: normalization.modelFailedCount,
           model_deferred_count: normalization.modelDeferredCount,
           model_errors: normalization.modelErrors,
@@ -788,6 +790,7 @@ await withDb(async pool => {
       raw_only: rawOnly,
       model_api_format: providerApiFormat,
       sources_checked: sourcesChecked,
+      pages_fetched: pagesFetched,
       raw_items_found: rawItemsFound,
       events_normalized: normalization.normalizedCount,
       source_failures: sourceFailures.length,
@@ -808,7 +811,7 @@ await withDb(async pool => {
        where id = $1`,
       [runId, sourcesChecked, rawItemsFound, error.message || String(error)],
     );
-    console.error(JSON.stringify({ ok: false, run_id: runId, city: cityDisplayName, city_key: cityKey, sources_checked: sourcesChecked, raw_items_found: rawItemsFound, error: error.message || String(error) }, null, 2));
+    console.error(JSON.stringify({ ok: false, run_id: runId, city: cityDisplayName, city_key: cityKey, sources_checked: sourcesChecked, pages_fetched: pagesFetched, raw_items_found: rawItemsFound, error: error.message || String(error) }, null, 2));
     process.exitCode = 1;
   }
 });

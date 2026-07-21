@@ -31,6 +31,7 @@ async function configuredCities(pool) {
      join "aiEvents_sources" s
        on s.city_key = c.city_key
       and s.status = 'active'
+      and s.source_kind <> 'single_event'
      left join lateral (
        select r.finished_at
        from "aiEvents_crawl_runs" r
