@@ -36,7 +36,8 @@ export class SegmentFaultAdapter extends HtmlListAdapter {
     });
 
     const events = [];
-    for (const url of [...urls].slice(0, 16)) {
+    const detailLimit = Number(this.source.raw_config?.detail_limit || process.env.AI_EVENTS_SEGMENTFAULT_DETAIL_LIMIT || 40);
+    for (const url of [...urls].slice(0, detailLimit)) {
       try {
         const detail = await this.fetchDetail(url);
         events.push(...await this.parseDetail(detail));

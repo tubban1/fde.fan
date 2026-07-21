@@ -62,6 +62,13 @@ jobs:
           AI_EVENTS_FETCH_CANDIDATE_DETAILS: "1"
           AI_EVENTS_HUODONGXING_MAX_PAGES: ${{ vars.AI_EVENTS_HUODONGXING_MAX_PAGES || '5' }}
           AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE || '80' }}
+          AI_EVENTS_EVENTBRITE_MAX_PAGES: ${{ vars.AI_EVENTS_EVENTBRITE_MAX_PAGES || '3' }}
+          AI_EVENTS_EVENTBRITE_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_EVENTBRITE_LIMIT_PER_SOURCE || '60' }}
+          AI_EVENTS_MEETUP_MAX_PAGES: ${{ vars.AI_EVENTS_MEETUP_MAX_PAGES || '2' }}
+          AI_EVENTS_MEETUP_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_MEETUP_LIMIT_PER_SOURCE || '60' }}
+          AI_EVENTS_LUMA_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_LUMA_LIMIT_PER_SOURCE || '80' }}
+          AI_EVENTS_SEGMENTFAULT_DETAIL_LIMIT: ${{ vars.AI_EVENTS_SEGMENTFAULT_DETAIL_LIMIT || '40' }}
+          AI_EVENTS_SEGMENTFAULT_LIMIT_PER_SOURCE: ${{ vars.AI_EVENTS_SEGMENTFAULT_LIMIT_PER_SOURCE || '40' }}
           AI_EVENTS_MIN_INTERVAL_MINUTES: ${{ github.event.inputs.min_interval_minutes || vars.AI_EVENTS_MIN_INTERVAL_MINUTES || '120' }}
           AI_EVENTS_FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true' && '1' || '0' }}
           AI_EVENTS_RAW_ONLY: ${{ github.event.inputs.raw_only == 'true' && '1' || '0' }}

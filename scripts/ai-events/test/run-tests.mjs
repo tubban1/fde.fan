@@ -46,6 +46,13 @@ const eventbriteEvents = await eventbrite.parse({
 });
 assert.equal(eventbriteEvents.length, 1);
 assert.equal(eventbriteEvents[0].canonical_title, 'AI Developer Day');
+const eventbriteHtmlEvents = await eventbrite.parse({
+  url: 'https://www.eventbrite.com/d/example/ai/',
+  contentType: 'text/html',
+  text: '<a href="https://www.eventbrite.com/e/ai-product-night-tickets-123456789">AI Product Night</a>',
+});
+assert.equal(eventbriteHtmlEvents.length, 1);
+assert.equal(eventbriteHtmlEvents[0].source_url, 'https://www.eventbrite.com/e/ai-product-night-tickets-123456789');
 
 const meetup = new MeetupAdapter({
   url: 'https://www.meetup.com/find/?keywords=Artificial%20Intelligence&location=example',
@@ -61,6 +68,13 @@ const normalized = meetup.normalize({
 assert.equal(normalized.canonical_title, 'Example City AI builders');
 assert.equal(normalized.city, 'Example City');
 assert.equal(normalized.source_url, 'https://www.meetup.com/example-ai/events/123');
+const meetupHtmlEvents = await meetup.parse({
+  url: 'https://www.meetup.com/find/?keywords=Artificial%20Intelligence&location=example',
+  contentType: 'text/html',
+  text: '<a href="https://www.meetup.com/example-ai/events/987654321/">Agent Builders Night</a>',
+});
+assert.equal(meetupHtmlEvents.length, 1);
+assert.equal(meetupHtmlEvents[0].source_url, 'https://www.meetup.com/example-ai/events/987654321');
 
 const huodongxing = new HuodongxingAdapter({
   url: 'https://www.huodongxing.com/events?tag=AI&city=成都',

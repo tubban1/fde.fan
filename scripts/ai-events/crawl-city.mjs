@@ -163,11 +163,11 @@ function sourceRequiresEventUrl(source) {
 }
 
 function isUsefulCrawlCandidate(candidate, source) {
-  if (!isLikelyEvent(candidate)) return false;
   const hasEventUrl = hasSourceSpecificEventUrl(source, candidate);
-  if (sourceRequiresEventUrl(source)) return hasEventUrl;
-  if (hasEventUrl) return true;
   const title = normalizeWhitespace(candidate.canonical_title || candidate.title || candidate.name);
+  if (sourceRequiresEventUrl(source)) return hasEventUrl && title.length >= 4;
+  if (!isLikelyEvent(candidate)) return false;
+  if (hasEventUrl) return true;
   if (!title) return false;
   if (hasExplicitDate(candidate)) return true;
   if (title.length < 6) return false;
@@ -188,6 +188,18 @@ function candidateLimitForSource(source) {
   if (configured > 0) return configured;
   if (source.source_type === 'huodongxing_city' || String(source.url || '').includes('huodongxing.com')) {
     return Math.max(limitPerSource, Number(process.env.AI_EVENTS_HUODONGXING_LIMIT_PER_SOURCE || 60));
+  }
+  if (source.source_type === 'eventbrite_city_search' || String(source.url || '').includes('eventbrite.')) {
+    return Math.max(limitPerSource, Number(process.env.AI_EVENTS_EVENTBRITE_LIMIT_PER_SOURCE || 60));
+  }
+  if (source.source_type === 'meetup_city_search' || String(source.url || '').includes('meetup.com')) {
+    return Math.max(limitPerSource, Number(process.env.AI_EVENTS_MEETUP_LIMIT_PER_SOURCE || 60));
+  }
+  if (source.source_type === 'segmentfault_events' || String(source.url || '').includes('segmentfault.com')) {
+    return Math.max(limitPerSource, Number(process.env.AI_EVENTS_SEGMENTFAULT_LIMIT_PER_SOURCE || 40));
+  }
+  if (String(source.url || '').includes('lu.ma') || String(source.url || '').includes('luma.com')) {
+    return Math.max(limitPerSource, Number(process.env.AI_EVENTS_LUMA_LIMIT_PER_SOURCE || 80));
   }
   return limitPerSource;
 }
@@ -654,6 +666,7 @@ await withDb(async pool => {
         const discoveredUrls = Array.from(new Set((await adapter.discoverUrls()).filter(Boolean)));
         const sourceCandidateLimit = candidateLimitForSource(source);
         let sourceCandidateCount = 0;
+        const seenCandidateUrls = new Set();
         for (const discoveredUrl of discoveredUrls) {
           if (sourceCandidateCount >= sourceCandidateLimit) break;
           const detail = await adapter.fetchDetail(discoveredUrl);
@@ -662,6 +675,9 @@ await withDb(async pool => {
           if (candidates.length === 0) break;
           for (const candidate of candidates) {
             if (sourceCandidateCount >= sourceCandidateLimit) break;
+            const candidateUrl = normalizeUrl(candidate.source_url || candidate.registration_url || '');
+            if (candidateUrl && seenCandidateUrls.has(candidateUrl)) continue;
+            if (candidateUrl) seenCandidateUrls.add(candidateUrl);
             const enriched = await enrichCandidate({ adapter, source, listDetail: detail, candidate });
             await upsertRaw(pool, {
               runId,
