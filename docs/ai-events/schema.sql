@@ -350,6 +350,49 @@ using ranked_sources
 where s.id = ranked_sources.id
   and ranked_sources.rank > 1;
 
+with allowed_sources(source_key) as (
+  values
+    ('huodongxing_city'),
+    ('eventbrite_city_search'),
+    ('luma_city'),
+    ('meetup_city_search'),
+    ('segmentfault_events'),
+    ('lianpu_city'),
+    ('volcengine_activities'),
+    ('tencent_cloud_salon_list')
+)
+delete from "aiEvents_city_sources" cs
+using "aiEvents_sources" s
+where cs.source_id = s.id
+  and (
+    coalesce(s.source_key, s.source_type) not in (select source_key from allowed_sources)
+    or s.fetch_method = 'html_detail'
+    or s.source_type like '%\_detail' escape '\'
+  );
+
+with allowed_sources(source_key) as (
+  values
+    ('huodongxing_city'),
+    ('eventbrite_city_search'),
+    ('luma_city'),
+    ('meetup_city_search'),
+    ('segmentfault_events'),
+    ('lianpu_city'),
+    ('volcengine_activities'),
+    ('tencent_cloud_salon_list')
+)
+delete from "aiEvents_sources" s
+where (
+    coalesce(s.source_key, s.source_type) not in (select source_key from allowed_sources)
+    or s.fetch_method = 'html_detail'
+    or s.source_type like '%\_detail' escape '\'
+  )
+  and not exists (
+    select 1
+    from "aiEvents_city_sources" cs
+    where cs.source_id = s.id
+  );
+
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key";
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_city_key_url_normalized_key";
 drop index if exists "aiEvents_sources_city_url_idx";

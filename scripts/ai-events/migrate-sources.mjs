@@ -77,6 +77,8 @@ const canonicalSources = [
   },
 ];
 
+const allowedSourceKeys = canonicalSources.map(source => source.source_key);
+
 async function tableExists(pool, tableName) {
   const { rows } = await pool.query(
     `select exists (
@@ -351,6 +353,40 @@ async function relinkAndRemoveDuplicateSources(pool) {
   };
 }
 
+async function removeDisallowedSources(pool) {
+  const disallowedCitySources = await pool.query(
+    `delete from "aiEvents_city_sources" cs
+     using "aiEvents_sources" s
+     where cs.source_id = s.id
+       and (
+         coalesce(s.source_key, s.source_type) <> all($1::text[])
+         or s.fetch_method = 'html_detail'
+         or s.source_type like '%\\_detail' escape '\\'
+       )`,
+    [allowedSourceKeys],
+  );
+
+  const disallowedSources = await pool.query(
+    `delete from "aiEvents_sources" s
+     where (
+         coalesce(s.source_key, s.source_type) <> all($1::text[])
+         or s.fetch_method = 'html_detail'
+         or s.source_type like '%\\_detail' escape '\\'
+       )
+       and not exists (
+         select 1
+         from "aiEvents_city_sources" cs
+         where cs.source_id = s.id
+       )`,
+    [allowedSourceKeys],
+  );
+
+  return {
+    disallowed_city_sources_deleted: disallowedCitySources.rowCount || 0,
+    disallowed_sources_deleted: disallowedSources.rowCount || 0,
+  };
+}
+
 async function dropLegacySourceColumns(pool) {
   const statements = [
     `alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key"`,
@@ -388,7 +424,7 @@ async function applyConstraints(pool) {
 }
 
 async function audit(pool) {
-  const [sources, citySources, citySpecificSources] = await Promise.all([
+  const [sources, citySources, citySpecificSources, disallowedSources] = await Promise.all([
     pool.query(`select count(*)::integer as count from "aiEvents_sources"`),
     pool.query(`select count(*)::integer as count from "aiEvents_city_sources"`),
     pool.query(`
@@ -397,12 +433,21 @@ async function audit(pool) {
       where lower(url) ~ '(beijing|shanghai|chengdu|geneva|city=|location=|/d/[^/]+/ai|/city/|\\?q=)'
          or lower(url_normalized) ~ '(beijing|shanghai|chengdu|geneva|city=|location=|/d/[^/]+/ai|/city/|\\?q=)'
     `),
+    pool.query(
+      `select count(*)::integer as count
+       from "aiEvents_sources"
+       where coalesce(source_key, source_type) <> all($1::text[])
+          or fetch_method = 'html_detail'
+          or source_type like '%\\_detail' escape '\\'`,
+      [allowedSourceKeys],
+    ),
   ]);
   return {
     source_columns: await sourceColumns(pool),
     sources_count: sources.rows[0]?.count || 0,
     city_sources_count: citySources.rows[0]?.count || 0,
     city_specific_sources_count: citySpecificSources.rows[0]?.count || 0,
+    disallowed_sources_count: disallowedSources.rows[0]?.count || 0,
   };
 }
 
@@ -421,6 +466,7 @@ await withDb(async pool => {
   const canonicalSourcesChanged = await upsertCanonicalSources(pool);
   const citySourcesMigrated = await migrateLegacyCitySources(pool);
   const relinked = await relinkAndRemoveDuplicateSources(pool);
+  const removed = await removeDisallowedSources(pool);
   await dropLegacySourceColumns(pool);
   await applyConstraints(pool);
   const summary = await audit(pool);
@@ -430,6 +476,7 @@ await withDb(async pool => {
     canonical_sources_changed: canonicalSourcesChanged,
     city_sources_migrated: citySourcesMigrated,
     ...relinked,
+    ...removed,
     ...summary,
   }, null, 2));
 });
