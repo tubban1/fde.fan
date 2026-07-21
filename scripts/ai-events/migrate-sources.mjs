@@ -387,6 +387,25 @@ async function removeDisallowedSources(pool) {
   };
 }
 
+async function removeStaleTemplateBindings(pool) {
+  const result = await pool.query(`
+    delete from "aiEvents_city_sources" cs
+    using "aiEvents_sources" s
+    where cs.source_id = s.id
+      and position('{{' in coalesce(s.url_template, '')) > 0
+      and (
+        cs.source_url = s.url
+        or cs.source_url_normalized = s.url_normalized
+        or lower(regexp_replace(coalesce(cs.source_url_normalized, ''), '/+$', '')) =
+           lower(regexp_replace(coalesce(s.url_normalized, ''), '/+$', ''))
+      )
+  `);
+
+  return {
+    stale_template_bindings_deleted: result.rowCount || 0,
+  };
+}
+
 async function dropLegacySourceColumns(pool) {
   const statements = [
     `alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key"`,
@@ -424,7 +443,7 @@ async function applyConstraints(pool) {
 }
 
 async function audit(pool) {
-  const [sources, citySources, citySpecificSources, disallowedSources] = await Promise.all([
+  const [sources, citySources, citySpecificSources, disallowedSources, staleTemplateBindings] = await Promise.all([
     pool.query(`select count(*)::integer as count from "aiEvents_sources"`),
     pool.query(`select count(*)::integer as count from "aiEvents_city_sources"`),
     pool.query(`
@@ -441,6 +460,18 @@ async function audit(pool) {
           or source_type like '%\\_detail' escape '\\'`,
       [allowedSourceKeys],
     ),
+    pool.query(`
+      select count(*)::integer as count
+      from "aiEvents_city_sources" cs
+      join "aiEvents_sources" s on s.id = cs.source_id
+      where position('{{' in coalesce(s.url_template, '')) > 0
+        and (
+          cs.source_url = s.url
+          or cs.source_url_normalized = s.url_normalized
+          or lower(regexp_replace(coalesce(cs.source_url_normalized, ''), '/+$', '')) =
+             lower(regexp_replace(coalesce(s.url_normalized, ''), '/+$', ''))
+        )
+    `),
   ]);
   return {
     source_columns: await sourceColumns(pool),
@@ -448,6 +479,7 @@ async function audit(pool) {
     city_sources_count: citySources.rows[0]?.count || 0,
     city_specific_sources_count: citySpecificSources.rows[0]?.count || 0,
     disallowed_sources_count: disallowedSources.rows[0]?.count || 0,
+    stale_template_bindings_count: staleTemplateBindings.rows[0]?.count || 0,
   };
 }
 
@@ -467,6 +499,7 @@ await withDb(async pool => {
   const citySourcesMigrated = await migrateLegacyCitySources(pool);
   const relinked = await relinkAndRemoveDuplicateSources(pool);
   const removed = await removeDisallowedSources(pool);
+  const staleBindingsRemoved = await removeStaleTemplateBindings(pool);
   await dropLegacySourceColumns(pool);
   await applyConstraints(pool);
   const summary = await audit(pool);
@@ -477,6 +510,7 @@ await withDb(async pool => {
     city_sources_migrated: citySourcesMigrated,
     ...relinked,
     ...removed,
+    ...staleBindingsRemoved,
     ...summary,
   }, null, 2));
 });

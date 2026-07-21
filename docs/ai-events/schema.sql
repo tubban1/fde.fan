@@ -393,6 +393,17 @@ where (
     where cs.source_id = s.id
   );
 
+delete from "aiEvents_city_sources" cs
+using "aiEvents_sources" s
+where cs.source_id = s.id
+  and position('{{' in coalesce(s.url_template, '')) > 0
+  and (
+    cs.source_url = s.url
+    or cs.source_url_normalized = s.url_normalized
+    or lower(regexp_replace(coalesce(cs.source_url_normalized, ''), '/+$', '')) =
+       lower(regexp_replace(coalesce(s.url_normalized, ''), '/+$', ''))
+  );
+
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_url_normalized_key";
 alter table "aiEvents_sources" drop constraint if exists "aiEvents_sources_city_key_url_normalized_key";
 drop index if exists "aiEvents_sources_city_url_idx";

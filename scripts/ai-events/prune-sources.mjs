@@ -57,6 +57,16 @@ const disallowedSourceWhere = `
   or source_type like '%\\_detail' escape '\\'
 `;
 
+const staleTemplateBindingWhere = `
+  position('{{' in coalesce(s.url_template, '')) > 0
+  and (
+    cs.source_url = s.url
+    or cs.source_url_normalized = s.url_normalized
+    or lower(regexp_replace(coalesce(cs.source_url_normalized, ''), '/+$', '')) =
+       lower(regexp_replace(coalesce(s.url_normalized, ''), '/+$', ''))
+  )
+`;
+
 await withDb(async pool => {
   const preview = await pool.query(
     `select cs.id, cs.city_key, s.source_type, cs.source_url, cs.status
@@ -88,11 +98,18 @@ await withDb(async pool => {
      where ${disallowedSourceWhere}`,
     [allowedSourceKeys],
   );
+  const staleTemplateBindingCount = await pool.query(
+    `select count(*)::integer as count
+     from "aiEvents_city_sources" cs
+     join "aiEvents_sources" s on s.id = cs.source_id
+     where ${staleTemplateBindingWhere}`,
+  );
 
   let changedBindings = 0;
   let changedSources = 0;
   let changedDisallowedBindings = 0;
   let changedDisallowedSources = 0;
+  let changedStaleTemplateBindings = 0;
   if (!dryRun) {
     if (mode === 'archive') {
       const result = await pool.query(
@@ -134,6 +151,14 @@ await withDb(async pool => {
         [allowedSourceKeys],
       );
       changedDisallowedSources = disallowedSourceResult.rowCount || 0;
+
+      const staleTemplateBindingResult = await pool.query(
+        `delete from "aiEvents_city_sources" cs
+         using "aiEvents_sources" s
+         where cs.source_id = s.id
+           and ${staleTemplateBindingWhere}`,
+      );
+      changedStaleTemplateBindings = staleTemplateBindingResult.rowCount || 0;
     }
   }
 
@@ -145,10 +170,12 @@ await withDb(async pool => {
     matched_orphan_single_event_sources: orphanCount.rows[0]?.count || 0,
     remaining_city_specific_sources: citySpecificSourceCount.rows[0]?.count || 0,
     remaining_disallowed_sources: disallowedSourceCount.rows[0]?.count || 0,
+    matched_stale_template_bindings: staleTemplateBindingCount.rows[0]?.count || 0,
     changed_city_sources: changedBindings,
     changed_sources: changedSources,
     changed_disallowed_city_sources: changedDisallowedBindings,
     changed_disallowed_sources: changedDisallowedSources,
+    changed_stale_template_bindings: changedStaleTemplateBindings,
     preview: preview.rows.map(row => ({
       city_key: row.city_key,
       source_type: row.source_type,

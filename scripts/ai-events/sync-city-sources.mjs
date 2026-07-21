@@ -168,8 +168,40 @@ async function ensureCitySourcesIndex(pool) {
   await pool.query(`create unique index if not exists "aiEvents_city_sources_city_url_idx" on "aiEvents_city_sources" (city_key, source_url_normalized)`);
 }
 
+const staleTemplateBindingWhere = `
+  position('{{' in coalesce(s.url_template, '')) > 0
+  and (
+    cs.source_url = s.url
+    or cs.source_url_normalized = s.url_normalized
+    or lower(regexp_replace(coalesce(cs.source_url_normalized, ''), '/+$', '')) =
+       lower(regexp_replace(coalesce(s.url_normalized, ''), '/+$', ''))
+  )
+`;
+
+async function staleTemplateBindingCount(pool) {
+  const { rows } = await pool.query(
+    `select count(*)::integer as count
+     from "aiEvents_city_sources" cs
+     join "aiEvents_sources" s on s.id = cs.source_id
+     where ${staleTemplateBindingWhere}`,
+  );
+  return rows[0]?.count || 0;
+}
+
+async function removeStaleTemplateBindings(pool) {
+  const result = await pool.query(
+    `delete from "aiEvents_city_sources" cs
+     using "aiEvents_sources" s
+     where cs.source_id = s.id
+       and ${staleTemplateBindingWhere}`,
+  );
+  return result.rowCount || 0;
+}
+
 await withDb(async pool => {
   await ensureCitySourcesIndex(pool);
+  const staleTemplateBindingsMatched = await staleTemplateBindingCount(pool);
+  const staleTemplateBindingsDeleted = dryRun ? 0 : await removeStaleTemplateBindings(pool);
   const cities = await loadCities(pool);
   const sources = await loadSources(pool);
   let planned = 0;
@@ -224,6 +256,8 @@ await withDb(async pool => {
     cities_checked: cities.length,
     sources_checked: sources.length,
     combinations_planned: planned,
+    stale_template_bindings_matched: staleTemplateBindingsMatched,
+    stale_template_bindings_deleted: staleTemplateBindingsDeleted,
     city_sources_inserted: inserted,
     city_sources_existing_touched: existingUpdated,
     skipped_count: skipped.length,
