@@ -86,7 +86,9 @@ jobs:
           LIMIT_PER_SOURCE="${{ github.event.inputs.limit_per_source || '12' }}"
           RUN_MODE="${{ github.event.inputs.mode || vars.AI_EVENTS_RUN_MODE || 'raw' }}"
           NORMALIZE_LIMIT="${{ github.event.inputs.normalize_limit || vars.AI_EVENTS_NORMALIZE_LIMIT || '20' }}"
+          pnpm ai-events:migrate-sources
           pnpm ai-events:schema
+          pnpm ai-events:migrate-sources
           pnpm ai-events:cleanup
           pnpm ai-events:prune-sources
           pnpm ai-events:crawl-all -- --mode="${RUN_MODE}" --limit-per-source="${LIMIT_PER_SOURCE}" --normalize-limit="${NORMALIZE_LIMIT}" --min-interval-minutes="${AI_EVENTS_MIN_INTERVAL_MINUTES}"
