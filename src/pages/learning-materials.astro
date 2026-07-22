@@ -1,0 +1,312 @@
+---
+export const prerender = true;
+
+import fs from "node:fs";
+import path from "node:path";
+import { Download, FileText } from "lucide-react";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import DocShell from "../components/DocShell.astro";
+
+const materialsRoot = path.join(process.cwd(), "public", "Agent Learning Material");
+const collator = new Intl.Collator("zh-CN", { numeric: true, sensitivity: "base" });
+const formatSize = (bytes: number) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+const toPublicUrl = (...segments: string[]) => `/${segments.map(encodeURIComponent).join("/")}`;
+
+const categories = fs.existsSync(materialsRoot)
+  ? fs
+      .readdirSync(materialsRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .sort((a, b) => collator.compare(a.name, b.name))
+      .map((directory) => {
+        const directoryPath = path.join(materialsRoot, directory.name);
+        const files = fs
+          .readdirSync(directoryPath, { withFileTypes: true })
+          .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".pdf"))
+          .sort((a, b) => collator.compare(a.name, b.name))
+          .map((entry) => {
+            const filePath = path.join(directoryPath, entry.name);
+            return {
+              name: entry.name.replace(/\.pdf$/i, ""),
+              href: toPublicUrl("Agent Learning Material", directory.name, entry.name),
+              size: formatSize(fs.statSync(filePath).size),
+            };
+          });
+
+        return { name: directory.name, files };
+      })
+      .filter((category) => category.files.length > 0)
+  : [];
+
+const materialCount = categories.reduce((total, category) => total + category.files.length, 0);
+---
+
+<SiteLayout
+  title="FDE FAN 学习资料下载 | Agent Learning Materials"
+  description="按专题下载 FDE FAN 收录的 Agent、Coding Agent、多智能体协同、企业级智能体等学习资料。"
+>
+  <DocShell
+    eyebrow="LEARNING MATERIALS"
+    title="学习资料下载"
+    titleEn="Learning Materials"
+    description="按技术专题浏览和下载 Agent 学习资料，用于课程预习、课堂研讨与项目扩展阅读。"
+    descriptionEn="Browse and download Agent learning materials by topic for course preparation, workshops, and project research."
+  >
+    <section class="materials-summary" aria-label="资料概览">
+      <div>
+        <strong>{materialCount}</strong>
+        <span class="zh">份 PDF 资料</span>
+        <span class="en">PDF resources</span>
+      </div>
+      <div>
+        <strong>{categories.length}</strong>
+        <span class="zh">个技术专题</span>
+        <span class="en">technical topics</span>
+      </div>
+      <p>
+        <span class="zh">资料仅供学习与研究，版权归原作者及发布机构所有。</span>
+        <span class="en">Materials are provided for study and research. Copyright remains with the original authors and publishers.</span>
+      </p>
+    </section>
+
+    {categories.length > 0 ? (
+      <div class="materials-catalog">
+        {categories.map((category, index) => (
+          <details class="materials-group" open={index === 0}>
+            <summary>
+              <span>{category.name}</span>
+              <small>{category.files.length} PDF</small>
+            </summary>
+            <div class="materials-list">
+              {category.files.map((file) => (
+                <article class="material-row">
+                  <span class="material-file-icon" aria-hidden="true"><FileText size={20} strokeWidth={1.8} /></span>
+                  <div class="material-meta">
+                    <h2>{file.name}</h2>
+                    <span>{file.size} · PDF</span>
+                  </div>
+                  <a class="material-download" href={file.href} download title={`下载 ${file.name}`}>
+                    <Download size={17} strokeWidth={2} aria-hidden="true" />
+                    <span class="zh">下载</span>
+                    <span class="en">Download</span>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </details>
+        ))}
+      </div>
+    ) : (
+      <section class="materials-empty">
+        <p class="zh">暂未找到可下载资料。</p>
+        <p class="en">No downloadable materials were found.</p>
+      </section>
+    )}
+  </DocShell>
+</SiteLayout>
+
+<style>
+  .materials-summary {
+    display: grid;
+    grid-template-columns: 150px 150px minmax(0, 1fr);
+    align-items: stretch;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .materials-summary > div,
+  .materials-summary > p {
+    min-width: 0;
+    margin: 0;
+    padding: 1.1rem 1.2rem;
+  }
+
+  .materials-summary > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border-right: 1px solid var(--line);
+  }
+
+  .materials-summary strong {
+    color: var(--lime);
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .materials-summary span,
+  .materials-summary p {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.84rem;
+    line-height: 1.65;
+  }
+
+  .materials-summary > p {
+    display: flex;
+    align-items: center;
+  }
+
+  .materials-catalog {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .materials-group {
+    border: 1px solid var(--line);
+    background: rgba(7, 12, 24, 0.68);
+  }
+
+  .materials-group > summary {
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    color: white;
+    cursor: pointer;
+    font-weight: 850;
+    list-style: none;
+  }
+
+  .materials-group > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .materials-group > summary::after {
+    content: "+";
+    color: var(--cyan);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .materials-group[open] > summary::after {
+    content: "−";
+  }
+
+  .materials-group > summary small {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .materials-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .material-row {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 76px;
+    padding: 0.75rem 1rem;
+  }
+
+  .material-row + .material-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .material-file-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(42, 231, 255, 0.3);
+    color: var(--cyan);
+  }
+
+  .material-meta {
+    min-width: 0;
+  }
+
+  .material-meta h2 {
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.94rem;
+    font-weight: 750;
+    line-height: 1.45;
+  }
+
+  .material-meta span {
+    display: block;
+    margin-top: 0.22rem;
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 0.72rem;
+  }
+
+  .material-download {
+    display: inline-flex;
+    min-width: 96px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(200, 255, 77, 0.42);
+    color: var(--lime);
+    font-size: 0.8rem;
+    font-weight: 850;
+    text-decoration: none;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .material-download:hover {
+    border-color: var(--lime);
+    background: var(--lime);
+    color: #07100d;
+  }
+
+  .materials-empty {
+    border: 1px solid var(--line);
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.62);
+    text-align: center;
+  }
+
+  @media (max-width: 760px) {
+    .materials-summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .materials-summary > div:nth-child(2) {
+      border-right: 0;
+    }
+
+    .materials-summary > p {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .material-row {
+      grid-template-columns: 36px minmax(0, 1fr) 40px;
+      gap: 0.7rem;
+      padding: 0.75rem;
+    }
+
+    .material-file-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .material-download {
+      min-width: 40px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+
+    .material-download span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+</style>
