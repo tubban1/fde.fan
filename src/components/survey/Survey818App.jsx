@@ -7,6 +7,7 @@ const DOMESTIC_QUESTIONS = [
     subtitle: "用于匹配同规模连锁企业的平均水平",
     type: "single",
     options: [
+      { label: "无线下门店（纯电商 / 供应链 / OEM 工厂 / 品牌方）", score: { data: 50, org: 55 } },
       { label: "1-10 家门店（区域初创/精品店）", score: { data: 30, org: 40 } },
       { label: "11-50 家门店（区域成长型连锁）", score: { data: 50, org: 60 } },
       { label: "51-100 家门店（中型连锁/直营品牌）", score: { data: 70, org: 80 } },
@@ -166,8 +167,71 @@ const CROSSBORDER_QUESTIONS = [
   },
 ];
 
+const SUPPLYCHAIN_QUESTIONS = [
+  {
+    id: "sc_mode",
+    title: "1. 您的供应链与生产/服务类型？",
+    subtitle: "匹配供应链与制造型企业的典型场景",
+    type: "single",
+    options: [
+      { label: "无线下门店（美妆 OEM / ODM 代工工厂）", score: { data: 60, org: 65 } },
+      { label: "无线下门店（原料供应商 / 包材 / 研发机构）", score: { data: 55, org: 60 } },
+      { label: "自有品牌工厂 + 线上电商渠道", score: { data: 70, org: 75 } },
+      { label: "工厂 + 线下展厅 / 品牌体验店", score: { data: 65, org: 70 } },
+    ],
+  },
+  {
+    id: "sc_data",
+    title: "2. 原料库、配方库、检测报告与打样 SOP 资产情况？",
+    subtitle: "评估研发与工厂生产知识资产结构化水平",
+    type: "single",
+    options: [
+      { label: "零散分布在纸质档案、纸质报告与微信沟通中", score: { data: 20 } },
+      { label: "使用 Excel / PDF 存放配方、成分与检验报告", score: { data: 50 } },
+      { label: "已建立结构化 BOM 库与打样 SOP 文档", score: { data: 75 } },
+      { label: "使用 ERP / PLM / 研发系统数字化统一管理", score: { data: 95 } },
+    ],
+  },
+  {
+    id: "sc_maturity",
+    title: "3. 企业目前 AI 工具的应用成熟度？",
+    subtitle: "评估供应链团队的 AI 渗透率",
+    type: "single",
+    options: [
+      { label: "Level 1｜基本没有使用过 AI 工具", score: { maturity: 15 } },
+      { label: "Level 2｜研发/销售人员偶用 ChatGPT 写邮件或查资料", score: { maturity: 40 } },
+      { label: "Level 3｜已用 AI 协助配方检索、法规审核或打样报价", score: { maturity: 65 } },
+      { label: "Level 4｜已建立研发知识库 Agent / 智能客服 Agent", score: { maturity: 85 } },
+    ],
+  },
+  {
+    id: "sc_pain",
+    title: "4. 供应链与工厂研发/销售环节，最急需 AI 解决的痛点？",
+    subtitle: "最多选择 2 项",
+    type: "multi",
+    maxSelect: 2,
+    options: [
+      { label: "客户咨询与需求响应慢，打样报价与交期核算耗时", tag: "智能报价" },
+      { label: "配方、成分、功效宣称合规审查繁重，违规风险高", tag: "合规审查" },
+      { label: "原料知识、功效实验数据沉淀分散，研发查阅效率低", tag: "研发知识库" },
+      { label: "B2B 大客户对接与商务招商文案/PPT 生产效率低", tag: "商务招商" },
+    ],
+  },
+  {
+    id: "sc_talent",
+    title: "5. 企业是否有具备 AI 落地能力的工程师或团队？",
+    type: "single",
+    options: [
+      { label: "尚无专人，各自零散探索", score: { talent: 20 } },
+      { label: "有 IT / 研发人员兼职跟进 AI 工具", score: { talent: 55 } },
+      { label: "计划培养 1-2 名 FDE 供应链 AI 实施工程师", score: { talent: 90 } },
+      { label: "已有专职 AI 数字化升级团队", score: { talent: 95 } },
+    ],
+  },
+];
+
 export default function Survey818App() {
-  const [branch, setBranch] = useState(null); // 'domestic' | 'crossborder' | 'general'
+  const [branch, setBranch] = useState(null); // 'domestic' | 'crossborder' | 'supplychain'
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showCompanyForm, setShowCompanyForm] = useState(false);
@@ -185,6 +249,7 @@ export default function Survey818App() {
 
   const getQuestions = () => {
     if (branch === "crossborder") return CROSSBORDER_QUESTIONS;
+    if (branch === "supplychain") return SUPPLYCHAIN_QUESTIONS;
     return DOMESTIC_QUESTIONS;
   };
 
@@ -273,6 +338,10 @@ export default function Survey818App() {
       topProjects.push("多语种美妆爆款文案与社媒 Agent");
       topProjects.push("TikTok / Meta 广告素材批产 Agent");
       topProjects.push("全天候 7×24 多语言跨境客服 Agent");
+    } else if (branch === "supplychain") {
+      topProjects.push("美妆原料与配方合规知识库 Agent");
+      topProjects.push("OEM/ODM 客户打样与智能报价 Agent");
+      topProjects.push("成分功效宣称与合规审查 Agent");
     } else {
       topProjects.push("AI 导购知识与成分/功效答疑 Agent");
       topProjects.push("新品上市 48 小时导购训战 Agent");
@@ -418,7 +487,7 @@ export default function Survey818App() {
               </button>
 
               <button
-                onClick={() => handleSelectBranch("domestic")}
+                onClick={() => handleSelectBranch("supplychain")}
                 className="group relative flex items-center justify-between p-5 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 hover:border-lime-400/60 transition-all text-left"
               >
                 <div>
