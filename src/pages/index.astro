@@ -1,6 +1,5 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { aiFdeLoop, learningTracks } from "../data/site";
 
 const allianceMembers = [
   { name: "TG Technologie", image: "/assets/alliance/tg-technologie.png", type: "logo" },
@@ -33,79 +32,212 @@ const allianceMarquee = [...allianceMembers, ...allianceMembers];
 const allianceMemberCount = allianceMembers.length;
 ---
 
-<SiteLayout title="FDE 企业 AI 落地工程师实战营 | FDE Enterprise AI Bootcamp" description="真实项目 × 能力评审 × 就业保障。FDE 企业 AI 应用落地工程师实战营，首期样板班 10 人精品小班，6周真实项目交付。">
-  <section class="future-camp-hero">
-    <img class="future-camp-hero-bg" src="/assets/hero2.png" alt="" />
-    <div class="future-camp-hero-glass" aria-hidden="true"></div>
-    <div class="future-camp-hero-copy">
-      <p class="eyebrow">FDE ENTERPRISE BOOTCAMP</p>
-      <h1>
-        <span class="zh">企业 AI 应用落地工程师实战营</span>
-        <span class="en">Forward Deployed Engineer Bootcamp</span>
+<SiteLayout
+  title="FDE FAN | 企业 AI 落地服务商 · 智能体共建 · 人才培养 · AI 诊断"
+  description="让 AI 真正落地企业，不止于认知，而是业务闭环。以 FDE 工程师培养为人才底座，以智能体共建为业务引擎，以企业诊断为精准入口 —— 帮企业从「不懂 AI」走到「AI 跑通一个业务场景」。"
+>
+  <!-- Hero Section -->
+  <section class="relative bg-[#05070d] overflow-hidden pt-20 pb-16 px-4 sm:px-6">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-cyan-500/10 via-blue-500/5 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto text-center">
+      <!-- Tag Pill Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-medium tracking-wide mb-6">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span>FDE · Forward Deployed Engineer · 企业 AI 落地服务商</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight tracking-tight mb-4">
+        让 AI <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-300 bg-clip-text text-transparent">真正落地企业</span><br />
+        不止于认知，而是业务闭环
       </h1>
-      <p class="future-camp-hero-lead">
-        <span class="zh">首期样板班：真实项目 × 能力评审 × 就业保障。仅面向具备一定基础、愿意接受高强度训练与严格考核的申请者。</span>
-        <span class="en">Prototype Cohort: Real Projects × Capability Review × Career Support. Intensive training for dedicated practitioners.</span>
+
+      <!-- Subheadline -->
+      <p class="text-slate-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto leading-relaxed mb-8">
+        以 FDE 工程师培养为人才底座，以智能体共建为业务引擎，以企业诊断为精准入口
+        <br class="hidden sm:inline" />
+        —— 帮企业从「不懂 AI」走到「AI 跑通一个业务场景」。
       </p>
-      <div class="future-camp-hero-stats" aria-label="FDE Bootcamp highlights">
-        <span>10人精品</span>
-        <span>6周实战</span>
-        <span>¥19,800</span>
-        <span>就业保障</span>
-      </div>
-      <div class="hero-actions">
-        <a class="cta-primary" href="#camp-apply"><span class="zh">提交报名信息</span><span class="en">Apply Now</span></a>
-        <a class="cta-secondary" href="/future-camp"><span class="zh">查看实战营详情</span><span class="en">View Details</span></a>
-      </div>
-    </div>
-  </section>
 
-  <section class="section-wrap band" id="future-camp-intro">
-    <div class="section-heading">
-      <p class="eyebrow">CAMP SYSTEM</p>
-      <h2><span class="zh">夏令营训练的是 AI 时代的工程思维。</span><span class="en">The camp trains engineering thinking for the AI era.</span></h2>
-      <p><span class="zh">我们把 FDE 的真实交付方法改造成适合学生的创造训练：先定义问题，再调用 AI 工具，最后用作品、演示和复盘证明学习成果。</span><span class="en">We adapt FDE delivery practice into a student-friendly creation path: frame the problem, direct AI tools, then prove learning through projects, demos, and retrospectives.</span></p>
-    </div>
-    <div class="loop-grid">
-      {aiFdeLoop.map((item) => (
-        <div class="loop-card">
-          <span>{item.mark}</span>
-          <h3><span class="zh">{item.zh}</span><span class="en">{item.en}</span></h3>
-          <p><span class="zh">{item.text}</span><span class="en">{item.textEn}</span></p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="section-wrap">
-    <div class="section-heading">
-      <p class="eyebrow">ACADEMY SYSTEM</p>
-      <h2><span class="zh">像 W3Schools 一样清晰，但面向真实交付。</span><span class="en">Structured like a learning site. Built for real delivery.</span></h2>
-      <p><span class="zh">FDE FAN 不只展示课程大纲，而是把教程、案例、练习、项目任务书和交付模板放进同一个学习系统。</span><span class="en">FDE FAN combines tutorials, cases, exercises, project briefs, and delivery templates into one practical learning system.</span></p>
-    </div>
-    <div class="track-grid">
-      {learningTracks.map((track) => (
-        <a class="track-card" href={track.href}>
-          <span class="card-mark">{track.mark}</span>
-          <h3><span class="zh">{track.zh}</span><span class="en">{track.en}</span></h3>
-          <p><span class="zh">{track.summary}</span><span class="en">{track.summaryEn}</span></p>
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a
+          href="/survey/818"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-cyan-400 text-slate-950 font-extrabold text-sm sm:text-base hover:bg-cyan-300 shadow-xl shadow-cyan-400/20 transition-all flex items-center justify-center gap-1.5"
+        >
+          <span>开始企业 AI 诊断</span>
+          <span>→</span>
         </a>
-      ))}
+        <a
+          href="#services"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-200 font-semibold text-sm sm:text-base hover:bg-slate-800 hover:text-white transition-all flex items-center justify-center"
+        >
+          <span>了解服务体系</span>
+        </a>
+      </div>
+
+      <!-- 4 Key Highlights Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-slate-800/80 max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono">3</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">核心服务板块</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono">4-5天</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">FDE 深度交付周期</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono">6周</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">工程师实战培养</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 font-mono">10人</div>
+          <div class="text-xs sm:text-sm text-slate-400 font-medium mt-1">精品小班制</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section-wrap">
-    <div class="section-heading">
-      <p class="eyebrow">MARKET DEMAND</p>
-      <h2><span class="zh">巨大的 FDE 人才缺口与薪资红利</span><span class="en">Massive FDE Talent Shortage & Salary Premium</span></h2>
-      <p><span class="zh">全球市场需求旺盛，具备“业务理解 + AI应用开发/工程实现 + 交付落地”能力的复合型人才最受欢迎。</span><span class="en">Strong global market demand. Talents combining business insight, AI engineering, and delivery are highly sought after.</span></p>
+  <!-- Three Core Services Section ("三大服务板块") -->
+  <section id="services" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="mb-10">
+      <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">三大服务板块</h2>
+      <p class="text-slate-400 text-sm sm:text-base mt-2">
+        以 FDE 为核心入口，打通「人才 → 落地 → 诊断」的企业 AI 全链路服务闭环。
+      </p>
     </div>
-    <div class="image-showcase">
-      <!-- 请确保将图片重命名为 fde-salary-analysis.jpg 或 png 并放入 public/assets/ 文件夹中 -->
-      <img src="/assets/fde-salary-analysis.png" alt="FDE 招聘需求与薪资分析" loading="lazy" />
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Card 1: FDE 企业落地工程师实战培养 -->
+      <div class="flex flex-col justify-between rounded-2xl bg-slate-900/80 border border-slate-800 border-t-2 border-t-cyan-400 p-6 sm:p-8 backdrop-blur-xl shadow-2xl hover:border-cyan-400/50 transition-all group">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 flex items-center justify-center text-xl mb-6">
+            🎓
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">
+            FDE 企业落地工程师实战培养
+          </h3>
+          <p class="text-xs font-mono text-slate-500 mb-4">
+            FDE Enterprise Implementation Engineer Bootcamp
+          </p>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            把 FDE 的真实交付方法改造排练成可落地的训练体系：先定义问题，再调用 AI 工具，最后用作品和交付证明能力。
+          </p>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 pt-6 mb-6">
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span>6 周实战 · 真实项目驱动</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span>意图澄清 → 上下文工程 → 工具调用 → 分支交付 → 评估审计</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span>10 人精品小班 · 能力评审 · 就业保障</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">•</span>
+              <span>面向企业员工、技术人员、高校学生</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <a href="/future-camp" class="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-bold text-xs sm:text-sm transition-colors">
+            <span>查看培养路径</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: 企业智能体共建 -->
+      <div class="flex flex-col justify-between rounded-2xl bg-slate-900/80 border border-slate-800 border-t-2 border-t-emerald-400 p-6 sm:p-8 backdrop-blur-xl shadow-2xl hover:border-emerald-400/50 transition-all group">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 flex items-center justify-center text-xl mb-6">
+            ⚙️
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-1 group-hover:text-emerald-300 transition-colors">
+            企业智能体共建
+          </h3>
+          <p class="text-xs font-mono text-slate-500 mb-4">
+            Enterprise AI Agent Co-Building
+          </p>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            企业提供真实业务场景，我们提供 AI 能力与工程实现，共同跑通一个可交付的业务闭环 —— 不是 PPT，是上线。
+          </p>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 pt-6 mb-6">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span>企业出场景 + 我们出 AI 能力 = 共建闭环</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span>从需求拆解到 Agent 设计、开发、部署上线</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span>覆盖跨境商贸、文旅、教务、后勤等真实场景</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span>交付物：可运行 Agent + 文档 + 验收报告</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <a href="/diagnosis" class="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-bold text-xs sm:text-sm transition-colors">
+            <span>提交业务场景</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: 企业 AI 诊断 -->
+      <div class="flex flex-col justify-between rounded-2xl bg-slate-900/80 border border-slate-800 border-t-2 border-t-amber-500 p-6 sm:p-8 backdrop-blur-xl shadow-2xl hover:border-amber-400/50 transition-all group">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-300 flex items-center justify-center text-xl mb-6">
+            🔍
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-1 group-hover:text-amber-300 transition-colors">
+            企业 AI 诊断
+          </h3>
+          <p class="text-xs font-mono text-slate-500 mb-4">
+            Enterprise AI Readiness Diagnosis
+          </p>
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            免费 AI 就绪度诊断，帮企业看清：当前 AI 应用水平、效率瓶颈在哪、哪些场景最值得优先用 AI 改造。
+          </p>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 pt-6 mb-6">
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">•</span>
+              <span>填写诊断问卷 → AI 生成定制化诊断报告</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">•</span>
+              <span>综合评分 + 雷达图 + 痛点分析 + 落地建议</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">•</span>
+              <span>A/B/C 级线索分层 · 高意向企业 24h 跟进</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">•</span>
+              <span>报告含可执行的行动建议清单</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <a href="/survey/818" class="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 font-bold text-xs sm:text-sm transition-colors">
+            <span>立即参与诊断</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- Camp Apply Section -->
   <section class="section-wrap band" id="camp-apply">
     <div class="camp-apply-grid">
       <div class="section-heading">
@@ -154,6 +286,7 @@ const allianceMemberCount = allianceMembers.length;
     </div>
   </section>
 
+  <!-- Alliance Members Marquee Section -->
   <section class="alliance-section" aria-label="FDE alliance members">
     <div class="alliance-heading">
       <p class="eyebrow">FDE ALLIANCE</p>
