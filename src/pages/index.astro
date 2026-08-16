@@ -38,7 +38,9 @@ const allianceMemberCount = allianceMembers.length;
 >
   <!-- Hero Section -->
   <section class="relative bg-[#05070d] overflow-hidden pt-20 pb-16 px-4 sm:px-6">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-cyan-500/10 via-blue-500/5 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+    <img src="/assets/hero2.png" alt="FDE FAN Hero Background" class="absolute inset-0 w-full h-full object-cover object-center opacity-30 -z-10 pointer-events-none" />
+    <div class="absolute inset-0 bg-gradient-to-b from-[#05070d]/80 via-[#05070d]/60 to-[#05070d] -z-10 pointer-events-none"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-cyan-500/15 via-blue-500/5 to-transparent blur-3xl -z-10 pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto text-center">
       <!-- Tag Pill Badge -->
@@ -234,6 +236,29 @@ const allianceMemberCount = allianceMembers.length;
           </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Market Demand & Salary Analysis Section (放在服务板块下方) -->
+  <section class="py-12 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="mb-8 text-center sm:text-left">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-semibold mb-2">
+        <span>MARKET DEMAND & SALARY</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+        巨大的 FDE 人才缺口与薪资红利
+      </h2>
+      <p class="text-slate-400 text-xs sm:text-sm mt-2">
+        全球市场需求旺盛，具备“业务理解 + AI应用开发/工程实现 + 交付落地”能力的复合型人才最受欢迎。
+      </p>
+    </div>
+    <div class="rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/60 shadow-2xl p-2 sm:p-4">
+      <img
+        src="/assets/fde-salary-analysis.png"
+        alt="FDE 招聘需求与薪资分析"
+        loading="lazy"
+        class="w-full h-auto rounded-xl object-cover"
+      />
     </div>
   </section>
 
