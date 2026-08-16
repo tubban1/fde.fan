@@ -759,7 +759,7 @@ export default function Survey818App() {
                 {/* QR Code Container */}
                 <div className="inline-block p-4 rounded-2xl bg-white/95 shadow-2xl border border-slate-200 mb-4 transition-transform hover:scale-105">
                   <img
-                    src="/images/qrcode_818.jpg"
+                    src="/assets/wechat-group.png"
                     alt="FDE 联盟 www.fde.fan 微信群二维码"
                     className="w-56 h-auto mx-auto rounded-lg object-contain"
                   />
