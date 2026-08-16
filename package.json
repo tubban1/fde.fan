@@ -66,6 +66,8 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@rollup/rollup-darwin-arm64": "^4.62.4",
+    "@rollup/rollup-darwin-x64": "^4.62.4",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.22",

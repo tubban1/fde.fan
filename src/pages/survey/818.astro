@@ -1,0 +1,35 @@
+---
+import Survey818App from "../../components/survey/Survey818App.jsx";
+import SocialShare from "../../components/SocialShare";
+import "../../styles.css";
+
+const title = "2026 中国美妆企业 AI 成熟度指数 · 现场诊断 | 818 大会";
+const description = "3 分钟评估美妆企业 AI 数字化成熟度、核心落地瓶颈、五维指数与 90 天高 ROI 机会图谱";
+const shareImage = "https://www.fde.fan/images/qrcode_818.jpg";
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta name="theme-color" content="#05070d" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FDE FAN" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:url" content="https://www.fde.fan/survey/818" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-[#05070d] text-white">
+    <Survey818App client:load />
+    <SocialShare client:load title={title} description={description} path="/survey/818" variant="floating" />
+  </body>
+</html>
