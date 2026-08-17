@@ -70,28 +70,25 @@ export default function DiagnosisPage() {
   // 1. 初始化登录与历史会话状态（支持微信小程序 web-view 传入凭证免密登录）
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const tokenFromUrl = urlParams.get('token');
     const emailFromUrl = urlParams.get('email');
     const pwdFromUrl = urlParams.get('password');
+    const tokenFromUrl = urlParams.get('token');
 
-    let storedEmail = emailFromUrl || tokenFromUrl || localStorage.getItem('fde_diagnosis_email');
-    let storedPassword = pwdFromUrl || localStorage.getItem('fde_diagnosis_password') || (tokenFromUrl ? `wx_${tokenFromUrl.slice(0, 10)}` : '');
-    let storedVerified = (tokenFromUrl || emailFromUrl) ? true : localStorage.getItem('fde_diagnosis_verified') === 'true';
+    let storedEmail = emailFromUrl || (tokenFromUrl ? tokenFromUrl : localStorage.getItem('fde_diagnosis_email'));
+    let storedPassword = pwdFromUrl || localStorage.getItem('fde_diagnosis_password') || (tokenFromUrl ? `wx_${tokenFromUrl.slice(3, 13)}` : '');
+    let storedVerified = (emailFromUrl || tokenFromUrl) ? true : localStorage.getItem('fde_diagnosis_verified') === 'true';
 
     if (storedEmail && storedPassword && storedVerified) {
       setEmail(storedEmail);
       setPassword(storedPassword);
       setEmailStatus('verified');
-      if (tokenFromUrl || emailFromUrl) {
-        localStorage.setItem('fde_diagnosis_email', storedEmail);
-        localStorage.setItem('fde_diagnosis_password', storedPassword);
-        localStorage.setItem('fde_diagnosis_verified', 'true');
-      }
+      localStorage.setItem('fde_diagnosis_email', storedEmail);
+      localStorage.setItem('fde_diagnosis_password', storedPassword);
+      localStorage.setItem('fde_diagnosis_verified', 'true');
       window.setTimeout(() => {
         loadDiagnosisHistory(storedEmail, storedPassword, true);
       }, 0);
     }
-
   }, []);
 
   // 2. 聊天区域自动滚到底部
