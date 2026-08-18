@@ -1,5 +1,5 @@
 ---
-import Survey818App from "../../components/survey/Survey818App.jsx";
+import Survey818Container from "../../components/survey/Survey818Container.jsx";
 import SocialShare from "../../components/SocialShare";
 import "../../styles.css";
 
@@ -29,7 +29,7 @@ const shareImage = "https://www.fde.fan/images/qrcode_818.jpg";
     <title>{title}</title>
   </head>
   <body class="bg-[#05070d] text-white">
-    <Survey818App client:load />
+    <Survey818Container client:load />
     <SocialShare client:load title={title} description={description} path="/survey/818" variant="floating" />
   </body>
 </html>
