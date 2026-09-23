@@ -1,0 +1,284 @@
+---
+const pageTitle = "DON'T WAKE MISO — Steal the fish";
+const pageDescription = "A tiny one-touch cat challenge. Steal the fish while Miso sleeps. Freeze when the eyes open.";
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#f6efe4" />
+  <meta name="description" content={pageDescription} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <title>{pageTitle}</title>
+  <style>
+    :root{
+      --ink:#18212d;--cream:#f6efe4;--paper:#fffaf3;--orange:#e97842;--orange2:#f39962;
+      --pink:#f3b6aa;--red:#e5483f;--green:#4f8d72;--shadow:rgba(45,31,20,.18);
+      --safe:env(safe-area-inset-bottom,0px)
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:var(--cream);color:var(--ink);font-family:ui-rounded,"SF Pro Rounded","Nunito",system-ui,-apple-system,sans-serif;overflow:hidden}
+    body{min-height:100dvh;touch-action:none}
+    button{font:inherit}
+    .game{position:relative;width:100vw;height:100dvh;min-height:520px;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;background:
+      radial-gradient(circle at 50% 24%,rgba(255,255,255,.96) 0 18%,rgba(255,255,255,.34) 37%,transparent 58%),
+      linear-gradient(180deg,#f8f1e8 0%,#f4e6d5 100%)}
+    .noise{pointer-events:none;position:absolute;inset:0;opacity:.17;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+    .hud{position:relative;z-index:8;display:flex;justify-content:space-between;align-items:flex-start;padding:max(18px,env(safe-area-inset-top)) 20px 0;gap:12px}
+    .brand{font-size:clamp(13px,3.5vw,16px);font-weight:900;letter-spacing:.16em}
+    .brand small{display:block;margin-top:4px;letter-spacing:.03em;font-size:11px;font-weight:650;opacity:.55}
+    .scores{display:flex;gap:8px}.pill{min-width:74px;padding:8px 12px;border-radius:999px;background:rgba(255,250,243,.76);backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(66,40,21,.08);text-align:center;border:1px solid rgba(255,255,255,.7)}
+    .pill span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.55;font-weight:800}.pill strong{font-size:18px}
+    .stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+    .scene{position:relative;width:min(92vw,640px);aspect-ratio:1/1;max-height:74vh;filter:drop-shadow(0 28px 32px rgba(62,39,22,.12))}
+    .table{position:absolute;left:-12%;right:-12%;bottom:4%;height:23%;border-radius:50% 50% 0 0/28% 28% 0 0;background:linear-gradient(180deg,#d9a773,#bf8459);box-shadow:inset 0 12px 20px rgba(255,255,255,.2)}
+    .plate{position:absolute;left:20%;right:20%;bottom:13%;height:15%;border-radius:50%;background:#fff8ec;border:4px solid rgba(255,255,255,.8);box-shadow:0 9px 16px rgba(92,52,28,.15),inset 0 -8px 10px rgba(180,132,89,.08)}
+    .cat{position:absolute;left:12%;right:12%;top:7%;bottom:18%;transform-origin:52% 62%;transition:transform .16s ease,filter .16s ease}
+    .cat svg{width:100%;height:100%;overflow:visible}
+    .body{fill:url(#fur)}.cream{fill:#ffd8a8}.stripe{fill:#b9512e;opacity:.72}.ink{fill:#28303a}.nose{fill:#9a4c45}.eye{transform-origin:center;transition:transform .11s ease}.eyelid{transform-origin:center;transition:transform .11s ease}
+    .cat[data-state="watching"] .eyelid,.cat[data-state="warning"] .eyelid{transform:scaleY(.1)}
+    .cat[data-state="watching"] .eye{transform:scaleY(1)}
+    .cat[data-state="attack"]{z-index:40;transform:translateY(11%) scale(2.65) rotate(-2deg);filter:drop-shadow(0 20px 30px rgba(0,0,0,.26))}
+    .cat[data-state="fake"] .ear-r{animation:earTwitch .2s ease 2}
+    .cat[data-state="fake"] .tail{animation:tailTwitch .28s ease 2}
+    .cat[data-state="warning"]{animation:breathHold .5s ease}
+    @keyframes earTwitch{50%{transform:rotate(-9deg);transform-origin:78% 20%}}
+    @keyframes tailTwitch{50%{transform:rotate(7deg);transform-origin:76% 77%}}
+    @keyframes breathHold{50%{transform:translateY(-1.2%)}}
+    .fish-wrap{position:absolute;left:50%;bottom:13%;width:28%;height:16%;z-index:12;transform:translateX(-50%) translateX(var(--fish-x,0px));cursor:grab;touch-action:none;user-select:none}
+    .fish-wrap:active{cursor:grabbing}.fish{width:100%;height:100%;filter:drop-shadow(0 7px 7px rgba(88,48,29,.2));transform:rotate(-7deg);transition:filter .15s ease}
+    .fish-wrap.dragging .fish{filter:drop-shadow(0 13px 10px rgba(88,48,29,.22))}
+    .paw{position:absolute;left:37%;bottom:17%;width:26%;height:16%;z-index:14;pointer-events:none;transform:rotate(4deg);transition:transform .2s ease}
+    .cat[data-state="watching"] ~ .paw,.cat[data-state="warning"] ~ .paw{transform:translateY(-3px) rotate(-2deg)}
+    .extract{position:absolute;right:0;bottom:10%;width:18%;height:25%;border:2px dashed rgba(24,33,45,.18);border-radius:26px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;letter-spacing:.12em;opacity:.52;transform:rotate(2deg)}
+    .extract.hot{border-color:var(--green);color:var(--green);opacity:1;background:rgba(79,141,114,.08)}
+    .instruction{position:absolute;left:50%;top:4%;z-index:15;transform:translateX(-50%);text-align:center;width:min(92vw,580px);pointer-events:none}
+    .instruction .big{display:block;font-size:clamp(24px,7vw,46px);font-weight:1000;letter-spacing:-.055em;line-height:.95}.instruction .sub{display:block;margin-top:9px;font-size:clamp(12px,3.6vw,16px);font-weight:800;opacity:.58}
+    .warningText{position:absolute;z-index:30;left:50%;top:45%;transform:translate(-50%,-50%) scale(.9);font-weight:1000;font-size:clamp(38px,12vw,86px);letter-spacing:-.06em;opacity:0;pointer-events:none;text-shadow:0 4px 0 rgba(255,255,255,.7)}
+    .warningText.show{animation:pop .28s ease forwards}.warningText.danger{color:var(--red)}
+    @keyframes pop{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+    .progress{position:absolute;left:12%;right:12%;bottom:3%;height:8px;border-radius:999px;background:rgba(24,33,45,.08);overflow:hidden}.progress>i{display:block;height:100%;width:var(--p,0%);border-radius:inherit;background:linear-gradient(90deg,var(--orange),#f1b95c);transition:width .06s linear}
+    .footer{position:relative;z-index:15;padding:0 18px calc(15px + var(--safe));display:flex;justify-content:center}
+    .hint{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.55);font-size:12px;font-weight:750;opacity:.74}
+    .overlay{position:absolute;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(23,28,35,.66);backdrop-filter:blur(12px)}
+    .overlay.show{display:flex}.card{width:min(92vw,440px);background:#fffaf3;border-radius:32px;padding:27px 24px 22px;box-shadow:0 36px 80px rgba(0,0,0,.34);text-align:center;animation:cardIn .34s cubic-bezier(.2,.8,.2,1)}
+    @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.96)}}
+    .face{font-size:52px}.resultTitle{font-size:34px;font-weight:1000;letter-spacing:-.055em;margin-top:4px}.resultSub{opacity:.6;font-size:14px;font-weight:700;margin:5px 0 18px}
+    .resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 18px}.stat{padding:13px;border-radius:18px;background:#f4eadf}.stat b{display:block;font-size:27px}.stat span{font-size:10px;font-weight:900;letter-spacing:.1em;opacity:.55;text-transform:uppercase}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{border:0;border-radius:17px;padding:14px 12px;font-weight:950;cursor:pointer}.btn.primary{background:var(--ink);color:#fff}.btn.secondary{background:#efe4d7;color:var(--ink)}.btn.wide{grid-column:1/-1;background:var(--orange);color:#fff}
+    .challenge{display:none;margin:0 auto 8px;width:max-content;max-width:90%;padding:7px 12px;border-radius:999px;background:#253143;color:#fff;font-size:11px;font-weight:900;letter-spacing:.03em}
+    .challenge.show{display:block}
+    .flash{position:absolute;inset:0;z-index:55;background:#fff;opacity:0;pointer-events:none}.flash.go{animation:flash .35s ease}@keyframes flash{20%{opacity:.95}100%{opacity:0}}
+    .shake{animation:shake .32s linear}@keyframes shake{0%,100%{transform:translate(0)}20%{transform:translate(-8px,5px)}40%{transform:translate(7px,-5px)}60%{transform:translate(-5px,-3px)}80%{transform:translate(4px,4px)}}
+    .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(min-width:760px){.hud{padding-left:30px;padding-right:30px}.scene{max-height:78vh}.hint{font-size:13px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+  </style>
+</head>
+<body>
+  <main class="game" id="game">
+    <div class="noise"></div>
+    <header class="hud">
+      <div class="brand">DON'T WAKE MISO<small>steal the fish. freeze when Miso looks.</small></div>
+      <div class="scores">
+        <div class="pill"><span>Fish</span><strong id="fishCount">0</strong></div>
+        <div class="pill"><span>Best</span><strong id="bestScore">0</strong></div>
+      </div>
+    </header>
+
+    <section class="stage">
+      <div class="instruction">
+        <span class="challenge" id="challenge"></span>
+        <span class="big" id="headline">STEAL THE FISH.</span>
+        <span class="sub" id="subline">Drag it slowly. Stop the instant Miso opens his eyes.</span>
+      </div>
+
+      <div class="scene" id="scene">
+        <div class="table"></div><div class="plate"></div><div class="extract" id="extract">OUT</div>
+        <div class="cat" id="cat" data-state="sleeping" aria-label="Miso the sleeping orange cat">
+          <svg viewBox="0 0 640 560" role="img" aria-hidden="true">
+            <defs><linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f39a55"/><stop offset=".62" stop-color="#e7793f"/><stop offset="1" stop-color="#cf5a32"/></linearGradient></defs>
+            <path class="tail body" d="M490 378c89 23 120 78 89 113-25 29-81 11-80-25 1-19 18-26 32-18 14 8 7 29-6 30 28 7 42-15 27-34-20-25-69-21-101-7z"/>
+            <ellipse class="body" cx="319" cy="347" rx="195" ry="144"/>
+            <path class="body" d="M177 188 126 86l106 49c28-17 59-26 92-26 34 0 66 9 94 27l100-52-41 112c22 29 34 64 34 102 0 97-82 168-187 168S137 395 137 298c0-42 14-80 40-110z"/>
+            <path class="cream" d="M205 184c27-31 68-50 118-50 50 0 92 18 121 49 23 24 34 63 27 100-8 46-45 84-94 99-32 10-72 10-105 0-52-15-90-56-96-105-5-35 5-69 29-93z" opacity=".34"/>
+            <path class="stripe" d="M274 119c14-8 27-11 43-11l-14 65-29-6z"/><path class="stripe" d="M333 109c14 1 27 4 40 10l-5 54-29 2z"/>
+            <path class="stripe" d="M170 224c10-13 21-23 34-32l27 38-34 24z"/><path class="stripe" d="M474 191c13 9 24 19 34 32l-26 31-34-24z"/>
+            <path class="cream ear-l" d="M169 171 142 112l65 30z"/><path class="cream ear-r" d="M440 143 501 112l-26 65z"/>
+            <g class="eye" transform="translate(0 0)">
+              <ellipse class="ink" cx="258" cy="267" rx="27" ry="20" transform="scale(1 .06) translate(0 4180)"/>
+              <ellipse class="ink" cx="390" cy="267" rx="27" ry="20" transform="scale(1 .06) translate(0 4180)"/>
+            </g>
+            <g class="eyelid">
+              <path d="M228 267q30 22 60 0" fill="none" stroke="#28303a" stroke-width="8" stroke-linecap="round"/>
+              <path d="M360 267q30 22 60 0" fill="none" stroke="#28303a" stroke-width="8" stroke-linecap="round"/>
+            </g>
+            <path class="nose" d="m324 299-12-8h24z"/><path d="M324 299q0 13-14 18M324 299q0 13 14 18" fill="none" stroke="#7b4b43" stroke-width="5" stroke-linecap="round"/>
+            <g opacity=".64" stroke="#6e5144" stroke-width="4" stroke-linecap="round"><path d="M233 310h-75"/><path d="m232 322-71 17"/><path d="M415 310h75"/><path d="m416 322 71 17"/></g>
+            <ellipse class="cream" cx="319" cy="420" rx="104" ry="47" opacity=".28"/>
+          </svg>
+        </div>
+        <div class="paw">
+          <svg viewBox="0 0 210 120"><path d="M26 76c0-36 34-59 87-59 51 0 77 18 77 44 0 30-28 43-83 43H53C36 104 26 94 26 76z" fill="#e97842"/><ellipse cx="150" cy="73" rx="15" ry="11" fill="#ffd8a8"/><ellipse cx="176" cy="70" rx="12" ry="9" fill="#ffd8a8"/></svg>
+        </div>
+        <div class="fish-wrap" id="fish" role="button" aria-label="Drag the fish out from under Miso's paw" tabindex="0">
+          <svg class="fish" viewBox="0 0 240 120">
+            <path d="M52 59 11 22v74z" fill="#d64a48"/><path d="M49 61c34-48 111-47 154-4-41 48-119 51-154 4z" fill="#ef6a62"/>
+            <path d="M107 29c21 10 35 21 44 34-12 12-26 21-45 29-12-20-12-42 1-63z" fill="#ffcc8a" opacity=".65"/>
+            <circle cx="177" cy="52" r="6" fill="#253143"/><circle cx="179" cy="50" r="2" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+      </div>
+      <div class="warningText" id="warningText">FREEZE!</div>
+      <div class="flash" id="flash"></div>
+    </section>
+
+    <footer class="footer"><div class="hint" id="hint">Hold the fish and pull →</div></footer>
+
+    <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <div class="card">
+        <div class="face">😾</div>
+        <div class="resultTitle" id="resultTitle">MISO SAW YOU.</div>
+        <div class="resultSub" id="resultSub">You moved 0.08s too late.</div>
+        <div class="resultGrid">
+          <div class="stat"><b id="resultFish">0</b><span>fish stolen</span></div>
+          <div class="stat"><b id="resultBest">0</b><span>best run</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="retryBtn">AGAIN</button>
+          <button class="btn secondary" id="copyBtn">CHALLENGE</button>
+          <button class="btn wide" id="shareBtn">SHARE THE MOMENT</button>
+        </div>
+      </div>
+    </div>
+    <div class="sr" aria-live="polite" id="live"></div>
+  </main>
+
+  <script is:inline>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+    const game=$("game"),scene=$("scene"),cat=$("cat"),fish=$("fish"),extract=$("extract"),bar=$("progressBar"),
+      warning=$("warningText"),overlay=$("overlay"),flash=$("flash"),headline=$("headline"),subline=$("subline"),
+      hint=$("hint"),live=$("live"),challenge=$("challenge"),fishCountEl=$("fishCount"),bestScoreEl=$("bestScore"),
+      resultFish=$("resultFish"),resultBest=$("resultBest"),resultSub=$("resultSub");
+
+    const state={phase:"sleeping",fish:0,progress:0,drag:false,lastX:0,lastMove:0,timer:null,watchTimer:null,started:false,deathDelta:0};
+    const params=new URLSearchParams(location.search); const beat=Number(params.get("beat")||0);
+    if(beat>0){challenge.textContent=`BEAT ${beat} FISH`;challenge.classList.add("show")}
+    let best=0; try{best=Number(localStorage.getItem("dwm_best")||0)}catch{} bestScoreEl.textContent=best;
+
+    const track=(name,data={})=>{try{window.dispatchEvent(new CustomEvent("dwm:analytics",{detail:{name,...data}})); if(window.gtag)window.gtag("event",name,data)}catch{}};
+    const setPhase=(phase)=>{state.phase=phase;cat.dataset.state=phase};
+    const setProgress=(v)=>{state.progress=Math.max(0,Math.min(100,v));bar.style.setProperty("--p",state.progress+"%");const max=Math.min(innerWidth*.40,250);fish.style.setProperty("--fish-x",(state.progress/100*max)+"px");extract.classList.toggle("hot",state.progress>82)};
+    const rand=(a,b)=>a+Math.random()*(b-a);
+    const clearTimers=()=>{clearTimeout(state.timer);clearTimeout(state.watchTimer)};
+    const audioCtx=()=>{try{return window.__dwmAudio||(window.__dwmAudio=new (window.AudioContext||window.webkitAudioContext)())}catch{return null}};
+    const tone=(freq,dur=.08,type="sine",gain=.035)=>{const a=audioCtx();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(gain,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+dur);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+dur)};
+
+    function startRun(){
+      if(state.started)return;state.started=true;track("game_start",{challenge:beat||undefined});
+      headline.textContent="STEAL THE FISH.";subline.textContent="When the eyes open: don't move.";hint.textContent="Hold + pull →";
+      scheduleCue();
+    }
+    function scheduleCue(){
+      clearTimers(); if(!state.started||state.phase==="attack")return;
+      const difficulty=Math.min(.46,state.fish*.035);
+      state.timer=setTimeout(()=> Math.random()<(.38+difficulty*.25) ? fakeCue() : realCue(), rand(900,1850)-difficulty*600);
+    }
+    function fakeCue(){
+      if(state.phase==="attack")return; setPhase("fake"); live.textContent="Miso twitched.";
+      setTimeout(()=>{if(state.phase==="fake"){setPhase("sleeping");scheduleCue()}},420);
+    }
+    function realCue(){
+      if(state.phase==="attack")return;
+      setPhase("warning");warning.textContent="...";warning.className="warningText show";
+      tone(420,.05,"sine",.02);
+      const anticipation=Math.max(300,520-state.fish*18);
+      state.watchTimer=setTimeout(()=>{
+        if(state.phase==="attack")return;
+        setPhase("watching");warning.textContent="FREEZE!";warning.className="warningText show danger";
+        live.textContent="Miso is watching. Stop moving.";
+        tone(250,.09,"triangle",.025);
+        const watch=Math.max(620,1120-state.fish*25+rand(-120,180));
+        state.watchTimer=setTimeout(()=>{
+          if(state.phase==="watching"){setPhase("sleeping");warning.className="warningText";live.textContent="Safe. Keep pulling.";tone(620,.06,"sine",.018);scheduleCue()}
+        },watch);
+      },anticipation);
+    }
+    function die(delta){
+      if(state.phase==="attack")return;clearTimers();state.drag=false;state.deathDelta=delta;setPhase("attack");
+      fish.classList.remove("dragging");warning.className="warningText";flash.classList.add("go");game.classList.add("shake");
+      tone(95,.32,"sawtooth",.055);track("run_end",{fish:state.fish,reason:"moved_while_watched",delta:Math.round(delta)});
+      if(state.fish>best){best=state.fish;try{localStorage.setItem("dwm_best",String(best))}catch{}}
+      setTimeout(()=>{game.classList.remove("shake");flash.classList.remove("go");showResult()},760);
+    }
+    function showResult(){
+      resultFish.textContent=state.fish;resultBest.textContent=best;bestScoreEl.textContent=best;
+      const late=(Math.max(.04,Math.min(.39,state.deathDelta/18))).toFixed(2);
+      resultSub.textContent=state.fish===0?`You moved ${late}s too late. Miso has trust issues.`:`${state.fish} stolen. One tiny move ended the run.`;
+      overlay.classList.add("show");
+      if(beat>0 && state.fish>=beat){$("resultTitle").textContent="YOU BEAT THEM. 😼"}else{$("resultTitle").textContent="MISO SAW YOU."}
+    }
+    function success(){
+      state.fish++;fishCountEl.textContent=state.fish;track("fish_stolen",{fish:state.fish});
+      tone(760,.06,"sine",.025);setTimeout(()=>tone(980,.08,"sine",.02),70);
+      headline.textContent=state.fish===1?"ONE FISH DOWN.":"KEEP GOING.";subline.textContent=state.fish>4?"Miso is getting suspicious.":"The next one won't be as easy.";
+      setProgress(0);setPhase("sleeping");scheduleCue();
+    }
+    function reset(){
+      clearTimers();state.phase="sleeping";state.fish=0;state.progress=0;state.drag=false;state.lastX=0;state.started=false;
+      fishCountEl.textContent="0";setProgress(0);setPhase("sleeping");overlay.classList.remove("show");warning.className="warningText";
+      headline.textContent="STEAL THE FISH.";subline.textContent="Drag it slowly. Stop the instant Miso opens his eyes.";hint.textContent="Hold the fish and pull →";
+      track("retry");
+    }
+
+    fish.addEventListener("pointerdown",(e)=>{e.preventDefault();startRun();state.drag=true;state.lastX=e.clientX;state.lastMove=performance.now();fish.setPointerCapture?.(e.pointerId);fish.classList.add("dragging");tone(360,.04,"sine",.012)});
+    fish.addEventListener("pointermove",(e)=>{
+      if(!state.drag||state.phase==="attack")return;e.preventDefault();
+      const dx=e.clientX-state.lastX;state.lastX=e.clientX;
+      if(Math.abs(dx)<.8)return;
+      if(state.phase==="watching" && Math.abs(dx)>1.8){die(Math.abs(dx));return}
+      if(state.phase==="sleeping"||state.phase==="fake"||state.phase==="warning"){
+        const scale=innerWidth<700?0.32:0.24; if(dx>0)setProgress(state.progress+dx*scale); else setProgress(state.progress+dx*.08);
+        if(state.progress>=100){state.drag=false;fish.classList.remove("dragging");success()}
+      }
+      state.lastMove=performance.now();
+    },{passive:false});
+    const endDrag=()=>{state.drag=false;fish.classList.remove("dragging")};fish.addEventListener("pointerup",endDrag);fish.addEventListener("pointercancel",endDrag);
+
+    $("retryBtn").addEventListener("click",reset);
+    const challengeUrl=()=>{const u=new URL(location.href);u.search="";u.searchParams.set("beat",String(Math.max(1,state.fish)));return u.toString()};
+    $("copyBtn").addEventListener("click",async()=>{const url=challengeUrl();try{await navigator.clipboard.writeText(url);$("copyBtn").textContent="COPIED ✓";setTimeout(()=>$("copyBtn").textContent="CHALLENGE",1400)}catch{prompt("Challenge link",url)}track("challenge_copy",{fish:state.fish})});
+
+    async function makeShareCard(){
+      const c=document.createElement("canvas");c.width=1080;c.height=1350;const x=c.getContext("2d");
+      x.fillStyle="#f6efe4";x.fillRect(0,0,c.width,c.height);
+      x.fillStyle="#18212d";x.font="900 58px system-ui";x.fillText("DON'T WAKE MISO",78,105);
+      x.fillStyle="#e97842";x.beginPath();x.arc(540,540,300,0,Math.PI*2);x.fill();
+      x.fillStyle="#ffd8a8";x.beginPath();x.moveTo(315,355);x.lineTo(390,180);x.lineTo(465,355);x.fill();x.beginPath();x.moveTo(615,355);x.lineTo(690,180);x.lineTo(765,355);x.fill();
+      x.fillStyle="#18212d";x.beginPath();x.arc(435,500,28,0,Math.PI*2);x.arc(645,500,28,0,Math.PI*2);x.fill();
+      x.fillStyle="#9a4c45";x.beginPath();x.moveTo(540,560);x.lineTo(517,545);x.lineTo(563,545);x.fill();
+      x.fillStyle="#18212d";x.textAlign="center";x.font="1000 160px system-ui";x.fillText(String(state.fish),540,990);x.font="900 42px system-ui";x.fillText("FISH STOLEN BEFORE MISO CAUGHT ME",540,1060);
+      x.font="800 32px system-ui";x.fillStyle="rgba(24,33,45,.58)";x.fillText("Can you beat me?",540,1145);
+      return await new Promise(r=>c.toBlob(r,"image/png",.92));
+    }
+    $("shareBtn").addEventListener("click",async()=>{
+      const url=challengeUrl(),text=`I stole ${state.fish} fish before Miso caught me. Can you beat me?`;
+      try{
+        const blob=await makeShareCard();const file=new File([blob],"dont-wake-miso.png",{type:"image/png"});
+        if(navigator.canShare?.({files:[file]})){await navigator.share({title:"Don't Wake Miso",text,url,files:[file]})}
+        else if(navigator.share){await navigator.share({title:"Don't Wake Miso",text,url})}
+        else{await navigator.clipboard.writeText(text+" "+url);$("shareBtn").textContent="LINK COPIED ✓";setTimeout(()=>$("shareBtn").textContent="SHARE THE MOMENT",1500)}
+        track("share",{fish:state.fish});
+      }catch(e){if(e?.name!=="AbortError")track("share_error")}
+    });
+
+    document.addEventListener("visibilitychange",()=>{if(document.hidden&&state.started&&state.phase!=="attack"){clearTimers();state.drag=false}else if(!document.hidden&&state.started&&state.phase!=="attack"){setPhase("sleeping");scheduleCue()}});
+    track("page_view");
+  })();
+  </script>
+</body>
+</html>
