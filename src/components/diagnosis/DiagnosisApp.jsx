@@ -1044,7 +1044,7 @@ export default function DiagnosisPage() {
 
       <Header
         title="FDE FAN Diagnosis"
-        subtitle={diagnosisType === 'software' ? '软件项目需求诊断' : '企业 AI 转型诊断 Agent'}
+        subtitle={(status === 'welcome' ? welcomeMode : diagnosisType) === 'software' ? '软件项目需求诊断' : '企业 AI 转型诊断 Agent'}
         email={email}
         setEmail={setEmail}
         password={password}
@@ -1084,8 +1084,8 @@ export default function DiagnosisPage() {
                 <li><strong>注册 / 登录：</strong>在右上角输入邮箱和密码，首次使用会自动注册。</li>
                 <li><strong>账号验证：</strong>再次进入时使用同一邮箱和密码验证身份，历史诊断会自动恢复。</li>
                 <li><strong>选择诊断入口：</strong>第一次进入选择一个最接近当前目标的入口，之后会直接进入上次对话。</li>
-                <li><strong>开始对话：</strong>直接描述企业最想增长、降本、提效或转型卡住的场景，AI 顾问会逐步追问。</li>
-                <li><strong>生成报告：</strong>信息完整后生成企业 AI 增长转型诊断报告，并可导出 PDF。</li>
+                <li><strong>开始对话：</strong>{welcomeMode === 'software' ? '描述当前项目、现有技术和预期成果，由软件需求顾问逐步追问未确认的条件。' : '直接描述企业最想增长、降本、提效或转型卡住的场景，AI 顾问会逐步追问。'}</li>
+                <li><strong>生成报告：</strong>{welcomeMode === 'software' ? '需求信息达到 50% 可生成软件项目技术需求初稿并导出 PDF，工期和报价仍须验证。' : '信息完整后生成企业 AI 增长转型诊断报告，并可导出 PDF。'}</li>
               </ol>
             </div>
 
