@@ -3,6 +3,7 @@ import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { formatDiagnosisGoalPrompt, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { generateText } from '../text_model_provider.js';
+import { generateProjectReport } from '../project_diagnosis.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
 
     // 1. 获取当前会话状态，检查完整度是否达标
     const sessions = await query(
-      `SELECT completeness, status, diagnosis_goal FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`,
+      `SELECT completeness, status, diagnosis_goal, diagnosis_type FROM diagnosis_sessions WHERE id = ? AND email = ? AND COALESCE(is_hidden, FALSE) = FALSE`,
       [sessionId, auth.email]
     );
 
@@ -38,6 +39,10 @@ export default async function handler(req, res) {
     }
 
     const currentSession = sessions[0];
+    if (currentSession.diagnosis_type === 'software') {
+      try { return res.status(200).json({success:true,report:await generateProjectReport(sessionId)}); }
+      catch(error) { return res.status(error.status || 500).json({error:error.status?error.message:'软件项目报告生成失败，请稍后重试'}); }
+    }
     const goalDefinition = getDiagnosisGoalDefinition(currentSession.diagnosis_goal);
     const goalPrompt = formatDiagnosisGoalPrompt(currentSession.diagnosis_goal);
     if (currentSession.completeness < 50) {

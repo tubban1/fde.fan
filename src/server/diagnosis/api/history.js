@@ -28,6 +28,7 @@ export default async function handler(req, res) {
          s.completeness,
          s.profile_status,
          s.diagnosis_goal,
+         s.diagnosis_type,
          s.created_at,
          s.updated_at,
          (SELECT COUNT(*) FROM diagnosis_messages m WHERE m.session_id = s.id) AS message_count,
@@ -52,12 +53,13 @@ export default async function handler(req, res) {
         return {
           id: item.id,
           status: item.status,
+          diagnosisType: item.diagnosis_type || 'business',
           completeness: item.completeness || 0,
           profileStatus: item.profile_status || 'idle',
           createdAt: item.created_at,
           updatedAt: item.updated_at,
           goal: goalDefinition?.key || '',
-          goalLabel: goalDefinition?.label || '',
+          goalLabel: item.diagnosis_type === 'software' ? '软件项目需求诊断' : (goalDefinition?.label || ''),
           messageCount: item.message_count || 0,
           lastUserMessage: item.last_user_message || ''
         };

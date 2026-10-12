@@ -28,13 +28,15 @@ export default async function handler(req, res) {
     // 这彻底避免了同一个 API 运行周期内多次调用 db.query() 和 db.end() 导致的连接冲突及挂起阻塞
     const rows = await query(
       `SELECT 
-         s.id AS session_id, s.email, s.status, s.completeness, s.profile_status, s.diagnosis_goal, s.created_at AS session_created_at,
+         s.id AS session_id, s.email, s.status, s.completeness, s.profile_status, s.diagnosis_goal, s.diagnosis_type, s.created_at AS session_created_at,
          p.known_facts, p.missing_fields,
          r.summary, r.maturity_score, r.pain_points, r.opportunity_map, r.recommended_agents, r.roadmap_30_60_90, r.risks, r.data_requirements, r.next_actions,
+         pr.report_json AS project_report_json,
          m.id AS msg_id, m.sender AS msg_sender, m.content AS msg_content, m.created_at AS msg_created_at
        FROM diagnosis_sessions s
        LEFT JOIN diagnosis_profiles p ON s.id = p.session_id
        LEFT JOIN diagnosis_reports r ON s.id = r.session_id
+       LEFT JOIN diagnosis_project_reports pr ON s.id = pr.session_id
        LEFT JOIN diagnosis_messages m ON s.id = m.session_id
        WHERE s.id = ? AND s.email = ? AND COALESCE(s.is_hidden, FALSE) = FALSE
        ORDER BY m.id ASC`,
@@ -53,10 +55,11 @@ export default async function handler(req, res) {
       id: firstRow.session_id,
       email: firstRow.email,
       status: firstRow.status,
+      diagnosisType: firstRow.diagnosis_type || 'business',
       completeness: firstRow.completeness,
       profileStatus: firstRow.profile_status || 'idle',
       goal: goalDefinition?.key || '',
-      goalLabel: goalDefinition?.label || '',
+      goalLabel: firstRow.diagnosis_type === 'software' ? '软件项目需求诊断' : (goalDefinition?.label || ''),
       createdAt: firstRow.session_created_at
     };
 
@@ -118,6 +121,9 @@ export default async function handler(req, res) {
       };
     }
 
+    if (session.diagnosisType === 'software' && firstRow.project_report_json) {
+      try { report = JSON.parse(firstRow.project_report_json); } catch { report = null; }
+    }
     return res.status(200).json({
       success: true,
       session,

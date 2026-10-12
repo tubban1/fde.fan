@@ -2,6 +2,7 @@ import { query } from '../db.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { buildDiagnosisWelcomeMessage, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import crypto from 'crypto';
+import { PROJECT_FIELDS, projectWelcome } from '../project_diagnosis.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 export default async function handler(req, res) {
@@ -9,7 +10,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: '方法不允许' });
   }
 
-  const { email, password, goal } = req.body || {};
+  const { email, password, goal, diagnosisType } = req.body || {};
+  const isSoftware = diagnosisType === 'software';
 
   if (!email || !password) {
     return res.status(401).json({ error: '请先登录后再开始诊断' });
@@ -23,7 +25,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: '登录状态无效，请重新登录' });
     }
 
-    const goalDefinition = getDiagnosisGoalDefinition(goal);
+    const goalDefinition = isSoftware ? {key:'software-project',label:'软件项目需求诊断'} : getDiagnosisGoalDefinition(goal);
     if (!goalDefinition) {
       return res.status(400).json({ error: '请选择有效的诊断方向' });
     }
@@ -32,7 +34,7 @@ export default async function handler(req, res) {
     const sessionId = 'diag_' + crypto.randomBytes(16).toString('hex');
 
     // 预设缺失收集的字段
-    const missingFields = [
+    const missingFields = isSoftware ? PROJECT_FIELDS.map(x=>x[1]) : [
       '企业背景 (行业、规模、客户类型、团队结构)',
       '目标结果 (增长、降本、提效、风控、体验)',
       '优先场景 (最想先解决的 AI/Agent 场景)',
@@ -45,17 +47,17 @@ export default async function handler(req, res) {
 
     // 1. 创建 Session
     await query(
-      `INSERT INTO diagnosis_sessions (id, email, status, completeness, diagnosis_goal) VALUES (?, ?, ?, ?, ?)`,
-      [sessionId, auth.email, 'collecting_info', 0, goalDefinition.key]
+      `INSERT INTO diagnosis_sessions (id, email, status, completeness, diagnosis_goal, diagnosis_type) VALUES (?, ?, ?, ?, ?, ?)`,
+      [sessionId, auth.email, 'collecting_info', 0, goalDefinition.key, isSoftware ? 'software' : 'business']
     );
 
     // 2. 初始化 Profile
     await query(
       `INSERT INTO diagnosis_profiles (session_id, known_facts, missing_fields) VALUES (?, ?, ?)`,
-      [sessionId, JSON.stringify({ diagnosisDirection: goalDefinition.label }), JSON.stringify(missingFields)]
+      [sessionId, JSON.stringify(isSoftware ? {} : { diagnosisDirection: goalDefinition.label }), JSON.stringify(missingFields)]
     );
 
-    const welcomeText = buildDiagnosisWelcomeMessage(goalDefinition.key);
+    const welcomeText = isSoftware ? projectWelcome(goalDefinition.label) : buildDiagnosisWelcomeMessage(goalDefinition.key);
 
     // 4. 保存问候语到消息表
     await query(
@@ -66,9 +68,10 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       sessionId,
+      diagnosisType: isSoftware ? 'software' : 'business',
       welcomeText,
       completeness: 0,
-      knownFacts: { diagnosisDirection: goalDefinition.label },
+      knownFacts: isSoftware ? {} : { diagnosisDirection: goalDefinition.label },
       missingFields,
       status: 'collecting_info',
       goal: goalDefinition.key,

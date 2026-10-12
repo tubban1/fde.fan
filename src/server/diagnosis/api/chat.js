@@ -4,6 +4,7 @@ import { formatErrorForLog } from '../safe_error.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
 import { formatDiagnosisGoalPrompt, getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { extractStreamTextFromJson, streamText } from '../text_model_provider.js';
+import { extractProjectFacts, projectChatPrompts } from '../project_diagnosis.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
 function persistAgentMessage(sessionId, content, label) {
@@ -130,6 +131,7 @@ export default async function handler(req, res) {
       return res.end();
     }
     const currentSession = sessions[0];
+    const isSoftware = currentSession.diagnosis_type === 'software';
     const goalDefinition = getDiagnosisGoalDefinition(currentSession.diagnosis_goal);
     const goalPrompt = formatDiagnosisGoalPrompt(currentSession.diagnosis_goal);
 
@@ -166,9 +168,9 @@ export default async function handler(req, res) {
     let extractionPromise = null;
     if (shouldExtract(message, historyMessages)) {
       // 同步发起本地快速粗提取，秒级回馈完整度跳变！
-      await extractDiagnosisProfileLocally(sessionId, message);
+      if (!isSoftware) await extractDiagnosisProfileLocally(sessionId, message);
       // 立刻触发模型提取，与聊天回复并行；响应结束前会等待它落库，避免 Serverless 截断后台任务。
-      extractionPromise = extractDiagnosisProfile(sessionId, message, historyMessages, currentSession.diagnosis_goal)
+      extractionPromise = (isSoftware ? extractProjectFacts(sessionId, message, historyMessages) : extractDiagnosisProfile(sessionId, message, historyMessages, currentSession.diagnosis_goal))
         .catch((error) => {
           console.error('[Diagnosis Extraction Task Error]:', formatErrorForLog(error));
         });
@@ -235,11 +237,12 @@ D. 落地条件：依次补齐数据、系统、决策资源、风险与验收�
 9. 如果用户否认先前方向或表示困惑，先承认理解偏差，再重新定位真正目标。
 10. 请直接输出中文对话文本，严禁返回 JSON，也不要用 markdown 代码块。`;
 
+    const activePrompts = isSoftware ? projectChatPrompts(currentFacts, historyMessages) : {systemPrompt,userPrompt:promptUserContent};
     let accumulatedReply = '';
     try {
       const modelStream = await streamText({
-        systemPrompt,
-        userPrompt: promptUserContent,
+        systemPrompt: activePrompts.systemPrompt,
+        userPrompt: activePrompts.userPrompt,
         temperature: 0.6,
         timeout: 70000
       });
