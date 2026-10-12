@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Header from './DiagnosisHeader.jsx';
 import axios from 'axios';
+import SoftwareDiagnosisWorkbench from './SoftwareDiagnosisWorkbench.jsx';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const POLL_INTERVAL_MS = 3000;
@@ -25,9 +26,11 @@ export default function DiagnosisPage() {
   const [sessionId, setSessionId] = useState(null);
   const [status, setStatus] = useState('welcome'); // welcome, collecting_info, diagnosing, report_ready
   const [goal, setGoal] = useState('');
+  const [diagnosisType,setDiagnosisType] = useState('business');
+  const [welcomeMode,setWelcomeMode] = useState('business');
   const [completeness, setCompleteness] = useState(0);
   const [knownFacts, setKnownFacts] = useState({});
-  const [, setMissingFields] = useState([]);
+  const [missingFieldsForSoftware, setMissingFields] = useState([]);
   const [messages, setMessages] = useState([]);
   const [report, setReport] = useState(null);
   const [isRestoredSession, setIsRestoredSession] = useState(false);
@@ -730,6 +733,8 @@ export default function DiagnosisPage() {
       if (res.data?.success) {
         const { session, messages: historyMsgs, knownFacts: facts, missingFields: missing, report: rep } = res.data;
         setSessionId(session.id);
+        setDiagnosisType(session.diagnosisType || 'business');
+        setWelcomeMode(session.diagnosisType || 'business');
         setStatus(session.status);
         setCompleteness(session.completeness);
         setKnownFacts(facts || {});
@@ -755,7 +760,7 @@ export default function DiagnosisPage() {
   };
 
   // 开启新的诊断会话
-  const handleStartDiagnosis = async (selectedGoal) => {
+  const handleStartDiagnosis = async (selectedGoal, mode = welcomeMode) => {
     if (emailStatus !== 'verified' || !email || !password) {
       triggerToast('请先登录账号，再开始免费企业 AI 增长转型诊断');
       return;
@@ -765,6 +770,7 @@ export default function DiagnosisPage() {
       return;
     }
     setGoal(selectedGoal);
+    setDiagnosisType(mode);
     setIsChatLoading(true);
     setIsRestoredSession(false); // 新会话，设为 false
     setProfileStatus('idle');
@@ -772,11 +778,13 @@ export default function DiagnosisPage() {
       const res = await axios.post('/api/diagnosis/start', {
         email,
         password,
-        goal: selectedGoal
+        goal: selectedGoal,
+        diagnosisType: mode
       });
       if (res.data?.success) {
         const { sessionId: newSid, welcomeText, completeness: newComp, knownFacts: facts, missingFields: missing, status: newStatus, goalLabel } = res.data;
         setSessionId(newSid);
+        setDiagnosisType(res.data.diagnosisType || mode);
         setStatus(newStatus);
         setCompleteness(newComp);
         setKnownFacts(facts || {});
@@ -911,7 +919,7 @@ export default function DiagnosisPage() {
         setReport(res.data.report);
         setStatus('report_ready');
         setActiveTab('report');
-        triggerToast('🎉 您的企业 AI 转型诊断报告已成功生成！');
+        triggerToast(diagnosisType === 'software' ? '📄 软件项目报告初稿已生成！' : '🎉 您的企业 AI 转型诊断报告已成功生成！');
         // 重新拉取一次对话历史以更新报告生成的系统提示通知
         const sessionRes = await axios.post('/api/diagnosis/session', { id: sessionId, email, password });
         if (sessionRes.data?.success) {
@@ -1036,7 +1044,7 @@ export default function DiagnosisPage() {
 
       <Header
         title="FDE FAN Diagnosis"
-        subtitle="企业 AI 转型诊断 Agent"
+        subtitle={diagnosisType === 'software' ? '软件项目需求诊断' : '企业 AI 转型诊断 Agent'}
         email={email}
         setEmail={setEmail}
         password={password}
@@ -1064,9 +1072,9 @@ export default function DiagnosisPage() {
           <div className="welcome-container">
             <div className="welcome-hero animate-fade-in">
               <span className="welcome-badge">FDE FAN DIAGNOSIS AGENT</span>
-              <h1>企业 AI 转型诊断 Agent</h1>
+              <h1>{welcomeMode === 'software' ? '软件项目需求诊断' : '企业 AI 转型诊断 Agent'}</h1>
               <p className="welcome-description">
-                不先卖方案，不让您填长问卷。通过几轮顾问式对话，帮企业识别增长机会、降本空间、效率瓶颈和 30/60/90 天可落地的 AI 转型路径。
+                {welcomeMode === 'software' ? '逐步澄清软件项目的需求范围、已有源码、技术兼容、验收和商业合作条件，生成双方可确认的项目技术需求初稿。' : '不先卖方案，不让您填长问卷。通过几轮顾问式对话，帮企业识别增长机会、降本空间、效率瓶颈和 30/60/90 天可落地的 AI 转型路径。'}
               </p>
             </div>
 
@@ -1084,14 +1092,15 @@ export default function DiagnosisPage() {
             <div className="goal-selection-card animate-slide-up">
               {emailStatus !== 'verified' && (
                 <div className="login-required-banner">
-                  请先在右上角登录账号。登录后才能开始免费企业 AI 增长转型诊断，所有对话、画像和报告会自动保存到该账号。
+                  {welcomeMode === 'software' ? '请先在右上角登录账号，软件项目访谈、需求画像和报告会保存到该账号。' : '请先在右上角登录账号。登录后才能开始免费企业 AI 增长转型诊断，所有对话、画像和报告会自动保存到该账号。'}
                 </div>
               )}
               <h2>选择一个诊断入口</h2>
-              <p className="goal-subtitle">选一个最像您当前处境的入口。AI 顾问会先给判断，再用很轻的问题把真实需求梳理出来：</p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:12,margin:'16px 0'}}><button type="button" className="goal-btn-item" aria-pressed={welcomeMode==='business'} style={{flex:1,minWidth:160,outline:welcomeMode==='business'?'2px solid #0d9488':'none'}} onClick={()=>setWelcomeMode('business')}>🏢 企业 AI 转型</button><button type="button" className="goal-btn-item" aria-pressed={welcomeMode==='software'} style={{flex:1,minWidth:160,outline:welcomeMode==='software'?'2px solid #0d9488':'none'}} onClick={()=>setWelcomeMode('software')}>💻 软件项目需求</button></div>
+              <p className="goal-subtitle">{welcomeMode === 'software' ? '软件开发、系统升级、游戏引擎迁移及技术合作，从具体需求开始。' : '选一个最像您当前处境的入口。AI 顾问会先给判断，再用很轻的问题把真实需求梳理出来：'}</p>
               
               <div className="goals-grid">
-                {goals.map((g, idx) => (
+                {welcomeMode === 'software' ? <button type="button" className="goal-btn-item" onClick={()=>handleStartDiagnosis('software-project','software')} disabled={isChatLoading}><div className="goal-btn-icon">💻</div><div className="goal-btn-content"><span className="goal-title-txt">开始软件项目需求诊断</span><span className="goal-desc-txt">软件开发、游戏引擎迁移与技术合作</span></div><span className="goal-arrow">→</span></button> : goals.map((g, idx) => (
                   <button 
                     key={idx} 
                     onClick={() => handleStartDiagnosis(g)}
@@ -1164,6 +1173,8 @@ export default function DiagnosisPage() {
               </div>
             )}
           </div>
+        ) : diagnosisType === 'software' ? (
+          <SoftwareDiagnosisWorkbench completeness={completeness} status={status} knownFacts={knownFacts} missingFields={missingFieldsForSoftware} messages={messages} report={report} profileStatus={profileStatus} activeTab={activeTab} setActiveTab={setActiveTab} inputText={inputText} setInputText={setInputText} isChatLoading={isChatLoading} isReportLoading={isReportLoading} onSend={handleSendMessage} onReport={handleGenerateReport} onReset={handleReset} history={diagnosisHistory} onLoadSession={loadSession} messagesEndRef={messagesEndRef} errorMsg={errorMsg} />
         ) : (
           /* 诊断工作台主界面 */
           <div className="workbench-layout">

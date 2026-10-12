@@ -11,6 +11,7 @@ export async function ensureDiagnosisRuntimeSchema() {
   if (isPostgresMode) {
     await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN NOT NULL DEFAULT FALSE`);
     await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS diagnosis_goal VARCHAR(32) NULL`);
+    await query(`ALTER TABLE diagnosis_sessions ADD COLUMN IF NOT EXISTS diagnosis_type VARCHAR(24) NOT NULL DEFAULT 'business'`);
     await query(`
       CREATE TABLE IF NOT EXISTS diagnosis_export_leads (
         id SERIAL PRIMARY KEY,
@@ -52,5 +53,10 @@ export async function ensureDiagnosisRuntimeSchema() {
     `);
   }
 
+  if (!isPostgresMode) {
+    try { await query("ALTER TABLE diagnosis_sessions ADD COLUMN diagnosis_type VARCHAR(24) NOT NULL DEFAULT 'business'"); }
+    catch(e) { if (!['ER_DUP_FIELDNAME','ER_DUP_COLUMN_NAME'].includes(e?.code) && !String(e?.message).toLowerCase().includes('duplicate')) throw e; }
+  }
+  await query(`CREATE TABLE IF NOT EXISTS diagnosis_project_reports (session_id VARCHAR(64) PRIMARY KEY, report_json TEXT, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`);
   ensuredDiagnosisRuntimeSchema = true;
 }
