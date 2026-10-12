@@ -64,6 +64,8 @@ export default function DiagnosisPage() {
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
 
   const messagesEndRef = useRef(null);
+  const sessionNavigationRef = useRef(0);
+  const allowAutoRestoreRef = useRef(true);
   const isComposingRef = useRef(false);
   const recognitionRef = useRef(null);
   const recognitionBaseTextRef = useRef('');
@@ -76,6 +78,11 @@ export default function DiagnosisPage() {
     const emailFromUrl = urlParams.get('email');
     const pwdFromUrl = urlParams.get('password');
     const tokenFromUrl = urlParams.get('token');
+    const requestedMode = urlParams.get('new');
+    if (['software', 'business'].includes(requestedMode)) {
+      allowAutoRestoreRef.current = false;
+      setWelcomeMode(requestedMode);
+    }
 
     let storedEmail = emailFromUrl || (tokenFromUrl ? tokenFromUrl : localStorage.getItem('fde_diagnosis_email'));
     let storedPassword = pwdFromUrl || localStorage.getItem('fde_diagnosis_password') || (tokenFromUrl ? `wx_${tokenFromUrl.slice(3, 13)}` : '');
@@ -89,7 +96,7 @@ export default function DiagnosisPage() {
       localStorage.setItem('fde_diagnosis_password', storedPassword);
       localStorage.setItem('fde_diagnosis_verified', 'true');
       window.setTimeout(() => {
-        loadDiagnosisHistory(storedEmail, storedPassword, true);
+        loadDiagnosisHistory(storedEmail, storedPassword, allowAutoRestoreRef.current);
       }, 0);
     }
   }, []);
@@ -234,6 +241,9 @@ export default function DiagnosisPage() {
   };
 
   const handleLogout = () => {
+    allowAutoRestoreRef.current = false;
+    sessionNavigationRef.current += 1;
+    localStorage.removeItem('diagnosis_session_id');
     localStorage.removeItem('fde_diagnosis_email');
     localStorage.removeItem('fde_diagnosis_password');
     localStorage.removeItem('fde_diagnosis_verified');
@@ -669,7 +679,7 @@ export default function DiagnosisPage() {
         setDiagnosisHistory(sessions);
         const storedSessionId = localStorage.getItem('diagnosis_session_id');
         const sessionToRestore = sessions.find(item => item.id === storedSessionId) || sessions[0];
-        if (restoreLatest && sessionToRestore) {
+        if (restoreLatest && sessionToRestore && allowAutoRestoreRef.current) {
           await loadSession(sessionToRestore.id, emailToLoad, passwordToUse);
         }
       }
@@ -724,14 +734,17 @@ export default function DiagnosisPage() {
 
   // 加载已有的诊断会话
   const loadSession = async (sid, emailToUse = email, passwordToUse = password) => {
+    const navigationId = ++sessionNavigationRef.current;
     try {
       const res = await axios.post('/api/diagnosis/session', {
         id: sid,
         email: emailToUse,
         password: passwordToUse
       });
+      if (navigationId !== sessionNavigationRef.current) return;
       if (res.data?.success) {
         const { session, messages: historyMsgs, knownFacts: facts, missingFields: missing, report: rep } = res.data;
+        allowAutoRestoreRef.current = false;
         setSessionId(session.id);
         setDiagnosisType(session.diagnosisType || 'business');
         setWelcomeMode(session.diagnosisType || 'business');
@@ -754,6 +767,7 @@ export default function DiagnosisPage() {
         localStorage.removeItem('diagnosis_session_id');
       }
     } catch (err) {
+      if (navigationId !== sessionNavigationRef.current) return;
       console.error('Failed to load diagnosis session:', err);
       localStorage.removeItem('diagnosis_session_id');
     }
@@ -761,6 +775,7 @@ export default function DiagnosisPage() {
 
   // 开启新的诊断会话
   const handleStartDiagnosis = async (selectedGoal, mode = welcomeMode) => {
+    if (isChatLoading || isReportLoading) return;
     if (emailStatus !== 'verified' || !email || !password) {
       triggerToast('请先登录账号，再开始免费企业 AI 增长转型诊断');
       return;
@@ -769,11 +784,9 @@ export default function DiagnosisPage() {
       triggerToast('请先选择一个诊断目标');
       return;
     }
-    setGoal(selectedGoal);
-    setDiagnosisType(mode);
+    allowAutoRestoreRef.current = false;
+    const navigationId = ++sessionNavigationRef.current;
     setIsChatLoading(true);
-    setIsRestoredSession(false); // 新会话，设为 false
-    setProfileStatus('idle');
     try {
       const res = await axios.post('/api/diagnosis/start', {
         email,
@@ -781,8 +794,11 @@ export default function DiagnosisPage() {
         goal: selectedGoal,
         diagnosisType: mode
       });
+      if (navigationId !== sessionNavigationRef.current) return;
       if (res.data?.success) {
         const { sessionId: newSid, welcomeText, completeness: newComp, knownFacts: facts, missingFields: missing, status: newStatus, goalLabel } = res.data;
+        setIsRestoredSession(false);
+        setProfileStatus('idle');
         setSessionId(newSid);
         setDiagnosisType(res.data.diagnosisType || mode);
         setStatus(newStatus);
@@ -792,6 +808,9 @@ export default function DiagnosisPage() {
         setMessages([{ sender: 'agent', content: welcomeText, created_at: new Date().toISOString() }]);
         setReport(null);
         setGoal(goalLabel || selectedGoal.split(' (')[0]);
+        setWelcomeMode(mode);
+        setInputText('');
+        setErrorMsg('');
         setActiveTab('profile');
         localStorage.setItem('diagnosis_session_id', newSid);
         loadDiagnosisHistory(email, password, false);
@@ -948,20 +967,29 @@ export default function DiagnosisPage() {
     window.location.assign(`/agent-demo?${params.toString()}`);
   };
 
-  // 重置/重新诊断
+  // Switch to mode chooser without deleting the session or historical reports.
   const handleReset = () => {
-    if (window.confirm('您确定要重置当前诊断并开启一份新诊断吗？历史记录将不再在此显示。')) {
-      localStorage.removeItem('diagnosis_session_id');
-      setSessionId(null);
-      setStatus('welcome');
-      setCompleteness(0);
-      setKnownFacts({});
-      setMissingFields([]);
-      setMessages([]);
-      setReport(null);
-      setGoal('');
-      setIsRestoredSession(false);
+    if (isChatLoading || isReportLoading) {
+      triggerToast('请等待当前回复或报告完成，再切换诊断');
+      return;
     }
+    allowAutoRestoreRef.current = false;
+    sessionNavigationRef.current += 1;
+    localStorage.removeItem('diagnosis_session_id');
+    setSessionId(null);
+    setStatus('welcome');
+    setWelcomeMode(diagnosisType);
+    setCompleteness(0);
+    setKnownFacts({});
+    setMissingFields([]);
+    setMessages([]);
+    setReport(null);
+    setGoal('');
+    setInputText('');
+    setErrorMsg('');
+    setActiveTab('profile');
+    setProfileStatus('idle');
+    setIsRestoredSession(false);
   };
 
   const goals = [
@@ -1067,6 +1095,21 @@ export default function DiagnosisPage() {
       )}
 
       <main className="main-workspace-full">
+        {status !== 'welcome' && sessionId && (
+          <nav className="diagnosis-workspace-switch" aria-label="创建或切换诊断">
+            <span className="diagnosis-switch-current">当前：{diagnosisType === 'software' ? '软件项目需求' : '企业 AI 转型'}</span>
+            <div className="diagnosis-switch-actions">
+              <button type="button" className="diagnosis-switch-primary"
+                disabled={isChatLoading || isReportLoading}
+                onClick={() => handleStartDiagnosis('software-project', 'software')}>
+                {isChatLoading ? '正在处理…' : '＋ 新建软件项目需求'}
+              </button>
+              <button type="button" className="diagnosis-switch-secondary"
+                disabled={isChatLoading || isReportLoading}
+                onClick={handleReset}>选择其他诊断</button>
+            </div>
+          </nav>
+        )}
         {status === 'welcome' || !sessionId ? (
           /* 目标选择欢迎页 */
           <div className="welcome-container">
@@ -1249,7 +1292,7 @@ export default function DiagnosisPage() {
 
                 <div className="sidebar-bottom-actions">
                   <button onClick={handleReset} className="btn-reset-session">
-                    新的对话
+                    选择诊断类型
                   </button>
                 </div>
               </div>
@@ -1687,6 +1730,43 @@ export default function DiagnosisPage() {
         .app-container.fixed-workbench .main-workspace-full {
           height: 0;
           overflow: hidden;
+        }
+
+        .diagnosis-workspace-switch {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 9px 20px;
+          color: #cbd5e1;
+          background: #172338;
+          border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .diagnosis-switch-current { font-size: 0.78rem; font-weight: 650; }
+        .diagnosis-switch-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+        .diagnosis-switch-actions button {
+          padding: 8px 12px;
+          border-radius: 8px;
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+        }
+        .diagnosis-switch-primary { border: 1px solid #0d9488; color: #fff; background: #0d9488; }
+        .diagnosis-switch-secondary { border: 1px solid #64748b; color: inherit; background: transparent; }
+        .diagnosis-switch-actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .theme-light .diagnosis-workspace-switch {
+          background: #fff;
+          color: #334155;
+          border-bottom-color: #e2e8f0;
+        }
+        .app-container.fixed-workbench .diagnosis-workspace-switch + .workbench-layout {
+          height: 0;
+          min-height: 0;
+        }
+        @media (max-width: 992px) {
+          .diagnosis-workspace-switch { flex-wrap: wrap; padding: 10px 14px; }
+          .app-container.fixed-workbench .diagnosis-workspace-switch + .workbench-layout { height: auto; }
         }
 
         /* 动画库 */
