@@ -166,7 +166,7 @@ export default async function handler(req, res) {
     };
 
     let extractionPromise = null;
-    if (shouldExtract(message, historyMessages)) {
+    if (isSoftware ? !/^(你好|您好|谢谢|感谢|hello|hi|👋)$/i.test(message.trim()) : shouldExtract(message, historyMessages)) {
       // 同步发起本地快速粗提取，秒级回馈完整度跳变！
       if (!isSoftware) await extractDiagnosisProfileLocally(sessionId, message);
       // 立刻触发模型提取，与聊天回复并行；响应结束前会等待它落库，避免 Serverless 截断后台任务。

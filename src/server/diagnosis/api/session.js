@@ -1,5 +1,6 @@
 import { query } from '../db.js';
 import { ensureDiagnosisRuntimeSchema } from '../diagnosis_schema.js';
+import { normalizeProjectFacts, projectCompleteness, projectMissing, projectDecisionReadiness } from '../project_diagnosis.js';
 import { getDiagnosisGoalDefinition } from '../diagnosis_goal.js';
 import { authenticateUser } from '../../diagnosis-auth/authenticate.js';
 
@@ -121,8 +122,19 @@ export default async function handler(req, res) {
       };
     }
 
+    if (session.diagnosisType === 'software') {
+      knownFacts = normalizeProjectFacts(knownFacts);
+      session.completeness = projectCompleteness(knownFacts);
+      missingFields = projectMissing(knownFacts);
+    }
     if (session.diagnosisType === 'software' && firstRow.project_report_json) {
-      try { report = JSON.parse(firstRow.project_report_json); } catch { report = null; }
+      try {
+        report = JSON.parse(firstRow.project_report_json);
+        const current = projectDecisionReadiness(knownFacts);
+        report.completeness = session.completeness;
+        report.decisionChecklist = current.checklist;
+        report.acceptanceReady = current.ready;
+      } catch { report = null; }
     }
     return res.status(200).json({
       success: true,

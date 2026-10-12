@@ -5,6 +5,15 @@ const fields=[
 ['assetsAndRights','资产及授权'],['migrationCompatibility','迁移与兼容性'],
 ['deliverables','交付与验收'],['timelineAndPeople','工期与人员'],
 ['budgetAndCooperation','预算与合作'],['riskAndValidation','风险和技术验证']];
+const mandatoryDecisions=[
+['deliveryBoundary','交付边界','最终交付工具、成品还是两者；工具运行后的修复责任'],
+['inventoryQuantities','功能与资源规模','逐类模块数量、复杂度及是否纳入'],
+['sourceAccess','引擎与源码权限','两端源码/文档/接口、合法授权及实际可访问性'],
+['functionalParity','功能与行为兼容','逐项功能与数值规则的保留或例外'],
+['existingDataMigration','历史数据迁移','正式账号、角色、业务数据范围与备份回滚'],
+['acceptanceOwnership','验收条件与责任','测试人员、通过指标和缺陷修复责任']
+];
+
 export default function SoftwareDiagnosisWorkbench({completeness,status,knownFacts,missingFields,messages,report,profileStatus,activeTab,setActiveTab,inputText,setInputText,isChatLoading,isReportLoading,onSend,onReport,onReset,history,onLoadSession,messagesEndRef,errorMsg}) {
 return <div className="workbench-layout software-diagnosis-workbench">
 <div className="sidebar-col"><div className="sidebar-card">
@@ -20,6 +29,19 @@ return <div className="workbench-layout software-diagnosis-workbench">
 <form className="chat-input-wrapper" onSubmit={onSend}><textarea className="chat-textarea" rows={3} value={inputText} onChange={e=>setInputText(e.target.value)} disabled={isChatLoading||isReportLoading} placeholder="描述项目现状与目标，例如：保留传奇2玩法，换传奇3客户端引擎..." onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent?.isComposing){e.preventDefault();onSend(e);}}}/><div className="input-toolbar"><button className="btn-send-message" type="submit" disabled={isChatLoading||isReportLoading||!inputText.trim()}>↑</button></div></form>
 </div></div>
 <div className="profile-col"><div className="tabbed-container-card"><div className="tabs-header"><button type="button" className={'tab-btn '+(activeTab==='profile'?'active':'')} onClick={()=>setActiveTab('profile')}>实时需求画像</button><button type="button" className={'tab-btn '+(activeTab==='report'?'active':'')} disabled={!report&&completeness<50} onClick={()=>setActiveTab('report')}>技术需求报告 {!report&&completeness<50?'🔒':''}</button></div>
-<div className="tab-content-scroller">{activeTab==='profile'?<div className="profile-tab-view animate-fade-in"><div className="profile-intro"><h5>已确认的项目事实</h5><p>未知技术细节不会自动转成客户承诺。</p></div>{profileStatus==='updating'&&<div className="profile-status-banner updating">正在整理已确认的需求…</div>}<div className="profile-cards-grid">{fields.map(([key,label])=><div className={'profile-item-card '+(knownFacts[key]?'known':'unknown')} key={key}><div className="card-top"><div className="card-info"><h4>{label}</h4></div><span className={'status-badge '+(knownFacts[key]?'status-known':'status-unknown')}>{knownFacts[key]?'已提取':'待确认'}</span></div>{knownFacts[key]?<div className="card-body-text">{knownFacts[key]}</div>:<div className="card-body-empty">等待客户提供信息…</div>}</div>)}</div></div>:<div className="report-tab-view animate-fade-in">{report?<ProjectDiagnosisReport report={report}/>:<div className="report-unlocked-state"><h5>尚未生成报告</h5><p>需求完整度达到 50% 可以生成初稿；工期与报价仍需技术验证。</p></div>}</div>}</div></div></div>
+<div className="tab-content-scroller">{activeTab==='profile'?<div className="profile-tab-view animate-fade-in"><div className="profile-intro"><h5>已确认的项目事实</h5><p>未知技术细节不会自动转成客户承诺。</p></div>{profileStatus==='updating'&&<div className="profile-status-banner updating">正在整理已确认的需求…</div>}<div className="report-section-block">
+  <h4 className="rep-sec-title">六项必须确认的交付决策</h4>
+  <p style={{fontSize:12,opacity:.8}}>有内容不等于已确认；需要客户原话证据和完整回答。</p>
+  <div className="profile-cards-grid">{mandatoryDecisions.map(([key,label,description])=>{
+    const entry=knownFacts.requirementsEvidence?.[key];
+    const state=entry?.status === 'confirmed' ? '已确认' : knownFacts[key] ? '待补充' : '未回答';
+    return <div className={'profile-item-card '+(state==='已确认'?'known':'unknown')} key={key}>
+      <div className="card-top"><div className="card-info"><h4>{label}</h4></div><span className={'status-badge '+(state==='已确认'?'status-known':'status-unknown')}>{state}</span></div>
+      <div className="card-body-text">{knownFacts[key]||description}</div>
+      {entry?.quote && <p style={{fontSize:11,opacity:.72}}>原话证据：{entry.quote}</p>}
+    </div>;
+  })}</div>
+</div>
+<div className="profile-cards-grid">{fields.map(([key,label])=><div className={'profile-item-card '+(knownFacts[key]?'known':'unknown')} key={key}><div className="card-top"><div className="card-info"><h4>{label}</h4></div><span className={'status-badge '+(knownFacts[key]?'status-known':'status-unknown')}>{knownFacts[key]?'已提取':'待确认'}</span></div>{knownFacts[key]?<div className="card-body-text">{knownFacts[key]}</div>:<div className="card-body-empty">等待客户提供信息…</div>}</div>)}</div></div>:<div className="report-tab-view animate-fade-in">{report?<ProjectDiagnosisReport report={report}/>:<div className="report-unlocked-state"><h5>尚未生成报告</h5><p>需求完整度达到 50% 可以生成初稿；工期与报价仍需技术验证。</p></div>}</div>}</div></div></div>
 </div>;
 }
