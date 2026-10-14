@@ -1,0 +1,17 @@
+﻿ID,模块,证据差异和链接,开发与验证动作,证据等级
+D1-01,版本,[对应表](https://engine-doc.996m2.com/web/#/42/5721)：240807客户端3.40.9,锁定源服务端exe版本、源客户端、目标M3服务端和客户端四端版本；两套隔离环境跑通,A/U
+D1-02,Lua,[M2 Lua](https://engine-doc.996m2.com/web/#/9/154)：240807起LuaJIT；require缺失会中断,清点 `.lua/.txt` 类型与自定义插件，Lua require/入口/依赖静态扫描,A
+D1-03,物品唯一ID,[M3重要说明](https://engine-doc.996m2.com/web/#/27/174519)：`makeindex→SMakeIndex`，物品唯一ID `N$→S$`，Integer→String,从脚本到数据存储追踪唯一ID读写、比较/绑定，不仅全文替换,A
+D1-04,保留编号,同上：一般物品不可使用0–99，1–99必须为货币类别,预检 `cfg_equip/cfg_item` 的ID冲突，出报告，不静默重排,A
+D1-05,属性数值,同上：属性暂不支持超过42亿，`shape`不得超过255,对物品/装备/怪物数值进行溢出和外观值校验,A
+D1-06,编码,同上：XML=UTF-8，脚本TXT和INI=GB2312，编码错误导致异常,无损编码检测、dry-run转换、中文冒烟测试,A
+D1-07,图片文件名,同上：不能中文名称、大写后缀，客户端/服务端大小写应一致,资源引用和大小写冲突扫描、生成映射，不改原文件,A
+D1-08,NPC,[M2旧NPC字段](https://engine-doc.996m2.com/web/#/34/2085)出现`sCanMove/sMoveTime/sChgColor`；[M3 NPC表](https://engine-doc.996m2.com/web/#/27/175382)包含`BronBuffID/CrossServiceNpc/SavePrc`等,逐列映射。旧字段在目标文档未列出≠目标引擎确定不支持；实测移动NPC/商店保存,B/C
+D1-09,怪物,[M2怪物](https://engine-doc.996m2.com/web/#/34/2084)、[M3怪物](https://engine-doc.996m2.com/web/#/27/175378)均有Race，但M3配置字段更细,Race分组，测试普通、远程、特殊AI及掉落；相同字段名不代表行为等效,B/C
+D1-10,装备,[M2装备](https://engine-doc.996m2.com/web/#/34/2068)列Idx、StdMode、属性表；[M3 cfg_equip](https://engine-doc.996m2.com/web/#/27/175175)列Shape、Attribute、Suit等,字段映射、StdMode/套装/装备外观和属性对照，抽测整套装备,B/C
+D1-11,地图参数,[M2 MapInfo.txt](https://engine-doc.996m2.com/web/#/34/2116)与[M3地图参数](https://engine-doc.996m2.com/web/#/27/175835)都列SAFE/FIGHT/RUNMON等,解析MapInfo旧格式，按参数逐项验证；不可默认语义相同,B/C
+D1-12,地图连接,[M2 MapInfo](https://engine-doc.996m2.com/web/#/34/2116)有镜像/坐标连接；[M3 cfg_mapinfo](https://engine-doc.996m2.com/web/#/27/175373)有MapId/EventPosX/EventParameters/mapconnect,对照M3仍存在的MapInfo.txt与cfg_mapinfo配置用途，验证多图传送与触发,B/C
+D1-13,配置表与目录,[M2旧表目录](https://engine-doc.996m2.com/web/#/34/2064)使用Mir200/Envir/Data下XLS；[M3服务端目录](https://engine-doc.996m2.com/web/#/27/174531)仍含Data/Market_Def/MapInfo.txt/MonItems,生成路径清单和表头清单；把游戏配置表与真实玩家SQL数据分开,B
+D1-14,NPC脚本与事件,[M2 QFunction](https://engine-doc.996m2.com/web/#/34/2095)及[M3 TXT](https://engine-doc.996m2.com/web/#/27/175408)均含事件/条件/动作,做脚本解析器与未知指令列表，验证NPC交易/任务/地图触发，不直接字符串替换,B/C
+D1-15,CSV操作,[M3 CSV接口](https://engine-doc.996m2.com/web/#/27/175424)和[新方式](https://engine-doc.996m2.com/web/#/27/175425)说明行列/参数规则,扫描自定义CSV读写、空行和编码；需要客户样本验证,C
+D1-16,玩家历史数据,当前已核查的配置表文档不能证明账号/角色/仓库/行会/交易库可直接互通,**独立范围决定**：如需保留玩家历史数据，另给脱敏表结构、关联数据、回滚方案,U
