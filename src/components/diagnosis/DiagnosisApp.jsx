@@ -50,11 +50,6 @@ export default function DiagnosisPage() {
   const [headerNotice, setHeaderNotice] = useState(null);
   const [themeMode, setThemeMode] = useState('light');
   const [isRecording, setIsRecording] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isAudioPaused, setIsAudioPaused] = useState(false);
-  const [speakingMessageId, setSpeakingMessageId] = useState(null);
-  const [speechRate, setSpeechRate] = useState(1);
-  const [autoSpeak, setAutoSpeak] = useState(false);
 
   // Header login states
   const [email, setEmail] = useState('');
@@ -69,8 +64,6 @@ export default function DiagnosisPage() {
   const isComposingRef = useRef(false);
   const recognitionRef = useRef(null);
   const recognitionBaseTextRef = useRef('');
-  const audioPlayerRef = useRef(null);
-  const audioUrlRef = useRef('');
 
   // 1. 初始化登录与历史会话状态（支持微信小程序 web-view 传入凭证免密登录）
   useEffect(() => {
@@ -269,91 +262,6 @@ export default function DiagnosisPage() {
     }, 4000);
   };
 
-  const stopAudioPlayback = () => {
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.pause();
-      audioPlayerRef.current = null;
-    }
-    if (audioUrlRef.current) {
-      URL.revokeObjectURL(audioUrlRef.current);
-      audioUrlRef.current = '';
-    }
-    setIsSpeaking(false);
-    setIsAudioPaused(false);
-    setSpeakingMessageId(null);
-  };
-
-  const toggleAudioPause = async () => {
-    const audio = audioPlayerRef.current;
-    if (!audio) return;
-
-    if (audio.paused) {
-      try {
-        await audio.play();
-        setIsAudioPaused(false);
-        setIsSpeaking(true);
-      } catch (err) {
-        console.error('Resume audio failed:', err);
-        triggerToast('继续播放失败，请重试');
-      }
-      return;
-    }
-
-    audio.pause();
-    setIsAudioPaused(true);
-  };
-
-  const handleSpeechRateChange = (rate) => {
-    setSpeechRate(rate);
-    if (audioPlayerRef.current) {
-      audioPlayerRef.current.playbackRate = rate;
-    }
-  };
-
-  const speakText = async (text, playbackId = null) => {
-    const content = String(text || '').trim();
-    if (!content) return;
-
-    if (playbackId && speakingMessageId === playbackId && audioPlayerRef.current) {
-      await toggleAudioPause();
-      return;
-    }
-
-    stopAudioPlayback();
-    setIsSpeaking(true);
-    setIsAudioPaused(false);
-    setSpeakingMessageId(playbackId);
-    try {
-      const response = await fetch('/api/diagnosis/speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: content })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || '语音合成失败');
-      }
-
-      const blob = await response.blob();
-      const audioUrl = URL.createObjectURL(blob);
-      const audio = new Audio(audioUrl);
-      audio.playbackRate = speechRate;
-      audioUrlRef.current = audioUrl;
-      audioPlayerRef.current = audio;
-      audio.onended = stopAudioPlayback;
-      audio.onerror = () => {
-        stopAudioPlayback();
-        triggerToast('语音播放失败，请稍后重试');
-      };
-      await audio.play();
-      setIsAudioPaused(false);
-    } catch (err) {
-      console.error('Text to speech failed:', err);
-      stopAudioPlayback();
-      triggerToast(err.message || '语音合成失败，请稍后重试');
-    }
-  };
 
   const stopSpeechRecognition = () => {
     const recognition = recognitionRef.current;
@@ -908,10 +816,6 @@ export default function DiagnosisPage() {
           });
         }
       }
-
-      if (autoSpeak && accumulatedReply.trim()) {
-        speakText(accumulatedReply);
-      }
     } catch (err) {
       console.error(err);
       // 清理临时气泡并显示报错
@@ -1333,19 +1237,6 @@ export default function DiagnosisPage() {
                           className="bubble-text"
                           dangerouslySetInnerHTML={{ __html: renderMarkdownHtml(msg.content) }}
                         />
-                        {msg.sender === 'agent' && msg.content?.trim() && (
-                          <button
-                            type="button"
-                            className="btn-speak-message"
-                            onClick={() => speakText(msg.content, msg.id || `agent_${idx}`)}
-                            title={speakingMessageId === (msg.id || `agent_${idx}`) ? (isAudioPaused ? '继续播放' : '暂停播放') : '朗读这条回复'}
-                            aria-label={speakingMessageId === (msg.id || `agent_${idx}`) ? (isAudioPaused ? '继续播放' : '暂停播放') : '朗读这条回复'}
-                          >
-                            {speakingMessageId === (msg.id || `agent_${idx}`)
-                              ? (isAudioPaused ? '继续' : '暂停')
-                              : '朗读'}
-                          </button>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -1375,58 +1266,13 @@ export default function DiagnosisPage() {
 
                 {/* 对话底部输入框 */}
                 <form onSubmit={handleSendMessage} className="chat-input-wrapper">
-                  <div className="voice-status-row">
-                    <button
-                      type="button"
-                      className={`btn-auto-speak ${autoSpeak ? 'active' : ''}`}
-                      onClick={() => setAutoSpeak(prev => !prev)}
-                      title="自动朗读 AI 回复"
-                      aria-label="自动朗读 AI 回复"
-                    >
-                      {autoSpeak ? '自动朗读开' : '自动朗读关'}
-                    </button>
-                    <select
-                      className="speech-rate-select"
-                      value={speechRate}
-                      onChange={(e) => handleSpeechRateChange(Number(e.target.value))}
-                      title="朗读倍速"
-                      aria-label="朗读倍速"
-                    >
-                      <option value={0.75}>0.75x</option>
-                      <option value={1}>1x</option>
-                      <option value={1.25}>1.25x</option>
-                      <option value={1.5}>1.5x</option>
-                      <option value={2}>2x</option>
-                    </select>
-                    {isSpeaking && (
-                      <>
-                        <button
-                          type="button"
-                          className="btn-audio-control"
-                          onClick={toggleAudioPause}
-                          title={isAudioPaused ? '继续播放' : '暂停播放'}
-                          aria-label={isAudioPaused ? '继续播放' : '暂停播放'}
-                        >
-                          {isAudioPaused ? '继续' : '暂停'}
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-audio-control"
-                          onClick={stopAudioPlayback}
-                          title="停止播放"
-                          aria-label="停止播放"
-                        >
-                          停止
-                        </button>
-                      </>
-                    )}
-                    {(isRecording || isSpeaking) && (
+                  {isRecording && (
+                    <div className="voice-status-row">
                       <span className="voice-inline-status">
-                        {isRecording && '正在识别...'}
-                        {isSpeaking && (isAudioPaused ? '播放已暂停' : `正在播放 ${speechRate}x`)}
+                        正在识别...
                       </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <textarea
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}

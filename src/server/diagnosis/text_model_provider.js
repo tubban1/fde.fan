@@ -16,30 +16,57 @@ function isPromptModelTask(taskKey) {
   return taskKey === 'EXTRACTION' || taskKey === 'REPORT' || taskKey === 'AGENT_DEMO';
 }
 
+function isOpenAiCompatible(provider) {
+  const p = String(provider || '').toLowerCase();
+  return p === 'vectorengine' || p === 'openai' || p === 'custom' || p === 'tourmaster';
+}
+
 function getTextProvider(task) {
   const taskKey = normalizeTask(task);
   const taskProvider = getEnvValue(taskKey ? `${taskKey}_MODEL_PROVIDER` : '');
   if (taskProvider) return taskProvider.toLowerCase();
+
+  const explicitProvider = process.env.TEXT_MODEL_PROVIDER;
+  if (explicitProvider) return explicitProvider.toLowerCase();
+
+  // 如果配置了 OpenAI 或第三方 Base URL / Key，自动优先走 OpenAI 兼容协议
+  if (
+    process.env.OPENAI_API_BASE ||
+    process.env.OPENAI_API_KEY ||
+    (process.env.VECTORENGINE_API_BASE && !process.env.VECTORENGINE_API_BASE.includes('api.vectorengine.cn'))
+  ) {
+    return 'openai';
+  }
+
   if (isPromptModelTask(taskKey)) return 'vectorengine';
-  return (process.env.TEXT_MODEL_PROVIDER || 'tokenrouter').toLowerCase();
+  return (process.env.TEXT_MODEL_PROVIDER || (process.env.TOKENROUTER_API_KEY ? 'tokenrouter' : 'openai')).toLowerCase();
 }
 
 function getTextModel(task, provider) {
   const taskKey = normalizeTask(task);
   const taskModel = getEnvValue(taskKey ? `${taskKey}_MODEL` : '');
   if (taskModel) return taskModel;
+
+  if (isOpenAiCompatible(provider)) {
+    return (
+      process.env.OPENAI_MODEL ||
+      process.env.TEXT_MODEL ||
+      process.env.PROMPT_MODEL ||
+      process.env.VECTORENGINE_TEXT_MODEL ||
+      'gpt-4o-mini'
+    );
+  }
+
   if (isPromptModelTask(taskKey)) {
     return process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite';
-  }
-  if (provider === 'vectorengine') {
-    return process.env.VECTORENGINE_TEXT_MODEL || process.env.PROMPT_MODEL || 'gemini-3.1-flash-lite';
   }
   return process.env.TEXT_MODEL || process.env.PROMPT_MODEL || 'google/gemini-3.5-flash';
 }
 
-function logModelSelection(task, provider, model) {
+function logModelSelection(task, provider, model, url = '') {
   const taskLabel = task || 'chat';
-  console.log(`[Diagnosis Model] task=${taskLabel} provider=${provider} model=${model}`);
+  const urlPart = url ? ` url=${url}` : '';
+  console.log(`[Diagnosis Model] task=${taskLabel} provider=${provider}${urlPart} model=${model}`);
 }
 
 function getTokenRouterConfig(task) {
@@ -56,18 +83,31 @@ function getTokenRouterConfig(task) {
   };
 }
 
-function getVectorEngineConfig(task) {
-  const apiKey = process.env.VECTORENGINE_GEMINI_KEY || process.env.VECTORENGINE_API_KEY;
+function getVectorEngineConfig(task, explicitProvider = 'openai') {
+  const apiKey =
+    process.env.OPENAI_API_KEY ||
+    process.env.CUSTOM_API_KEY ||
+    process.env.TOURMASTER_API_KEY ||
+    process.env.VECTORENGINE_API_KEY ||
+    process.env.VECTORENGINE_GPT_KEY ||
+    process.env.VECTORENGINE_GEMINI_KEY;
+
   if (!apiKey) {
-    throw new Error('VECTORENGINE_GEMINI_KEY or VECTORENGINE_API_KEY is not configured');
+    throw new Error('Model API Key is not configured (checked OPENAI_API_KEY, VECTORENGINE_API_KEY, CUSTOM_API_KEY)');
   }
 
-  const provider = 'vectorengine';
+  const chatBaseUrl = (
+    process.env.OPENAI_API_BASE ||
+    process.env.CUSTOM_API_BASE ||
+    process.env.VECTORENGINE_API_BASE ||
+    'https://api.openai.com/v1'
+  ).replace(/\/$/, '');
+
   return {
     apiKey,
     baseUrl: (process.env.VECTORENGINE_GEMINI_STREAM_BASE || 'https://api.vectorengine.ai/v1beta').replace(/\/$/, ''),
-    chatBaseUrl: (process.env.VECTORENGINE_API_BASE || 'https://api.vectorengine.cn/v1').replace(/\/$/, ''),
-    model: getTextModel(task, provider)
+    chatBaseUrl,
+    model: getTextModel(task, explicitProvider)
   };
 }
 
@@ -114,7 +154,7 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
 
   if (provider === 'tokenrouter') {
     const config = getTokenRouterConfig(task);
-    logModelSelection(task, provider, config.model);
+    logModelSelection(task, provider, config.model, config.baseUrl);
     const response = await axios.post(
       `${config.baseUrl}/${config.model}:generateContent`,
       buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
@@ -130,8 +170,8 @@ export async function generateText({ systemPrompt, userPrompt, temperature = 0.7
     return extractGeminiText(response.data);
   }
 
-  const config = getVectorEngineConfig(task);
-  logModelSelection(task, provider, config.model);
+  const config = getVectorEngineConfig(task, provider);
+  logModelSelection(task, provider, config.model, config.chatBaseUrl);
   const response = await axios.post(
     `${config.chatBaseUrl}/chat/completions`,
     {
@@ -159,7 +199,7 @@ export async function streamText({ systemPrompt, userPrompt, temperature = 0.7, 
 
   if (provider === 'tokenrouter') {
     const config = getTokenRouterConfig(task);
-    logModelSelection(task || 'chat_stream', provider, config.model);
+    logModelSelection(task || 'chat_stream', provider, config.model, config.baseUrl);
     const response = await axios.post(
       `${config.baseUrl}/${config.model}:streamGenerateContent?alt=sse`,
       buildGeminiPayload({ systemPrompt, userPrompt, temperature, includeThoughts: false }),
@@ -176,8 +216,8 @@ export async function streamText({ systemPrompt, userPrompt, temperature = 0.7, 
     return response.data;
   }
 
-  const config = getVectorEngineConfig(task);
-  logModelSelection(task || 'chat_stream', provider, config.model);
+  const config = getVectorEngineConfig(task, provider);
+  logModelSelection(task || 'chat_stream', provider, config.model, config.chatBaseUrl);
   const response = await axios.post(
     `${config.chatBaseUrl}/chat/completions`,
     {
