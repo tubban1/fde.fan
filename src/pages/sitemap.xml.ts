@@ -53,18 +53,12 @@ export const GET: APIRoute = async () => {
     ...cases.map((entry) => `/cases/${entry.slug}`),
     ...insightArticles.map((article) => `/insights/${article.slug}`),
   ];
-  const today = new Date().toISOString().slice(0, 10);
   const uniqueRoutes = Array.from(new Set([...staticRoutes, ...dynamicRoutes]));
   const urls = uniqueRoutes
     .map((path) => {
-      const priority = path === "/" ? "1.0" : path.startsWith("/learn") || path === "/glossary/fde" ? "0.9" : "0.8";
-      const changefreq = path === "/" || path === "/learn" ? "weekly" : "monthly";
       return [
         "  <url>",
         `    <loc>${escapeXml(new URL(path, SITE_URL).toString())}</loc>`,
-        `    <lastmod>${today}</lastmod>`,
-        `    <changefreq>${changefreq}</changefreq>`,
-        `    <priority>${priority}</priority>`,
         "  </url>",
       ].join("\n");
     })

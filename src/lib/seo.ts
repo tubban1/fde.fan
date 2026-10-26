@@ -78,12 +78,14 @@ export const articleJsonLd = ({
   path,
   image = DEFAULT_IMAGE,
   datePublished,
+  dateModified,
 }: {
   headline: string;
   description: string;
   path: string;
   image?: string;
   datePublished?: string;
+  dateModified?: string;
 }) => ({
   "@type": "Article",
   headline,
@@ -91,7 +93,7 @@ export const articleJsonLd = ({
   url: absoluteUrl(path),
   image,
   datePublished,
-  dateModified: new Date().toISOString(),
+  ...(dateModified ? { dateModified } : {}),
   author: { "@id": `${SITE_URL}/#organization` },
   publisher: { "@id": `${SITE_URL}/#organization` },
   inLanguage: ["zh-CN", "en"],
